@@ -6,4 +6,9 @@ Collection of utility scripts/functions that I use frequently.
 
 ## Pip
 
-`pip install git+https://github.com/redjax/red-utils.git#egg=is-number`
+`pip install git+https://github.com/redjax/red-utils.git#egg=red-utils`
+
+## PDM
+
+``
+`pdm add https://github.com/redjax/red-utils.git#egg=red-utils`
