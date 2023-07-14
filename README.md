@@ -11,4 +11,4 @@ Collection of utility scripts/functions that I use frequently.
 ## PDM
 
 ``
-`pdm add https://github.com/redjax/red-utils.git#egg=red-utils`
+`pdm add git+https://github.com/redjax/red-utils.git#egg=red-utils`
