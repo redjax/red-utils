@@ -1,6 +1,6 @@
 [project]
 name = "red_utils"
-version = "0.1.6"
+version = "0.1.0"
 description = "Collection of utility scripts/functions that I use frequently."
 authors = [
     { name = "redjax", email = "none@none.com" },
@@ -11,7 +11,6 @@ dependencies = [
     "httpx>=0.24.1",
     "diskcache>=5.6.1",
     "self>=2020.12.3",
-    "pdm-bump>=0.7.1",
 ]
 requires-python = ">=3.11"
 readme = "README.md"
@@ -33,7 +32,8 @@ dev = [
     "ruff>=0.0.278",
     "pytest>=7.4.0",
     "black>=23.7.0",
-    "semantic-release>=0.1.0",
+    "python-semantic-release>=7.34.6",
+    "pdm-bump>=0.7.1",
 ]
 
 [tool.pdm.scripts.check]
@@ -49,12 +49,24 @@ cmd = "pdm export --prod -o requirements.txt --without-hashes"
 cmd = "pdm export -d -o requirements.dev.txt --without-hashes"
 
 [tool.semantic_release]
-version_variable = "pyproject.toml:version" # version location
-branch = "main"                             # branch to make releases of
-changelog_file = "CHANGELOG.md"             # changelog file
-build_command = "pdm build"              # build dists
-dist_path = "dist/"                         # where to put dists
-upload_to_release = true                    # auto-create GitHub release
-upload_to_pypi = false                      # don't auto-upload to PyPI
-remove_dist = false                         # don't remove dists
-patch_without_tag = true                    # patch release by default
+## Check version from tag
+version_source = "tag"
+## version location
+version_toml = ["pyproject.toml:project.version"]
+## branch to make releases of
+branch = "feat/ci"
+## create a new tag for each release
+tag_commit = true
+## changelog file
+# changelog_file = "CHANGELOG.md"
+build_command = "pdm build"
+## where to put dists
+dist_path = "dist/"
+## auto-create GitHub release
+upload_to_release = true
+## don't auto-upload to PyPI
+upload_to_pypi = false
+## don't remove dists
+remove_dist = false
+## patch release by default
+patch_without_tag = true
