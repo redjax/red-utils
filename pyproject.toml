@@ -50,11 +50,11 @@ cmd = "pdm export -d -o requirements.dev.txt --without-hashes"
 
 [tool.semantic_release]
 ## Check version from tag
-version_source = "tag"
+version_variable = ["red-utils/__init__.py:__version__", "pyproject.toml:project.version"]
 ## version location
-version_toml = ["pyproject.toml:project.version"]
+# version_toml = ["pyproject.toml:project.version"]
 ## branch to make releases of
-branch = "feat/ci"
+branch = ["ci", "topic/ci-testing"]
 ## create a new tag for each release
 tag_commit = true
 ## changelog file
