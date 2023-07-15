@@ -39,5 +39,12 @@ jobs:
       - name: Install dependencies
         run: pdm install
 
+      - name: Lint with Ruff
+        ## Custom script in pyproject.toml
+        run: pdm run format
+
       - name: Build release
         run: pdm build
+
+      - name: Display Python version
+        run: python -c "import sys; print(sys.version)"
