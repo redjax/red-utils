@@ -88,7 +88,13 @@ jobs:
           pdm info
 
   Pack:
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        python-version: ["3.11"]
+        ## , macOS-latest, windows-latest
+        os: [ubuntu-latest]
+
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-python@v4
