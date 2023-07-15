@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 ## Set __version__ for python-semantic-release
-__version__ = "0.1.6"
+__version__ = "0.1.0"
 
 import diskcache_utils
 import httpx_utils
