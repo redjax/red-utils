@@ -126,6 +126,13 @@ jobs:
         run: |
           pdm bump tag
 
+      - name: Push tag
+        run: |
+          git config user.name "github-action[bot]"
+          git config user.email "github-action[bot]@no-reply.github.com"
+          git add pyproject.toml
+          git commit -m "Bump version -> ${{ github.event.inputs.version }}"
+
       - id: release
         uses: rymndhng/release-on-push-action@master
         with:
