@@ -95,8 +95,8 @@ jobs:
           python-version: ${{ matrix.python-version }}
           cache: true
           # https://github.com/marketplace/actions/setup-pdm#caches
-          cache-dependency-path: |
-            ./pdm.lock
+          # cache-dependency-path: |
+          #   ./pdm.lock
           # The target architecture (x86, x64) of the Python interpreter. the same as actions/setup-python
           architecture: x64
           # The version of PDM to install. Leave it as empty to use the latest version from PyPI, or 'head' to use the latest version from GitHub
@@ -111,7 +111,9 @@ jobs:
       - name: Install dependencies
         run: pdm install
 
-      # - name: Add pdm-bump
+      - name: Add pdm-bump
+        run: |
+          pdm self add pdm-bump
 
       - name: Build app
         run: pdm build
