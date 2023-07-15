@@ -44,16 +44,11 @@ jobs:
           # Allow prerelease versions of Python to be installed. For example if only 3.12-dev is available, 3.12 will fallback to 3.12-dev
           allow-python-prereleases: false
 
-      # - name: Load version from pyproject.toml
-      #   id: load_version
-      #   run: |
-      #     echo "name=version::$(pdm version show -r)" >> $GITHUB_OUTPUT
-
-      - name: Extract version number
+      - name: Load version from pyproject.toml
         id: version
+        ## >> $GITHUB_OUTPUT
         run: |
-          python -c "import toml; print(toml.load(open('pyproject.toml'))['tool']['poetry']['version'])"
-
+          echo "name=version::$(pdm version show -r)"
       - name: Install dependencies
         run: pdm sync
 
