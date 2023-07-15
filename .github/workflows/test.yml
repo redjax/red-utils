@@ -63,7 +63,8 @@ jobs:
 
   release:
     needs: testing
-    if: ${{ github.event_name == 'push' && github.ref == 'refs/head/topic/ci-testing' }}
+    # if: ${{ github.event_name == 'push' && github.ref == 'refs/head/topic/ci-testing' }}
+    if: ${{ github.event_name == 'push' }}
 
     runs-on: ${{ matrix.os }}
 
