@@ -48,27 +48,27 @@ cmd = "pdm export --prod -o requirements.txt --without-hashes"
 [tool.pdm.scripts.export-dev]
 cmd = "pdm export -d -o requirements.dev.txt --without-hashes"
 
-[tool.semantic_release]
-## Check version from tag
-version_variable = ["red-utils/__init__.py:__version__"]
-## version location
-version_toml = ["pyproject.toml:version"]
-# version_pattern = ["README.md:rev: v{version}"]
-major_on_zero = false
-## branch to make releases of
-branch = "topic/ci-testing"
-## create a new tag for each release
-tag_commit = true
-## changelog file
-# changelog_file = "CHANGELOG.md"
-build_command = "pdm build"
-## where to put dists
-# dist_path = "dist/"
-## auto-create GitHub release
-upload_to_release = true
-## don't auto-upload to PyPI
-upload_to_pypi = false
-## don't remove dists
-remove_dist = false
-## patch release by default
-patch_without_tag = true
+# [tool.semantic_release]
+# ## Check version from tag
+# version_variable = ["red-utils/__init__.py:__version__"]
+# ## version location
+# version_toml = ["pyproject.toml:version"]
+# # version_pattern = ["README.md:rev: v{version}"]
+# major_on_zero = false
+# ## branch to make releases of
+# branch = "topic/ci-testing"
+# ## create a new tag for each release
+# tag_commit = true
+# ## changelog file
+# # changelog_file = "CHANGELOG.md"
+# build_command = "pdm build"
+# ## where to put dists
+# # dist_path = "dist/"
+# ## auto-create GitHub release
+# upload_to_release = true
+# ## don't auto-upload to PyPI
+# upload_to_pypi = false
+# ## don't remove dists
+# remove_dist = false
+# ## patch release by default
+# patch_without_tag = true

@@ -125,9 +125,6 @@ jobs:
       - name: Build app
         run: pdm build
 
-      # - name: Bump version
-      #   run: pdm bump micro
-
       # - name: Tag release
       #   run: pdm bump tag
 
@@ -135,16 +132,23 @@ jobs:
       #   run: |
       #     pdm bump micro
 
-      # - name: PDM build app
-      #   run: |
-      #     pdm build
+      - name: PDM build app
+        run: |
+          pdm build
 
-      - name: Python Semantic Release
-        uses: relekang/python-semantic-release@master
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          repository_username: __token__
-          repository_password: ${{ secrets.GITHUB_TOKEN }}
-          # repository_username: __token__
-          # # repository_password: ${{ secrets.PYPI_TOKEN }}
-          # repository_password: ${{ secrets.GITHUB_TOKEN }}
+      - name: Bump version and push tag
+        uses: anothrNick/github-tag-action@1.64.0 # Don't use @master or @v1 unless you're happy to test the latest version
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # if you don't want to set write permissions use a PAT token
+          WITH_V: true
+          PRERELEASE: false
+
+      # - name: Python Semantic Release
+      #   uses: relekang/python-semantic-release@master
+      #   with:
+      #     github_token: ${{ secrets.GITHUB_TOKEN }}
+      #     repository_username: __token__
+      #     repository_password: ${{ secrets.GITHUB_TOKEN }}
+      # repository_username: __token__
+      # # repository_password: ${{ secrets.PYPI_TOKEN }}
+      # repository_password: ${{ secrets.GITHUB_TOKEN }}
