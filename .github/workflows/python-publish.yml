@@ -9,7 +9,6 @@ on:
 
 jobs:
   build:
-
     ## ubuntu-latest
     runs-on: ${{ matrix.os }}
     permissions:
@@ -36,7 +35,7 @@ jobs:
           # The target architecture (x86, x64) of the Python interpreter. the same as actions/setup-python
           architecture: x64
           # The version of PDM to install. Leave it as empty to use the latest version from PyPI, or 'head' to use the latest version from GitHub
-          version:
+          # version:
           # Allow prerelease versions of PDM to be installed
           prerelease: false
           # Enable PEP 582 package loading globally
@@ -52,8 +51,8 @@ jobs:
       - name: Install dependencies
         run: pdm sync
 
-        - name: Print version number
-          run: echo "The version number is ${{ steps.version.outputs.stdout }}"
+      - name: Print version number
+        run: echo "The version number is ${{ steps.version.outputs.stdout }}"
 
       - name: Lint with Ruff
         ## Custom script in pyproject.toml
