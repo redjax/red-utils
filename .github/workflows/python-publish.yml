@@ -47,7 +47,9 @@ jobs:
       - name: Load version from pyproject.toml
         id: version
         run: |
-          echo "name=version::$(pdm version show -r)" >> $GITHUB_OUTPUT
+          version=$(grep -oP '(?<=version = ")[^"]+' pyproject.toml)
+          echo "::set-output name=version::$version"
+
       - name: Install dependencies
         run: pdm sync
 
