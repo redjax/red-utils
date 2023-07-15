@@ -139,16 +139,21 @@ jobs:
           WITH_V: true
           PRERELEASE: false
 
+      # - name: Get tag name from ref
+      #   shell: bash
+      #   run: echo "::set-output name=tag::${GITHUB_REF#refs/tags/}"
+      #   id: get_tag
+
       - name: Create Github tag release
         id: create_release
         uses: actions/create-release@latest
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          tag_name: ${{ github.ref }}
-          release_name: Release ${{ github.ref }}
+          tag_name: v${{ github.ref }}
+          release_name: Release v${{ github.ref }}
           body: |
-            Version ${{ github.ref }} of red-utils
+            Version v${{ github.ref }} of red-utils
           draft: false
           prerelease: false
 
