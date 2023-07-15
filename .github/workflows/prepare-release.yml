@@ -135,6 +135,11 @@ jobs:
           git push
           git push --tags
 
+      - name: Create release with changelog
+        uses: konfer-be/action-create-release-from-tag@v1.0.2
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
       # - id: release
       #   uses: rymndhng/release-on-push-action@master
       #   with:
