@@ -49,12 +49,20 @@ cmd = "pdm export --prod -o requirements.txt --without-hashes"
 cmd = "pdm export -d -o requirements.dev.txt --without-hashes"
 
 [tool.semantic_release]
-version_variable = "pyproject.toml:version" # version location
-branch = "main"                             # branch to make releases of
-changelog_file = "CHANGELOG.md"             # changelog file
-build_command = "pdm build"              # build dists
-dist_path = "dist/"                         # where to put dists
-upload_to_release = true                    # auto-create GitHub release
-upload_to_pypi = false                      # don't auto-upload to PyPI
-remove_dist = false                         # don't remove dists
-patch_without_tag = true                    # patch release by default
+## version location
+version_variable = ["red-utils/__init__.py:__version__", "pyproject.toml:version"]
+## branch to make releases of
+branch = "feat/ci"
+## changelog file
+# changelog_file = "CHANGELOG.md"
+build_command = "pdm build"
+## where to put dists
+dist_path = "dist/"
+## auto-create GitHub release
+upload_to_release = true
+## don't auto-upload to PyPI
+upload_to_pypi = false
+## don't remove dists
+remove_dist = false
+## patch release by default
+patch_without_tag = true
