@@ -99,7 +99,7 @@ jobs:
 
       - name: Config Github URL to download Private Repo
         env:
-          GITHUB_TOKEN: ${{ RED_UTILS_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.RED_UTILS_TOKEN }}
         run: git config --global url."https://$GITHUB_TOKEN@github.com/".insteadOf "https://github.com/"
 
       ## Install PDM in the pipeline
