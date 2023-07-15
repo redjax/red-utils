@@ -122,9 +122,9 @@ jobs:
           # Allow prerelease versions of Python to be installed. For example if only 3.12-dev is available, 3.12 will fallback to 3.12-dev
           allow-python-prereleases: false
 
-      - name: Install pdm-pack
+      - name: Install pdm-packer
         run: |
-          pdm self add pdm-pack
+          pdm self add pdm-packer
 
       - name: Pack pdm
         run: pdm pack
