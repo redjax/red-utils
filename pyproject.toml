@@ -11,6 +11,8 @@ dependencies = [
     "loguru>=0.7.0",
     "httpx>=0.24.1",
     "diskcache>=5.6.1",
+    "self>=2020.12.3",
+    "pdm-bump>=0.7.1",
 ]
 requires-python = ">=3.11"
 readme = "README.md"

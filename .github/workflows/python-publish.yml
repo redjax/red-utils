@@ -43,6 +43,9 @@ jobs:
         ## Custom script in pyproject.toml
         run: pdm run format
 
+      - name: Bump version and tag
+        run: pdm bump tag
+
       - name: Build release
         ## Build sdist at /home/runner/work/red-utils/red-utils/dist/red_utils-x.x.x.tar.gz
         ## Build wheel at /home/runner/work/red-utils/red-utils/dist/red_utils-x.x.x-py3-none-any.whl
@@ -51,8 +54,8 @@ jobs:
       - name: Display Python version
         run: python -c "import sys; print(sys.version)"
 
-      - name: Upload build artifacts
-        uses: actions/upload-artifact@v3
-        with:
-          name: release-${{ version }}
-          path: dist/red_utils-${{ version }}.tar.gz
+      # - name: Upload build artifacts
+      #   uses: actions/upload-artifact@v3
+      #   with:
+      #     name: release-${{ version }}
+      #     path: dist/red_utils-${{ version }}.tar.gz
