@@ -125,16 +125,12 @@ jobs:
       - name: Build app
         run: pdm build
 
-      # - name: Tag release
-      #   run: pdm bump tag
-
       # - name: Bump version
       #   run: |
       #     pdm bump micro
 
-      - name: PDM build app
-        run: |
-          pdm build
+      # - name: Tag release
+      #   run: pdm bump tag
 
       - name: Bump version and push tag
         uses: anothrNick/github-tag-action@1.64.0 # Don't use @master or @v1 unless you're happy to test the latest version
