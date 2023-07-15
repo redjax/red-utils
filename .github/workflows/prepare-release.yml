@@ -135,19 +135,12 @@ jobs:
           git push
           git push --tags
 
+      - name: Checkout again before building release
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
       - name: Create release with changelog
         uses: konfer-be/action-create-release-from-tag@v1.0.2
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-
-      # - id: release
-      #   uses: rymndhng/release-on-push-action@master
-      #   with:
-      #     bump_version_scheme: patch
-      #     tag_prefix: v
-
-      # - name: Check Output Parameters
-      #   run: |
-      #     echo "Got tag name ${{ steps.release.outputs.tag_name }}"
-      #     echo "Got release version ${{ steps.release.outputs.version }}"
-      #     echo "Upload release artifacts to ${{ steps.release.outputs.upload_url }}"
