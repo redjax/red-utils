@@ -1,10 +1,9 @@
-
 [project]
 name = "red_utils"
-version = "0.1.0"
+version = "0.1.1"
 description = "Collection of utility scripts/functions that I use frequently."
 authors = [
-    {name = "redjax", email = "none@none.com"},
+    { name = "redjax", email = "none@none.com" },
 ]
 dependencies = [
     "msgpack>=1.0.5",
@@ -16,13 +15,17 @@ dependencies = [
 ]
 requires-python = ">=3.11"
 readme = "README.md"
-license = {text = "MIT"}
+
+[project.license]
+text = "MIT"
 
 [project.urls]
-"Homepage" = "https://github.com/redjax/red-utils"
+Homepage = "https://github.com/redjax/red-utils"
 
 [build-system]
-requires = ["pdm-backend"]
+requires = [
+    "pdm-backend",
+]
 build-backend = "pdm.backend"
 
 [tool.pdm.dev-dependencies]
@@ -32,22 +35,14 @@ dev = [
     "black>=23.7.0",
 ]
 
-[tool.pdm.scripts]
+[tool.pdm.scripts.check]
+cmd = "black ."
 
-## Format scripts
-# Check only, don't fix
-check = {cmd = "black ."}
-#  Check and fix
-format = {cmd = "ruff check . --fix"}
+[tool.pdm.scripts.format]
+cmd = "ruff check . --fix"
 
-## Start scripts
-#  Run main app or script. Launches from app/
-# start = { shell = "cd app && pdm run python main.py"}
+[tool.pdm.scripts.export]
+cmd = "pdm export --prod -o requirements.txt --without-hashes"
 
-## Export requirement scripts
-#  Export production requirements
-export = {cmd = "pdm export --prod -o requirements.txt --without-hashes"}
-#  Export only development requirements
-export-dev = {cmd = "pdm export -d -o requirements.dev.txt --without-hashes"}
-## Uncomment if/when using a CI group
-# export-ci = {cmd = "pdm export -G ci -o requirements.ci.txt --without-hashes"}
+[tool.pdm.scripts.export-dev]
+cmd = "pdm export -d -o requirements.dev.txt --without-hashes"
