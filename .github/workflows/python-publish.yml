@@ -5,7 +5,7 @@ on:
     branches:
       - feat/ci
     tags:
-      - "*"
+      - "v*"
 
 jobs:
   build:
