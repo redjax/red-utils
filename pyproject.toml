@@ -63,7 +63,7 @@ tag_commit = true
 # changelog_file = "CHANGELOG.md"
 build_command = "pdm build"
 ## where to put dists
-dist_path = "dist/"
+# dist_path = "dist/"
 ## auto-create GitHub release
 upload_to_release = true
 ## don't auto-upload to PyPI
