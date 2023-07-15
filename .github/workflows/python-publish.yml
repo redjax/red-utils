@@ -13,9 +13,9 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: write
-    # strategy:
-    #   matrix:
-    #     python-version: ["3.11"]
+    strategy:
+      matrix:
+        python-version: ["3.11"]
 
     steps:
       ## Checkout repo
