@@ -6,7 +6,7 @@ name: Test Python pipeline
 on:
   push:
     branches:
-      - feat/ci-testing
+      - topic/ci-testing
   pull_request:
     branches:
       - ci
