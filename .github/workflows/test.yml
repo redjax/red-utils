@@ -71,6 +71,7 @@ jobs:
 
     permissions:
       contents: write
+      pull-requests: read
 
     strategy:
       matrix:
@@ -114,57 +115,27 @@ jobs:
       - name: Install dependencies
         run: pdm install
 
-      - name: Install pdm-bump
-        run: pdm self add pdm-bump
+      # - name: Install pdm-bump
+      #   run: pdm self add pdm-bump
 
       - name: Build app
         run: pdm build
 
-      - name: Bump version
+      # - name: Bump version
+      #   run: |
+      #     pdm bump micro
+
+      # - name: Tag release
+      #   run: pdm bump tag
+
+      - id: release
+        uses: rymndhng/release-on-push-action@master
+        with:
+          bump_version_scheme: minor
+          tag_prefix: v
+
+      - name: Check Output Parameters
         run: |
-          pdm bump micro
-
-      - name: Tag release
-        run: pdm bump tag
-
-      - name: Checkout after bump
-        uses: actions/checkout@v3
-        with:
-          fetch-depth: 0
-
-      - name: Bump version and push tag
-        uses: anothrNick/github-tag-action@1.64.0 # Don't use @master or @v1 unless you're happy to test the latest version
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # if you don't want to set write permissions use a PAT token
-          WITH_V: true
-          PRERELEASE: false
-
-      - name: Get tag
-        id: tag
-        uses: dawidd6/action-get-tag@v1
-        with:
-          # Optionally strip `v` prefix
-          strip_v: true
-
-      - name: Create Github tag release
-        id: create_release
-        uses: actions/create-release@latest
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          tag_name: v${{ steps.tag.outputs.tag }}
-          release_name: Release v${{ steps.tag.outputs.tag }}
-          body: |
-            Version v${{ steps.tag.outputs.tag }} of red-utils
-          draft: false
-          prerelease: false
-
-      # - name: Python Semantic Release
-      #   uses: relekang/python-semantic-release@master
-      #   with:
-      #     github_token: ${{ secrets.GITHUB_TOKEN }}
-      #     repository_username: __token__
-      #     repository_password: ${{ secrets.GITHUB_TOKEN }}
-      # repository_username: __token__
-      # # repository_password: ${{ secrets.PYPI_TOKEN }}
-      # repository_password: ${{ secrets.GITHUB_TOKEN }}
+          echo "Got tag name ${{ steps.release.outputs.tag_name }}"
+          echo "Got release version ${{ steps.release.outputs.version }}"
+          echo "Upload release artifacts to ${{ steps.release.outputs.upload_url }}"
