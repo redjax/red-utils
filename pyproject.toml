@@ -56,7 +56,7 @@ version_toml = ["pyproject.toml:version"]
 # version_pattern = ["README.md:rev: v{version}"]
 major_on_zero = false
 ## branch to make releases of
-branch = ["ci", "topic/ci-testing"]
+branch = "topic/ci-testing"
 ## create a new tag for each release
 tag_commit = true
 ## changelog file
