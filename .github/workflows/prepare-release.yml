@@ -111,29 +111,29 @@ jobs:
       - name: Install dependencies
         run: pdm install
 
-      - name: Add pdm-bump
-        run: |
-          pdm self add pdm-bump
+      # - name: Add pdm-bump
+      #   run: |
+      #     pdm self add pdm-bump
 
       - name: Build app
         run: pdm build
 
-      - name: Bump pyproject version
-        run: |
-          pdm bump micro
+      # - name: Bump pyproject version
+      #   run: |
+      #     pdm bump micro
 
-      - name: Bump tag
-        run: |
-          pdm bump tag
+      # - name: Bump tag
+      #   run: |
+      #     pdm bump tag
 
-      - name: Push tag
-        run: |
-          git config user.name "github-action[bot]"
-          git config user.email "github-action[bot]@no-reply.github.com"
-          git add pyproject.toml
-          git commit -m "Bump version -> ${{ github.event.inputs.version }}"
-          git push
-          git push --tags
+      # - name: Push tag
+      #   run: |
+      #     git config user.name "github-action[bot]"
+      #     git config user.email "github-action[bot]@no-reply.github.com"
+      #     git add pyproject.toml
+      #     git commit -m "Bump version -> ${{ github.event.inputs.version }}"
+      #     git push
+      #     git push --tags
 
       - id: release
         uses: rymndhng/release-on-push-action@master
