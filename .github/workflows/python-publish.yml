@@ -47,8 +47,7 @@ jobs:
       - name: Load version from pyproject.toml
         id: version
         run: |
-          version=$(grep -oP '(?<=version = ")[^"]+' pyproject.toml)
-          echo "::set-output name=version::$version"
+          echo "::set-output name=version::$(python -c "import re; print(re.search(r'version = \"(.+?)\"', open('pyproject.toml').read()).group(1))")"
 
       - name: Install dependencies
         run: pdm sync
