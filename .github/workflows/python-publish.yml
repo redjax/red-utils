@@ -43,12 +43,6 @@ jobs:
         ## Custom script in pyproject.toml
         run: pdm run format
 
-      - name: Install pdm-bump
-        run: pdm add self pdm-bump
-
-      - name: Bump version and tag
-        run: pdm bump tag
-
       - name: Build release
         ## Build sdist at /home/runner/work/red-utils/red-utils/dist/red_utils-x.x.x.tar.gz
         ## Build wheel at /home/runner/work/red-utils/red-utils/dist/red_utils-x.x.x-py3-none-any.whl
