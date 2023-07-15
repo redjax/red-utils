@@ -16,7 +16,8 @@ jobs:
     strategy:
       matrix:
         python-version: ["3.11"]
-        os: [ubuntu-latest, macOS-latest, windows-latest]
+        ## , macOS-latest, windows-latest
+        os: [ubuntu-latest]
 
     steps:
       ## Checkout repo
@@ -46,7 +47,7 @@ jobs:
       - name: Load version from pyproject.toml
         id: version
         run: |
-          echo "::set-output name=version::$(python -c "import re; print(re.search(r'version = \"(.+?)\"', open('pyproject.toml').read()).group(1))")"
+          echo "::set-output name=version::$(python -c \"import re; print(re.search(r'version = \"(.+?)\"', open('pyproject.toml').read()).group(1))\")"
 
       - name: Install dependencies
         run: pdm sync
