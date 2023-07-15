@@ -126,12 +126,15 @@ jobs:
         run: |
           pdm bump tag
 
+      - name: Set env
+        run: echo "RELEASE_VERSION=${GITHUB_REF#refs/*/}" >> $GITHUB_ENV
+
       - name: Push tag
         run: |
           git config user.name "github-action[bot]"
           git config user.email "github-action[bot]@no-reply.github.com"
           git add pyproject.toml
-          git commit -m "Bump version -> ${{ github.event.inputs.version }}"
+          git commit -m "Bump version -> ${{ env.RELEASE_VERSION }}"
           git push
           git push --tags
 
