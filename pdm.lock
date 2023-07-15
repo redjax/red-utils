@@ -351,6 +351,12 @@ dependencies = [
 ]
 
 [[package]]
+name = "semantic-release"
+version = "0.1.0"
+requires_python = ">=3.6,<4.0"
+summary = ""
+
+[[package]]
 name = "shellingham"
 version = "1.5.0.post1"
 requires_python = ">=3.7"
@@ -411,7 +417,7 @@ summary = "A small Python utility to set file creation time on Windows"
 lock_version = "4.2"
 cross_platform = true
 groups = ["default", "dev"]
-content_hash = "sha256:7af0e3e5646bb15cfb6b9d313f64b81ed25b9ad8a364bd90c2b5fab575d3fa22"
+content_hash = "sha256:1b546bf5cc275fc7ad4d07c8fcdc5cf24739d270f79de9114a7055c484889d6f"
 
 [metadata.files]
 "annotated-types 0.5.0" = [
@@ -749,6 +755,10 @@ content_hash = "sha256:7af0e3e5646bb15cfb6b9d313f64b81ed25b9ad8a364bd90c2b5fab57
 ]
 "self 2020.12.3" = [
     {url = "https://files.pythonhosted.org/packages/83/db/f832dd416133c557d5e1dd01c54d13ff32cc08548fa77a202c8a4bcba400/self-2020.12.3.tar.gz", hash = "sha256:a0c408138257e0ba6188f2a7ad80cb3f61c3e48c3f85d1f973a160f6f887dc53"},
+]
+"semantic-release 0.1.0" = [
+    {url = "https://files.pythonhosted.org/packages/4c/2a/17b0cd7ce4ff495c31519f8efa0f8c3eaccfbaa2426ddf3ddf2944859c76/semantic-release-0.1.0.tar.gz", hash = "sha256:943c4d2f5bf2f42958c1868f3c5ccabfcade6017d9d7562192d24053fb2c8efa"},
+    {url = "https://files.pythonhosted.org/packages/ba/44/c2ed0a3a588fd3efa9cf5a7a544a90ae29546b3043752c38c11b0ee58a10/semantic_release-0.1.0-py3-none-any.whl", hash = "sha256:ac7bbd0aaf3bad04d812fae2979386388c9c9a1af489ed97f3fdbaa24eef2a2b"},
 ]
 "shellingham 1.5.0.post1" = [
     {url = "https://files.pythonhosted.org/packages/1f/13/fab0a3f512478bc387b66c51557ee715ede8e9811c77ce952f9b9a4d8ac1/shellingham-1.5.0.post1.tar.gz", hash = "sha256:823bc5fb5c34d60f285b624e7264f4dda254bc803a3774a147bf99c0e3004a28"},
