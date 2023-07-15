@@ -61,7 +61,7 @@ jobs:
         ## Custom script in pyproject.toml
         run: pdm run format
 
-  release:
+  build:
     needs: format
     if: ${{ github.event_name == 'push' }}
     runs-on: ${{ matrix.os }}
@@ -138,6 +138,21 @@ jobs:
           git push
           git push --tags
 
+  release:
+    needs: build
+    if: ${{ github.event_name == 'push' }}
+    runs-on: ${{ matrix.os }}
+    env:
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    permissions:
+      contents: write
+      pull-requests: read
+    strategy:
+      matrix:
+        python-version: ["3.11"]
+        ## , macOS-latest, windows-latest
+        os: [ubuntu-latest]
+    steps:
       - name: Checkout again before building release
         uses: actions/checkout@v3
         with:
