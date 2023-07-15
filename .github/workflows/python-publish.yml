@@ -45,12 +45,16 @@ jobs:
           allow-python-prereleases: false
 
       - name: Load version from pyproject.toml
-        id: version
-        run: |
-          echo "::set-output name=version::$(python -c \"import re; print(re.search(r'version = \"(.+?)\"', open('pyproject.toml').read()).group(1))\")"
+        uses: maybe-hello-world/pyproject-check-version@v3
+        id: versioncheck
+        with:
+          pyproject-path: "./pyproject.toml"
 
-      - name: Print package version
-        run: echo "Package version ${{ steps.version.outputs.stdout }}"
+      - name: check output
+        run: |
+          echo "Output: ${{ steps.versioncheck.outputs.local_version_is_higher }}"  # 'true' or 'false
+          echo "Local version: ${{ steps.versioncheck.outputs.local_version }}"     # e.g., 0.1.1
+          echo "Public version: ${{ steps.versioncheck.outputs.public_version }}"   # e.g., 0.1.0
 
       - name: Display Python version
         run: python -c "import sys; print(sys.version)"
