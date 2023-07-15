@@ -62,7 +62,7 @@ jobs:
         run: pdm run format
 
   release:
-    needs: build
+    needs: testing
     if: ${{ github.event_name == 'push' && github.ref == 'refs/head/feat/ci' }}
 
     runs-on: ${{ matrix.os }}
