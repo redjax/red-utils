@@ -46,9 +46,8 @@ jobs:
 
       - name: Load version from pyproject.toml
         id: version
-        ## >> $GITHUB_OUTPUT
         run: |
-          echo "name=version::$(pdm version show -r)"
+          echo "name=version::$(pdm version show -r)" >> $GITHUB_OUTPUT
       - name: Install dependencies
         run: pdm sync
 
