@@ -132,6 +132,8 @@ jobs:
           git config user.email "github-action[bot]@no-reply.github.com"
           git add pyproject.toml
           git commit -m "Bump version -> ${{ github.event.inputs.version }}"
+          git push
+          git push --tags
 
       - id: release
         uses: rymndhng/release-on-push-action@master
