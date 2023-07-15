@@ -5,15 +5,17 @@ on:
     branches:
       - feat/ci
     tags:
-      - "v*"
+      - "*"
 
 jobs:
   build:
 
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        python-version: ["3.11"]
+    permissions:
+      contents: write
+    # strategy:
+    #   matrix:
+    #     python-version: ["3.11"]
 
     steps:
       ## Checkout repo
@@ -64,6 +66,6 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
 
-      - name: Release
-        uses: softprops/action-gh-release@v1
-        if: startsWith(github.ref, 'refs/tags/')
+      - uses: ncipollo/release-action@v1
+      with:
+        artifacts: "dist/red_utils-*.tar.gz"
