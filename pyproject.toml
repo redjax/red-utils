@@ -50,7 +50,7 @@ cmd = "pdm export -d -o requirements.dev.txt --without-hashes"
 
 [tool.semantic_release]
 ## version location
-version_variable = ["red-utils/__init__.py:__version__", "pyproject.toml:version"]
+version_variable = ["pyproject.toml:version"]
 ## branch to make releases of
 branch = "feat/ci"
 ## changelog file
