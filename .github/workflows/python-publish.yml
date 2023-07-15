@@ -10,12 +10,14 @@ on:
 jobs:
   build:
 
-    runs-on: ubuntu-latest
+    ## ubuntu-latest
+    runs-on: ${{ matrix.os }}
     permissions:
       contents: write
     strategy:
       matrix:
         python-version: ["3.11"]
+        os: [ubuntu-latest, macOS-latest, windows-latest]
 
     steps:
       ## Checkout repo
@@ -26,12 +28,11 @@ jobs:
         name: Setup PDM
         with:
           # Version range or exact version of a Python version to use, the same as actions/setup-python
-          python-version: 3.11
+          python-version: ${{ matrix.python-version }}
           cache: true
           # https://github.com/marketplace/actions/setup-pdm#caches
           cache-dependency-path: |
             ./pdm.lock
-            ./pdm.new.lock
           # The target architecture (x86, x64) of the Python interpreter. the same as actions/setup-python
           architecture: x64
           # The version of PDM to install. Leave it as empty to use the latest version from PyPI, or 'head' to use the latest version from GitHub
@@ -43,13 +44,21 @@ jobs:
           # Allow prerelease versions of Python to be installed. For example if only 3.12-dev is available, 3.12 will fallback to 3.12-dev
           allow-python-prereleases: false
 
-      - name: Load version from pyproject.toml
-        id: load_version
+      # - name: Load version from pyproject.toml
+      #   id: load_version
+      #   run: |
+      #     echo "name=version::$(pdm version show -r)" >> $GITHUB_OUTPUT
+
+      - name: Extract version number
+        id: version
         run: |
-          echo "name=version::$(pdm version show -r)" >> $GITHUB_OUTPUT
+          python -c "import toml; print(toml.load(open('pyproject.toml'))['tool']['poetry']['version'])"
 
       - name: Install dependencies
-        run: pdm install
+        run: pdm sync
+
+        - name: Print version number
+          run: echo "The version number is ${{ steps.version.outputs.stdout }}"
 
       - name: Lint with Ruff
         ## Custom script in pyproject.toml
