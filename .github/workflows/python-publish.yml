@@ -41,6 +41,11 @@ jobs:
           # Allow prerelease versions of Python to be installed. For example if only 3.12-dev is available, 3.12 will fallback to 3.12-dev
           allow-python-prereleases: false
 
+      - name: Load version from pyproject.toml
+        id: load_version
+        run: |
+          echo "::set-output name=version::$(pdm version show -r)"
+
       - name: Install dependencies
         run: pdm install
 
@@ -56,15 +61,14 @@ jobs:
       - name: Display Python version
         run: python -c "import sys; print(sys.version)"
 
-      # - name: Upload build artifacts
-      #   uses: actions/upload-artifact@v3
-      #   with:
-      #     name: release-${{ version }}
-      #     path: dist/red_utils-${{ version }}.tar.gz
-
-      uses: softprops/action-gh-release@v1
-        if: startsWith(github.ref, 'refs/tags/')
+      - uses: "marvinpinto/action-automatic-releases@latest"
         with:
+          repo_token: "${{ secrets.GITHUB_TOKEN }}"
+          automatic_release_tag: "latest"
+          prerelease: true
+          title: "Development Build"
+          files: |
+            *.tar.gz
 
       - name: Release
         uses: softprops/action-gh-release@v1
