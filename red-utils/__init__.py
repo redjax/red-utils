@@ -5,4 +5,4 @@ import httpx_utils
 import loguru_utils
 import msgpack_utils
 
-__version__ = "0.1.0"
+__version__ = "0.0.0"
