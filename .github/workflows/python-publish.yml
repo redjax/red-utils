@@ -43,6 +43,9 @@ jobs:
         ## Custom script in pyproject.toml
         run: pdm run format
 
+      - name: Install pdm-bump
+        run: pdm add self pdm-bump
+
       - name: Bump version and tag
         run: pdm bump tag
 
