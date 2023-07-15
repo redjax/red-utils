@@ -1,18 +1,25 @@
 name: Python package
 
-on: [push]
+on:
+  push:
+    branches:
+      - feat/ci
+    tags:
+      - "v*"
 
 jobs:
   build:
 
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     strategy:
       matrix:
         python-version: ["3.11"]
 
     steps:
       ## Checkout repo
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
 
       ## Install PDM in the pipeline
       - uses: pdm-project/setup-pdm@v3
@@ -36,8 +43,29 @@ jobs:
           # Allow prerelease versions of Python to be installed. For example if only 3.12-dev is available, 3.12 will fallback to 3.12-dev
           allow-python-prereleases: false
 
+      - name: Load version from pyproject.toml
+        id: load_version
+        run: |
+          echo "name=version::$(pdm version show -r)" >> $GITHUB_OUTPUT
+
       - name: Install dependencies
         run: pdm install
 
+      - name: Lint with Ruff
+        ## Custom script in pyproject.toml
+        run: pdm run format
+
       - name: Build release
+        ## Build sdist at /home/runner/work/red-utils/red-utils/dist/red_utils-x.x.x.tar.gz
+        ## Build wheel at /home/runner/work/red-utils/red-utils/dist/red_utils-x.x.x-py3-none-any.whl
         run: pdm build
+
+      - name: Display Python version
+        run: python -c "import sys; print(sys.version)"
+
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - uses: ncipollo/release-action@v1
+        with:
+          artifacts: "dist/red_utils-*.tar.gz"
