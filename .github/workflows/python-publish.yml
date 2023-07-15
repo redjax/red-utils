@@ -5,7 +5,7 @@ on:
     branches:
       - feat/ci
     tags:
-      - "v*.*.*"
+      - "v*"
 
 jobs:
   build:
@@ -61,14 +61,9 @@ jobs:
       - name: Display Python version
         run: python -c "import sys; print(sys.version)"
 
-      - uses: "marvinpinto/action-automatic-releases@latest"
-        with:
-          repo_token: "${{ secrets.GITHUB_TOKEN }}"
-          automatic_release_tag: "latest"
-          prerelease: true
-          title: "Development Build"
-          files: |
-            *.tar.gz
+      - name: Checkout
+        uses: actions/checkout@v3
 
       - name: Release
         uses: softprops/action-gh-release@v1
+        if: startsWith(github.ref, 'refs/tags/')
