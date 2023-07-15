@@ -74,7 +74,7 @@ jobs:
 
   release:
     needs: build
-    if: ${{ github.event_name == 'push' && github.ref == 'refs/head/feat/ci' }}
+    # if: ${{ github.event_name == 'push' && github.ref == 'refs/head/feat/ci' }}
 
     runs-on: ${{ matrix.os }}
 
