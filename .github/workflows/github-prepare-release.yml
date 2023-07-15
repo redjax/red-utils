@@ -69,16 +69,26 @@ jobs:
           restore-keys: |
             venv-${{ runner.os }}-${{ matrix.arch }}-${{ matrix.python-version }}-
 
-      - name: Install current PDM via pip
-        if: matrix.install-via == 'pip'
-        run: python -m pip install -U .
-
-      - name: Install current PDM via script
-        if: matrix.install-via == 'script'
-        run: |
-          python -m pip install click
-          python install-pdm.py --version head
-          echo "$HOME/.local/bin" >> $GITHUB_PATH
+      ## Install PDM in the pipeline
+      - uses: pdm-project/setup-pdm@v3
+        name: Setup PDM
+        with:
+          # Version range or exact version of a Python version to use, the same as actions/setup-python
+          python-version: ${{ matrix.python-version }}
+          cache: true
+          # https://github.com/marketplace/actions/setup-pdm#caches
+          cache-dependency-path: |
+            ./pdm.lock
+          # The target architecture (x86, x64) of the Python interpreter. the same as actions/setup-python
+          architecture: x64
+          # The version of PDM to install. Leave it as empty to use the latest version from PyPI, or 'head' to use the latest version from GitHub
+          # version:
+          # Allow prerelease versions of PDM to be installed
+          prerelease: false
+          # Enable PEP 582 package loading globally
+          enable-pep582: false
+          # Allow prerelease versions of Python to be installed. For example if only 3.12-dev is available, 3.12 will fallback to 3.12-dev
+          allow-python-prereleases: false
 
       - name: Install Dev Dependencies
         run: |
