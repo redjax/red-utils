@@ -116,17 +116,17 @@ jobs:
       - name: Install dependencies
         run: pdm install
 
-      - name: Install pdm-bump
-        run: pdm self add pdm-bump
+      # - name: Install pdm-bump
+      #   run: pdm self add pdm-bump
 
       - name: Build app
         run: pdm build
 
-      - name: Bump version
-        run: pdm bump micro
+      # - name: Bump version
+      #   run: pdm bump micro
 
-      - name: Tag release
-        run: pdm bump tag
+      # - name: Tag release
+      #   run: pdm bump tag
 
       # - name: Bump version
       #   run: |
