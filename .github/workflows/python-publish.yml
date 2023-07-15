@@ -118,14 +118,14 @@ jobs:
 
       - name: Prepare package for release
         env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_TOKEN: ${{ secrets.GH_TOKEN }}
         run: |
           git config user.name ${{ secrets.GIT_USERNAME }}
           git config user.email ${{ secrets.GIT_EMAIL }}
 
       - name: Build release
         env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_TOKEN: ${{ secrets.GH_TOKEN }}
         run: |
           git config user.name ${{ secrets.GIT_USERNAME }}
           git config user.email ${{ secrets.GIT_EMAIL }}
@@ -149,5 +149,5 @@ jobs:
       # - name: Tag commit
       #   uses: tvdias/github-tagger@v0.0.1
       #   with:
-      #     repo-token: "${{ secrets.GITHUB_TOKEN }}"
+      #     repo-token: "${{ secrets.GH_TOKEN }}"
       #     tag: v${{ steps.version.outputs.stdout }}
