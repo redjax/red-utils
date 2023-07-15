@@ -49,6 +49,12 @@ jobs:
         run: |
           echo "::set-output name=version::$(python -c \"import re; print(re.search(r'version = \"(.+?)\"', open('pyproject.toml').read()).group(1))\")"
 
+      - name: Print package version
+        run: echo "Package version ${{ steps.version.outputs.stdout }}"
+
+      - name: Display Python version
+        run: python -c "import sys; print(sys.version)"
+
       - name: Install dependencies
         run: pdm sync
 
@@ -64,12 +70,16 @@ jobs:
         ## Build wheel at /home/runner/work/red-utils/red-utils/dist/red_utils-x.x.x-py3-none-any.whl
         run: pdm build
 
-      - name: Display Python version
-        run: python -c "import sys; print(sys.version)"
-
-      - name: Checkout
+      - name: Checkout 2
         uses: actions/checkout@v3
 
-      - uses: ncipollo/release-action@v1
+      - name: Release from artifact
+        uses: ncipollo/release-action@v1
         with:
           artifacts: "dist/red_utils-*.tar.gz"
+
+      - name: Tag commit
+        uses: tvdias/github-tagger@v0.0.1
+        with:
+          repo-token: "${{ secrets.GITHUB_TOKEN }}"
+          tag: v${{ steps.version.outputs.stdout }}
