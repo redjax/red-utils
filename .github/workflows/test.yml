@@ -113,6 +113,18 @@ jobs:
           # Allow prerelease versions of Python to be installed. For example if only 3.12-dev is available, 3.12 will fallback to 3.12-dev
           allow-python-prereleases: false
 
+      - name: Install dependencies
+        run: pdm install
+
+      - name: Install pdm-bump
+        run: pdm self add pdm-bump
+
+      - name: Build app
+        run: pdm build
+
+      - name: Bump version
+        run: pdm bump micro
+
       # - name: Bump version
       #   run: |
       #     pdm bump micro
