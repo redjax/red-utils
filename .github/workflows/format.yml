@@ -1,0 +1,33 @@
+name: Check & Format code
+
+on:
+  pull_request:
+    branches:
+      - release
+      - ci
+
+jobs:
+  ## Format stage runs linters/checkers
+  format:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        python-version: ["3.11"]
+        os: [ubuntu-latest]
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v2
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - name: Lint with Ruff
+        uses: jpetrucciani/ruff-check@main
+        with:
+          path: "."
+          flags: "--fix"
