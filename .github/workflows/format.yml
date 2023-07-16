@@ -5,6 +5,7 @@ on:
     branches:
       - release
       - ci
+      - topic/ci-testing
 
 jobs:
   ## Format stage runs linters/checkers
