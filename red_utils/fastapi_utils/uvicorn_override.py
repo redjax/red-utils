@@ -4,7 +4,12 @@ import logging
 import os
 import sys
 
-from .constants import default_color_fmt, default_fmt, default_log_dir, uvicorn_log_conf
+from ..loguru_utils.constants import (
+    default_color_fmt,
+    default_fmt,
+    default_log_dir,
+    uvicorn_log_conf,
+)
 
 from loguru import logger
 from uvicorn import Config, Server
