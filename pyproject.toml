@@ -47,3 +47,6 @@ cmd = "pdm export --prod -o requirements.txt --without-hashes"
 
 [tool.pdm.scripts.export-dev]
 cmd = "pdm export -d -o requirements.dev.txt --without-hashes"
+
+[tool.pdm.scripts.upload-pypi-test]
+cmd = "pdm run twine upload --repository testpypi dist/* --verbose"

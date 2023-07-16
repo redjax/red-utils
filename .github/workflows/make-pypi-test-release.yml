@@ -59,7 +59,5 @@ jobs:
         run: pdm build
 
       - name: Publish package to TestPyPI
-        uses: pypa/gh-action-pypi-publish@release/v1
-        with:
-          password: ${{ secrets.TEST_PYPI_API_TOKEN }}
-          repository-url: https://test.pypi.org/project/red-utils/
+        run: |
+          TWINE_USERNAME=__token__ TWINE_PASSWORD=${{ secrets.TEST_PYPI_API_TOKEN }} pdm run upload-pypi-test
