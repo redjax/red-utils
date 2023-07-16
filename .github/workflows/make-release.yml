@@ -7,8 +7,8 @@ on:
   pull_request:
     branches:
       - release
-    # tags:
-    #   - "v*"
+    tags:
+      - "v*"
 
 jobs:
   ## Format stage runs linters/checkers
@@ -148,7 +148,7 @@ jobs:
   release:
     ## Create a release from most recent build tag
     needs: build
-    if: ${{ github.event_name == 'push' }}
+    # if: ${{ github.event_name == 'push' }}
     runs-on: ${{ matrix.os }}
     env:
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
