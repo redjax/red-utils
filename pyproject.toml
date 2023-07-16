@@ -1,6 +1,6 @@
 [project]
 name = "red_utils"
-version = "0.1.7"
+version = "0.1.0"
 description = "Collection of utility scripts/functions that I use frequently."
 authors = [
     { name = "redjax", email = "none@none.com" },
@@ -33,6 +33,7 @@ dev = [
     "black>=23.7.0",
     "python-semantic-release>=7.34.6",
     "pdm-bump>=0.7.1",
+    "twine>=3.8.0",
 ]
 
 [tool.pdm.scripts.check]
@@ -46,3 +47,6 @@ cmd = "pdm export --prod -o requirements.txt --without-hashes"
 
 [tool.pdm.scripts.export-dev]
 cmd = "pdm export -d -o requirements.dev.txt --without-hashes"
+
+[tool.pdm.scripts.upload-pypi-test]
+cmd = "pdm run twine upload --repository testpypi dist/* --verbose"
