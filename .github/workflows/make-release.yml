@@ -1,15 +1,11 @@
 ## Get tag version with:
 #  ${{ github.event.release.tag_name }}
 
-name: Test Python pipeline
+name: Build, tag, and release
 
 on:
-  push:
-    branches:
-      - topic/ci-testing
   pull_request:
     branches:
-      - ci
       - release
     tags:
       - "v*"
@@ -164,13 +160,14 @@ jobs:
         python-version: ["3.11"]
         ## , macOS-latest, windows-latest
         os: [ubuntu-latest]
+
     steps:
       - name: Checkout again before building release
         uses: actions/checkout@v3
         with:
           fetch-depth: 0
 
-      - name: Create release with changelog
+      - name: Create release
         uses: konfer-be/action-create-release-from-tag@v1.0.2
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
