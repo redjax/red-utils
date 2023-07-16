@@ -649,6 +649,7 @@ cross_platform = true
 groups = ["default", "dev"]
 content_hash = "sha256:609c71c4937809ce6ab1ce979f7372390d4af27c347f3f908a65e2bff31d1732"
 
+
 [metadata.files]
 "annotated-types 0.5.0" = [
     {url = "https://files.pythonhosted.org/packages/42/97/41ccb6acac36fdd13592a686a21b311418f786f519e5794b957afbcea938/annotated_types-0.5.0.tar.gz", hash = "sha256:47cdc3490d9ac1506ce92c7aaa76c579dc3509ff11e098fc867e5130ab7be802"},
