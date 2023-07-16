@@ -61,7 +61,6 @@ jobs:
   build:
     ## Build a release, create a tag, bump pyproject.toml, push tag
     needs: format
-    if: ${{ github.event_name == 'push' }}
     runs-on: ${{ matrix.os }}
     env:
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -141,7 +140,7 @@ jobs:
           git config user.name "github-action[bot]"
           git config user.email "github-action[bot]@no-reply.github.com"
           git add pyproject.toml
-          git commit -m "Bump version from ${{ steps.tag_version.outputs.TAG }}"
+          git commit -m "Bump version from ${{ steps.tag_version.outputs.stdout }}"
           git push
           git push --tags
 
