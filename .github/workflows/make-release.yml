@@ -1,27 +1,27 @@
-name: Python package
+## Get tag version with:
+#  ${{ github.event.release.tag_name }}
+
+name: Build, tag, and release
 
 on:
-  push:
+  pull_request:
     branches:
-      - feat/ci
+      - release
     tags:
       - "v*"
 
 jobs:
-  build:
-    ## ubuntu-latest
+  ## Format stage runs linters/checkers
+  format:
     runs-on: ${{ matrix.os }}
-    permissions:
-      contents: write
     strategy:
       matrix:
         python-version: ["3.11"]
-        ## , macOS-latest, windows-latest
         os: [ubuntu-latest]
 
     steps:
-      ## Checkout repo
-      - uses: actions/checkout@v3
+      - name: Checkout
+        uses: actions/checkout@v3
         with:
           fetch-depth: 0
 
@@ -51,22 +51,6 @@ jobs:
           # Allow prerelease versions of Python to be installed. For example if only 3.12-dev is available, 3.12 will fallback to 3.12-dev
           allow-python-prereleases: false
 
-      # ## Check if version is greater than version on pypi
-      # - name: Load version from pyproject.toml
-      #   uses: maybe-hello-world/pyproject-check-version@v3
-      #   id: versioncheck
-      #   with:
-      #     pyproject-path: "./pyproject.toml"
-      # ## Check if version is greater than version on pypi
-      # - name: check output
-      #   run: |
-      #     echo "Output: ${{ steps.versioncheck.outputs.local_version_is_higher }}"  # 'true' or 'false
-      #     echo "Local version: ${{ steps.versioncheck.outputs.local_version }}"     # e.g., 0.1.1
-      #     echo "Public version: ${{ steps.versioncheck.outputs.public_version }}"   # e.g., 0.1.0
-
-      - name: Display Python version
-        run: python -c "import sys; print(sys.version)"
-
       - name: Install dependencies
         run: pdm sync
 
@@ -74,12 +58,16 @@ jobs:
         ## Custom script in pyproject.toml
         run: pdm run format
 
-  release:
-    needs: build
-    # if: ${{ github.event_name == 'push' && github.ref == 'refs/head/feat/ci' }}
-
+  build:
+    ## Build a release, create a tag, bump pyproject.toml, push tag
+    needs: format
+    if: ${{ github.event_name == 'push' }}
     runs-on: ${{ matrix.os }}
-
+    env:
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    permissions:
+      contents: write
+      pull-requests: read
     strategy:
       matrix:
         python-version: ["3.11"]
@@ -93,14 +81,9 @@ jobs:
           fetch-depth: 0
 
       - name: Set up Python ${{ matrix.python-version }}
-        uses: actions/setup-python@v4
+        uses: actions/setup-python@v2
         with:
           python-version: ${{ matrix.python-version }}
-
-      - name: Config Github URL to download Private Repo
-        env:
-          GITHUB_TOKEN: ${{ secrets.RED_UTILS_TOKEN }}
-        run: git config --global url."https://$GITHUB_TOKEN@github.com/".insteadOf "https://github.com/"
 
       ## Install PDM in the pipeline
       - uses: pdm-project/setup-pdm@v3
@@ -110,8 +93,8 @@ jobs:
           python-version: ${{ matrix.python-version }}
           cache: true
           # https://github.com/marketplace/actions/setup-pdm#caches
-          cache-dependency-path: |
-            ./pdm.lock
+          # cache-dependency-path: |
+          #   ./pdm.lock
           # The target architecture (x86, x64) of the Python interpreter. the same as actions/setup-python
           architecture: x64
           # The version of PDM to install. Leave it as empty to use the latest version from PyPI, or 'head' to use the latest version from GitHub
@@ -123,45 +106,68 @@ jobs:
           # Allow prerelease versions of Python to be installed. For example if only 3.12-dev is available, 3.12 will fallback to 3.12-dev
           allow-python-prereleases: false
 
-      - name: Prepare package for release
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Install dependencies
+        run: pdm install
+
+      ## Add pdm-bump plugin
+      - name: Add pdm-bump
         run: |
-          git config user.name ${{ secrets.GIT_USERNAME }}
-          git config user.email ${{ secrets.GIT_EMAIL }}
+          pdm self add pdm-bump
 
-      # - name: Build release
-      #   env:
-      #     GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      #   run: |
-      #     git config user.name ${{ secrets.GIT_USERNAME }}
-      #     git config user.email ${{ secrets.GIT_EMAIL }}
-      #     pdm run semantic-release publish
-      ## Build sdist at /home/runner/work/red-utils/red-utils/dist/red_utils-x.x.x.tar.gz
-      ## Build wheel at /home/runner/work/red-utils/red-utils/dist/red_utils-x.x.x-py3-none-any.whl
-      # run: pdm build
+      ## Build app inside pipeline
+      - name: Build app
+        run: pdm build
 
-      - name: Python Semantic Release
-        uses: relekang/python-semantic-release@master
+      ## Bump the pyproject version (micro is 0.0.x <--)
+      - name: Bump pyproject version
+        run: |
+          pdm bump micro
+
+      ## Create a tag from version bump
+      - name: Bump tag
+        run: |
+          pdm bump tag
+
+      ## This is supposed to get the most recent tag, but it doesn't
+      #  and I don't want to spend any more time trying to get this to work.
+      - name: Get branch name for commit
+        id: tag_version
+        run: |
+          echo "TAG=$(git describe --tags --abbrev=0)" >> $GITHUB_OUTPUT
+
+      ## Push tag to repo
+      - name: Push tag
+        run: |
+          git config user.name "github-action[bot]"
+          git config user.email "github-action[bot]@no-reply.github.com"
+          git add pyproject.toml
+          git commit -m "Bump version from ${{ steps.tag_version.outputs.TAG }}"
+          git push
+          git push --tags
+
+  release:
+    ## Create a release from most recent build tag
+    needs: build
+    if: ${{ github.event_name == 'push' }}
+    runs-on: ${{ matrix.os }}
+    env:
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    permissions:
+      contents: write
+      pull-requests: read
+    strategy:
+      matrix:
+        python-version: ["3.11"]
+        ## , macOS-latest, windows-latest
+        os: [ubuntu-latest]
+
+    steps:
+      - name: Checkout again before building release
+        uses: actions/checkout@v3
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          repository_username: __token__
-          repository_password: ${{ secrets.PYPI_TOKEN }}
+          fetch-depth: 0
 
-      - name: Publish to TestPyPI
-        uses: pypa/gh-action-pypi-publish@release/v1
+      - name: Create release
+        uses: konfer-be/action-create-release-from-tag@v1.0.2
         with:
-          user: __token__
-          password: ${{ secrets.TEST_PYPI_API_TOKEN }}
-          repository_url: https://test.pypi.org/legacy/
-
-      # - name: Release from artifact
-      #   uses: ncipollo/release-action@v1
-      #   with:
-      #     artifacts: "dist/red_utils-*.tar.gz"
-
-      # - name: Tag commit
-      #   uses: tvdias/github-tagger@v0.0.1
-      #   with:
-      #     repo-token: "${{ secrets.GITHUB_TOKEN }}"
-      #     tag: v${{ steps.version.outputs.stdout }}
+          token: ${{ secrets.GITHUB_TOKEN }}
