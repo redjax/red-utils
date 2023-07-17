@@ -1,5 +1,6 @@
 [project]
 name = "red_utils"
+
 version = "0.1.1"
 description = "Collection of utility scripts/functions that I use frequently."
 authors = [
