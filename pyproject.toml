@@ -20,6 +20,25 @@ text = "MIT"
 [project.urls]
 Homepage = "https://github.com/redjax/red-utils"
 
+[project.optional-dependencies]
+msgpack-utils = [
+    "msgpack>=1.0.5",
+]
+diskcache-utils = [
+    "diskcache>=5.6.1",
+]
+fastapi-utils = [
+    "fastapi>=0.100.0",
+    "pydantic[dotenv]>=2.0.3",
+    "uvicorn>=0.23.0",
+    "loguru>=0.7.0",
+]
+httpx-utils = [
+    "httpx>=0.24.1",
+]
+loguru-utils = [
+    "loguru>=0.7.0",
+]
 [build-system]
 requires = [
     "pdm-backend",
