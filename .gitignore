@@ -1,5 +1,5 @@
 ## Temporarily ignore .ipynb
-*.ipynb
+# *.ipynb
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
@@ -140,6 +140,8 @@ venv.bak/
 !*.*example*.*
 !*.*.*example*
 !*.*.*example*.*
+
+.serialize
 
 # Spyder project settings
 .spyderproject

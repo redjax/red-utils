@@ -30,6 +30,7 @@ import diskcache
 
 from diskcache import Cache
 
+
 def convert_to_seconds(unit: str = None, amount: int = None) -> int:
     ## Allowed strings for conversion
     valid_time_units: list[int] = ["seconds", "hours", "minutes", "days", "weeks"]
@@ -68,8 +69,32 @@ def convert_to_seconds(unit: str = None, amount: int = None) -> int:
     return _amount
 
 
+# def get_cache(
+#     cache_dir: str = default_cache_dir,
+#     index: bool = True,
+# ) -> diskcache.core.Cache:
+#     """Prepare and return a diskcache.Cache object."""
+#     if not cache_dir:
+#         raise ValueError("Missing cache directory")
+
+#     if not isinstance(cache_dir, Union[str, Path]):
+#         raise TypeError(f"cache_dir must be of type str or Path, not {type(cache_dir)}")
+
+#     try:
+#         _cache: diskcache.core.Cache = Cache(directory=cache_dir)
+
+#         if index:
+#             cache_tag_index(cache=_cache)
+
+#         return _cache
+
+#     except Exception as exc:
+#         raise Exception(f"Unhandled exception creating cache. Details: {exc}")
+
+
 def get_cache(
     cache_dir: str = default_cache_dir,
+    cache_conf: dict = None,
     index: bool = True,
 ) -> diskcache.core.Cache:
     """Prepare and return a diskcache.Cache object."""
@@ -79,8 +104,17 @@ def get_cache(
     if not isinstance(cache_dir, Union[str, Path]):
         raise TypeError(f"cache_dir must be of type str or Path, not {type(cache_dir)}")
 
+    if not cache_conf:
+        raise ValueError(f"Missing cache")
+
+    if not isinstance(cache_conf, dict):
+        raise TypeError(
+            f"Invalid type for [cache_conf]: ({type(cache_conf)}). Must be of type dict."
+        )
+
     try:
-        _cache: diskcache.core.Cache = Cache(directory=cache_dir)
+        # _cache: diskcache.core.Cache = Cache(directory=cache_dir)
+        _cache: diskcache.core.Cache = Cache(**cache_conf)
 
         if index:
             cache_tag_index(cache=_cache)
@@ -89,15 +123,6 @@ def get_cache(
 
     except Exception as exc:
         raise Exception(f"Unhandled exception creating cache. Details: {exc}")
-
-
-## Define a default cache object
-default_cache: Cache = Cache(
-    directory=default_cache_dir,
-    timeout=convert_to_seconds(
-        unit=default_timeout_dict["unit"], amount=default_timeout_dict["amount"]
-    ),
-)
 
 
 def clear_cache(cache: Cache = None) -> bool:
