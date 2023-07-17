@@ -24,7 +24,7 @@ readme = "README.md"
 text = "MIT"
 
 [project.urls]
-Homepage = "https://github.com/redjax/red-utils"
+Repository = "https://github.com/redjax/red-utils"
 
 [build-system]
 requires = [
