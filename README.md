@@ -1,27 +1,15 @@
 # red-utils
 
-Collection of utility scripts/functions that I use frequently.
+**Important**: This is my first Python package. I'm experimenting with CI/CD and Pypi. This library is most likely not useful to anyone else.
+
+# Description
+
+A collection of utility scripts/functions that I use frequently. Includes helper functions/default variables for libraries like `loguru`, `diskcache`, and `msgpack`.
 
 # Installation
 
-## Pip
-
-`pip install git+https://github.com/redjax/red-utils.git#egg=red-utils`
-
-## PDM
-
-`pdm add git+https://github.com/redjax/red-utils.git#egg=red-utils`
+*WIP*
 
 # Development
 
-## Building a release
-
 *WIP*
-
-- Bump with `pdm-bump`
-  - `$ pdm bump tag`
-  - OR
-  - `$ pdm bump [micro, minor, major]`
-    - `micro`: `0.1.1 -> 0.1.2`
-    - `minor`: `0.1.0 -> 0.2.0`
-    - `major`: `0.1.0 -> 1.0.0`
