@@ -1,7 +1,7 @@
 ## Import default constants
 from __future__ import annotations
 
-from .src import (
+from .constants import (
     LogLevel,
     default_color_fmt,
     default_fmt,
@@ -9,8 +9,8 @@ from .src import (
     log_levels,
     valid_compression_strs,
 )
-from .src import add_sink, init_logger
-from .src import (
+from .operations import add_sink, init_logger
+from .sinks import (
     default_app_log_file_sink,
     default_error_log_file_sink,
     default_sinks,
@@ -21,4 +21,4 @@ from .src import (
     default_trace_log_file_sink,
 )
 
-from .src import validate_compression_str, validate_level, validate_logger
+from .validators import validate_compression_str, validate_level, validate_logger

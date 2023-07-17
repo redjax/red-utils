@@ -1,2 +1,2 @@
-from .validators import validate_dict
-from .operations import debug_dict, merge_dicts, update_dict
+from .src import validate_dict
+from .src import debug_dict, merge_dicts, update_dict
