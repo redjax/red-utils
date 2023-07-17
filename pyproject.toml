@@ -36,6 +36,9 @@ dev = [
     "twine>=3.8.0",
 ]
 
+[tool.pdm.scripts.git-prune-tags]
+cmd = "git fetch --prune origin '+refs/tags/*:refs/tags/*'"
+
 [tool.pdm.scripts.check]
 cmd = "black ."
 
