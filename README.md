@@ -82,5 +82,3 @@ This module simplifies creating a cache by exposing the configuration options I 
 **Examples**: *WIP*
 
 # Development
-
-*WIP*
