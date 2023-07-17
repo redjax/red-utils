@@ -2,11 +2,11 @@
 # It is not intended for manual editing.
 
 [metadata]
-groups = ["default", "dev", "diskcache-utils", "fastapi-utils", "httpx-utils", "loguru-utils", "msgpack-utils"]
+groups = ["default", "dev", "diskcache-utils", "fastapi-utils", "httpx-utils", "loguru-utils", "msgpack-utils", "all"]
 cross_platform = true
 static_urls = false
 lock_version = "4.3"
-content_hash = "sha256:e788ea1614496145cee915947c309a3d814a420e150627671031044d8671fe13"
+content_hash = "sha256:5704cac381005a6934f08f5bc8671570a7a45169184398c2ee7a08bf9e719ab4"
 
 [[package]]
 name = "annotated-types"
