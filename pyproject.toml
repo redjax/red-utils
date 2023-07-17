@@ -21,23 +21,6 @@ text = "MIT"
 Repository = "https://github.com/redjax/red-utils"
 
 [project.optional-dependencies]
-diskcache-utils = [
-    "diskcache>=5.6.1",
-]
-fastapi-utils = [
-    "fastapi>=0.100.0",
-    "uvicorn[standard]>=0.23.0",
-    "loguru>=0.7.0",
-]
-httpx-utils = [
-    "httpx>=0.24.1",
-]
-loguru-utils = [
-    "loguru>=0.7.0",
-]
-msgpack-utils = [
-    "msgpack>=1.0.5",
-]
 all = [
     "diskcache>=5.6.1",
     "fastapi>=0.100.0",
@@ -79,16 +62,16 @@ cmd = "pdm export --prod -o requirements.txt --without-hashes"
 cmd = "pdm export -d -o requirements.dev.txt --without-hashes"
 
 [tool.pdm.scripts.create-major-release]
-shell = "pdm bump major && pdm bump tag && pdm build && git push --tags"
+shell = "pdm bump major && pdm bump tag && pdm build && pdm lock && git push --tags"
 
 [tool.pdm.scripts.create-minor-release]
-shell = "pdm bump minor && pdm bump tag && pdm build && git push --tags"
+shell = "pdm bump minor && pdm bump tag && pdm build && pdm lock && git push --tags"
 
 [tool.pdm.scripts.create-micro-release]
-shell = "pdm bump micro && pdm bump tag && pdm build && git push --tags"
+shell = "pdm bump micro && pdm bump tag && pdm build && pdm lock && git push --tags"
 
 [tool.pdm.scripts.upload-pypi]
-cmd = "pdm run twine upload dist/* --verbose"
+shell = "pdm lock && pdm run twine upload dist/* --verbose"
 
 [tool.pdm.scripts.upload-pypi-test]
-cmd = "pdm run twine upload --repository testpypi dist/* --verbose"
+shell = "pdm lock && pdm run twine upload --repository testpypi dist/* --verbose"
