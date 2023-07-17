@@ -1,6 +1,6 @@
 [project]
 name = "red_utils"
-version = "0.1.7"
+version = "0.1.0"
 description = "Collection of utility scripts/functions that I use frequently."
 authors = [
     { name = "redjax", email = "none@none.com" },
@@ -47,6 +47,18 @@ cmd = "pdm export --prod -o requirements.txt --without-hashes"
 
 [tool.pdm.scripts.export-dev]
 cmd = "pdm export -d -o requirements.dev.txt --without-hashes"
+
+[tool.pdm.scripts.create-major-release]
+shell = "pdm build && pdm bump major && pdm bump tag && git push --tags"
+
+[tool.pdm.scripts.create-minor-release]
+shell = "pdm build && pdm bump minor && pdm bump tag && git push --tags"
+
+[tool.pdm.scripts.create-micro-release]
+shell = "pdm build && pdm bump micro && pdm bump tag && git push --tags"
+
+[tool.pdm.scripts.upload-pypi]
+cmd = "pdm run twine upload pypi dist/* --verbose"
 
 [tool.pdm.scripts.upload-pypi-test]
 cmd = "pdm run twine upload --repository testpypi dist/* --verbose"
