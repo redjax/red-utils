@@ -1,9 +1,21 @@
 from __future__ import annotations
 
-from . import diskcache_utils
-from . import httpx_utils
-from . import loguru_utils
-from . import msgpack_utils
+try:
+    from . import diskcache_utils
+except:
+    pass
+try:
+    from . import httpx_utils
+except:
+    pass
+try:
+    from . import loguru_utils
+except:
+    pass
+try:
+    from . import msgpack_utils
+except:
+    pass
 
 ## Only import fastapi utils if fastapi and uvicorn are installed
 try:
