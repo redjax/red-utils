@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from typing import Any
 
-from .src import (
+from .constants import (
     default_cache_dir,
     default_timeout_dict,
     valid_key_types,
@@ -10,7 +10,7 @@ from .src import (
     valid_val_types,
 )
 
-from .src import (
+from .operations import (
     convert_to_seconds,
     get_cache,
     check_cache,
@@ -24,7 +24,7 @@ from .src import (
     clear_cache,
 )
 
-from .src import (
+from .validators import (
     validate_cache,
     validate_expire,
     validate_key,
@@ -35,4 +35,10 @@ from .src import (
     validate_val,
 )
 
-from .src import default_cache_conf
+## Define a default cache object
+default_cache_conf: dict[str, Any] = {
+    "directory": default_cache_dir,
+    "timeout": convert_to_seconds(
+        unit=default_timeout_dict["unit"], amount=default_timeout_dict["amount"]
+    ),
+}

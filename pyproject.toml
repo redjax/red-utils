@@ -6,10 +6,16 @@ authors = [
     { name = "redjax", email = "none@none.com" },
 ]
 dependencies = [
-    "msgpack>=1.0.5",
-    "loguru>=0.7.0",
-    "httpx>=0.24.1",
-    "diskcache>=5.6.1",
+    "dict-utils @ file:///${PROJECT_ROOT}/red_utils/dict_utils",
+    "diskcache-utils @ file:///${PROJECT_ROOT}/red_utils/diskcache_utils",
+    "fastapi-utils @ file:///${PROJECT_ROOT}/red_utils/fastapi_utils",
+    "file-utils @ file:///${PROJECT_ROOT}/red_utils/file_utils",
+    "hash-utils @ file:///${PROJECT_ROOT}/red_utils/hash_utils",
+    "httpx-utils @ file:///${PROJECT_ROOT}/red_utils/httpx_utils",
+    "loguru-utils @ file:///${PROJECT_ROOT}/red_utils/loguru_utils",
+    "msgpack-utils @ file:///${PROJECT_ROOT}/red_utils/msgpack_utils",
+    "time-utils @ file:///${PROJECT_ROOT}/red_utils/time_utils",
+    "uuid-utils @ file:///${PROJECT_ROOT}/red_utils/uuid_utils",
 ]
 requires-python = ">=3.11"
 readme = "README.md"
@@ -20,25 +26,6 @@ text = "MIT"
 [project.urls]
 Homepage = "https://github.com/redjax/red-utils"
 
-[project.optional-dependencies]
-msgpack-utils = [
-    "msgpack>=1.0.5",
-]
-diskcache-utils = [
-    "diskcache>=5.6.1",
-]
-fastapi-utils = [
-    "fastapi>=0.100.0",
-    "pydantic[dotenv]>=2.0.3",
-    "uvicorn>=0.23.0",
-    "loguru>=0.7.0",
-]
-httpx-utils = [
-    "httpx>=0.24.1",
-]
-loguru-utils = [
-    "loguru>=0.7.0",
-]
 [build-system]
 requires = [
     "pdm-backend",

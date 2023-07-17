@@ -8,7 +8,7 @@ from __future__ import annotations
 from pathlib import Path
 from typing import Optional, Type, Union
 
-from . import (
+from .. import (
     default_cache_dir,
     default_timeout_dict,
     valid_key_types,
