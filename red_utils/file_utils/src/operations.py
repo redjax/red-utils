@@ -48,3 +48,86 @@ def export_json(
             raise Exception(
                 f"Unhandled exception writing JSON to file: {output_path}. Details: {exc}"
             )
+
+
+def crawl_dir(
+    return_type: str = "all",
+    in_dir: Union[str, Path] = None,
+    files: list[Path] = None,
+    dirs: list[Path] = None,
+) -> dict[str, list[Path]]:
+    """Crawl a directory for sub-directories/files. Continue crawl on new subdirectory.
+
+    Parameters:
+        return_type (str): Return "files", "dirs", or "all"
+        in_dir (str | Path): An input directory to start the crawl at.
+        files (list[Path]): A list of Path objects to append found files to.
+        dirs (list[Path]): A list of Path objects to append found dirs to.
+
+    Returns:
+        A dict object of file and dir lists. return_obj['files'] will be a list of files
+        found in path, including in subdirectories. return_obj['dirs'] will be a list of
+        dirs and subdirs found during crawl.
+    """
+    valid_return_types: list[str] = ["all", "files", "dirs"]
+    if not return_type:
+        return_type = "all"
+
+    if not isinstance(return_type, str):
+        raise TypeError(f"return_type must be a string")
+
+    return_type = return_type.lower()
+
+    if not return_type in valid_return_types:
+        raise ValueError(
+            f"Invalid return type: {return_type}. Must be one of {valid_return_types}"
+        )
+
+    if not in_dir:
+        raise ValueError(f"Missing input directory to crawl")
+
+    if not isinstance(in_dir, Path):
+        if not isinstance(in_dir, str):
+            raise TypeError(
+                f"Invalid type for input directory: {type(in_dir)}. Must be a str or Path object."
+            )
+        elif isinstance(in_dir, str):
+            in_dir: Path = Path(in_dir)
+        else:
+            raise Exception(
+                f"Unhandled exception parsing input directory. Could not detect type of in_dir."
+            )
+
+    ## Create files/dirs lists if they do not exist at function call.
+    if not files:
+        files = []
+    if not dirs:
+        dirs = []
+
+    try:
+        ## Loop over in_dir
+        for _f in in_dir.iterdir():
+            if _f.is_file():
+                ## Append file to files list, if it does not already exist in the list
+                if _f not in files:
+                    files.append(_f)
+            elif _f.is_dir():
+                ## Append dir to dirs list, if it does not already exist in the list
+                if _f not in dirs:
+                    dirs.append(_f)
+
+                ## Re-crawl on new directory
+                crawl_dir(in_dir=_f, files=files, dirs=dirs)
+
+    except FileNotFoundError as fnf_exc:
+        raise FileNotFoundError(f"Path does not exist: {in_dir}. Details: {fnf_exc}")
+    except PermissionError as perm_exc:
+        raise PermissionError(
+            f"Encountered permission error while scanning {in_dir}. Details: {perm_exc}"
+        )
+    except Exception as exc:
+        raise Exception(f"Unhandled exception crawling path: {in_dir}. Details: {exc}")
+
+    return_obj: dict[str, list[Path]] = {"files": files, "dirs": dirs}
+
+    return return_obj
