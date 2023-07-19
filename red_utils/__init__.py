@@ -47,4 +47,4 @@ try:
 except:
     pass
 
-from .context_managers import benchmark, async_benchmark
+from .context_managers import async_benchmark, benchmark
