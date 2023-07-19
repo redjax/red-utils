@@ -14,7 +14,6 @@ def ensure_path(dir: Union[str, Path] = None) -> bool:
 
     Returns a bool
     """
-
     if not dir:
         raise ValueError("Missing input directory to validate")
 
@@ -159,7 +158,8 @@ def msgpack_deserialize(
 ) -> dict[str, Union[bool, str, dict[str, Union[str, dict]]]]:
     """Load serialized msgpack string.
 
-    Returns a dict with"""
+    Returns a dict with
+    """
     if not packed_str:
         raise ValueError("Must pass a bytestring to deserialize")
 

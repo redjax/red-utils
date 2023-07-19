@@ -58,13 +58,15 @@ def crawl_dir(
 ) -> dict[str, list[Path]]:
     """Crawl a directory for sub-directories/files. Continue crawl on new subdirectory.
 
-    Parameters:
+    Parameters
+    ----------
         return_type (str): Return "files", "dirs", or "all"
         in_dir (str | Path): An input directory to start the crawl at.
         files (list[Path]): A list of Path objects to append found files to.
         dirs (list[Path]): A list of Path objects to append found dirs to.
 
-    Returns:
+    Returns
+    -------
         A dict object of file and dir lists. return_obj['files'] will be a list of files
         found in path, including in subdirectories. return_obj['dirs'] will be a list of
         dirs and subdirs found during crawl.
@@ -78,7 +80,7 @@ def crawl_dir(
 
     return_type = return_type.lower()
 
-    if not return_type in valid_return_types:
+    if return_type not in valid_return_types:
         raise ValueError(
             f"Invalid return type: {return_type}. Must be one of {valid_return_types}"
         )

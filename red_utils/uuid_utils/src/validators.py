@@ -1,5 +1,6 @@
-from .constants import UUIDLength
+from __future__ import annotations
 
+from .constants import UUIDLength
 
 ## Instantiated UUIDLength class
 glob_uuid_lens: UUIDLength = UUIDLength()
