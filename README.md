@@ -11,7 +11,13 @@ A collection of utility scripts/functions that I use frequently. Includes helper
 
 # Installation
 
-*WIP*
+## Pip
+
+`pip install red-utils`
+
+## PDM
+
+`pdm add red-utils`
 
 # Modules
 
@@ -84,3 +90,72 @@ This module simplifies creating a cache by exposing the configuration options I 
 # Development
 
 *WIP*
+
+# context managers
+
+Use context managers as `with` statements. Example:
+
+```
+## Time a function
+with benchmark("some description"):
+  some_func()
+```
+
+Protect a list during modifications:
+
+```
+with ListProtect([0, 1, "2", False]) as copy:
+  copy.append("another value")
+
+## Protect from errors during modification
+#  Skips overwriting original list when errors occur
+with ListProtect([0, 1, "2", False]) as copy:
+  cause_error = 1 / 0
+```
+
+## benchmarks
+
+**Description**: Benchmark a function call with `context_managers.benchmark`, and async functions with `context_managers.async_benchmark`. Each benchmark accepts a description (`str` type), and prints execution time formatted as `description: x.xxxs`
+
+**Examples**:
+
+```
+from red_utils.context_managers import benchmark
+import random
+
+with benchmark("Example: sleep for 2 second") as b:
+    val = random.randint(10000, 100000)
+
+    while val >= 0:
+      val -= 1
+```
+
+## protect
+
+**Description**: *WIP*
+
+**Examples**:
+
+- `ListProtect`: Protects a list by modifying a copy, and only returning the updated list if no errors occur.
+
+``` 
+ex_list = [1, 2, 3]
+
+## Protects from a ZeroDivision error
+with ListProtect(ex_list) as copy:
+    copy.append(1 / 0)
+
+print(f"List: {ex_list}")
+```
+
+- `DictProtect`: Protects a dict by modifying a copy, and only returning the updated dict if no errors occur.
+
+```
+ex_dict = {"example": "value"}
+
+## Protects from a ZeroDivision error
+with DictProtect(ex_dict) as copy:
+    copy["example"] = 1 / 0
+
+print(f"Dict: {ex_dict}")
+```
