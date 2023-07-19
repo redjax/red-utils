@@ -46,5 +46,3 @@ try:
     from . import fastapi_utils
 except:
     pass
-
-from .context_managers import async_benchmark, benchmark
