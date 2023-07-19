@@ -1,5 +1,6 @@
-from contextlib import contextmanager, asynccontextmanager
-import time
+from __future__ import annotations
+
+from contextlib import asynccontextmanager, contextmanager
 
 
 @contextmanager

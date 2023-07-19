@@ -1,2 +1,4 @@
-from .src import default_json_dir
-from .src import ts, export_json, crawl_dir
+
+from __future__ import annotations
+
+from .src import crawl_dir, default_json_dir, export_json, ts

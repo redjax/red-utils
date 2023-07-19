@@ -1,4 +1,10 @@
-from .src import UUIDLength
-from .src import glob_uuid_lens
+from __future__ import annotations
 
-from .src import gen_uuid, trim_uuid, first_n_chars, get_rand_uuid
+from .src import (
+    UUIDLength,
+    first_n_chars,
+    gen_uuid,
+    get_rand_uuid,
+    glob_uuid_lens,
+    trim_uuid,
+)

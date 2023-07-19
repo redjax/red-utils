@@ -9,21 +9,19 @@ from .constants import (
     valid_tag_types,
     valid_val_types,
 )
-
 from .operations import (
-    convert_to_seconds,
-    get_cache,
+    cache_tag_index,
     check_cache,
-    get_cache_size,
+    check_exists,
+    clear_cache,
+    convert_to_seconds,
     delete_val,
+    get_cache,
+    get_cache_size,
     get_val,
     set_expire,
     set_val,
-    cache_tag_index,
-    check_exists,
-    clear_cache,
 )
-
 from .validators import (
     validate_cache,
     validate_expire,

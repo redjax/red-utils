@@ -1,11 +1,14 @@
 from __future__ import annotations
 
+from typing import Any
+
 from .validators import validate_dict
 
 
 def debug_dict(in_dict: dict = None) -> None:
-    """Debug print a dict by looping overkeys and printing. If type of key is also dict,
-    re-run the loop on that key and continue.
+    """Debug print a dict by looping overkeys and printing.
+
+    If type of key is also dict, re-run the loop on that key and continue.
     """
     validate_dict(in_dict)
 
@@ -26,8 +29,8 @@ def debug_dict(in_dict: dict = None) -> None:
 
 
 def merge_dicts(
-    original_dict: dict[str, str] = None,
-    update_vals: dict[str, str] = None,
+    original_dict: dict[str, Any] = None,
+    update_vals: dict[str, Any] = None,
 ) -> dict[str, str]:
     """Merge dicts into new dict."""
     validate_dict(original_dict)
@@ -43,10 +46,16 @@ def merge_dicts(
 
 
 def update_dict(
-    original_dict: dict[str, str] = None,
-    update_vals: dict[str, str] = None,
+    original_dict: dict[str, Any] = None,
+    update_vals: dict[str, Any] = None,
 ) -> dict[str, str]:
-    """Update a dict with values from a second dict."""
+    """Update a dict with values from a second dict.
+
+    Args:
+    ----
+        original_dict: The original dictionary to be updated.
+        update_vals: The dict with values with which to update the original dict.
+    """
     validate_dict(original_dict)
     validate_dict(update_vals)
 

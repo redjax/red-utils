@@ -1,2 +1,3 @@
-from .src import validate_dict
-from .src import debug_dict, merge_dicts, update_dict
+from __future__ import annotations
+
+from .src import debug_dict, merge_dicts, update_dict, validate_dict
