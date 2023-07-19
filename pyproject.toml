@@ -62,13 +62,13 @@ cmd = "pdm export --prod -o requirements.txt --without-hashes"
 cmd = "pdm export -d -o requirements.dev.txt --without-hashes"
 
 [tool.pdm.scripts.create-major-release]
-shell = "pdm bump major && pdm bump tag && pdm build && pdm lock && git push --tags"
+shell = "pdm bump major && pdm bump tag && pdm lock && pdm build && git push --tags"
 
 [tool.pdm.scripts.create-minor-release]
-shell = "pdm bump minor && pdm bump tag && pdm build && pdm lock && git push --tags"
+shell = "pdm bump minor && pdm bump tag && pdm pdm lock && pdm build && git push --tags"
 
 [tool.pdm.scripts.create-micro-release]
-shell = "pdm bump micro && pdm bump tag && pdm build && pdm lock && git push --tags"
+shell = "pdm bump micro && pdm bump tag && pdm pdm lock && pdm build && git push --tags"
 
 [tool.pdm.scripts.upload-pypi]
 shell = "pdm lock && pdm run twine upload dist/* --verbose"
