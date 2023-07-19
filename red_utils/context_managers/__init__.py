@@ -1,3 +1,4 @@
-from .benchmarks import benchmark, async_benchmark
+from __future__ import annotations
 
-from .object_managers.protect import ListProtect, DictProtect
+from .benchmarks import async_benchmark, benchmark
+from .object_managers.protect import DictProtect, ListProtect
