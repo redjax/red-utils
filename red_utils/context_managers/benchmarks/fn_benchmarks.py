@@ -15,6 +15,7 @@ def benchmark(description: str = "Unnamed function timer") -> None:
     with benchmark("Short description here"):
         ...
     """
+
     start = time.time()
     yield
     elapsed = time.time() - start
