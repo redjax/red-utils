@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+from .context_managers import ListProtect, DictProtect
+
 try:
     from . import diskcache_utils
 except:
@@ -22,3 +24,5 @@ try:
     from . import fastapi_utils
 except:
     pass
+
+from .context_managers import benchmark, async_benchmark
