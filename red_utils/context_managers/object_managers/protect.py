@@ -1,6 +1,6 @@
-"""
-Context manager classes to protect instances of objects.
-"""
+"""Context manager classes to protect instances of objects."""
+from __future__ import annotations
+
 import inspect
 import json
 
@@ -24,7 +24,7 @@ class ListProtect:
     """
 
     def __init__(self, original: list):
-        """Call immediately after with ListProtect() as copy:"""
+        """Call immediately after with ListProtect() as copy."""
         if not isinstance(original, list):
             raise TypeError(
                 f"Invalid type for protected list: ({type(original)}). Must be of type list."
@@ -96,7 +96,8 @@ class DictProtect:
     """
 
     def __init__(self, original: dict):
-        """Call immediately after with DictProtect() as copy:"""
+        """Call immediately after with DictProtect() as copy."""
+
         if not isinstance(original, dict):
             raise TypeError(
                 f"Invalid type for protected dict: ({type(original)}). Must be of type dict."

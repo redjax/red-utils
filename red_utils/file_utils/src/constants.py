@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 from datetime import datetime
 
 default_json_dir: str = "data/json"
