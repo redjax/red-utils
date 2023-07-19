@@ -35,6 +35,7 @@ class ListProtect:
 
     def __enter__(self):
         """Call after initializing ListProtect instance."""
+
         ## Create a copy of the list to work on
         self.clone: list = self.original.copy()
 
@@ -42,6 +43,7 @@ class ListProtect:
 
     def __exit__(self, exc_type, exc_value, exc_traceback):
         """Call if ListProtect context manager encounters an error."""
+
         ## No exception encountered, update original
         #  list and return
         if exc_type is None:
@@ -95,6 +97,7 @@ class DictProtect:
 
     def __init__(self, original: dict):
         """Call immediately after with DictProtect() as copy."""
+
         if not isinstance(original, dict):
             raise TypeError(
                 f"Invalid type for protected dict: ({type(original)}). Must be of type dict."
@@ -105,6 +108,7 @@ class DictProtect:
 
     def __enter__(self):
         """Call after initializing DictProtect instance."""
+
         ## Create a copy of the dict to work on
         self.clone: dict = self.original.copy()
 
@@ -112,6 +116,7 @@ class DictProtect:
 
     def __exit__(self, exc_type, exc_value, exc_traceback):
         """Call if DictProtect context manager encounters an error."""
+
         ## No exception encountered, update original
         #  list and return
         if exc_type is None:
