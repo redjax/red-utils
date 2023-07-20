@@ -44,6 +44,7 @@ dev = [
     "python-semantic-release>=7.34.6",
     "pdm-bump>=0.7.1",
     "twine>=3.8.0",
+    "pre-commit>=3.3.3",
 ]
 
 [tool.pdm.scripts.git-prune-tags]
