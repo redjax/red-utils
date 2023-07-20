@@ -9,7 +9,6 @@ from typing import Any, Union
 
 from .constants import default_json_dir, ts
 
-
 def export_json(
     input: Union[str, list[list, dict], dict[str, Any]] = None,
     output_dir: str = default_json_dir,
@@ -81,7 +80,6 @@ def crawl_dir(
     return_type = return_type.lower()
 
     if return_type not in valid_return_types:
-
         raise ValueError(
             f"Invalid return type: {return_type}. Must be one of {valid_return_types}"
         )

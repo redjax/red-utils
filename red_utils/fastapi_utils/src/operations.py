@@ -23,7 +23,6 @@ import fastapi
 from fastapi import APIRouter, FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-
 def update_tags_metadata(
     tags_metadata: list = tags_metadata,
     update_metadata: Union[list[dict[str, str]], dict[str, str]] = None,
