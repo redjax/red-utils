@@ -64,13 +64,15 @@ cmd = "pdm export -d -o requirements.dev.txt --without-hashes"
 shell = "pdm bump major && pdm bump tag && pdm lock && pdm build && git push --tags"
 
 [tool.pdm.scripts.create-minor-release]
-shell = "pdm bump minor && pdm bump tag && pdm pdm lock && pdm build && git push --tags"
+shell = "pdm bump minor && pdm bump tag && pdm lock && pdm build && git push --tags"
 
 [tool.pdm.scripts.create-micro-release]
-shell = "pdm bump micro && pdm bump tag && pdm pdm lock && pdm build && git push --tags"
+shell = "pdm bump micro && pdm bump tag && pdm lock && pdm build && git push --tags"
 
 [tool.pdm.scripts.upload-pypi]
-shell = "pdm lock && pdm run twine upload dist/* --verbose"
+# shell = "pdm lock && pdm run twine upload dist/* --verbose"
+shell = "pdm lock && pdm publish --repository pypi --verbose"
 
 [tool.pdm.scripts.upload-pypi-test]
-shell = "pdm lock && pdm run twine upload --repository testpypi dist/* --verbose"
+# shell = "pdm lock && pdm run twine upload --repository testpypi dist/* --verbose"
+shell = "pdm lock && pdm publish --repository test-pypi --version"
