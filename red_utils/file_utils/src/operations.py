@@ -9,6 +9,7 @@ from typing import Any, Union
 
 from .constants import default_json_dir, ts
 
+
 def export_json(
     input: Union[str, list[list, dict], dict[str, Any]] = None,
     output_dir: str = default_json_dir,

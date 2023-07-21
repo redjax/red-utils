@@ -2,9 +2,10 @@ from __future__ import annotations
 
 from typing import Union
 
-from . import valid_methods
+from .constants import valid_methods
 
 from httpx import AsyncClient, Client
+
 
 def validate_client(
     client: Union[Client, AsyncClient] = None
