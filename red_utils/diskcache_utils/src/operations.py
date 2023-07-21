@@ -69,30 +69,7 @@ def convert_to_seconds(unit: str = None, amount: int = None) -> int:
     return _amount
 
 
-# def get_cache(
-#     cache_dir: str = default_cache_dir,
-#     index: bool = True,
-# ) -> diskcache.core.Cache:
-#     """Prepare and return a diskcache.Cache object."""
-#     if not cache_dir:
-#         raise ValueError("Missing cache directory")
-
-#     if not isinstance(cache_dir, Union[str, Path]):
-#         raise TypeError(f"cache_dir must be of type str or Path, not {type(cache_dir)}")
-
-#     try:
-#         _cache: diskcache.core.Cache = Cache(directory=cache_dir)
-
-#         if index:
-#             cache_tag_index(cache=_cache)
-
-#         return _cache
-
-#     except Exception as exc:
-#         raise Exception(f"Unhandled exception creating cache. Details: {exc}")
-
-
-def get_cache(
+def new_cache(
     cache_dir: str = default_cache_dir,
     cache_conf: dict = None,
     index: bool = True,
@@ -117,7 +94,7 @@ def get_cache(
         _cache: diskcache.core.Cache = Cache(**cache_conf)
 
         if index:
-            cache_tag_index(cache=_cache)
+            manage_cache_tag_index(cache=_cache)
 
         return _cache
 
@@ -140,7 +117,7 @@ def clear_cache(cache: Cache = None) -> bool:
         )
 
 
-def check_exists(key: str = None, cache: diskcache.core.Cache = None) -> bool:
+def check_cache_key_exists(key: str = None, cache: diskcache.core.Cache = None) -> bool:
     """Check if a key exists in a cache."""
     ## Key validation
     validate_key(key=key)
@@ -153,7 +130,7 @@ def check_exists(key: str = None, cache: diskcache.core.Cache = None) -> bool:
         return False
 
 
-def cache_tag_index(operation: str = "create", cache: Cache = None) -> None:
+def manage_cache_tag_index(operation: str = "create", cache: Cache = None) -> None:
     valid_operations: list[str] = ["create", "delete"]
 
     validate_cache(cache=cache)
@@ -222,7 +199,7 @@ def set_expire(
     validate_cache(cache)
     validate_expire(expire)
 
-    if not check_exists(key=key, cache=cache):
+    if not check_cache_key_exists(key=key, cache=cache):
         return {
             "warning": f"Cache item with key [{key}] does not exist in cache at {cache.directory}/"
         }
@@ -242,7 +219,7 @@ def get_val(key: valid_key_types = None, cache: Cache = None, tags: list[str] = 
     validate_cache(cache)
     validate_tags(tags)
 
-    if check_exists(key=key, cache=cache):
+    if check_cache_key_exists(key=key, cache=cache):
         try:
             with cache as ref:
                 _val = ref.get(key=key)

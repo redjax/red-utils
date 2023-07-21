@@ -10,15 +10,15 @@ from .constants import (
     valid_val_types,
 )
 from .operations import (
-    cache_tag_index,
     check_cache,
-    check_exists,
+    check_cache_key_exists,
     clear_cache,
     convert_to_seconds,
     delete_val,
-    get_cache,
     get_cache_size,
     get_val,
+    manage_cache_tag_index,
+    new_cache,
     set_expire,
     set_val,
 )
