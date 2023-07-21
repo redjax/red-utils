@@ -1,6 +1,6 @@
 [project]
 name = "red_utils"
-version = "0.1.4"
+version = "0.1.5"
 description = "Collection of utility scripts/functions that I use frequently."
 authors = [
     { name = "redjax", email = "none@none.com" },
@@ -70,9 +70,7 @@ shell = "pdm bump minor && pdm bump tag && pdm lock && pdm build && git push --t
 shell = "pdm bump micro && pdm bump tag && pdm lock && pdm build && git push --tags"
 
 [tool.pdm.scripts.upload-pypi]
-# shell = "pdm lock && pdm run twine upload dist/* --verbose"
 shell = "pdm lock && pdm publish --repository pypi --verbose"
 
 [tool.pdm.scripts.upload-pypi-test]
-# shell = "pdm lock && pdm run twine upload --repository testpypi dist/* --verbose"
-shell = "pdm lock && pdm publish --repository test-pypi --version"
+shell = "pdm lock && pdm publish --repository test-pypi --verbose"
