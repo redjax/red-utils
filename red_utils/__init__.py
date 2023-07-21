@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+import pkgutil
+
 ## Import modules with only stdblit dependencies directly
 from .context_managers import DictProtect, ListProtect, async_benchmark, benchmark
 from .dict_utils import debug_dict, merge_dicts, update_dict, validate_dict
@@ -21,30 +23,19 @@ from .uuid_utils import (
     trim_uuid,
 )
 
-## Use try/except to import modules with dependencies
-#  Keeps program from crashing when only a single module
-#    is missing a depenency.
-try:
+if pkgutil.find_loader("diskcache"):
     from . import diskcache_utils
-except:
-    pass
-try:
+
+if pkgutil.find_loader("httpx"):
     from . import httpx_utils
-except:
-    pass
-try:
+
+if pkgutil.find_loader("loguru"):
     from . import loguru_utils
-except:
-    pass
-try:
+
+if pkgutil.find_loader("msgpack"):
     from . import msgpack_utils
-except:
-    pass
 
 ## Only import fastapi utils if fastapi and uvicorn are installed
-try:
-    from . import fastapi_utils
-except:
-    pass
-
-from .context_managers import async_benchmark, benchmark
+if pkgutil.find_loader("fastapi"):
+    if pkgutil.find_loader("uvicorn"):
+        from . import fastapi_utils
