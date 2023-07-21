@@ -1,16 +1,15 @@
 from __future__ import annotations
 
-from . import (
+from .constants import (
     default_headers,
     valid_methods,
-    validate_client,
-    validate_headers,
-    validate_method,
 )
+from .validators import validate_client, validate_headers, validate_method
 
 import httpx
 
 from httpx import Client
+
 
 def merge_headers(
     original_headers: dict[str, str] = default_headers,
