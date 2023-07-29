@@ -23,6 +23,32 @@ import fastapi
 from fastapi import APIRouter, FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
+
+def fix_api_docs(app: FastAPI = None):
+    """Fix error loading /docs when a root_path is set.
+
+    Call after declaring an app with a root_path set, for example:
+        app = FastAPI(root_path="/some/path")
+        fix_api_docs(app)
+
+    When a root_path is declared, the default /docs URL breaks, and returns
+    an error:
+        Fetch error
+        Not Found /api/v1/openapi.json
+    """
+    if not app:
+        raise ValueError("Missing a FastAPI app with a root_path var declared")
+
+    if not isinstance(app, FastAPI):
+        raise TypeError(
+            f"Invalid type for FastAPI app: ({type(app)}). Value must be of type FastAPI."
+        )
+
+    @app.get(app.root_path + "/openapi.json")
+    def custom_swagger_ui_html():
+        return app.openapi()
+
+
 def update_tags_metadata(
     tags_metadata: list = tags_metadata,
     update_metadata: Union[list[dict[str, str]], dict[str, str]] = None,
