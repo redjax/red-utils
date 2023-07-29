@@ -1,13 +1,6 @@
-from typing import Any, Union, Optional
-import sqlalchemy as sa
-from sqlalchemy import orm as sa_orm
+from __future__ import annotations
 
-from sqlalchemy.schema import CreateTable
-
-## Import SQLAlchemy exceptions
-from sqlalchemy.exc import DBAPIError, OperationalError
-from sqlalchemy.orm import Session, sessionmaker
-from sqlalchemy import create_engine
+from typing import Any, Optional, Union
 
 from .connection_models import (
     saConnectionGeneric,
@@ -15,9 +8,19 @@ from .connection_models import (
     saPGConnection,
     saSQLiteConnection,
 )
-
 from .constants import valid_db_types
 
+import sqlalchemy as sa
+
+from sqlalchemy import (
+    create_engine,
+    orm as sa_orm,
+)
+
+## Import SQLAlchemy exceptions
+from sqlalchemy.exc import DBAPIError, OperationalError
+from sqlalchemy.orm import Session, sessionmaker
+from sqlalchemy.schema import CreateTable
 
 def debug_metadata_obj(metadata_obj: sa.MetaData = None) -> None:
     """Debug-print a SQLAlchemy MetaData object.
@@ -51,7 +54,9 @@ def validate_db_type(in_str: str = None) -> bool:
 def generate_metadata(
     metadata_obj: sa.MetaData = None, engine: sa.Engine = None
 ) -> None:
-    """Accept a SQLalchemy MetaData object, run .create_all(engine) to create
+    """Create SQLAlchemy table metadata.
+
+    Accept a SQLalchemy MetaData object, run .create_all(engine) to create
     table metadata.
     """
     if not metadata_obj:
@@ -180,7 +185,7 @@ def get_session(
     expire_on_commit: bool = False,
     class_=Session,
 ) -> sessionmaker[Session]:
-    """Factory for creating SQLAlchemy sessions.
+    """Define a factory for creating SQLAlchemy sessions.
 
     Returns a sqlalchemy.orm.sessionmaker Session instance. Import this
     function in scripts that interact with the database, and create a

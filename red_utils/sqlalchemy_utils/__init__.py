@@ -20,15 +20,9 @@ Be sure to import the Base object from this script and run Base.metadata.create_
 as early as possible. For example, import the Base object from this script into main.py,
 create/import an engine, and immediately run the metadata create function.
 """
+from __future__ import annotations
 
 ## Import SQLAlchemy dependencies
-import sqlalchemy as sa
-from sqlalchemy import create_engine, orm as sa_orm
-from sqlalchemy.orm import Session, sessionmaker, scoped_session
-
-## Import constants
-from .constants import valid_db_types
-
 ## Import SQLAlchemy DeclarativeBase object
 from .base import Base
 
@@ -40,12 +34,23 @@ from .connection_models import (
     saSQLiteConnection,
 )
 
+## Import constants
+from .constants import valid_db_types
+
 ## Import custom SQLAlchemy utils
 from .utils import (
-    generate_metadata,
     create_base_metadata,
     debug_metadata_obj,
-    validate_db_type,
+    generate_metadata,
     get_engine,
     get_session,
+    validate_db_type,
 )
+
+import sqlalchemy as sa
+
+from sqlalchemy import (
+    create_engine,
+    orm as sa_orm,
+)
+from sqlalchemy.orm import Session, scoped_session, sessionmaker
