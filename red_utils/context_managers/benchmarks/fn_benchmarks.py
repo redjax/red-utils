@@ -3,7 +3,6 @@ from __future__ import annotations
 from contextlib import asynccontextmanager, contextmanager
 import time
 
-
 @contextmanager
 def benchmark(description: str = "Unnamed function timer") -> None:
     """Time a function call.
