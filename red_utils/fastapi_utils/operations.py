@@ -44,9 +44,7 @@ def fix_api_docs(app: FastAPI = None):
             f"Invalid type for FastAPI app: ({type(app)}). Value must be of type FastAPI."
         )
 
-    @app.get(app.root_path + "/openapi.json")
-    def custom_swagger_ui_html():
-        return app.openapi()
+    @app.get(app.root_path + "/openapi.json", include_in_schema=False)
 
 
 def update_tags_metadata(
