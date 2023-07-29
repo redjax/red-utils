@@ -11,7 +11,6 @@ from .constants import (
 )
 from .operations import (
     check_cache,
-    check_cache_key_exists,
     clear_cache,
     convert_to_seconds,
     delete_val,
@@ -19,6 +18,7 @@ from .operations import (
     get_val,
     manage_cache_tag_index,
     new_cache,
+    search_cache,
     set_expire,
     set_val,
 )

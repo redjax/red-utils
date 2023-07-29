@@ -116,7 +116,7 @@ def clear_cache(cache: Cache = None) -> bool:
         )
 
 
-def check_cache_key_exists(key: str = None, cache: diskcache.core.Cache = None) -> bool:
+def search_cache(key: str = None, cache: diskcache.core.Cache = None) -> bool:
     """Check if a key exists in a cache."""
     ## Key validation
     validate_key(key=key)
@@ -198,7 +198,7 @@ def set_expire(
     validate_cache(cache)
     validate_expire(expire)
 
-    if not check_cache_key_exists(key=key, cache=cache):
+    if not search_cache(key=key, cache=cache):
         return {
             "warning": f"Cache item with key [{key}] does not exist in cache at {cache.directory}/"
         }
@@ -218,7 +218,7 @@ def get_val(key: valid_key_types = None, cache: Cache = None, tags: list[str] = 
     validate_cache(cache)
     validate_tags(tags)
 
-    if check_cache_key_exists(key=key, cache=cache):
+    if search_cache(key=key, cache=cache):
         try:
             with cache as ref:
                 _val = ref.get(key=key)

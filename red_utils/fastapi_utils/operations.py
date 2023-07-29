@@ -23,6 +23,23 @@ import fastapi
 from fastapi import APIRouter, FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
+def fix_api_docs(app: FastAPI):
+    """Fix Not Found /api/v1/openapi.json error when a root_path is set.
+
+    NOTE: This is *only* necessary if you set a root_path in the FastAPI app,
+    i.e. app = FastAPI(root_path="/some/path").
+
+    If a FastAPI app is initialized with root_path=$some_path, the /docs
+    route breaks. Pass the FastAPI app to through this function to fix,
+    i.e.:
+    fix_api_docs(app)
+    """
+
+    @app.get(app.root_path + "/openapi.json")
+    def custom_swagger_ui_html():
+        return app.openapi()
+
+
 def update_tags_metadata(
     tags_metadata: list = tags_metadata,
     update_metadata: Union[list[dict[str, str]], dict[str, str]] = None,
