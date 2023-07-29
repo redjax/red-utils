@@ -23,7 +23,6 @@ import fastapi
 from fastapi import APIRouter, FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-
 def fix_api_docs(app: FastAPI):
     """Fix Not Found /api/v1/openapi.json error when a root_path is set.
 
