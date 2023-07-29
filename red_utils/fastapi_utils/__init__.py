@@ -16,7 +16,13 @@ from .constants import (
     tags_metadata,
 )
 from .dependencies import logging_dependency
-from .operations import add_cors_middleware, add_routers, get_app, update_tags_metadata
+from .operations import (
+    add_cors_middleware,
+    add_routers,
+    get_app,
+    update_tags_metadata,
+    fix_api_docs,
+)
 from .tag_definitions import tags_metadata
 from .uvicorn_override import InterceptHandler, setup_uvicorn_logging
 from .validators import (
