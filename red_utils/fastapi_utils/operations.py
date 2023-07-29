@@ -45,8 +45,6 @@ def fix_api_docs(app: FastAPI = None):
         )
 
     @app.get(app.root_path + "/openapi.json", include_in_schema=False)
-    def custom_swagger_ui_html():
-        return app.openapi()
 
 
 def update_tags_metadata(
