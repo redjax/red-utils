@@ -9,6 +9,7 @@ import diskcache
 
 from diskcache import Cache
 
+
 def validate_key(key: valid_key_types = None, none_ok: bool = False) -> Union[str, int]:
     """Validate input diskcache key.
 

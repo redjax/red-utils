@@ -6,6 +6,7 @@ from .constants import valid_methods
 
 from httpx import AsyncClient, Client
 
+
 def validate_client(
     client: Union[Client, AsyncClient] = None
 ) -> Union[Client, AsyncClient]:
