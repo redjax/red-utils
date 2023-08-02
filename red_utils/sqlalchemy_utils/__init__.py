@@ -55,5 +55,5 @@ from sqlalchemy import (
 )
 from sqlalchemy.orm import Session, scoped_session, sessionmaker
 
-import custom_types
+from . import custom_types
 from .custom_types import CompatibleUUID
