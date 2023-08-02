@@ -30,6 +30,7 @@ import diskcache
 
 from diskcache import Cache
 
+
 def convert_to_seconds(unit: str = None, amount: int = None) -> int:
     ## Allowed strings for conversion
     valid_time_units: list[int] = ["seconds", "hours", "minutes", "days", "weeks"]

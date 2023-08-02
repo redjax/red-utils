@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+
 def validate_dict(_dict: dict[str, str] = None) -> dict[str, str]:
     if not _dict:
         raise ValueError("Missing dict to evaluate")
