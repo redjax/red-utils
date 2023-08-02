@@ -45,50 +45,48 @@ def fix_api_docs(app: FastAPI = None):
         )
 
     @app.get(app.root_path + "/openapi.json", include_in_schema=False)
+    def update_tags_metadata(
+        tags_metadata: list = tags_metadata,
+        update_metadata: Union[list[dict[str, str]], dict[str, str]] = None,
+    ):
+        """Update the global tags_metadata list with new values.
 
+        Import this function in another app, create a new list of tags (or
+        a single tag dict, {"name": ..., "description": ...}), then pass both
+        the imported tags_metadata and the new list/single instance of tag objects.
 
-def update_tags_metadata(
-    tags_metadata: list = tags_metadata,
-    update_metadata: Union[list[dict[str, str]], dict[str, str]] = None,
-):
-    """Update the global tags_metadata list with new values.
+        This funciton will combine them into a new tags_metadata object
+        """
+        if not tags_metadata:
+            raise ValueError("Missing value for tags_metadata")
 
-    Import this function in another app, create a new list of tags (or
-    a single tag dict, {"name": ..., "description": ...}), then pass both
-    the imported tags_metadata and the new list/single instance of tag objects.
+        if not update_metadata:
+            raise ValueError("Missing value for update_metadata")
 
-    This funciton will combine them into a new tags_metadata object
-    """
-    if not tags_metadata:
-        raise ValueError("Missing value for tags_metadata")
+        if isinstance(update_metadata, list):
+            ## List of dicts was passed
 
-    if not update_metadata:
-        raise ValueError("Missing value for update_metadata")
+            # print(f"[DEBUG] Detected list of new tags: {update_metadata}")
 
-    if isinstance(update_metadata, list):
-        ## List of dicts was passed
+            tags_metadata = tags_metadata + update_metadata
 
-        # print(f"[DEBUG] Detected list of new tags: {update_metadata}")
+            return_obj = tags_metadata
 
-        tags_metadata = tags_metadata + update_metadata
+        elif isinstance(update_metadata, dict):
+            ## Single tag dict was passed
 
-        return_obj = tags_metadata
+            # print(f"[DEBUG] Detected single dict for new tag: {update_metadata}")
 
-    elif isinstance(update_metadata, dict):
-        ## Single tag dict was passed
+            tags_metadata.append(update_metadata)
 
-        # print(f"[DEBUG] Detected single dict for new tag: {update_metadata}")
+            return_obj = tags_metadata
 
-        tags_metadata.append(update_metadata)
+        else:
+            raise ValueError(
+                "Type of update_metadata must be one of list[dict[str,str]] or dict[str,str]"
+            )
 
-        return_obj = tags_metadata
-
-    else:
-        raise ValueError(
-            "Type of update_metadata must be one of list[dict[str,str]] or dict[str,str]"
-        )
-
-    return return_obj
+        return return_obj
 
 
 def add_cors_middleware(
