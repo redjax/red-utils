@@ -5,6 +5,7 @@ from pathlib import Path
 
 import sqlalchemy as sa
 
+
 @dataclass
 class saConnectionBase:
     """Base class for SQLAlchemy connection models.

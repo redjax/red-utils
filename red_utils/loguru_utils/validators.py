@@ -17,6 +17,7 @@ from . import (
 
 from loguru import logger
 
+
 def validate_logger(_logger: logger = None, none_ok: bool = False) -> logger:
     """Validate a loguru.Logger object."""
     if none_ok:
