@@ -3,7 +3,8 @@ from __future__ import annotations
 import pkgutil
 
 ## Import modules with only stdlib dependencies directly
-from .context_managers import DictProtect, ListProtect, async_benchmark, benchmark
+from .context_managers import DictProtect, ListProtect, SQLiteConnManager
+from .context_managers import async_benchmark, benchmark
 from .dict_utils import debug_dict, merge_dicts, update_dict, validate_dict
 from .file_utils import crawl_dir, default_json_dir, export_json, ts
 from .hash_utils import get_hash_from_str
@@ -22,6 +23,7 @@ from .uuid_utils import (
     glob_uuid_lens,
     trim_uuid,
 )
+
 
 ## Use pkgutil to only load modules
 #  if dependencies are met
