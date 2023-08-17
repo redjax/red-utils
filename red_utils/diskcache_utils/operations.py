@@ -214,27 +214,40 @@ def set_expire(
         )
 
 
-def get_val(key: valid_key_types = None, cache: Cache = None, tags: list[str] = None):
+def get_val(key: str = None, cache: Cache = None, tags: list[str] = None):
+    """Search for a key in a given cache.
+
+    Pass a diskcache.Cache object for cache, and a key (and optionally a list of tags).
+    Function will search the cache and return a value if found, or a structured
+    error dict describing the lack of key.
+    """
     validate_key(key)
     validate_cache(cache)
     validate_tags(tags)
 
-    if check_cache_key_exists(key=key, cache=cache):
-        try:
-            with cache as ref:
-                _val = ref.get(key=key)
+    try:
+        if check_cache_key_exists(key=key, cache=cache):
+            try:
+                with cache as ref:
+                    _val = ref.get(key=key)
 
-                return _val
+                    return _val
 
-        except Exception as exc:
-            raise Exception(
-                f"Unhandled exception retrieving value of key [{key}]. Details: {exc}"
-            )
+            except Exception as exc:
+                raise Exception(
+                    f"Unhandled exception retrieving value of key [{key}]. Details: {exc}"
+                )
 
-    else:
+        else:
+            return {
+                "error": "Key not found in cache",
+                "details": {"key": key, "cache_dir": cache.directory},
+            }
+
+    except Exception as exc:
         return {
-            "error": "Missing key",
-            "details": {"key": key, "cache_dir": cache.directory},
+            "error": "Error searching for key in cache",
+            "details": {"exception": exc},
         }
 
 
