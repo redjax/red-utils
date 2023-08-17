@@ -22,6 +22,8 @@ create/import an engine, and immediately run the metadata create function.
 """
 from __future__ import annotations
 
+from . import custom_types
+
 ## Import SQLAlchemy dependencies
 ## Import SQLAlchemy DeclarativeBase object
 from .base import Base
@@ -36,6 +38,7 @@ from .connection_models import (
 
 ## Import constants
 from .constants import valid_db_types
+from .custom_types import CompatibleUUID
 
 ## Import custom SQLAlchemy utils
 from .utils import (
@@ -54,6 +57,3 @@ from sqlalchemy import (
     orm as sa_orm,
 )
 from sqlalchemy.orm import Session, scoped_session, sessionmaker
-
-from . import custom_types
-from .custom_types import CompatibleUUID

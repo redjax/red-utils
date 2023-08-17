@@ -23,7 +23,6 @@ import fastapi
 from fastapi import APIRouter, FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-
 def fix_api_docs(app: FastAPI = None):
     """Fix error loading /docs when a root_path is set.
 
