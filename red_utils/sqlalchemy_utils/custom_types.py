@@ -1,5 +1,4 @@
-"""
-Define custom type classes for SQLAlchemy.
+"""Define custom type classes for SQLAlchemy.
 
 - [SQLAlchemy docs: Custom Types](https://docs.sqlalchemy.org/en/20/core/custom_types.html#custom-types)
 
@@ -16,13 +15,15 @@ class SomeModel(Base):
     ## Tell this model to convert uuid.UUID Python types to custom CompatibleUUID class
     type_annotation_map = {uuid.UUID: CompatibleUUID}
 """
+from __future__ import annotations
+
 from typing import Any
 import uuid
-from sqlalchemy import BINARY
-from sqlalchemy.types import TypeDecorator, CHAR
-from sqlalchemy.engine.interfaces import Dialect
-from sqlalchemy.dialects.postgresql import UUID
 
+from sqlalchemy import BINARY
+from sqlalchemy.dialects.postgresql import UUID
+from sqlalchemy.engine.interfaces import Dialect
+from sqlalchemy.types import CHAR, TypeDecorator
 
 class CompatibleUUID(TypeDecorator):
     """Define a custom UUID, overriding SQLAlchemy's UUId type.

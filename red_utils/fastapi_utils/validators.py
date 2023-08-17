@@ -4,7 +4,6 @@ from typing import Optional, Type, Union
 
 from fastapi import APIRouter
 
-
 def is_str(input: str = None) -> str:
     if not input:
         raise ValueError("Missing input to evaluate")

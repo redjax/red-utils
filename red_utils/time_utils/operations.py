@@ -10,7 +10,6 @@ from typing import Union
 
 from .constants import default_format, twelve_hour_format
 
-
 def datetime_as_str(ts: dt = None, format: str = default_format) -> str:
     """Convert a datetime.datetime object to a string.
 

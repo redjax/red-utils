@@ -1,5 +1,4 @@
-"""
-Context manager utilities for interacting with SQLite databases, using
+"""Context manager utilities for interacting with SQLite databases, using
 the stdlib sqlite3 library.
 """
 from __future__ import annotations
@@ -11,14 +10,14 @@ from typing import Union
 
 class SQLiteConnManager:
     """Handle interactions with a SQLite database.
-    
+
     Uses built-in functions to query a database, execute SQL statements,
     and gracefully open/close the DB using context managers.
-    
+
     Usage:
         Provide a path string to the SQLite database:
             sqlite_connection = SQLiteConnManager(path="/path/to/db.sqlite")
-        
+
         Call sqlite3 functions, i.e. "get_tables()":
             tables = sqlite_conn.get_tables()
     """
