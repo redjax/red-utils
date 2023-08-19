@@ -11,6 +11,7 @@ dependencies = [
     "msgpack>=1.0.5",
     "httpx>=0.24.1",
     "sqlalchemy>=2.0.19",
+    "arrow>=1.2.3",
 ]
 requires-python = ">=3.11"
 readme = "README.md"
