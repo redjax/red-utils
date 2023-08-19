@@ -1,7 +1,6 @@
 from __future__ import annotations
 
 import datetime
-import arrow
 
 from datetime import (
     datetime as dt,
@@ -11,6 +10,7 @@ from typing import Union
 
 from .constants import default_format, twelve_hour_format
 
+import arrow
 
 def datetime_as_str(ts: dt = None, format: str = default_format) -> str:
     """Convert a datetime.datetime object to a string.
