@@ -11,7 +11,7 @@ from .context_managers import (
     benchmark,
 )
 from .dict_utils import debug_dict, merge_dicts, update_dict, validate_dict
-from .file_utils import crawl_dir, default_json_dir, export_json, ts
+from .file_utils import crawl_dir, default_json_dir, export_json, ts, list_files
 from .hash_utils import get_hash_from_str
 from .time_utils import (
     datetime_as_dt,
