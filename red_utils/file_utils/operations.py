@@ -9,6 +9,7 @@ from typing import Any, Union
 
 from .constants import default_json_dir, ts
 
+
 def export_json(
     input: Union[str, list[list, dict], dict[str, Any]] = None,
     output_dir: str = default_json_dir,
@@ -132,3 +133,34 @@ def crawl_dir(
     return_obj: dict[str, list[Path]] = {"files": files, "dirs": dirs}
 
     return return_obj
+
+
+def list_files(in_dir: str = None, ext_filter: str = None) -> list[Path]:
+    """Return list of all files in a path, optionally filtering by file extension."""
+    if not in_dir:
+        raise ValueError("Missing input directory to search")
+    if ext_filter is not None:
+        if not ext_filter.startswith("."):
+            ext_filter = f".{ext_filter}"
+
+    if ext_filter:
+        search_str: str = f"**/{ext_filter}"
+    else:
+        search_str: str = "**/*"
+
+    return_files: list[Path] = []
+
+    try:
+        for _p in Path(in_dir).glob(search_str):
+            if _p.is_file():
+                return_files.append(_p)
+    except FileNotFoundError as fnf:
+        raise FileNotFoundError(f"Could not find input path: {in_dir}. Details: {fnf}")
+    except PermissionError as perm:
+        raise PermissionError(f"Could not open path: {in_dir}. Details: {perm}")
+    except Exception as exc:
+        raise Exception(
+            f"Unhandled exception looping input path: {in_dir}. Details: {exc}"
+        )
+
+    return return_files
