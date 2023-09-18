@@ -1,9 +1,17 @@
-from red_utils.utils import file_utils, context_managers, dict_utils, hash_utils
+from red_utils.utils import (
+    file_utils,
+    context_managers,
+    dict_utils,
+    hash_utils,
+    uuid_utils,
+)
 from red_utils import CustomException
 import random
 from pathlib import Path
 
 from time import sleep
+import uuid
+from typing import Union
 
 
 def test_file_utils_list() -> list[Path]:
@@ -125,15 +133,61 @@ def test_hash_utils(string: str = "This is a test string") -> str:
     return _hash
 
 
+def test_uuid_utils():
+    def _first_n(in_uuid: uuid.UUID = uuid.uuid4(), first_n: int = 10) -> dict:
+        print(f"Trimming UUID: {in_uuid} to first {first_n} characters")
+        non_hex: str = uuid_utils.first_n_chars(in_uuid=in_uuid, first_n=first_n)
+        _hex: str = uuid_utils.first_n_chars(
+            in_uuid=in_uuid, first_n=first_n, as_hex=True
+        )
+
+        return {"non-hex": non_hex, "hex": _hex}
+
+    def _gen():
+        non_hex: Union[str, uuid.UUID] = uuid_utils.gen_uuid()
+        _hex: Union[str, uuid.UUID] = uuid_utils.gen_uuid(as_hex=True)
+
+        return {"non-hex": non_hex, "hex": _hex}
+
+    def _rand():
+        _rand: Union[str, uuid.UUID] = uuid_utils.get_rand_uuid()
+        _trim: Union[str, uuid.UUID] = uuid_utils.get_rand_uuid(trim=5)
+        _chars: Union[str, uuid.UUID] = uuid_utils.get_rand_uuid(characters=5)
+        _hex = uuid_utils.get_rand_uuid(as_hex=True)
+
+        return {
+            "random": _rand,
+            "random_trimmed": _trim,
+            "random_5_chars": _chars,
+            "random_hex": _hex,
+        }
+
+    def _trim(in_uuid=uuid_utils.get_rand_uuid(), trim=12):
+        _trimmed = uuid_utils.trim_uuid(in_uuid=in_uuid, trim=trim)
+        _trimmed_hex = uuid_utils.trim_uuid(in_uuid=in_uuid, trim=trim, as_hex=True)
+
+        return {"non-hex": _trimmed, "hex": _trimmed_hex}
+
+    print(_first_n())
+    print(_gen())
+    print(_rand())
+    print(_trim())
+
+
 def main():
-    file_util_test = test_file_utils_list()
-    print(file_util_test)
+    """Main function to control flow of demo.
 
-    test_context_managers()
+    Comment functions you don't want to execute.
+    """
+    # print(test_file_utils_list())
 
-    test_dict_utils()
+    # test_context_managers()
 
-    test_hash_utils()
+    # test_dict_utils()
+
+    # test_hash_utils()
+
+    test_uuid_utils()
 
 
 if __name__ == "__main__":
