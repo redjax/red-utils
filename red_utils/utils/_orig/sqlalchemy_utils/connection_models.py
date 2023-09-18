@@ -5,6 +5,7 @@ from pathlib import Path
 
 import sqlalchemy as sa
 
+
 @dataclass
 class saConnectionBase:
     """Base class for SQLAlchemy connection models.
@@ -102,7 +103,7 @@ class saSQLiteConnection(saConnectionBase):
     """
 
     drivername: str = field(default="sqlite+pysqlite")
-    database: str = field(default="default_unnamed.sqlite")
+    database: str = field(default=".db/default_unnamed.sqlite")
 
     def ensure_path(self) -> None:
         """Ensure path to self.database exists.

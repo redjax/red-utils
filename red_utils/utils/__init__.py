@@ -32,3 +32,6 @@ if pkgutil.find_loader("httpx"):
 
 if pkgutil.find_loader("fastapi"):
     from .extended_utils import fastapi_utils
+
+# if pkgutil.find_loader("sqlalchemy"):
+#     from .extended_utils import sqlalchemy_utils

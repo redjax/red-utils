@@ -10,8 +10,9 @@ dependencies = [
     "loguru>=0.7.0",
     "msgpack>=1.0.5",
     "httpx>=0.24.1",
-    "sqlalchemy>=2.0.19",
     "arrow>=1.2.3",
+    "sqlalchemy>=2.0.20",
+    "uvicorn>=0.23.2",
 ]
 requires-python = ">=3.10"
 readme = "README.md"

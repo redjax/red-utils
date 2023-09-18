@@ -12,15 +12,13 @@ from .constants import valid_db_types
 
 import sqlalchemy as sa
 
-from sqlalchemy import (
-    create_engine,
-    orm as sa_orm,
-)
+from sqlalchemy import create_engine
 
 ## Import SQLAlchemy exceptions
 from sqlalchemy.exc import DBAPIError, OperationalError
 from sqlalchemy.orm import Session, sessionmaker
 from sqlalchemy.schema import CreateTable
+
 
 def debug_metadata_obj(metadata_obj: sa.MetaData = None) -> None:
     """Debug-print a SQLAlchemy MetaData object.

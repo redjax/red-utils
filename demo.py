@@ -8,8 +8,9 @@ from red_utils.utils import (
     msgpack_utils,
     diskcache_utils,
     httpx_utils,
-    fastapi_utils,
+    # sqlalchemy_utils,
 )
+
 from red_utils import CustomException
 import random
 from pathlib import Path
@@ -368,6 +369,16 @@ def test_fastapi_utils():
     return app
 
 
+def test_sqlalchemy_utils():
+    pass
+    # base = sqlalchemy_utils.base.Base()
+    # connection = sqlalchemy_utils.saSQLiteConnection()
+    # print(f"Connection: {connection}")
+    # engine = sqlalchemy_utils.get_engine(connection=connection, echo=True)
+    # SessionLocal = sqlalchemy_utils.get_session(engine=engine)
+    # sqlalchemy_utils.create_base_metadata(base_obj=base, engine=engine)
+
+
 def main():
     """Main function to control flow of demo.
 
@@ -393,6 +404,8 @@ def main():
 
     # fastapi_app = test_fastapi_utils()
     # uvicorn.run(fastapi_app)
+
+    test_sqlalchemy_utils()
 
 
 if __name__ == "__main__":
