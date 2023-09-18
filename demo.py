@@ -14,6 +14,8 @@ if pkgutil.find_loader("fastapi"):
     
     if pkgutil.find_loader("uvicorn"):
         import uvicorn
+if pkgutil.find_loader("sqlalchemy"):
+    from red_utils.utils import sqlalchemy_utils
 
 
 from red_utils import CustomException
@@ -374,13 +376,12 @@ def test_fastapi_utils():
 
 
 def test_sqlalchemy_utils():
-    pass
-    # base = sqlalchemy_utils.base.Base()
-    # connection = sqlalchemy_utils.saSQLiteConnection()
-    # print(f"Connection: {connection}")
-    # engine = sqlalchemy_utils.get_engine(connection=connection, echo=True)
-    # SessionLocal = sqlalchemy_utils.get_session(engine=engine)
-    # sqlalchemy_utils.create_base_metadata(base_obj=base, engine=engine)
+    base = sqlalchemy_utils.Base()
+    connection = sqlalchemy_utils.saSQLiteConnection()
+    print(f"Connection: {connection}")
+    engine = sqlalchemy_utils.get_engine(connection=connection, echo=True)
+    SessionLocal = sqlalchemy_utils.get_session(engine=engine)
+    sqlalchemy_utils.create_base_metadata(base_obj=base, engine=engine)
 
 
 def main():
