@@ -1,9 +1,20 @@
+import pkgutil
+
 from .stdlib_utils import file_utils
 from .stdlib_utils import context_managers
 from .stdlib_utils import dict_utils
 from .stdlib_utils import hash_utils
 from .stdlib_utils import uuid_utils
 from .stdlib_utils import time_utils
+
+## Use pkgutil to only load modules
+#  if dependencies are met
+if pkgutil.find_loader("arrow"):
+    from .extended_utils import arrow_utils
+
+if pkgutil.find_loader("pendulum"):
+    from .extended_utils import pendulum_utils
+
 
 # from __future__ import annotations
 
