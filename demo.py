@@ -1,15 +1,20 @@
-from red_utils.utils import (
-    file_utils,
-    context_managers,
-    dict_utils,
-    hash_utils,
-    uuid_utils,
-    time_utils,
-    msgpack_utils,
-    diskcache_utils,
-    httpx_utils,
-    # sqlalchemy_utils,
-)
+import pkgutil
+
+## stdlib utils
+from red_utils.utils import file_utils, context_managers, dict_utils, hash_utils, uuid_utils, time_utils
+
+if pkgutil.find_loader("msgpack"):
+    from red_utils.utils import msgpack_utils
+if pkgutil.find_loader("diskcache"):
+    from red_utils.utils import diskcache_utils
+if pkgutil.find_loader("httpx"):
+    from red_utils.utils import httpx_utils
+if pkgutil.find_loader("fastapi"):
+    from red_utils.utils import fastapi_utils
+    
+    if pkgutil.find_loader("uvicorn"):
+        import uvicorn
+
 
 from red_utils import CustomException
 import random
@@ -21,7 +26,6 @@ from typing import Union
 
 import json
 
-import uvicorn
 
 
 def test_file_utils_list() -> list[Path]:
