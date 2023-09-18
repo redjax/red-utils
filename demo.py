@@ -7,6 +7,7 @@ from red_utils.utils import (
     time_utils,
     msgpack_utils,
     diskcache_utils,
+    httpx_utils,
 )
 from red_utils import CustomException
 import random
@@ -343,6 +344,20 @@ def test_diskcache_utils():
     return return_obj
 
 
+def test_httpx_utils():
+    default_headers = httpx_utils.default_headers
+
+    test_client = httpx_utils.get_req_client(headers=default_headers)
+
+    res = httpx_utils.make_request(
+        client=test_client, url="https://pokeapi.co/api/v2/pokemon/gengar"
+    )
+
+    return_obj = {"status_code": res.status_code, "reason": res.reason_phrase}
+
+    return return_obj
+
+
 def main():
     """Main function to control flow of demo.
 
@@ -362,7 +377,9 @@ def main():
 
     # print(test_msgpack_utils())
 
-    print(test_diskcache_utils())
+    # print(test_diskcache_utils())
+
+    print(test_httpx_utils())
 
 
 if __name__ == "__main__":

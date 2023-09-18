@@ -26,3 +26,6 @@ if pkgutil.find_loader("msgpack"):
 
 if pkgutil.find_loader("diskcache"):
     from .extended_utils import diskcache_utils
+
+if pkgutil.find_loader("httpx"):
+    from .extended_utils import httpx_utils
