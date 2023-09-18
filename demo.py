@@ -392,29 +392,81 @@ def test_sqlalchemy_utils():
     sqlalchemy_utils.create_base_metadata(base_obj=base, engine=engine)
 
 
-def post_test_cleanup():
-    def delete_test_remnants(delete_dirs: list[str] = [".cache", ".db", ".serialize"]):
+def post_test_cleanup(delete_dirs: list[str] = None, delete_files: list[str] = None):
+    """Cleanup repository after running demo.py.
+
+    Delete files/dirs created by tests.
+    """
+    if delete_dirs is None and delete_files is None:
+        raise ValueError("Must pass at least 1 list, delete_dirs or delete_files.")
+
+    def delete_test_remnants(delete_dirs=delete_dirs, delete_files=delete_files):
         for _d in delete_dirs:
             d_path: Path = Path(_d)
-            
+
             try:
                 if d_path.exists():
+                    print(f"Deleting directory: {str(d_path)}")
                     shutil.rmtree(d_path, ignore_errors=True)
 
             except FileNotFoundError as fnf:
-                print(FileNotFoundError(f"Could not find file {str(d_path)}. Details: {fnf}"))
+                print(
+                    FileNotFoundError(
+                        f"Could not find dir {str(d_path)}. Details: {fnf}"
+                    )
+                )
             except PermissionError as perm:
-                print(PermissionError(f"Insufficient permissions to delete file {str(d_path)}. Details: {perm}"))
+                print(
+                    PermissionError(
+                        f"Insufficient permissions to delete dir {str(d_path)}. Details: {perm}"
+                    )
+                )
             except Exception as exc:
-                print(Exception(f"Unhandled exception deleting file {str(d_path)}. Details: {exc}"))
-                
+                print(
+                    Exception(
+                        f"Unhandled exception deleting dir {str(d_path)}. Details: {exc}"
+                    )
+                )
+
+        for _f in delete_files:
+            f_path: Path = Path(_f)
+
+            try:
+                if f_path.exists():
+                    print(f"Deleting file {str(f_path)}")
+                    f_path.unlink()
+
+            except FileNotFoundError as fnf:
+                print(
+                    FileNotFoundError(
+                        f"Could not find file {str(f_path)}. Details: {fnf}"
+                    )
+                )
+            except PermissionError as perm:
+                print(
+                    PermissionError(
+                        f"Insufficient permissions to delete file {str(f_path)}. Details: {perm}"
+                    )
+                )
+            except Exception as exc:
+                print(
+                    Exception(
+                        f"Unhandled exception deleting file {str(f_path)}. Details: {exc}"
+                    )
+                )
+
     delete_test_remnants()
+
 
 def main():
     """Main function to control flow of demo.
 
     Comment functions you don't want to execute.
     """
+    ## Delete lists for cleanup function
+    cleanup_dirs: list[str] = [".cache", ".db", ".serialize"]
+    cleanup_files: list[str] = ["test.db"]
+
     print(test_file_utils_list())
 
     test_context_managers()
@@ -437,8 +489,8 @@ def main():
     # uvicorn.run(fastapi_app)
 
     test_sqlalchemy_utils()
-    
-    post_test_cleanup()
+
+    post_test_cleanup(delete_files=cleanup_files, delete_dirs=cleanup_dirs)
 
 
 if __name__ == "__main__":
