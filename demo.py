@@ -4,6 +4,7 @@ from red_utils.utils import (
     dict_utils,
     hash_utils,
     uuid_utils,
+    time_utils,
 )
 from red_utils import CustomException
 import random
@@ -174,6 +175,40 @@ def test_uuid_utils():
     print(_trim())
 
 
+def test_time_utils():
+    fmt: str = time_utils.default_format
+    fmt_12: str = time_utils.twelve_hour_format
+
+    def dt_as_dt(ts=time_utils.get_ts(), fmt=fmt):
+        _dt = time_utils.datetime_as_dt(ts=ts, format=fmt)
+
+        return _dt
+
+    def dt_as_str(ts=time_utils.get_ts(), fmt=fmt):
+        _dt = time_utils.datetime_as_str(ts=ts, format=fmt)
+
+        return _dt
+
+    now_unformatted = time_utils.get_ts(format=fmt)
+    now = now_unformatted.strftime(time_utils.default_format)
+    print(f"Timestamp ({type(now_unformatted)}): {now_unformatted}")
+    print(f"Timestamp formatted ({type(now)}): {now}")
+
+    # now_default_dt = dt_as_dt(ts=now)
+    # now_default_dt_12h = dt_as_dt(ts=now, fmt=fmt_12)
+    # now_default_str = dt_as_str(ts=now)
+    # now_default_str_12h = dt_as_str(ts=now, fmt=fmt_12)
+
+    return {
+        "now_unformatted": now_unformatted,
+        "now": now,
+        # "now_dt": now_default_dt,
+        # "now_str": now_default_str,
+        # "now_dt_12h": now_default_dt_12h,
+        # "now_str_12h": now_default_str_12h,
+    }
+
+
 def main():
     """Main function to control flow of demo.
 
@@ -187,7 +222,9 @@ def main():
 
     # test_hash_utils()
 
-    test_uuid_utils()
+    # test_uuid_utils()
+
+    test_time_utils()
 
 
 if __name__ == "__main__":

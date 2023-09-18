@@ -13,7 +13,7 @@ dependencies = [
     "sqlalchemy>=2.0.19",
     "arrow>=1.2.3",
 ]
-requires-python = ">=3.11"
+requires-python = ">=3.10"
 readme = "README.md"
 
 [project.license]
