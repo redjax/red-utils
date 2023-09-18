@@ -7,3 +7,6 @@ if pkgutil.find_loader("arrow"):
 
 if pkgutil.find_loader("pendulum"):
     from . import pendulum_utils
+
+if pkgutil.find_loader("loguru"):
+    from . import loguru_utils

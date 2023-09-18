@@ -15,6 +15,8 @@ if pkgutil.find_loader("arrow"):
 if pkgutil.find_loader("pendulum"):
     from .extended_utils import pendulum_utils
 
+if pkgutil.find_loader("loguru"):
+    from .extended_utils import loguru_utils
 
 # from __future__ import annotations
 
