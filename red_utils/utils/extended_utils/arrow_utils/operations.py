@@ -1,10 +1,13 @@
-import arrow
-from typing import Union
+from __future__ import annotations
+
 import datetime
 
-from .validators import valid_time_periods
-from .constants import default_format, twelve_hour_format
+from typing import Union
 
+from .constants import default_format, twelve_hour_format
+from .validators import valid_time_periods
+
+import arrow
 
 def shift_ts(
     start_date: Union[datetime.datetime, str, arrow.Arrow] = None,
@@ -41,7 +44,6 @@ def shift_ts(
 
         ## start_date = 2022-08-19T00:00:00-04:00
     """
-
     ## Validate inputs
     if not period:
         raise ValueError(

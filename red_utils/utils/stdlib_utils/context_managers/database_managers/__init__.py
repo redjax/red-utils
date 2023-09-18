@@ -1,5 +1,4 @@
 from __future__ import annotations
 
-from .sqlite_managers import SQLiteConnManager
-
 from . import sqlite_managers
+from .sqlite_managers import SQLiteConnManager

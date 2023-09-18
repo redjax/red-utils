@@ -8,7 +8,6 @@ import sqlite3
 
 from typing import Union
 
-
 class SQLiteConnManager:
     """Handle interactions with a SQLite database.
 
@@ -33,7 +32,9 @@ class SQLiteConnManager:
     def __enter__(self):
         """Run when used like 'with SQLiteConnManager() as conn: ..."""
         if not self.path.exists():
-            raise FileNotFoundError(f"Database does not exist at path: {self.path}.")
+            print(FileNotFoundError(f"Database does not exist at path: {self.path}."))
+            with sqlite3.connect(self.path):
+                pass
 
         try:
             self.connection: sqlite3.Connection = sqlite3.connect(self.path)

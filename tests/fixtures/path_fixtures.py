@@ -1,7 +1,10 @@
-from pytest import fixture
+from __future__ import annotations
+
 from pathlib import Path
+
 from red_utils import file_utils
 
+from pytest import fixture
 
 @fixture
 def cwd() -> Path:

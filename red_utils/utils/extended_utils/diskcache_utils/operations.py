@@ -8,7 +8,7 @@ from __future__ import annotations
 from pathlib import Path
 from typing import Optional, Type, Union
 
-from . import (
+from .constants import (
     default_cache_dir,
     default_timeout_dict,
     valid_key_types,
@@ -30,13 +30,11 @@ import diskcache
 
 from diskcache import Cache
 
-
 def convert_to_seconds(amount: int = None, unit: str = None) -> int:
     """Convert an amount of time to seconds.
 
     Args:
-    -----
-
+    ----
         amount (int): Number of <units> to convert. To convert 4 days, amount=4, unit="days"
         unit (str): The starting unit of time to convert to seconds.
             Options: ["seconds", "hours", "minutes", "days", "weeks"]

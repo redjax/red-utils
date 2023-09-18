@@ -1,6 +1,14 @@
 from __future__ import annotations
 
-from . import healthcheck
+from . import (
+    constants,
+    dependencies,
+    healthcheck,
+    operations,
+    tag_definitions,
+    uvicorn_override,
+    validators,
+)
 from .constants import (
     default_allow_credentials,
     default_allowed_headers,
@@ -19,11 +27,3 @@ from .operations import (
     update_tags_metadata,
 )
 from .uvicorn_override import InterceptHandler, setup_uvicorn_logging
-
-from . import constants
-from . import dependencies
-from . import healthcheck
-from . import operations
-from . import tag_definitions
-from . import uvicorn_override
-from . import validators

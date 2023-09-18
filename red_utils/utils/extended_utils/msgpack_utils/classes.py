@@ -1,8 +1,9 @@
+from __future__ import annotations
+
 from dataclasses import dataclass, field
-from typing import Union, ByteString, Any
+from typing import Any, ByteString, Union
 
 from .validators import valid_operations
-
 
 @dataclass
 class SerialFunctionResponseBase:

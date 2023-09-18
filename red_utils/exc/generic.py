@@ -1,7 +1,9 @@
+from __future__ import annotations
+
 from dataclasses import dataclass, field
 from typing import Any
-from .base import CustomExceptionBase
 
+from .base import CustomExceptionBase
 
 @dataclass
 class CustomException(CustomExceptionBase):

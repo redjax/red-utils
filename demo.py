@@ -1,7 +1,17 @@
+from __future__ import annotations
+
 import pkgutil
+import shutil
 
 ## stdlib utils
-from red_utils.utils import file_utils, context_managers, dict_utils, hash_utils, uuid_utils, time_utils
+from red_utils.utils import (
+    context_managers,
+    dict_utils,
+    file_utils,
+    hash_utils,
+    time_utils,
+    uuid_utils,
+)
 
 if pkgutil.find_loader("msgpack"):
     from red_utils.utils import msgpack_utils
@@ -11,24 +21,22 @@ if pkgutil.find_loader("httpx"):
     from red_utils.utils import httpx_utils
 if pkgutil.find_loader("fastapi"):
     from red_utils.utils import fastapi_utils
-    
+
     if pkgutil.find_loader("uvicorn"):
         import uvicorn
 if pkgutil.find_loader("sqlalchemy"):
     from red_utils.utils import sqlalchemy_utils
 
 
-from red_utils import CustomException
-import random
-from pathlib import Path
-
-from time import sleep
-import uuid
-from typing import Union
-
 import json
 
+from pathlib import Path
+import random
+from time import sleep
+from typing import Union
+import uuid
 
+from red_utils import CustomException
 
 def test_file_utils_list() -> list[Path]:
     cwd = Path.cwd()
@@ -384,33 +392,53 @@ def test_sqlalchemy_utils():
     sqlalchemy_utils.create_base_metadata(base_obj=base, engine=engine)
 
 
+def post_test_cleanup():
+    def delete_test_remnants(delete_dirs: list[str] = [".cache", ".db", ".serialize"]):
+        for _d in delete_dirs:
+            d_path: Path = Path(_d)
+            
+            try:
+                if d_path.exists():
+                    shutil.rmtree(d_path, ignore_errors=True)
+
+            except FileNotFoundError as fnf:
+                print(FileNotFoundError(f"Could not find file {str(d_path)}. Details: {fnf}"))
+            except PermissionError as perm:
+                print(PermissionError(f"Insufficient permissions to delete file {str(d_path)}. Details: {perm}"))
+            except Exception as exc:
+                print(Exception(f"Unhandled exception deleting file {str(d_path)}. Details: {exc}"))
+                
+    delete_test_remnants()
+
 def main():
     """Main function to control flow of demo.
 
     Comment functions you don't want to execute.
     """
-    # print(test_file_utils_list())
+    print(test_file_utils_list())
 
-    # test_context_managers()
+    test_context_managers()
 
-    # test_dict_utils()
+    test_dict_utils()
 
-    # test_hash_utils()
+    test_hash_utils()
 
-    # test_uuid_utils()
+    test_uuid_utils()
 
-    # test_time_utils()
+    test_time_utils()
 
-    # print(test_msgpack_utils())
+    print(test_msgpack_utils())
 
-    # print(test_diskcache_utils())
+    print(test_diskcache_utils())
 
-    # print(test_httpx_utils())
+    print(test_httpx_utils())
 
     # fastapi_app = test_fastapi_utils()
     # uvicorn.run(fastapi_app)
 
     test_sqlalchemy_utils()
+    
+    post_test_cleanup()
 
 
 if __name__ == "__main__":

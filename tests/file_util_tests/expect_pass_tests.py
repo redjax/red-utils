@@ -1,16 +1,16 @@
-"""
-Tests designed to pass when run with pytest.
+"""Tests designed to pass when run with pytest.
 
 These tests expect assertions to be True, and will crash pytest if assertions fail.
 """
+from __future__ import annotations
 
-from pytest import mark, xfail
+import datetime
 
 from pathlib import Path
-import datetime
 
 from red_utils import file_utils
 
+from pytest import mark, xfail
 
 @mark.file_utils
 def test_cwd_exists(cwd: Path):

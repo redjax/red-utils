@@ -4,7 +4,6 @@ from __future__ import annotations
 import inspect
 import json
 
-
 class ListProtect:
     """Protect a list during modification by modifying a copy instead of the original.
 

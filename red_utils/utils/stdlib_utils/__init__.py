@@ -1,6 +1,10 @@
-from . import file_utils
-from . import context_managers
-from . import dict_utils
-from . import hash_utils
-from . import uuid_utils
-from . import time_utils
+from __future__ import annotations
+
+from . import (
+    context_managers,
+    dict_utils,
+    file_utils,
+    hash_utils,
+    time_utils,
+    uuid_utils,
+)

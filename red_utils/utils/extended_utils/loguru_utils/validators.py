@@ -7,7 +7,7 @@ then type, then value (if a list of allowed values is passed).
 """
 from __future__ import annotations
 
-from . import (
+from .constants import (
     default_color_fmt,
     default_fmt,
     default_log_dir,

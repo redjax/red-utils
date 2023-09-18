@@ -22,6 +22,8 @@ create/import an engine, and immediately run the metadata create function.
 """
 from __future__ import annotations
 
+from . import base, connection_models, constants, custom_types, utils
+
 ## Import SQLAlchemy dependencies
 from .base import Base
 
@@ -46,9 +48,3 @@ from .utils import (
     get_session,
     validate_db_type,
 )
-
-from . import base
-from . import connection_models
-from . import constants
-from . import custom_types
-from . import utils

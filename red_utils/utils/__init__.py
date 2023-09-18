@@ -1,11 +1,15 @@
+from __future__ import annotations
+
 import pkgutil
 
-from .stdlib_utils import file_utils
-from .stdlib_utils import context_managers
-from .stdlib_utils import dict_utils
-from .stdlib_utils import hash_utils
-from .stdlib_utils import uuid_utils
-from .stdlib_utils import time_utils
+from .stdlib_utils import (
+    context_managers,
+    dict_utils,
+    file_utils,
+    hash_utils,
+    time_utils,
+    uuid_utils,
+)
 
 ## Use pkgutil to only load modules
 #  if dependencies are met

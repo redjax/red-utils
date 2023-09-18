@@ -51,6 +51,9 @@ dev = [
 [tool.pdm.scripts.git-prune-tags]
 cmd = "git fetch --prune origin '+refs/tags/*:refs/tags/*'"
 
+[tool.pdm.scripts.lint]
+shell = "pdm run black . && pdm run ruff check . --fix"
+
 [tool.pdm.scripts.check]
 cmd = "black ."
 

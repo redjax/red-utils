@@ -4,11 +4,10 @@ from pathlib import Path
 from typing import Union
 from uuid import uuid4
 
-from .constants import default_serialize_dir
 from .classes import SerialFunctionResponse
+from .constants import default_serialize_dir
 
 import msgpack
-
 
 def ensure_path(dir: Union[str, Path] = None) -> bool:
     """Ensure a directory path exists.

@@ -1,16 +1,17 @@
-"""
-Tests designed to fail when run with pytest.
+"""Tests designed to fail when run with pytest.
 
 These tests are marked with xfail, and assert conditions that will always fail. Because they are marked xfail,
 these tests will not stop pytest execution.
 """
-from pytest import mark, xfail
+from __future__ import annotations
+
+import datetime
 
 from pathlib import Path
-import datetime
 
 from red_utils import file_utils
 
+from pytest import mark, xfail
 
 ## Tests below are expected to fail and will not raise an exception
 

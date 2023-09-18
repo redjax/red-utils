@@ -4,8 +4,9 @@ import sys
 
 sys.path.append(".")
 
-from . import exc as exc
+from . import (
+    domain,
+    exc as exc,
+    utils,
+)
 from .exc import CustomException
-
-from . import domain
-from . import utils

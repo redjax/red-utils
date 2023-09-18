@@ -1,18 +1,13 @@
-"""
-Parse a Pydantic model so it is usable by SQLAlchemy.
-"""
-
+"""Parse a Pydantic model so it is usable by SQLAlchemy."""
+from __future__ import annotations
 
 def is_pydantic(obj: object):
-    """
-    Checks whether an object is pydantic.
-    """
+    """Checks whether an object is pydantic."""
     return type(obj).__class__.__name__ == "ModelMetaclass"
 
 
 def parse_pydantic_schema(schema):
-    """
-    Iterates through pydantic schema and parses nested schemas
+    """Iterates through pydantic schema and parses nested schemas
     to a dictionary containing SQLAlchemy models.
     Only works if nested schemas have specified the Meta.orm_model.
 

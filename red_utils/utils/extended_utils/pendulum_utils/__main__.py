@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 warning_msg: str = """
 [WARNING]
 This utility was not meant to be run directly.

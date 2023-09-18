@@ -3,7 +3,7 @@ from __future__ import annotations
 from pathlib import Path
 from typing import Optional, Type, Union
 
-from . import valid_key_types, valid_tag_types, valid_val_types
+from .constants import valid_key_types, valid_tag_types, valid_val_types
 
 import diskcache
 
