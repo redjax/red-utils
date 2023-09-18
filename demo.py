@@ -1,4 +1,4 @@
-from red_utils.utils import file_utils, context_managers, dict_utils
+from red_utils.utils import file_utils, context_managers, dict_utils, hash_utils
 from red_utils import CustomException
 import random
 from pathlib import Path
@@ -118,6 +118,13 @@ def test_dict_utils():
     print(f"Validated dict: {_validate()}")
 
 
+def test_hash_utils(string: str = "This is a test string") -> str:
+    _hash: str = hash_utils.get_hash_from_str(input_str=string)
+    print(f"String: {string}\nHash: {_hash}")
+
+    return _hash
+
+
 def main():
     file_util_test = test_file_utils_list()
     print(file_util_test)
@@ -125,6 +132,8 @@ def main():
     test_context_managers()
 
     test_dict_utils()
+
+    test_hash_utils()
 
 
 if __name__ == "__main__":
