@@ -1,4 +1,4 @@
-from . import file_utils
+from .stdlib_utils import file_utils
 
 # from __future__ import annotations
 

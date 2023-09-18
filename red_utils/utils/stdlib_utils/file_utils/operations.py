@@ -51,17 +51,20 @@ def export_json(
 
 
 def crawl_dir(
-    return_type: str = "all",
     in_dir: Union[str, Path] = None,
-    files: list[Path] = None,
-    dirs: list[Path] = None,
+    return_type: str = "all",
+    ext_filter: str | None = None,
+    files: list[Path] | None = None,
+    dirs: list[Path] | None = None,
 ) -> dict[str, list[Path]]:
     """Crawl a directory for sub-directories/files. Continue crawl on new subdirectory.
 
     Parameters
     ----------
-        return_type (str): Return "files", "dirs", or "all"
         in_dir (str | Path): An input directory to start the crawl at.
+        return_type (str): Return "files", "dirs", or "all"
+        ext_filter (str): Set a filetype filter, only return files matching ext
+            (i.e. "csv" or ".csv")
         files (list[Path]): A list of Path objects to append found files to.
         dirs (list[Path]): A list of Path objects to append found dirs to.
 
@@ -85,6 +88,10 @@ def crawl_dir(
             f"Invalid return type: {return_type}. Must be one of {valid_return_types}"
         )
 
+    if ext_filter is not None:
+        if not ext_filter.startswith("."):
+            ext_filter = f".{ext_filter}"
+
     if not in_dir:
         raise ValueError(f"Missing input directory to crawl")
 
@@ -107,8 +114,13 @@ def crawl_dir(
         dirs = []
 
     try:
+        if ext_filter:
+            search_str: str = f"**/*{ext_filter}"
+        else:
+            search_str: str = "**/*"
+
         ## Loop over in_dir
-        for _f in in_dir.iterdir():
+        for _f in in_dir.glob(search_str):
             if _f.is_file():
                 ## Append file to files list, if it does not already exist in the list
                 if _f not in files:
