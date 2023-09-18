@@ -10,3 +10,9 @@ if pkgutil.find_loader("pendulum"):
 
 if pkgutil.find_loader("loguru"):
     from . import loguru_utils
+
+if pkgutil.find_loader("pydantic"):
+    from . import pydantic_utils
+
+if pkgutil.find_loader("msgpack"):
+    from . import msgpack_utils

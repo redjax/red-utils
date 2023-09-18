@@ -18,6 +18,12 @@ if pkgutil.find_loader("pendulum"):
 if pkgutil.find_loader("loguru"):
     from .extended_utils import loguru_utils
 
+if pkgutil.find_loader("pydantic"):
+    from .extended_utils import pydantic_utils
+
+if pkgutil.find_loader("msgpack"):
+    from .extended_utils import msgpack_utils
+
 # from __future__ import annotations
 
 # import pkgutil

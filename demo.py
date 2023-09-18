@@ -5,6 +5,7 @@ from red_utils.utils import (
     hash_utils,
     uuid_utils,
     time_utils,
+    msgpack_utils,
 )
 from red_utils import CustomException
 import random
@@ -13,6 +14,8 @@ from pathlib import Path
 from time import sleep
 import uuid
 from typing import Union
+
+import json
 
 
 def test_file_utils_list() -> list[Path]:
@@ -209,22 +212,90 @@ def test_time_utils():
     }
 
 
+def test_msgpack_utils() -> dict[str, msgpack_utils.SerialFunctionResponse]:
+    msgpack_utils.ensure_path(".serialize")
+
+    test_dict: dict = {
+        "test": 1,
+        "test2": 2,
+        "test3": {"test4": 4, "test5": 5},
+        "test6": ["test7", "test8"],
+        "test9": [
+            {"test10": 10, "test11": 11},
+            {"test12": 12, "test13": ["test14", "test15"]},
+        ],
+    }
+
+    test_json: str = json.dumps(test_dict)
+
+    def _serialize(string: str = test_json) -> msgpack_utils.SerialFunctionResponse:
+        _serial: msgpack_utils.SerialFunctionResponse = msgpack_utils.msgpack_serialize(
+            _json=string
+        )
+
+        return _serial
+
+    def _deserialize(string: bytes = None):
+        _deserial: str = msgpack_utils.msgpack_deserialize(packed_str=string)
+
+        return _deserial
+
+    def _serialize_file(
+        string: str = test_json, file: str = ".serialize/test_serialize.msgpack"
+    ):
+        file_path = Path(file)
+        file_dir = file_path.parent
+        file_name = file_path.name
+
+        _serial = msgpack_utils.msgpack_serialize_file(
+            _json=string, output_dir=file_dir, filename=file_name
+        )
+
+        return _serial
+
+    def _deserialize_file(file: str = None):
+        _deserial = msgpack_utils.msgpack_deserialize_file(filename=file)
+
+        return _deserial
+
+    serial_str = _serialize()
+    # print(f"Serialized ({type(serial_str)}): {serial_str}")
+    deserial_str = _deserialize(string=serial_str.detail)
+    # print(f"Deserialized ({type(deserial_str)}): {deserial_str}")
+
+    serial_file = _serialize_file()
+    # print(f"Serialize to file ({type(serial_file)}): {serial_file}")
+    deserial_file = _deserialize_file(file=serial_file.detail)
+    # print(f"Deserialize from file ({type(deserial_file)}): {deserial_file}")
+
+    return_obj = {
+        "serialized_string": serial_str,
+        "deserialized_str": deserial_str,
+        "serialized_file": serial_file,
+        "deserialized_file": deserial_file,
+    }
+
+    return return_obj
+
+
 def main():
     """Main function to control flow of demo.
 
     Comment functions you don't want to execute.
     """
-    # print(test_file_utils_list())
+    print(test_file_utils_list())
 
-    # test_context_managers()
+    test_context_managers()
 
-    # test_dict_utils()
+    test_dict_utils()
 
-    # test_hash_utils()
+    test_hash_utils()
 
-    # test_uuid_utils()
+    test_uuid_utils()
 
     test_time_utils()
+
+    print(test_msgpack_utils())
 
 
 if __name__ == "__main__":

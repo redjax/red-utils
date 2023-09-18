@@ -4,9 +4,11 @@ from pathlib import Path
 from typing import Union
 from uuid import uuid4
 
-from . import default_serialize_dir
+from .constants import default_serialize_dir
+from .classes import SerialFunctionResponse
 
 import msgpack
+
 
 def ensure_path(dir: Union[str, Path] = None) -> bool:
     """Ensure a directory path exists.
@@ -44,7 +46,9 @@ def ensure_path(dir: Union[str, Path] = None) -> bool:
         return True
 
 
-def msgpack_serialize(_json: dict = None) -> dict[str, Union[bool, str, bytes, None]]:
+def msgpack_serialize(
+    _json: dict = None,
+) -> SerialFunctionResponse:  # -> dict[str, Union[bool, str, bytes, None]]:
     """Serialize a Python dict to a msgpack string.
 
     Return object will be a dict with 2 keys, 'success' and 'detail.'
@@ -58,19 +62,25 @@ def msgpack_serialize(_json: dict = None) -> dict[str, Union[bool, str, bytes, N
     try:
         packed = msgpack.packb(_json)
 
-        print(f"Packed message type ({type(packed)})")
-
-        return_obj = {"success": True, "detail": {"message": packed}}
+        # return_obj = {"success": True, "detail": {"message": packed}}
+        return_obj: SerialFunctionResponse = SerialFunctionResponse(
+            success=True, detail=packed, operation="serialize"
+        )
 
     except Exception as exc:
-        return_obj = {"success": False, "detail": {"message": f"{exc}"}}
+        # return_obj = {"success": False, "detail": {"message": f"{exc}"}}
+        return_obj: SerialFunctionResponse = SerialFunctionResponse(
+            success=False, detail=exc, operation="serialize"
+        )
 
     return return_obj
 
 
 def msgpack_serialize_file(
     _json: dict = None, output_dir: str = default_serialize_dir, filename: str = None
-) -> dict[str, Union[bool, str, dict[str, Union[str, dict]]]]:
+) -> (
+    SerialFunctionResponse
+):  ## dict[str, Union[bool, str, dict[str, Union[str, dict]]]]:
     """Serialize a Python dict to a msgpack file.
 
     Accepts a dict input, with an optional output_dir and filename. Serialize the
@@ -104,20 +114,26 @@ def msgpack_serialize_file(
                 packed = msgpack.packb(_json)
                 outfile.write(packed)
 
-            return_obj = {
-                "success": True,
-                "detail": {"message": f"Data serialized to file {filename}"},
-            }
+            # return_obj = {
+            #     "success": True,
+            #     "detail": {"message": f"Data serialized to file {filename}"},
+            # }
+
+            return_obj = SerialFunctionResponse(success=True, detail=filename)
 
         except Exception as exc:
-            return_obj = {"success": False, "detail": {"message": f"{exc}"}}
+            # return_obj = {"success": False, "detail": {"message": f"{exc}"}}
+
+            return_obj = SerialFunctionResponse(success=False, detail=exc)
 
     return return_obj
 
 
 def msgpack_deserialize_file(
     filename: str = None,
-) -> dict[str, Union[bool, str, dict[str, Union[str, dict]]]]:
+) -> (
+    SerialFunctionResponse
+):  ## dict[str, Union[bool, str, dict[str, Union[str, dict]]]]:
     """Load serialized msgpack string from a file and return.
 
     Return object will be a dict with 2 keys, 'success' and 'detail.'
@@ -144,10 +160,13 @@ def msgpack_deserialize_file(
             },
         }
 
+        return_obj = SerialFunctionResponse(success=True, detail=unpacked)
+
     except Exception as exc:
         # log.error({"exception": "Unhandled exception reading msgpack."}, exc_info=True)
 
-        return_obj = {"success": False, "detail": {"message": f"{exc}"}}
+        # return_obj = {"success": False, "detail": {"message": f"{exc}"}}
+        return_obj = SerialFunctionResponse(success=False, detail=exc)
 
     return return_obj
 
