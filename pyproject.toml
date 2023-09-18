@@ -1,6 +1,6 @@
 [project]
 name = "red_utils"
-version = "0.1.18"
+version = "0.2.0"
 description = "Collection of utility scripts/functions that I use frequently."
 authors = [
     { name = "redjax", email = "none@none.com" },
@@ -44,8 +44,8 @@ dev = [
     "ruff>=0.0.278",
     "pytest>=7.4.0",
     "black>=23.7.0",
-    "pdm-bump>=0.7.1",
     "pre-commit>=3.3.3",
+    "pdm-bump>=0.7.3",
 ]
 
 [tool.pdm.scripts.git-prune-tags]
