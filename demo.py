@@ -1,4 +1,4 @@
-from red_utils.utils import file_utils, context_managers
+from red_utils.utils import file_utils, context_managers, dict_utils
 from red_utils import CustomException
 import random
 from pathlib import Path
@@ -72,23 +72,59 @@ def test_context_managers(limit: int = 5, _sleep: int = 1) -> None:
         with context_managers.SQLiteConnManager(path=db_path) as db:
             db.get_tables()
 
-    # benchmark_test()
+    benchmark_test()
 
-    # protect_list = protected_list_test()
-    # print(f"List after protected copy: {protect_list}")
+    print(f"List after protected copy: {protected_list_test()}")
 
-    # protect_dict = protected_dict_test()
-    # print(f"Dict after protected copy: {protect_dict}")
+    print(f"Dict after protected copy: {protected_dict_test()}")
 
-    # sqlite_manager_test()
-    pass
+    sqlite_manager_test()
+
+
+def test_dict_utils():
+    def _debug(
+        test_dict: dict = {
+            "test": 1,
+            "test2": {"test3": 3},
+            "test4": ["test5", "test6"],
+        }
+    ):
+        dict_utils.debug_dict(in_dict=test_dict)
+
+    def _merge(
+        original: dict = {"one": 1, "two": 2}, update: dict = {"three": 3}
+    ) -> dict:
+        print(f"Original dict: {original}")
+        print(f"Update values: {update}")
+        _merged: dict = dict_utils.merge_dicts(original, update)
+
+        return _merged
+
+    def _update(original: dict = {"one": 1, "two": 2}, update: dict = {"three": 3}):
+        print(f"Original dict: {original}")
+        print(f"Update values: {update}")
+        _updated: dict = dict_utils.update_dict(original, update)
+
+        return _updated
+
+    def _validate(in_dict: dict = {"test": 1}) -> dict:
+        _valid: dict = dict_utils.validate_dict(_dict=in_dict)
+
+        return _valid
+
+    _debug()
+    print(f"Merged dicts: {_merge()}")
+    print(f"Updated dict: {_update()}")
+    print(f"Validated dict: {_validate()}")
 
 
 def main():
-    # file_util_test = test_file_utils_list()
-    # print(file_util_test)
+    file_util_test = test_file_utils_list()
+    print(file_util_test)
 
     test_context_managers()
+
+    test_dict_utils()
 
 
 if __name__ == "__main__":
