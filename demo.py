@@ -8,6 +8,7 @@ from red_utils.utils import (
     msgpack_utils,
     diskcache_utils,
     httpx_utils,
+    fastapi_utils,
 )
 from red_utils import CustomException
 import random
@@ -18,6 +19,8 @@ import uuid
 from typing import Union
 
 import json
+
+import uvicorn
 
 
 def test_file_utils_list() -> list[Path]:
@@ -358,6 +361,13 @@ def test_httpx_utils():
     return return_obj
 
 
+def test_fastapi_utils():
+    app = fastapi_utils.get_app()
+    print(f"App ({type(app)}): {app}")
+
+    return app
+
+
 def main():
     """Main function to control flow of demo.
 
@@ -379,7 +389,10 @@ def main():
 
     # print(test_diskcache_utils())
 
-    print(test_httpx_utils())
+    # print(test_httpx_utils())
+
+    # fastapi_app = test_fastapi_utils()
+    # uvicorn.run(fastapi_app)
 
 
 if __name__ == "__main__":

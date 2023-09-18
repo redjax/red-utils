@@ -29,3 +29,6 @@ if pkgutil.find_loader("diskcache"):
 
 if pkgutil.find_loader("httpx"):
     from .extended_utils import httpx_utils
+
+if pkgutil.find_loader("fastapi"):
+    from .extended_utils import fastapi_utils
