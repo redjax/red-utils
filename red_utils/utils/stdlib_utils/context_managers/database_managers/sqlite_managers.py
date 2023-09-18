@@ -8,6 +8,7 @@ import sqlite3
 
 from typing import Union
 
+
 class SQLiteConnManager:
     """Handle interactions with a SQLite database.
 
@@ -24,16 +25,37 @@ class SQLiteConnManager:
 
     def __init__(self, path: Path):
         """Initialize SQLite connection manager."""
+        if isinstance(path, str):
+            path: Path = Path(path)
+
         self.path = path
 
     def __enter__(self):
         """Run when used like 'with SQLiteConnManager() as conn: ..."""
-        self.connection: sqlite3.Connection = sqlite3.connect(self.path)
-        self.connection.row_factory = sqlite3.Row
-        self.cursor: sqlite3.Cursor = self.connection.cursor()
+        if not self.path.exists():
+            raise FileNotFoundError(f"Database does not exist at path: {self.path}.")
 
-        ## Return self, a configured SQLite client
-        return self
+        try:
+            self.connection: sqlite3.Connection = sqlite3.connect(self.path)
+            self.connection.row_factory = sqlite3.Row
+            self.cursor: sqlite3.Cursor = self.connection.cursor()
+
+            ## Return self, a configured SQLite client
+            return self
+        except FileNotFoundError as fnf:
+            raise FileNotFoundError(
+                f"Database not found at path: {self.path}. Details: {fnf}"
+            )
+        except PermissionError as perm:
+            raise PermissionError(
+                f"Unable to open database at path: {self.path}. Details: {perm}"
+            )
+        except sqlite3.Error as sqlite_exc:
+            raise sqlite3.Error(f"SQLite3 error encountered. Details: {sqlite_exc}")
+        except Exception as exc:
+            raise Exception(
+                f"Unhandled exception connecting to database. Details: ({exc.__class__}) {exc}"
+            )
 
     def __exit__(self, exc_type, exc_val, exc_traceback):
         """Run on exit, success or failure."""

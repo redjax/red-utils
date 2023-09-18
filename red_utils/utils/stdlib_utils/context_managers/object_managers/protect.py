@@ -4,6 +4,7 @@ from __future__ import annotations
 import inspect
 import json
 
+
 class ListProtect:
     """Protect a list during modification by modifying a copy instead of the original.
 
@@ -114,7 +115,7 @@ class DictProtect:
         ## No exception encountered, update original
         #  list and return
         if exc_type is None:
-            self.original[:] = self.clone
+            self.original.update(self.clone)
 
         ## Error encountered, print details
         else:
