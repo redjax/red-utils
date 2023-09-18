@@ -7,13 +7,13 @@ from pathlib import Path
 import time
 from typing import Any, Union
 
-from .constants import default_json_dir, ts
+from .constants import default_json_dir, file_ts
 
 
 def export_json(
     input: Union[str, list[list, dict], dict[str, Any]] = None,
     output_dir: str = default_json_dir,
-    output_filename: str = f"{ts()}_unnamed_json.json",
+    output_filename: str = f"{file_ts()}_unnamed_json.json",
 ):
     if not Path(output_dir).exists():
         Path(output_dir).mkdir(parents=True, exist_ok=True)
@@ -135,7 +135,9 @@ def crawl_dir(
     return return_obj
 
 
-def list_files(in_dir: str = None, ext_filter: str = None) -> list[Path]:
+def list_files(
+    in_dir: str = None, ext_filter: str = None, return_files: list[Path] = []
+) -> list[Path]:
     """Return list of all files in a path, optionally filtering by file extension."""
     if not in_dir:
         raise ValueError("Missing input directory to search")
@@ -144,7 +146,7 @@ def list_files(in_dir: str = None, ext_filter: str = None) -> list[Path]:
             ext_filter = f".{ext_filter}"
 
     if ext_filter:
-        search_str: str = f"**/{ext_filter}"
+        search_str: str = f"**/*{ext_filter}"
     else:
         search_str: str = "**/*"
 
@@ -154,6 +156,11 @@ def list_files(in_dir: str = None, ext_filter: str = None) -> list[Path]:
         for _p in Path(in_dir).glob(search_str):
             if _p.is_file():
                 return_files.append(_p)
+            elif _p.is_dir():
+                list_files(in_dir=_p, ext_filter=ext_filter, return_files=return_files)
+
+        return return_files
+
     except FileNotFoundError as fnf:
         raise FileNotFoundError(f"Could not find input path: {in_dir}. Details: {fnf}")
     except PermissionError as perm:
@@ -162,5 +169,3 @@ def list_files(in_dir: str = None, ext_filter: str = None) -> list[Path]:
         raise Exception(
             f"Unhandled exception looping input path: {in_dir}. Details: {exc}"
         )
-
-    return return_files
