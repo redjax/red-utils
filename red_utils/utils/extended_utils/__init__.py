@@ -16,3 +16,6 @@ if pkgutil.find_loader("pydantic"):
 
 if pkgutil.find_loader("msgpack"):
     from . import msgpack_utils
+
+if pkgutil.find_loader("diskcache"):
+    from . import diskcache_utils

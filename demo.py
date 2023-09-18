@@ -6,6 +6,7 @@ from red_utils.utils import (
     uuid_utils,
     time_utils,
     msgpack_utils,
+    diskcache_utils,
 )
 from red_utils import CustomException
 import random
@@ -278,24 +279,90 @@ def test_msgpack_utils() -> dict[str, msgpack_utils.SerialFunctionResponse]:
     return return_obj
 
 
+def test_diskcache_utils():
+    test_cache = diskcache_utils.new_cache(
+        cache_conf=diskcache_utils.default_cache_conf
+    )
+
+    diskcache_utils.set_val(cache=test_cache, key=1, val="test")
+    read_val = diskcache_utils.get_val(cache=test_cache, key=1)
+    # print(f"Read val ({type(read_val)}): {read_val}")
+
+    cache_check: list = diskcache_utils.check_cache(cache=test_cache)
+
+    key_exists: bool = diskcache_utils.check_cache_key_exists(cache=test_cache, key=1)
+
+    cache_size: dict = diskcache_utils.get_cache_size(cache=test_cache)
+
+    convert_2m_to_s = diskcache_utils.convert_to_seconds(amount=2, unit="minutes")
+
+    _del: str = diskcache_utils.delete_val(cache=test_cache, key=1)
+
+    init_cache_check_after_del = diskcache_utils.check_cache_key_exists(
+        cache=test_cache, key=1
+    )
+
+    create_after_del = diskcache_utils.set_val(
+        cache=test_cache, key=1, val="test_after_delete"
+    )
+
+    check_after_del_recreate: bool = diskcache_utils.check_cache_key_exists(
+        cache=test_cache, key=1
+    )
+
+    clear_cache: bool = diskcache_utils.clear_cache(cache=test_cache)
+
+    check_after_clear: bool = diskcache_utils.check_cache_key_exists(
+        cache=test_cache, key=1
+    )
+
+    create_after_clear = diskcache_utils.set_val(
+        cache=test_cache, key=1, val="test_after_clear"
+    )
+    cache_check_after_clear = diskcache_utils.check_cache_key_exists(
+        cache=test_cache, key=1
+    )
+
+    return_obj = {
+        "cache": test_cache,
+        "cache_check": cache_check,
+        "initial_read": read_val,
+        "initial_exist": key_exists,
+        "initial_cache_size": cache_size,
+        "converted_2m_to_2s": convert_2m_to_s,
+        "del_1": _del,
+        "check_after_del_1": init_cache_check_after_del,
+        "check_after_del_2": check_after_del_recreate,
+        "create_after_del": create_after_del,
+        "clear_cache": clear_cache,
+        "check_after_clear_1": check_after_clear,
+        "create_after_clear": create_after_clear,
+        "check_after_clear_2": cache_check_after_clear,
+    }
+
+    return return_obj
+
+
 def main():
     """Main function to control flow of demo.
 
     Comment functions you don't want to execute.
     """
-    print(test_file_utils_list())
+    # print(test_file_utils_list())
 
-    test_context_managers()
+    # test_context_managers()
 
-    test_dict_utils()
+    # test_dict_utils()
 
-    test_hash_utils()
+    # test_hash_utils()
 
-    test_uuid_utils()
+    # test_uuid_utils()
 
-    test_time_utils()
+    # test_time_utils()
 
-    print(test_msgpack_utils())
+    # print(test_msgpack_utils())
+
+    print(test_diskcache_utils())
 
 
 if __name__ == "__main__":

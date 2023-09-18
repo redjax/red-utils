@@ -30,7 +30,17 @@ import diskcache
 
 from diskcache import Cache
 
-def convert_to_seconds(unit: str = None, amount: int = None) -> int:
+
+def convert_to_seconds(amount: int = None, unit: str = None) -> int:
+    """Convert an amount of time to seconds.
+
+    Args:
+    -----
+
+        amount (int): Number of <units> to convert. To convert 4 days, amount=4, unit="days"
+        unit (str): The starting unit of time to convert to seconds.
+            Options: ["seconds", "hours", "minutes", "days", "weeks"]
+    """
     ## Allowed strings for conversion
     valid_time_units: list[int] = ["seconds", "hours", "minutes", "days", "weeks"]
 
@@ -116,7 +126,7 @@ def clear_cache(cache: Cache = None) -> bool:
         )
 
 
-def check_cache_key_exists(key: str = None, cache: diskcache.core.Cache = None) -> bool:
+def check_cache_key_exists(cache: diskcache.core.Cache = None, key: str = None) -> bool:
     """Check if a key exists in a cache."""
     ## Key validation
     validate_key(key=key)
@@ -129,7 +139,7 @@ def check_cache_key_exists(key: str = None, cache: diskcache.core.Cache = None) 
         return False
 
 
-def manage_cache_tag_index(operation: str = "create", cache: Cache = None) -> None:
+def manage_cache_tag_index(cache: Cache = None, operation: str = "create") -> None:
     valid_operations: list[str] = ["create", "delete"]
 
     validate_cache(cache=cache)
@@ -161,13 +171,13 @@ def manage_cache_tag_index(operation: str = "create", cache: Cache = None) -> No
 
 
 def set_val(
+    cache: Cache = None,
     key: valid_key_types = None,
     val: valid_val_types = None,
     expire: int = None,
     read: bool = False,
     tag: str = None,
     retry: bool = False,
-    cache: Cache = None,
 ) -> None:
     """Set a key value pair in the cache.
 
@@ -192,7 +202,7 @@ def set_val(
 
 
 def set_expire(
-    key: str = None, cache: Cache = None, expire: int = None
+    cache: Cache = None, key: str = None, expire: int = None
 ) -> Union[dict[str, str], None]:
     validate_key(key)
     validate_cache(cache)
@@ -213,7 +223,7 @@ def set_expire(
         )
 
 
-def get_val(key: str = None, cache: Cache = None, tags: list[str] = None):
+def get_val(cache: Cache = None, key: str = None, tags: list[str] = None):
     """Search for a key in a given cache.
 
     Pass a diskcache.Cache object for cache, and a key (and optionally a list of tags).
@@ -251,7 +261,7 @@ def get_val(key: str = None, cache: Cache = None, tags: list[str] = None):
 
 
 def delete_val(
-    key: valid_key_types = None, cache: Cache = None, tag: str = None
+    cache: Cache = None, key: valid_key_types = None, tag: str = None
 ) -> tuple:
     validate_key(key)
     validate_cache(cache)
