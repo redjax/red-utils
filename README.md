@@ -1,6 +1,14 @@
 # red-utils
 
-**Important**: This is my first Python package. I'm experimenting with CI/CD and Pypi. This library is most likely not useful to anyone else.
+⚠️**Important**⚠️: This is my first Python package. I'm experimenting with CI/CD and Pypi. This library is most likely not useful to anyone else, may be broken at times, may undergo refactors with little to no notice/documentation, and all that other awful stuff that comes with being an amateur developer doing this in their free time 🙃
+
+# Table of Contents
+
+- [Description](#description)
+- [Installation](#installation)
+  - [Installation Dependency Groups](#dependency-groups)
+- [Modules](#modules)
+- [Development](#development)
 
 # Description
 
@@ -9,7 +17,43 @@
 
 A collection of utility scripts/functions that I use frequently. Includes helper functions/default variables for libraries like `loguru`, `diskcache`, and `msgpack`.
 
+
+
 # Installation
+
+This project uses dependencies groups, meaning it can be installed with `pip install red-utils` for the base package, or with dependency groups like `pip install red-utils[all]` (to install all packages with a corresponding red-util module), `pip install red-utils[http]` (to install some helpful packages for HTTP requests, i.e. `httpx` and `diskcache`), and more.
+
+## Dependency groups:
+
+*Note*: I will do my best to update this, but to get an accurate view of available dependency groups and the packages that will be installed, check the [`pyproject.toml`](./pyproject.toml) file. Look for the dependency lists, i.e. `dependencies = [` (the base set of dependencies), `all = [`, `http = [`, etc.
+
+`[all]`
+
+- `diskcache`
+- `fastapi`
+- `uvicorn[standard]`
+- `loguru`
+- `httpx`
+- `msgpack`
+- `pendulum`
+
+`[fastapi]`
+
+- `fastapi`
+- `sqlalchemy`
+- `loguru`
+- `httpx`
+- `msgpack`
+- `uvicorn`
+- `pendulum`
+
+`[http]`
+
+- `httpx`
+- `diskcache`
+- `loguru`
+- `pendulum`
+- `msgpack`
 
 ## Pip
 
@@ -20,6 +64,10 @@ A collection of utility scripts/functions that I use frequently. Includes helper
 `pdm add red-utils`
 
 # Modules
+
+*note*: The list below is most likely not complete or up todate. I update it as I think about it, but add new modules & refactor more frequently than I remember to update this section, and I haven't started learning any fancy auto-documentation libraries.
+
+For a complete overview of available modules and their functions, check [`red_utils/std`](./red_utils/std) (utilities with no dependencies, to enhance the stdlib, i.e. `dict_utils` and `path_utils`) and [`red_utils/ext`](./red_utils/ext) (utilities that extend a 3rd party module, i.e. `httpx_utils`, `sqlalchemy_utils`, etc).
 
 ## dict_utils
 
