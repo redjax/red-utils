@@ -1,9 +1,11 @@
-import rich
-from rich.console import Console
-import time
+from __future__ import annotations
 
 from contextlib import contextmanager
+import time
 
+import rich
+
+from rich.console import Console
 
 @contextmanager
 def SimpleSpinner(message: str = "Loading..."):
