@@ -30,3 +30,6 @@ if pkgutil.find_loader("fastapi"):
 
 if pkgutil.find_loader("sqlalchemy"):
     from . import sqlalchemy_utils
+
+if pkgutil.find_loader("rich"):
+    from . import context_managers
