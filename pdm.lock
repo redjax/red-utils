@@ -6,7 +6,7 @@ groups = ["default", "dev", "all", "fastapi", "http"]
 cross_platform = true
 static_urls = false
 lock_version = "4.3"
-content_hash = "sha256:7f9c800ca036868fdcada2f58e99350871a54910e42289a323054a56439bae23"
+content_hash = "sha256:7d55870ff3fb20af5882177e5d5050db22af3481b3e53d1d190e7cf666bd0851"
 
 [[package]]
 name = "annotated-types"

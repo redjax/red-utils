@@ -4,7 +4,7 @@ import pkgutil
 import shutil
 
 ## stdlib utils
-from red_utils.utils import (
+from red_utils.std import (
     context_managers,
     dict_utils,
     file_utils,
@@ -13,21 +13,23 @@ from red_utils.utils import (
     uuid_utils,
 )
 
+from red_utils.ext.context_managers import cli_spinners
+
 if pkgutil.find_loader("msgpack"):
-    from red_utils.utils import msgpack_utils
+    from red_utils.ext import msgpack_utils
 if pkgutil.find_loader("diskcache"):
-    from red_utils.utils import diskcache_utils
+    from red_utils.ext import diskcache_utils
 if pkgutil.find_loader("httpx"):
-    from red_utils.utils import httpx_utils
+    from red_utils.ext import httpx_utils
 if pkgutil.find_loader("fastapi"):
-    from red_utils.utils import fastapi_utils
+    from red_utils.ext import fastapi_utils
 
     if pkgutil.find_loader("uvicorn"):
         import uvicorn
 if pkgutil.find_loader("sqlalchemy"):
-    from red_utils.utils import sqlalchemy_utils
+    from red_utils.ext import sqlalchemy_utils
 
-
+import time
 import json
 
 from pathlib import Path
@@ -37,6 +39,8 @@ from typing import Union
 import uuid
 
 from red_utils import CustomException
+from red_utils.ext.context_managers import cli_spinners
+
 
 def test_file_utils_list() -> list[Path]:
     cwd = Path.cwd()
@@ -75,10 +79,12 @@ def test_context_managers(limit: int = 5, _sleep: int = 1) -> None:
             current_count: int = 0
 
             while current_count < limit:
-                print(f"Count: {current_count}")
+                # print(f"Count: {current_count}")
                 current_count += 1
 
                 sleep(_sleep)
+
+                return
 
     def protected_list_test(
         original_list: list[str] = ["item1", "item2", "item3"]
@@ -104,7 +110,8 @@ def test_context_managers(limit: int = 5, _sleep: int = 1) -> None:
         with context_managers.SQLiteConnManager(path=db_path) as db:
             db.get_tables()
 
-    benchmark_test()
+    with cli_spinners.SimpleSpinner(message="Running benchmark test"):
+        benchmark_test()
 
     print(f"List after protected copy: {protected_list_test()}")
 
@@ -490,7 +497,9 @@ def main():
 
     test_sqlalchemy_utils()
 
-    post_test_cleanup(delete_files=cleanup_files, delete_dirs=cleanup_dirs)
+    with cli_spinners.SimpleSpinner("Cleaning up..."):
+        post_test_cleanup(delete_files=cleanup_files, delete_dirs=cleanup_dirs)
+        time.sleep(0.5)
 
 
 if __name__ == "__main__":
