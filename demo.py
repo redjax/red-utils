@@ -3,6 +3,8 @@ from __future__ import annotations
 import pkgutil
 import shutil
 
+from red_utils.ext.context_managers import cli_spinners
+
 ## stdlib utils
 from red_utils.std import (
     context_managers,
@@ -12,8 +14,6 @@ from red_utils.std import (
     time_utils,
     uuid_utils,
 )
-
-from red_utils.ext.context_managers import cli_spinners
 
 if pkgutil.find_loader("msgpack"):
     from red_utils.ext import msgpack_utils
@@ -29,18 +29,17 @@ if pkgutil.find_loader("fastapi"):
 if pkgutil.find_loader("sqlalchemy"):
     from red_utils.ext import sqlalchemy_utils
 
-import time
 import json
 
 from pathlib import Path
 import random
+import time
 from time import sleep
 from typing import Union
 import uuid
 
 from red_utils import CustomException
 from red_utils.ext.context_managers import cli_spinners
-
 
 def test_file_utils_list() -> list[Path]:
     cwd = Path.cwd()
