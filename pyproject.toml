@@ -1,6 +1,6 @@
 [project]
 name = "red_utils"
-version = "0.2.5"
+version = "0.2.6"
 description = "Collection of utility scripts/functions that I use frequently."
 authors = [
     { name = "redjax", email = "none@none.com" },
@@ -25,7 +25,6 @@ text = "MIT"
 Repository = "https://github.com/redjax/red-utils"
 
 [project.optional-dependencies]
-
 standard = [
     "diskcache>=5.6.1",
     "loguru>=0.7.0",
@@ -35,7 +34,6 @@ standard = [
     "msgpack>=1.0.5",
     "sqlalchemy>=2.0.21",
 ]
-
 all = [
     "diskcache>=5.6.1",
     "fastapi>=0.100.0",
@@ -46,7 +44,6 @@ all = [
     "pendulum>=2.1.2",
     "sqlalchemy>=2.0.21",
 ]
-
 fastapi = [
     "fastapi>=0.103.1",
     "sqlalchemy>=2.0.21",
@@ -56,7 +53,6 @@ fastapi = [
     "uvicorn>=0.23.2",
     "pendulum>=2.1.2",
 ]
-
 http = [
     "httpx>=0.25.0",
     "diskcache>=5.6.3",
