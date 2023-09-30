@@ -12,7 +12,6 @@ dependencies = [
     "msgpack>=1.0.5",
     "httpx>=0.24.1",
     "arrow>=1.2.3",
-    "sqlalchemy>=2.0.20",
     "pendulum>=2.1.2",
     "rich>=13.5.3",
 ]
@@ -26,6 +25,17 @@ text = "MIT"
 Repository = "https://github.com/redjax/red-utils"
 
 [project.optional-dependencies]
+
+standard = [
+    "diskcache>=5.6.1",
+    "loguru>=0.7.0",
+    "httpx>=0.24.1",
+    "pendulum>=2.1.2",
+    "rich>=13.5.3",
+    "msgpack>=1.0.5",
+    "sqlalchemy>=2.0.21",
+]
+
 all = [
     "diskcache>=5.6.1",
     "fastapi>=0.100.0",
@@ -34,7 +44,9 @@ all = [
     "httpx>=0.24.1",
     "msgpack>=1.0.5",
     "pendulum>=2.1.2",
+    "sqlalchemy>=2.0.21",
 ]
+
 fastapi = [
     "fastapi>=0.103.1",
     "sqlalchemy>=2.0.21",
@@ -44,12 +56,14 @@ fastapi = [
     "uvicorn>=0.23.2",
     "pendulum>=2.1.2",
 ]
+
 http = [
     "httpx>=0.25.0",
     "diskcache>=5.6.3",
     "loguru>=0.7.2",
     "pendulum>=2.1.2",
     "msgpack>=1.0.5",
+    "pendulum>=2.1.2",
 ]
 
 [tool.pdm.dev-dependencies]
