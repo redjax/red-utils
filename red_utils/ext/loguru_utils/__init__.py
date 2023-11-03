@@ -1,7 +1,7 @@
 ## Import default constants
 from __future__ import annotations
 
-from . import constants, operations, sinks, validators
+from . import constants, operations, sinks, validators, enums
 from .constants import (
     LogLevel,
     default_color_fmt,
@@ -13,6 +13,14 @@ from .constants import (
 )
 from .operations import add_sink, init_logger
 from .sinks import (
+    LoguruSinkDefault,
+    LoguruSinkStdErr,
+    LoguruSinkStdOut,
+    LoguruSinkAppFile,
+    LoguruSinkErrFile,
+    LoguruSinkTraceFile,
+)
+from .sinks import (
     default_app_log_file_sink,
     default_error_log_file_sink,
     default_sinks,
@@ -23,3 +31,4 @@ from .sinks import (
     default_trace_log_file_sink,
 )
 from .validators import validate_compression_str, validate_level, validate_logger
+from .enums import EnumDefaultSinks, EnumLogLevels
