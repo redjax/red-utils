@@ -16,6 +16,7 @@ from .sinks import (
     LoguruSinkDefault,
     LoguruSinkStdErr,
     LoguruSinkStdOut,
+    LoguruSinkFileDefault,
     LoguruSinkAppFile,
     LoguruSinkErrFile,
     LoguruSinkTraceFile,
