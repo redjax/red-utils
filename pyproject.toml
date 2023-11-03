@@ -102,4 +102,4 @@ shell = "pdm bump micro && pdm bump tag && pdm lock && pdm build && git push --t
 shell = "pdm lock && pdm publish --repository pypi --verbose"
 
 [tool.pdm.scripts.upload-pypi-test]
-shell = "pdm lock && pdm publish --repository test-pypi --verbose"
+shell = "pdm lock && pdm publish --repository testpypi --verbose"
