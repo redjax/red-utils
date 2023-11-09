@@ -7,4 +7,5 @@ from . import (
     hash_utils,
     time_utils,
     uuid_utils,
+    dataclass_mixins,
 )

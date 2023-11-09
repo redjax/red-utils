@@ -134,6 +134,7 @@ class LoguruSinkTraceFile(LoguruSinkFileBase):
     diagnose: bool = field(default=True)
 
 
+"""
 ## stderr, no color
 default_stderr_sink: dict = {
     "sink": sys.stderr,
@@ -209,3 +210,4 @@ default_sinks: list[dict] = [
     default_error_log_file_sink,
     default_trace_log_file_sink,
 ]
+"""
