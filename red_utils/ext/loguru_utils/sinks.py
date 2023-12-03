@@ -7,37 +7,7 @@ from .constants import default_color_fmt, default_fmt, default_log_dir
 from typing import TextIO, Union, Generic, TypeVar
 from dataclasses import dataclass, field
 
-## Generic type for dataclass classes
-T = TypeVar("T")
-
-
-@dataclass
-class DictMixin:
-    """Mixin class to add "as_dict()" method to classes. Equivalent to .__dict__.
-
-    Add a .as_dict() method to classes that inherit from this mixin. For example,
-    to add .as_dict() method to a parent class, where all children inherit the .as_dict()
-    function, declare parent as:
-
-    @dataclass
-    class Parent(DictMixin):
-        ...
-
-    and call like:
-
-        p = Parent()
-        p_dict = p.as_dict()
-    """
-
-    def as_dict(self: Generic[T]):
-        """Return dict representation of a dataclass instance."""
-        try:
-            return self.__dict__.copy()
-
-        except Exception as exc:
-            raise Exception(
-                f"Unhandled exception converting class instance to dict. Details: {exc}"
-            )
+from red_utils.core.dataclass_utils import DictMixin
 
 
 @dataclass
@@ -45,6 +15,18 @@ class LoguruSinkBase(DictMixin):
     """Base Loguru sink class.
 
     Define common options for children to inherit from.
+
+    Params:
+    -------
+    - sink (str|TextIO): A Loguru sink.
+        - [Loguru Docs: sinks](https://loguru.readthedocs.io/en/stable/api/logger.html#sink)
+        - Can be a string (i.e. "app.log" for a file at ./app.log) or a Python callable (i.e. sys.stdout)
+    - format (str): A string describing the format for the Loguru logger.
+        - [Loguru Docs: time formatting](https://loguru.readthedocs.io/en/stable/api/logger.html#time)
+        - [Loguru Docs: color markup formatting](https://loguru.readthedocs.io/en/stable/api/logger.html#color)
+    - level (str): A severity level string for the logger. Controls which messages will be outputted. Value will be forced uppercase.
+        - [Loguru Docs: Severity levels](https://loguru.readthedocs.io/en/stable/api/logger.html#levels)
+    - colorize (bool): Control whether logger outputs are colorized.
     """
 
     sink: Union[str, TextIO] = field(default=sys.stdout)
@@ -71,12 +53,16 @@ class LoguruSinkDefault(LoguruSinkBase):
 
 @dataclass
 class LoguruSinkStdOut(LoguruSinkBase, DictMixin):
+    """Console STDOUT sink."""
+
     format: str = field(default=default_color_fmt)
     colorize: bool = field(default=True)
 
 
 @dataclass
 class LoguruSinkStdErr(LoguruSinkBase):
+    """Console STDERR sink."""
+
     sink: Union[str, TextIO] = field(default=sys.stderr)
     format: str = field(default=default_color_fmt)
     colorize: bool = field(default=True)
@@ -135,77 +121,82 @@ class LoguruSinkTraceFile(LoguruSinkFileBase):
 
 
 ## stderr, no color
-default_stderr_sink: dict = {
-    "sink": sys.stderr,
-    "colorize": False,
-    "format": default_fmt,
-    "level": "DEBUG",
-}
+default_stderr_sink: LoguruSinkStdErr = LoguruSinkStdErr().as_dict()
 
 ## stderr, colorized
-default_stderr_color_sink: dict = {
-    "sink": sys.stderr,
-    "colorize": True,
-    "format": default_color_fmt,
-    "level": "DEBUG",
-}
+default_stderr_no_color_sink: LoguruSinkStdErr = LoguruSinkStdErr(
+    colorize=False
+).as_dict()
 
 ## stdout, no color
-default_stdout_sink: dict = {
-    "sink": sys.stdout,
-    "colorize": False,
-    "format": default_fmt,
-    "level": "DEBUG",
-}
+default_stdout_sink: LoguruSinkStdOut = LoguruSinkStdOut().as_dict()
 
 ## stdout, colorized
-default_stdout_color_sink: dict = {
-    "sink": sys.stdout,
-    "colorize": True,
-    "format": default_color_fmt,
-    "level": "DEBUG",
-}
+default_stdout_no_color_sink: LoguruSinkStdOut = LoguruSinkStdOut(
+    colorize=False
+).as_dict()
 
 ## logs/app.log file
-default_app_log_file_sink: dict = {
-    "sink": f"{default_log_dir}/app.log",
-    "colorize": True,
-    "retention": 3,
-    "rotation": "5 MB",
-    "format": default_fmt,
-    "level": "DEBUG",
-    "enqueue": True,
-}
+default_app_log_file_sink: LoguruSinkAppFile = LoguruSinkAppFile().as_dict()
 
 ## logs/error.log file
-default_error_log_file_sink: dict = {
-    "sink": f"{default_log_dir}/error.log",
-    "colorize": True,
-    "retention": 3,
-    "rotation": "5 MB",
-    "format": default_fmt,
-    "level": "ERROR",
-    "enqueue": True,
-}
+default_error_log_file_sink: LoguruSinkErrFile = LoguruSinkErrFile().as_dict()
 
 ## logs/trace.log file
-default_trace_log_file_sink: dict = {
-    "sink": f"{default_log_dir}/trace.log",
-    "colorize": True,
-    "retention": 3,
-    "rotation": "5MB",
-    "format": default_fmt,
-    "level": "TRACE",
-    "filter": "TRACE",
-    "backtrace": True,
-    "diagnose": True,
-    "enqueue": True,
-}
+default_trace_log_file_sink: LoguruSinkTraceFile = LoguruSinkTraceFile().as_dict()
 
 
-default_sinks: list[dict] = [
-    default_stderr_color_sink,
-    default_app_log_file_sink,
-    default_error_log_file_sink,
-    default_trace_log_file_sink,
-]
+class DefaultSinks(LoguruSinkBase):
+    """Return initialized defaults for Loguru sink classes.
+
+    Access initialized sinks as class parameters. For example, to get an STDOUT logger,
+    initialized with the default LoguruSinkStdOut settings, do:
+        DefaultSinks().stdout
+
+    To get a list of initialized default sinks (an app.log, err.log, and STDOUT logger), choose
+    from .color (for loggers initialized with colorize; excludes file loggers), or .nocolor (no colorize initialized).
+    """
+
+    stdout: LoguruSinkStdOut | None = default_stdout_sink
+    stderr: LoguruSinkStdErr | None = default_stderr_sink
+    log_file: LoguruSinkAppFile | None = default_app_log_file_sink
+    error_log_file: LoguruSinkErrFile | None = default_error_log_file_sink
+    trace_log_file: LoguruSinkTraceFile | None = default_trace_log_file_sink
+
+    @property
+    def color(
+        self,
+    ) -> list[dict]:
+        """List of initialized Loguru loggers.
+
+        Relevant classes are initialized with colorize=True.
+        """
+        sink_list = [
+            self.stdout,
+            self.log_file,
+            self.error_log_file,
+            self.trace_log_file,
+        ]
+
+        return sink_list
+
+    @property
+    def no_color(
+        self,
+    ) -> list[dict]:
+        """List of initialized Loguru loggers.
+
+        Relevant classes are initialized with colorize=False.
+        """
+        sink_list = [
+            default_stdout_no_color_sink,
+            self.log_file,
+            self.error_log_file,
+            self.trace_log_file,
+        ]
+
+        return sink_list
+
+
+default_sinks: list[dict] = DefaultSinks().color
+default_sinks_no_color: list[dict] = DefaultSinks().no_color

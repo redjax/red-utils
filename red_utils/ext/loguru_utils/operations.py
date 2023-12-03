@@ -10,17 +10,19 @@ from typing import Callable, Coroutine, Union
 
 from .constants import default_color_fmt, default_fmt
 from .sinks import (
+    default_sinks,
+    default_stderr_sink,
+    default_stderr_no_color_sink,
+    default_stdout_sink,
+    default_stdout_no_color_sink,
     default_app_log_file_sink,
     default_error_log_file_sink,
-    default_stderr_color_sink,
-    default_stderr_sink,
-    default_stdout_color_sink,
-    default_stdout_sink,
     default_trace_log_file_sink,
 )
 from .validators import validate_compression_str, validate_level, validate_logger
 
 from loguru import logger
+
 
 def add_sink(
     _logger: logger = None,
@@ -81,7 +83,7 @@ def add_sink(
 
 def init_logger(
     sinks: list[dict] = [
-        default_stderr_color_sink,
+        default_stderr_sink,
         default_app_log_file_sink,
         default_error_log_file_sink,
         default_trace_log_file_sink,
