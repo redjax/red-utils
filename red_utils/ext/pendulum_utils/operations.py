@@ -1,15 +1,16 @@
+from __future__ import annotations
+
 from typing import Union
 
 from .constants import (
     default_format,
-    twelve_hour_format,
     default_tz,
     safe_str_replace_map,
+    twelve_hour_format,
 )
 from .validators import valid_time_periods
 
 import pendulum
-
 
 def get_ts(
     tz: str = default_tz,

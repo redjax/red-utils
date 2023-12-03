@@ -1,5 +1,8 @@
-from red_utils.ext.diskcache_utils import CacheInstance
+from __future__ import annotations
+
 import time
+
+from red_utils.ext.diskcache_utils import CacheInstance
 
 if __name__ == "__main__":
     test_cache = CacheInstance(cache_dir="./test/cache")

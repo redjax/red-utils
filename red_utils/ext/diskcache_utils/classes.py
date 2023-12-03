@@ -1,37 +1,38 @@
-from pathlib import Path
+from __future__ import annotations
 
 from dataclasses import dataclass, field
-from typing import Union, Any
+from pathlib import Path
+from typing import Any, Union
+
+from red_utils.std.dataclass_mixins import DictMixin
 
 from .constants import default_cache_dir
-from red_utils.std.dataclass_mixins import DictMixin
+from .operations import (
+    check_cache,
+    check_cache_key_exists,
+    clear_cache,
+    convert_to_seconds,
+    delete_val,
+    get_cache_size,
+    manage_cache_tag_index,
+    set_expire,
+    set_val,
+)
+from .validators import (
+    valid_key_types,
+    valid_val_types,
+    validate_cache,
+    validate_expire,
+    validate_key,
+    validate_read,
+    validate_retry,
+    validate_tag,
+    validate_tags,
+    validate_val,
+)
 
 from diskcache import Cache
 from diskcache.core import warnings
-
-from .operations import (
-    convert_to_seconds,
-    manage_cache_tag_index,
-    clear_cache,
-    check_cache_key_exists,
-    set_val,
-    set_expire,
-    delete_val,
-    get_cache_size,
-    check_cache,
-)
-from .validators import valid_key_types, valid_val_types
-from .validators import (
-    validate_cache,
-    validate_key,
-    validate_val,
-    validate_expire,
-    validate_read,
-    validate_tag,
-    validate_retry,
-    validate_tags,
-)
-
 
 def default_timeout() -> int:
     timeout = convert_to_seconds(amount=24, unit="hours")
