@@ -20,6 +20,7 @@ from .sinks import (
     LoguruSinkAppFile,
     LoguruSinkErrFile,
     LoguruSinkTraceFile,
+    DefaultSinks,
 )
 
 # from .sinks import (
