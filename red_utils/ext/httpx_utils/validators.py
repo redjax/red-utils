@@ -6,6 +6,7 @@ from .constants import valid_methods
 
 from httpx import AsyncClient, Client
 
+
 def validate_client(
     client: Union[Client, AsyncClient] = None
 ) -> Union[Client, AsyncClient]:
@@ -33,7 +34,8 @@ def validate_method(method: str = None) -> str:
 
 def validate_headers(headers: dict[str, str] = None) -> dict[str, str]:
     if not headers:
-        raise ValueError("Missing headers to evaluate")
+        # raise ValueError("Missing headers to evaluate")
+        return
 
     if not isinstance(headers, dict):
         raise TypeError(
