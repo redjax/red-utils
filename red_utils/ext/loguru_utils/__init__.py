@@ -1,7 +1,7 @@
 ## Import default constants
 from __future__ import annotations
 
-from . import constants, operations, sinks, validators, enums
+from . import constants, enums, operations, sinks, validators
 from .constants import (
     LogLevel,
     default_color_fmt,
@@ -11,16 +11,17 @@ from .constants import (
     uvicorn_log_conf,
     valid_compression_strs,
 )
+from .enums import EnumDefaultSinks, EnumLogLevels
 from .operations import add_sink, init_logger
 from .sinks import (
+    DefaultSinks,
+    LoguruSinkAppFile,
     LoguruSinkDefault,
+    LoguruSinkErrFile,
+    LoguruSinkFileDefault,
     LoguruSinkStdErr,
     LoguruSinkStdOut,
-    LoguruSinkFileDefault,
-    LoguruSinkAppFile,
-    LoguruSinkErrFile,
     LoguruSinkTraceFile,
-    DefaultSinks,
 )
 
 # from .sinks import (
@@ -34,4 +35,3 @@ from .sinks import (
 #     default_trace_log_file_sink,
 # )
 from .validators import validate_compression_str, validate_level, validate_logger
-from .enums import EnumDefaultSinks, EnumLogLevels

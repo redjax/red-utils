@@ -5,5 +5,5 @@ import sys
 
 sys.path.append(".")
 
-from . import domain, exc, ext, std, core
+from . import core, domain, exc, ext, std
 from .exc import CustomException

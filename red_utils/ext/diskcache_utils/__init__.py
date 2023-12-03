@@ -2,6 +2,7 @@ from __future__ import annotations
 
 from typing import Any
 
+from .classes import CacheInstance
 from .constants import (
     default_cache_dir,
     default_timeout_dict,
@@ -32,7 +33,6 @@ from .validators import (
     validate_tags,
     validate_val,
 )
-from .classes import CacheInstance
 
 ## Define a default cache object
 default_cache_conf: dict[str, Any] = {

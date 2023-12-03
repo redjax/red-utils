@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 default_format: str = "YYYY-MM-DD HH:MM:SS"
 twelve_hour_format: str = "YYYY-MM-DD hh:mm:ssA"
 default_tz: str = "America/New_York"

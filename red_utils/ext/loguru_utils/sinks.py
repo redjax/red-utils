@@ -1,14 +1,13 @@
 from __future__ import annotations
 
+from dataclasses import dataclass, field
 import sys
 
-from .constants import default_color_fmt, default_fmt, default_log_dir
-
-from typing import TextIO, Union, Generic, TypeVar
-from dataclasses import dataclass, field
+from typing import Generic, TextIO, TypeVar, Union
 
 from red_utils.core.dataclass_utils import DictMixin
 
+from .constants import default_color_fmt, default_fmt, default_log_dir
 
 @dataclass
 class LoguruSinkBase(DictMixin):
