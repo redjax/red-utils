@@ -7,37 +7,7 @@ from .constants import default_color_fmt, default_fmt, default_log_dir
 from typing import TextIO, Union, Generic, TypeVar
 from dataclasses import dataclass, field
 
-## Generic type for dataclass classes
-T = TypeVar("T")
-
-
-@dataclass
-class DictMixin:
-    """Mixin class to add "as_dict()" method to classes. Equivalent to .__dict__.
-
-    Add a .as_dict() method to classes that inherit from this mixin. For example,
-    to add .as_dict() method to a parent class, where all children inherit the .as_dict()
-    function, declare parent as:
-
-    @dataclass
-    class Parent(DictMixin):
-        ...
-
-    and call like:
-
-        p = Parent()
-        p_dict = p.as_dict()
-    """
-
-    def as_dict(self: Generic[T]):
-        """Return dict representation of a dataclass instance."""
-        try:
-            return self.__dict__.copy()
-
-        except Exception as exc:
-            raise Exception(
-                f"Unhandled exception converting class instance to dict. Details: {exc}"
-            )
+from red_utils.core.dataclass_utils import DictMixin
 
 
 @dataclass
@@ -71,12 +41,16 @@ class LoguruSinkDefault(LoguruSinkBase):
 
 @dataclass
 class LoguruSinkStdOut(LoguruSinkBase, DictMixin):
+    """Console STDOUT sink."""
+
     format: str = field(default=default_color_fmt)
     colorize: bool = field(default=True)
 
 
 @dataclass
 class LoguruSinkStdErr(LoguruSinkBase):
+    """Console STDERR sink."""
+
     sink: Union[str, TextIO] = field(default=sys.stderr)
     format: str = field(default=default_color_fmt)
     colorize: bool = field(default=True)
@@ -134,80 +108,34 @@ class LoguruSinkTraceFile(LoguruSinkFileBase):
     diagnose: bool = field(default=True)
 
 
-"""
 ## stderr, no color
-default_stderr_sink: dict = {
-    "sink": sys.stderr,
-    "colorize": False,
-    "format": default_fmt,
-    "level": "DEBUG",
-}
+default_stderr_sink: LoguruSinkStdErr = LoguruSinkStdErr().as_dict()
 
 ## stderr, colorized
-default_stderr_color_sink: dict = {
-    "sink": sys.stderr,
-    "colorize": True,
-    "format": default_color_fmt,
-    "level": "DEBUG",
-}
+default_stderr_no_color_sink: LoguruSinkStdErr = LoguruSinkStdErr(
+    colorize=False
+).as_dict()
 
 ## stdout, no color
-default_stdout_sink: dict = {
-    "sink": sys.stdout,
-    "colorize": False,
-    "format": default_fmt,
-    "level": "DEBUG",
-}
+default_stdout_sink: LoguruSinkStdOut = LoguruSinkStdOut().as_dict()
 
 ## stdout, colorized
-default_stdout_color_sink: dict = {
-    "sink": sys.stdout,
-    "colorize": True,
-    "format": default_color_fmt,
-    "level": "DEBUG",
-}
+default_stdout_no_color_sink: LoguruSinkStdOut = LoguruSinkStdOut(
+    colorize=False
+).as_dict()
 
 ## logs/app.log file
-default_app_log_file_sink: dict = {
-    "sink": f"{default_log_dir}/app.log",
-    "colorize": True,
-    "retention": 3,
-    "rotation": "5 MB",
-    "format": default_fmt,
-    "level": "DEBUG",
-    "enqueue": True,
-}
+default_app_log_file_sink: LoguruSinkAppFile = LoguruSinkAppFile().as_dict()
 
 ## logs/error.log file
-default_error_log_file_sink: dict = {
-    "sink": f"{default_log_dir}/error.log",
-    "colorize": True,
-    "retention": 3,
-    "rotation": "5 MB",
-    "format": default_fmt,
-    "level": "ERROR",
-    "enqueue": True,
-}
+default_error_log_file_sink: LoguruSinkErrFile = LoguruSinkErrFile().as_dict()
 
 ## logs/trace.log file
-default_trace_log_file_sink: dict = {
-    "sink": f"{default_log_dir}/trace.log",
-    "colorize": True,
-    "retention": 3,
-    "rotation": "5MB",
-    "format": default_fmt,
-    "level": "TRACE",
-    "filter": "TRACE",
-    "backtrace": True,
-    "diagnose": True,
-    "enqueue": True,
-}
-
+default_trace_log_file_sink: LoguruSinkTraceFile = LoguruSinkTraceFile().as_dict()
 
 default_sinks: list[dict] = [
-    default_stderr_color_sink,
+    default_stderr_sink,
     default_app_log_file_sink,
     default_error_log_file_sink,
     default_trace_log_file_sink,
 ]
-"""
