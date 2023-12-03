@@ -32,6 +32,7 @@ from .validators import (
     validate_tags,
     validate_val,
 )
+from .classes import CacheInstance
 
 ## Define a default cache object
 default_cache_conf: dict[str, Any] = {

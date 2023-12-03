@@ -3,8 +3,9 @@
 
 [metadata]
 groups = ["default", "dev", "all", "fastapi", "http", "standard"]
-strategy = ["cross_platform"]
-lock_version = "4.4"
+cross_platform = true
+static_urls = false
+lock_version = "4.3"
 content_hash = "sha256:09c7b7e6217f3e27c0a5c089edb8f75c54479c1df5c79e52faa1303097a2f7b3"
 
 [[package]]
