@@ -1,14 +1,38 @@
-from __future__ import annotations
-
 from typing import Union
-
-from .constants import valid_methods
-
 from httpx import AsyncClient, Client
+
+valid_methods: list[str] = ["GET", "POST", "PUT", "UPDATE", "DELETE"]
+
+
+def validate_method(method: str = None) -> str:
+    """Validate an HTTPX request method.
+
+    Params:
+    -------
+    - method (str): The method to validate.
+    """
+    if method is None:
+        raise ValueError("Missing a method to validate")
+    if not isinstance(method, str):
+        try:
+            method: str = str(method).upper()
+        except Exception as exc:
+            raise Exception(
+                f"Unable to coerce method value to string: ({type(method)}) - {method}. Details: {exc}"
+            )
+    else:
+        method: str = method.upper()
+
+    if method not in valid_methods:
+        raise ValueError(f"Invalid method: {method}. Must be one of {valid_methods}")
+
+    return method
+
 
 def validate_client(
     client: Union[Client, AsyncClient] = None
 ) -> Union[Client, AsyncClient]:
+    """Validate HTTPX Client/AsyncClient object."""
     if not client:
         raise ValueError("Missing client to evaluate")
 
@@ -20,20 +44,10 @@ def validate_client(
     return client
 
 
-def validate_method(method: str = None) -> str:
-    """Validate HTTP method."""
-    if not method:
-        raise ValueError("Missing method to evaluate")
-
-    if method not in valid_methods:
-        raise TypeError(f"Invalid method: {method}. Must be one of {valid_methods}")
-
-    return method
-
-
 def validate_headers(headers: dict[str, str] = None) -> dict[str, str]:
     if not headers:
-        raise ValueError("Missing headers to evaluate")
+        # raise ValueError("Missing headers to evaluate")
+        return
 
     if not isinstance(headers, dict):
         raise TypeError(

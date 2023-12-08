@@ -1,4 +1,7 @@
 from __future__ import annotations
+import sys
+
+sys.path.append(".")
 
 import pkgutil
 import shutil
@@ -9,7 +12,7 @@ from red_utils.ext.context_managers import cli_spinners
 from red_utils.std import (
     context_managers,
     dict_utils,
-    file_utils,
+    path_utils,
     hash_utils,
     time_utils,
     uuid_utils,
@@ -41,11 +44,12 @@ import uuid
 from red_utils import CustomException
 from red_utils.ext.context_managers import cli_spinners
 
+
 def test_file_utils_list() -> list[Path]:
     cwd = Path.cwd()
     search_dir = f"{cwd}/red_utils"
 
-    list_files_test = file_utils.list_files(in_dir=search_dir, ext_filter=".py")
+    list_files_test = path_utils.list_files(in_dir=search_dir, ext_filter=".py")
     print(f".py files found in {search_dir}: {len(list_files_test)}")
 
     rand_index = random.randint(0, len(list_files_test) - 1)
@@ -410,58 +414,18 @@ def post_test_cleanup(delete_dirs: list[str] = None, delete_files: list[str] = N
         for _d in delete_dirs:
             d_path: Path = Path(_d)
 
-            try:
-                if d_path.exists():
-                    print(f"Deleting directory: {str(d_path)}")
-                    shutil.rmtree(d_path, ignore_errors=True)
-
-            except FileNotFoundError as fnf:
-                print(
-                    FileNotFoundError(
-                        f"Could not find dir {str(d_path)}. Details: {fnf}"
-                    )
-                )
-            except PermissionError as perm:
-                print(
-                    PermissionError(
-                        f"Insufficient permissions to delete dir {str(d_path)}. Details: {perm}"
-                    )
-                )
-            except Exception as exc:
-                print(
-                    Exception(
-                        f"Unhandled exception deleting dir {str(d_path)}. Details: {exc}"
-                    )
-                )
+            path_utils.delete_path(_d)
 
         for _f in delete_files:
             f_path: Path = Path(_f)
 
-            try:
-                if f_path.exists():
-                    print(f"Deleting file {str(f_path)}")
-                    f_path.unlink()
-
-            except FileNotFoundError as fnf:
-                print(
-                    FileNotFoundError(
-                        f"Could not find file {str(f_path)}. Details: {fnf}"
-                    )
-                )
-            except PermissionError as perm:
-                print(
-                    PermissionError(
-                        f"Insufficient permissions to delete file {str(f_path)}. Details: {perm}"
-                    )
-                )
-            except Exception as exc:
-                print(
-                    Exception(
-                        f"Unhandled exception deleting file {str(f_path)}. Details: {exc}"
-                    )
-                )
+            path_utils.delete_path(f_path)
 
     delete_test_remnants()
+
+
+def test_ensuredirs(_dirs: list[Path] = [Path("test"), Path("test/testing")]):
+    path_utils.ensure_dirs_exist(ensure_dirs=_dirs)
 
 
 def main():
@@ -471,7 +435,7 @@ def main():
     """
     ## Delete lists for cleanup function
     cleanup_dirs: list[str] = [".cache", ".db", ".serialize"]
-    cleanup_files: list[str] = ["test.db"]
+    cleanup_files: list[str] = ["test.db", "test"]
 
     print(test_file_utils_list())
 
@@ -495,6 +459,8 @@ def main():
     # uvicorn.run(fastapi_app)
 
     test_sqlalchemy_utils()
+
+    test_ensuredirs()
 
     with cli_spinners.SimpleSpinner("Cleaning up..."):
         post_test_cleanup(delete_files=cleanup_files, delete_dirs=cleanup_dirs)

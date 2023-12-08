@@ -4,16 +4,32 @@ from datetime import datetime
 import json
 
 from pathlib import Path
-import time
+import shutil
 from typing import Any, Union
 
-from .constants import default_json_dir, file_ts
+from red_utils.core.constants import JSON_DIR
+
+
+def file_ts(fmt: str = "%Y-%m-%d_%H:%M:%S") -> str:
+    """Return a formatted timestamp, useful for prepending to dir/file names."""
+    now: str = datetime.now().strftime(fmt)
+
+    return now
+
 
 def export_json(
     input: Union[str, list[list, dict], dict[str, Any]] = None,
-    output_dir: str = default_json_dir,
+    output_dir: str = JSON_DIR,
     output_filename: str = f"{file_ts()}_unnamed_json.json",
 ):
+    """Export JSON object to an output file.
+
+    Params:
+    -------
+    - input (str|list[list,dict]|dict[str,Any]): The input object to be output to a file.
+    - output_dir (str): The directory where a .json file will be saved.
+    - output_filename (str): The name of the file that will be saved in output_dir.
+    """
     if not Path(output_dir).exists():
         Path(output_dir).mkdir(parents=True, exist_ok=True)
 
@@ -180,3 +196,82 @@ def list_files(
         raise Exception(
             f"Unhandled exception looping input path: {in_dir}. Details: {exc}"
         )
+
+
+def ensure_dirs_exist(ensure_dirs: list[Union[str, Path]] = None) -> None:
+    """Loop over a list of directories and create any paths that do not already exist.
+
+    Params:
+    -------
+    - ensure_dirs (list[str]|list[Path]): A list of directory paths formatted as strings or Path objects.
+        If any list item is of type str, it will be converted to a Path.
+    """
+    if not ensure_dirs:
+        raise ValueError("Missing list of directories to ensure existence")
+
+    validated_list: list[Path] = []
+
+    for i in ensure_dirs:
+        if isinstance(i, str):
+            i = Path(i)
+            validated_list.append(i)
+        elif isinstance(i, Path):
+            validated_list.append(i)
+        else:
+            print(
+                ValueError(
+                    f"Invalid type for list item: ({type(i)}). Must be of type str or Path."
+                )
+            )
+            pass
+
+    ensure_dirs = validated_list
+
+    for d in ensure_dirs:
+        if not d.exists():
+            try:
+                d.mkdir(exist_ok=True, parents=True)
+            except Exception as exc:
+                print(
+                    Exception(
+                        f"Unhandled exception creating directory: {d}. Details: {exc}"
+                    )
+                )
+                pass
+
+
+def delete_path(rm_path: Union[str, Path] = None) -> bool:
+    """Recursively delete a path."""
+    if rm_path is None:
+        raise ValueError("Missing a path to remove.")
+    if isinstance(rm_path, str):
+        rm_path: Path = Path(rm_path)
+
+    try:
+        if rm_path.is_file():
+            rm_path.unlink()
+        elif rm_path.is_dir():
+            shutil.rmtree(rm_path)
+
+        return True
+
+    except FileNotFoundError as fnf:
+        print(FileNotFoundError(f"Could not find file {str(rm_path)}. Details: {fnf}"))
+
+        return False
+    except PermissionError as perm:
+        print(
+            PermissionError(
+                f"Insufficient permissions to delete file {str(rm_path)}. Details: {perm}"
+            )
+        )
+
+        return False
+    except Exception as exc:
+        print(
+            Exception(
+                f"Unhandled exception deleting file {str(rm_path)}. Details: {exc}"
+            )
+        )
+
+        return False
