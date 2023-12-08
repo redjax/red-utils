@@ -5,8 +5,8 @@ from pathlib import Path
 from typing import Any, Union
 
 from red_utils.std.dataclass_mixins import DictMixin
+from red_utils.core.constants import CACHE_DIR
 
-from .constants import default_cache_dir
 from .operations import (
     check_cache,
     check_cache_key_exists,
@@ -34,6 +34,7 @@ from .validators import (
 from diskcache import Cache
 from diskcache.core import warnings
 
+
 def default_timeout() -> int:
     timeout = convert_to_seconds(amount=24, unit="hours")
     return timeout
@@ -46,7 +47,7 @@ class CacheInstanceBase(DictMixin):
     Implement functionality from operations.py, such as get_val and set_val.
     """
 
-    cache_dir: Union[str, Path] | None = field(default=default_cache_dir)
+    cache_dir: Union[str, Path] | None = field(default=CACHE_DIR)
     index: bool = field(default=True)
     cache: Cache | None = field(default=None)
     cache_timeout: int | None = field(default_factory=default_timeout)

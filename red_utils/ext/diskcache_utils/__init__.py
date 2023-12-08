@@ -4,12 +4,13 @@ from typing import Any
 
 from .classes import CacheInstance
 from .constants import (
-    default_cache_dir,
     default_timeout_dict,
     valid_key_types,
     valid_tag_types,
     valid_val_types,
 )
+from red_utils.core.constants import CACHE_DIR
+
 from .operations import (
     check_cache,
     check_cache_key_exists,
@@ -36,7 +37,7 @@ from .validators import (
 
 ## Define a default cache object
 default_cache_conf: dict[str, Any] = {
-    "directory": default_cache_dir,
+    "directory": CACHE_DIR,
     "timeout": convert_to_seconds(
         unit=default_timeout_dict["unit"], amount=default_timeout_dict["amount"]
     ),

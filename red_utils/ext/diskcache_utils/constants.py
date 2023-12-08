@@ -21,7 +21,7 @@ class TimeoutConf(DictMixin):
     amount: int | None = field(default=15)
 
 
-default_cache_dir: str = ".cache"
+# default_cache_dir: str = ".cache"
 ## Set default timeout to 24 hours
 # default_timeout_dict: dict[str, Union[str, int]] = {"unit": "minutes", "amount": 15}
 

@@ -6,7 +6,6 @@ from .constants import (
     LogLevel,
     default_color_fmt,
     default_fmt,
-    default_log_dir,
     log_levels,
     uvicorn_log_conf,
     valid_compression_strs,

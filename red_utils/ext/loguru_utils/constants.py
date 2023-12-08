@@ -19,7 +19,7 @@ default_fmt: str = f"{_ts} {_level} > {_name_line}: {_msg}"
 default_color_fmt: str = f"<green>{_ts}</green> <level>{_level}</level> > <level>{_name_line}</level>: {_msg}"
 # default_fmt: str = "[{time:YYYY-MM-DD_HH:mm:ss}] [{level}] | [{name}:{line}]: {message}"
 # default_color_fmt: str = "<green>[{time:YYYY-MM-DD_HH:mm:ss}]</green> <level>[{level}]</level> | [{name}:{line}]: {message}"
-default_log_dir: str = "logs"
+# default_log_dir: str = "logs"
 
 
 @dataclass
