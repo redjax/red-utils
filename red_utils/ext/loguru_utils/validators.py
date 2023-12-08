@@ -10,12 +10,12 @@ from __future__ import annotations
 from .constants import (
     default_color_fmt,
     default_fmt,
-    default_log_dir,
     log_levels,
     valid_compression_strs,
 )
 
 from loguru import logger
+
 
 def validate_logger(_logger: logger = None, none_ok: bool = False) -> logger:
     """Validate a loguru.Logger object."""
