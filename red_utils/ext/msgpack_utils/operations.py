@@ -5,9 +5,10 @@ from typing import Union
 from uuid import uuid4
 
 from .classes import SerialFunctionResponse
-from .constants import default_serialize_dir
+from red_utils.core.constants import SERIALIZE_DIR
 
 import msgpack
+
 
 def ensure_path(dir: Union[str, Path] = None) -> bool:
     """Ensure a directory path exists.
@@ -76,7 +77,7 @@ def msgpack_serialize(
 
 
 def msgpack_serialize_file(
-    _json: dict = None, output_dir: str = default_serialize_dir, filename: str = None
+    _json: dict = None, output_dir: str = SERIALIZE_DIR, filename: str = None
 ) -> (
     SerialFunctionResponse
 ):  ## dict[str, Union[bool, str, dict[str, Union[str, dict]]]]:

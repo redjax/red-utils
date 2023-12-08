@@ -8,8 +8,9 @@ from __future__ import annotations
 from pathlib import Path
 from typing import Optional, Type, Union
 
+from red_utils.core.constants import CACHE_DIR
+
 from .constants import (
-    default_cache_dir,
     default_timeout_dict,
     valid_key_types,
     valid_tag_types,
@@ -29,6 +30,7 @@ from .validators import (
 import diskcache
 
 from diskcache import Cache
+
 
 def convert_to_seconds(amount: int = None, unit: str = None) -> int:
     """Convert an amount of time to seconds.
@@ -77,7 +79,7 @@ def convert_to_seconds(amount: int = None, unit: str = None) -> int:
 
 
 def new_cache(
-    cache_dir: str = default_cache_dir,
+    cache_dir: str = CACHE_DIR,
     cache_conf: dict = None,
     index: bool = True,
 ) -> diskcache.core.Cache:
