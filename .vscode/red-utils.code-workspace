@@ -1,0 +1,12 @@
+{
+	"folders": [
+		{
+			"path": "..",
+			"name": "Git Root"
+		},
+		{
+			"path": "../red_utils/",
+			"name": "Red-Utils App"
+		}
+	]
+}

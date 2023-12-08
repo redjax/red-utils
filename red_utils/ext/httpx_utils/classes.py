@@ -2,7 +2,7 @@ from typing import Union
 
 from red_utils.core.dataclass_utils import DictMixin
 
-from .validators import (
+from red_utils.validators.ext.httpx_validators import (
     valid_methods,
     validate_client,
     validate_headers,
