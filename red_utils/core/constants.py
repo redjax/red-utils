@@ -6,4 +6,4 @@ SERIALIZE_DIR: Path = Path(".serialize")
 JSON_DIR: Path = Path(f"{DATA_DIR}/json")
 LOG_DIR: Path = Path("logs")
 
-ENSURE_EXIST_DIRS: list[Path] = [DATA_DIR, CACHE_DIR, SERIALIZE_DIR]
+ENSURE_EXIST_DIRS: list[Path] = [DATA_DIR, CACHE_DIR, SERIALIZE_DIR, LOG_DIR]
