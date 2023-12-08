@@ -1,6 +1,6 @@
 [project]
 name = "red_utils"
-version = "0.2.9"
+version = "0.2.10"
 description = "Collection of utility scripts/functions that I use frequently."
 authors = [
     { name = "redjax", email = "none@none.com" },
