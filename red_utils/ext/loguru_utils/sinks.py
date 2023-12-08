@@ -6,8 +6,10 @@ import sys
 from typing import Generic, TextIO, TypeVar, Union
 
 from red_utils.core.dataclass_utils import DictMixin
+from red_utils.core.constants import LOG_DIR
 
-from .constants import default_color_fmt, default_fmt, default_log_dir
+from .constants import default_color_fmt, default_fmt
+
 
 @dataclass
 class LoguruSinkBase(DictMixin):
@@ -71,7 +73,7 @@ class LoguruSinkStdErr(LoguruSinkBase):
 class LoguruSinkFileBase(DictMixin):
     """Base class for file sinks."""
 
-    sink: Union[str, TextIO] = field(default=f"{default_log_dir}/app.log")
+    sink: Union[str, TextIO] = field(default=f"{LOG_DIR}/app.log")
     colorize: bool = field(default=True)
     retention: Union[str, int] = field(default=3)
     rotation: str = field(default="5 MB")
@@ -104,7 +106,7 @@ class LoguruSinkAppFile(LoguruSinkFileBase, DictMixin):
 class LoguruSinkErrFile(LoguruSinkFileBase):
     """Sink class for error.log file."""
 
-    sink: Union[str, TextIO] = field(default=f"{default_log_dir}/error.log")
+    sink: Union[str, TextIO] = field(default=f"{LOG_DIR}/error.log")
     level: str = field(default="ERROR")
 
 
@@ -112,7 +114,7 @@ class LoguruSinkErrFile(LoguruSinkFileBase):
 class LoguruSinkTraceFile(LoguruSinkFileBase):
     """Sink class for trace.log file."""
 
-    sink: Union[str, TextIO] = field(default=f"{default_log_dir}/trace.log")
+    sink: Union[str, TextIO] = field(default=f"{LOG_DIR}/trace.log")
     level: str = field(default="TRACE")
     filter: str = field(default="TRACE")
     backtrace: bool = field(default=True)
