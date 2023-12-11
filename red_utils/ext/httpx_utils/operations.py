@@ -13,7 +13,6 @@ import httpx
 
 from httpx import Client
 
-
 def merge_headers(
     original_headers: dict[str, str] = default_headers,
     update_vals: dict[str, str] = None,

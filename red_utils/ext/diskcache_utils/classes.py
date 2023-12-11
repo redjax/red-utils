@@ -4,8 +4,8 @@ from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Any, Union
 
-from red_utils.std.dataclass_mixins import DictMixin
 from red_utils.core.constants import CACHE_DIR
+from red_utils.std.dataclass_mixins import DictMixin
 
 from .operations import (
     check_cache,
@@ -33,7 +33,6 @@ from .validators import (
 
 from diskcache import Cache
 from diskcache.core import warnings
-
 
 def default_timeout() -> int:
     timeout = convert_to_seconds(amount=24, unit="hours")

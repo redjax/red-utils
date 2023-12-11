@@ -1,4 +1,5 @@
 from __future__ import annotations
+
 import sys
 
 sys.path.append(".")
@@ -12,8 +13,8 @@ from red_utils.ext.context_managers import cli_spinners
 from red_utils.std import (
     context_managers,
     dict_utils,
-    path_utils,
     hash_utils,
+    path_utils,
     time_utils,
     uuid_utils,
 )
@@ -43,7 +44,6 @@ import uuid
 
 from red_utils import CustomException
 from red_utils.ext.context_managers import cli_spinners
-
 
 def test_file_utils_list() -> list[Path]:
     cwd = Path.cwd()

@@ -5,6 +5,7 @@ import sys
 
 from typing import Generic, TextIO, TypeVar, Union
 
+from red_utils.core.constants import LOG_DIR
 from red_utils.core.dataclass_utils import DictMixin
 from red_utils.core.constants import LOG_DIR
 
