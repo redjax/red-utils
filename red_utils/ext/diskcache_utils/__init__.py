@@ -2,6 +2,8 @@ from __future__ import annotations
 
 from typing import Any
 
+from red_utils.core.constants import CACHE_DIR
+
 from .classes import CacheInstance
 from .constants import (
     default_timeout_dict,
@@ -9,8 +11,6 @@ from .constants import (
     valid_tag_types,
     valid_val_types,
 )
-from red_utils.core.constants import CACHE_DIR
-
 from .operations import (
     check_cache,
     check_cache_key_exists,

@@ -9,7 +9,6 @@ from typing import Any, Union
 
 from red_utils.core.constants import JSON_DIR
 
-
 def file_ts(fmt: str = "%Y-%m-%d_%H:%M:%S") -> str:
     """Return a formatted timestamp, useful for prepending to dir/file names."""
     now: str = datetime.now().strftime(fmt)

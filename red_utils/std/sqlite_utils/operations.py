@@ -1,11 +1,11 @@
+"""Create an empty sqlite database.
 """
-Create an empty sqlite database.
-"""
-from typing import Union
+from __future__ import annotations
+
 from pathlib import Path
+from typing import Union
 
 from .schemas import SQLiteDB
-
 
 def init_sqlite_db(db_definition: SQLiteDB = None):
     """Initialize an empty SQLite database.

@@ -1,4 +1,7 @@
+from __future__ import annotations
+
 from typing import Union
+
 from httpx import AsyncClient, Client
 
 valid_methods: list[str] = ["GET", "POST", "PUT", "UPDATE", "DELETE"]

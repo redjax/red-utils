@@ -1,15 +1,14 @@
-import sqlite3
-from dataclasses import dataclass, field
+from __future__ import annotations
 
+from dataclasses import dataclass, field
 from pathlib import Path
+import sqlite3
 
 from core import DB_DIR
 
-
 @dataclass
 class SQLiteDB:
-    """
-    Define a simple SQLite database path.
+    """Define a simple SQLite database path.
 
     Use this object's .create_empty_db() function to
     attempt to create a database at the object's db_path

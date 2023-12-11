@@ -1,19 +1,19 @@
+from __future__ import annotations
+
+from dataclasses import dataclass, field
 from typing import Union
 
 from red_utils.core.dataclass_utils import DictMixin
-
 from red_utils.validators.ext.httpx_validators import (
     valid_methods,
     validate_client,
     validate_headers,
     validate_method,
 )
+
 from .constants import default_headers
 
-from dataclasses import dataclass, field
-
 import httpx
-
 
 @dataclass
 class SimpleHTTPXClientBase:
