@@ -9,4 +9,5 @@ from .constants import (
     JSON_DIR,
     ENSURE_EXIST_DIRS,
     LOG_DIR,
+    DB_DIR,
 )

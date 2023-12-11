@@ -3,6 +3,8 @@ from dataclasses import dataclass, field
 
 from pathlib import Path
 
+from core import DB_DIR
+
 
 @dataclass
 class SQLiteDB:
@@ -16,7 +18,7 @@ class SQLiteDB:
 
     name: str = field(default="demo")
     ext: str = field(default=".sqlite")
-    location: str = field(default=".db")
+    location: str = field(default=DB_DIR)
 
     @property
     def filename(self) -> str:
