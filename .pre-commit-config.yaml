@@ -6,6 +6,6 @@ repos:
     hooks:
       - id: ruff
         ## , --exit-non-zero-on-fix
-        args: [--fix, "--config ruff.ci.toml"]
+        args: [--fix, --config, ruff.ci.toml]
         ## Run on notebooks too
         types_or: [python, pyi, jupyter]
