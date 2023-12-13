@@ -7,17 +7,17 @@
 - [red-utils](#red-utils)
 - [Table of Contents](#table-of-contents)
 - [Description](#description)
-  - [Project Home - Github Repository](#project-home---github-repository)
   - [Dynamic imports](#dynamic-imports)
 - [Installation](#installation)
   - [Dependency groups:](#dependency-groups)
-  - [Pip](#pip)
-  - [PDM](#pdm)
+    - [Dependency install group examples](#dependency-install-group-examples)
 - [Modules](#modules)
+- [Developing red-utils](#developing-red-utils)
 
 # Description
 
-## [Project Home - Github Repository](https://github.com/redjax/red-utils)
+- 🔗 [Project Home - Github Repository](https://github.com/redjax/red-utils)
+- 🔗 [Red Utils on Pypi]([https://](https://pypi.org/project/red_utils/))
 
 
 A collection of utility scripts/functions that I use frequently. Includes helper functions/default variables for libraries like `loguru`, `diskcache`, and `msgpack`.
@@ -44,7 +44,7 @@ The utilities are broken down into 2 modules:
      
 Common code shared by the `std` and `ext` modules can be imported from `red_utils.core` and `red_utils.domain`. Any code in these modules should be clean of any external dependency. This is because the `std` module imports from `core`, and adding non-stdlib functionality in `red_utils.core` breaks the philosophy of the `stdlib` module. I may introduce a `red_utils.ext.core` at some point.
 
-Some domain objects (`dataclass` or regular Python classes) may be stored in `red_utils.domain`. As of release v0.2.12, this module is empty, but future releases may bring some utilities in the form of a class.
+Some domain objects (`dataclass` or regular Python classes) may be stored in `red_utils.domain`. As of release `v0.2.12`, this module is empty, but future releases may bring some utilities in the form of a class.
 
 Custom/common exceptions are stored in `red_utils.exc`.
 
@@ -68,6 +68,11 @@ if pkgutil.find_loader("msgpack"):
 
 This project uses dependencies groups, meaning it can be installed with `pip install red-utils` for the base package, or with dependency groups like `pip install red-utils[all]` (to install all packages with a corresponding red-util module), `pip install red-utils[http]` (to install some helpful packages for HTTP requests, i.e. `httpx` and `diskcache`), and more.
 
+- pip
+  - `pip install red-utils`
+- pdm
+  - `pdm add red-utils`
+
 ## Dependency groups:
 
 *Note*: I will do my best to update this, but to get an accurate view of available dependency groups and the packages that will be installed, check the [`pyproject.toml`](./pyproject.toml) file. Look for the dependency lists, i.e. `dependencies = [` (the base set of dependencies), `all = [`, `http = [`, etc.
@@ -80,14 +85,17 @@ This project uses dependencies groups, meaning it can be installed with `pip ins
 
 `[http]`: My standard "HTTP toolkit." Comes with a request client (`httpx`), logging (`loguru`), caching (`diskcache`), & more.
 
-## Pip
+### Dependency install group examples
 
-`pip install red-utils`
-
-## PDM
-
-`pdm add red-utils`
+- pip:
+  - `pip install red-utils[fastapi,http]`
+- pdm:
+  - `pdm add red-utils[fastapi,http]`
 
 # Modules
 
 Check the [Github page](https://github.com/redjax/red-utils/tree/main/red_utils) to see modules in the [`ext`](https://github.com/redjax/red-utils/tree/main/red_utils/ext) and [`std`](https://github.com/redjax/red-utils/tree/main/red_utils/std) modules (or click one of those words to be taken there).
+
+# Developing red-utils
+
+Please see the [developing docs](docs/developing.md) for instructions on setting up a dev environment to work on `red-utils`.

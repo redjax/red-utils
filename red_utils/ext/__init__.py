@@ -2,20 +2,16 @@ from __future__ import annotations
 
 import pkgutil
 
-## Use pkgutil to only load modules
-#  if dependencies are met
-# if pkgutil.find_loader("arrow"):
-#     from . import arrow_utils
+"""Use pkgutil to only load modules if dependencies are met.
 
-# if pkgutil.find_loader("pendulum"):
-#     from . import pendulum_utils
+This keeps the red_utils package functional by limiting the utilities that are loaded.
+If a pkgutil.find_loader() check fails, that import is passed over and will be unavailable
+for type completion & usage.
+"""
 
-if pkgutil.find_loader("arrow") and pkgutil.find_loader("pendulum"):
+
+if pkgutil.find_loader("arrow") or pkgutil.find_loader("pendulum"):
     from . import time_utils
-elif pkgutil.find_loader("arrow"):
-    from .time_utils import arrow_utils
-elif pkgutil.find_loader("pendulum"):
-    from .time_utils import pendulum_utils
 
 if pkgutil.find_loader("loguru"):
     from . import loguru_utils
