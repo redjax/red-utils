@@ -2,10 +2,10 @@
 # It is not intended for manual editing.
 
 [metadata]
-groups = ["default", "dev", "all", "fastapi", "http", "standard", "ci.lint"]
+groups = ["default", "dev", "all", "fastapi", "http", "standard", "ci.lint", "arrow"]
 strategy = ["cross_platform"]
 lock_version = "4.4"
-content_hash = "sha256:94e87da6260798290ca2d6f5f6ac7d46d404fe734822f33d25f1a5ead297c52c"
+content_hash = "sha256:61ae31403a7c181a39f0a0fa6b7dae421f8fabb0bf90ac809a70ad8ec39c9f20"
 
 [[package]]
 name = "aiohttp"
