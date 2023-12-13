@@ -5,8 +5,7 @@ on:
   pull_request:
     branches:
       # - main
-      # - dev
-      - workflow-test
+      - dev
       - ci
 
 jobs:
