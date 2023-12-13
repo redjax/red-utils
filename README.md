@@ -4,11 +4,16 @@
 
 # Table of Contents
 
+- [red-utils](#red-utils)
+- [Table of Contents](#table-of-contents)
 - [Description](#description)
+  - [Project Home - Github Repository](#project-home---github-repository)
+  - [Dynamic imports](#dynamic-imports)
 - [Installation](#installation)
-  - [Installation Dependency Groups](#dependency-groups)
+  - [Dependency groups:](#dependency-groups)
+  - [Pip](#pip)
+  - [PDM](#pdm)
 - [Modules](#modules)
-- [Development](#development)
 
 # Description
 
@@ -17,7 +22,47 @@
 
 A collection of utility scripts/functions that I use frequently. Includes helper functions/default variables for libraries like `loguru`, `diskcache`, and `msgpack`.
 
+The utilities are broken down into 2 modules:
 
+- `std`: Utilities with no external dependencies, only the Python `stdlib`.
+- `ext`: Utilities for dependencies like `loguru` and `msgpack`
+  - Note: It is generally a good practice to import `ext` modules as a whole, instead of importing functions/variables from the module.
+  - This is because some of the function names I chose may be common (like `get_ts()` in the `ext.time_utils` module).
+  - Example:
+    ```
+    from red_utils.ext import time_utils
+
+    now = time_utils.get_ts()
+    ```
+
+    or, with `arrow`:
+    ```
+    from red_utils.ext import time_utils.arrow_utils as arrow_utils
+
+    now = arrow_utils.get_ts()
+    ```
+     
+Common code shared by the `std` and `ext` modules can be imported from `red_utils.core` and `red_utils.domain`. Any code in these modules should be clean of any external dependency. This is because the `std` module imports from `core`, and adding non-stdlib functionality in `red_utils.core` breaks the philosophy of the `stdlib` module. I may introduce a `red_utils.ext.core` at some point.
+
+Some domain objects (`dataclass` or regular Python classes) may be stored in `red_utils.domain`. As of release v0.2.12, this module is empty, but future releases may bring some utilities in the form of a class.
+
+Custom/common exceptions are stored in `red_utils.exc`.
+
+## Dynamic imports
+
+The `red-utils` package makes use of the Python stdlib `pkgutil` module to control imports. Packages in the `ext` module are only imported and available in `red_utils` if the corresponding dependency exists.
+
+For instance, `red_utils.ext.msgpack_utils` will only be available if this check in [red_utiles/ext/__init__.py](https://github.com/redjax/red-utils/blob/main/red_utils/ext/__init__.py) passes:
+```
+import pkgutil
+
+...
+
+if pkgutil.find_loader("msgpack"):
+  from . import msgpack_utils
+```
+
+`pkgutil.find_loader()` is used throughout the app to control imports and ensure `red_utils` is stable, by keeping uninstalled module's utilities out of the namespace.
 
 # Installation
 
@@ -27,33 +72,13 @@ This project uses dependencies groups, meaning it can be installed with `pip ins
 
 *Note*: I will do my best to update this, but to get an accurate view of available dependency groups and the packages that will be installed, check the [`pyproject.toml`](./pyproject.toml) file. Look for the dependency lists, i.e. `dependencies = [` (the base set of dependencies), `all = [`, `http = [`, etc.
 
-`[all]`
+`[all]`: Install all packages that have a corresponding util. This may be a large install, and is generally not recommended.
 
-- `diskcache`
-- `fastapi`
-- `uvicorn[standard]`
-- `loguru`
-- `httpx`
-- `msgpack`
-- `pendulum`
+`[arrow]`: By default, the `pendulum` library is used for `time_utils`. Installing `red_utils[arrow]` allows for importing `arrow` functions from `red_utils.ext.time_utils.arrow`.
 
-`[fastapi]`
+`[fastapi]`: Dependencies for `fastapi_utils`
 
-- `fastapi`
-- `sqlalchemy`
-- `loguru`
-- `httpx`
-- `msgpack`
-- `uvicorn`
-- `pendulum`
-
-`[http]`
-
-- `httpx`
-- `diskcache`
-- `loguru`
-- `pendulum`
-- `msgpack`
+`[http]`: My standard "HTTP toolkit." Comes with a request client (`httpx`), logging (`loguru`), caching (`diskcache`), & more.
 
 ## Pip
 
@@ -65,145 +90,4 @@ This project uses dependencies groups, meaning it can be installed with `pip ins
 
 # Modules
 
-*note*: The list below is most likely not complete or up todate. I update it as I think about it, but add new modules & refactor more frequently than I remember to update this section, and I haven't started learning any fancy auto-documentation libraries.
-
-For a complete overview of available modules and their functions, check [`red_utils/std`](./red_utils/std) (utilities with no dependencies, to enhance the stdlib, i.e. `dict_utils` and `path_utils`) and [`red_utils/ext`](./red_utils/ext) (utilities that extend a 3rd party module, i.e. `httpx_utils`, `sqlalchemy_utils`, etc).
-
-## dict_utils
-
-**Description**: Helper functions to assist repetitive `dict`-related operations.
-
-**Examples**:
-
-- `dict_utils.debug_dict()`
-  -  loops a dictionary, recursively printing a nested dict's keys, values, and value types.
-- `dict_utils.merge_dicts()`
-  - Takes 2 `dict` objects and merges them.
-- `dict_utils.update_dict()`
-  - Takes 2 dict objects, updates the values of the first dict with values from the second.
-
-## diskcache_utils
-
-**Description**: Helper utilities for the [DiskCache](https://grantjenks.com/docs/diskcache/) package. `DiskCache` creates a local cache DB (a SQLite database), where you can write/read key/value pairs. It's sort of like a local redis, and is very useful while developing.
-
-This module simplifies creating a cache by exposing the configuration options I normally use when creating a `diskcache.Cache` instance.
-
-**Examples**: *WIP*
-
-## fastapi_utils
-
-**Description**: Helper utilities for [FastAPI](https://fastapi.tiangolo.com) and [Uvicorn](https://fastapi.tiangolo.com/deployment/manually/). Includes utilities to override `FastAPI`'s HTTP logging, a `healthcheck` endpoint router that can be simply added to existing APIs to create a healthcheck, functions for configuring `fastapi.APIRouter` instances, and more.
-
-**Examples**: *WIP*
-
-## hash_utils
-
-**Description**: Utility wrapper functions for stdlib's `hashlib`.
-
-**Examples**:
-
-- `hash_utils.get_hash_from_str()`
-  - Get a simple `md5` hash from an input string
-  - ```
-    in = "this is an example string"
-
-    ## Value will be an md5 hash of the input string
-    hash = hash_utils.get_hash_from_str(input_str=in)
-    ```
-
-## httpx_utils
-
-**Description**: *WIP*
-
-**Examples**: *WIP*
-
-## loguru_utils
-
-**Description**: *WIP*
-
-**Examples**: *WIP*
-
-## msgpack_utils
-
-**Description**: *WIP*
-
-**Examples**: *WIP*
-
-## uuid_utils
-
-**Description**: *WIP*
-
-**Examples**: *WIP*
-
-# Development
-
-*WIP*
-
-# context managers
-
-Use context managers as `with` statements. Example:
-
-```
-## Time a function
-with benchmark("some description"):
-  some_func()
-```
-
-Protect a list during modifications:
-
-```
-with ListProtect([0, 1, "2", False]) as copy:
-  copy.append("another value")
-
-## Protect from errors during modification
-#  Skips overwriting original list when errors occur
-with ListProtect([0, 1, "2", False]) as copy:
-  cause_error = 1 / 0
-```
-
-## benchmarks
-
-**Description**: Benchmark a function call with `context_managers.benchmark`, and async functions with `context_managers.async_benchmark`. Each benchmark accepts a description (`str` type), and prints execution time formatted as `description: x.xxxs`
-
-**Examples**:
-
-```
-from red_utils.context_managers import benchmark
-import random
-
-with benchmark("Example: sleep for 2 second") as b:
-    val = random.randint(10000, 100000)
-
-    while val >= 0:
-      val -= 1
-```
-
-## protect
-
-**Description**: *WIP*
-
-**Examples**:
-
-- `ListProtect`: Protects a list by modifying a copy, and only returning the updated list if no errors occur.
-
-``` 
-ex_list = [1, 2, 3]
-
-## Protects from a ZeroDivision error
-with ListProtect(ex_list) as copy:
-    copy.append(1 / 0)
-
-print(f"List: {ex_list}")
-```
-
-- `DictProtect`: Protects a dict by modifying a copy, and only returning the updated dict if no errors occur.
-
-```
-ex_dict = {"example": "value"}
-
-## Protects from a ZeroDivision error
-with DictProtect(ex_dict) as copy:
-    copy["example"] = 1 / 0
-
-print(f"Dict: {ex_dict}")
-```
+Check the [Github page](https://github.com/redjax/red-utils/tree/main/red_utils) to see modules in the [`ext`](https://github.com/redjax/red-utils/tree/main/red_utils/ext) and [`std`](https://github.com/redjax/red-utils/tree/main/red_utils/std) modules (or click one of those words to be taken there).
