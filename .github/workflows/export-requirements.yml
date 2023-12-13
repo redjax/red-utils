@@ -13,6 +13,10 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+
+      - name: Fetch code
+        run: git fetch origin pull/${{ github.event.pull_request.number }}/head:pr_branch
+
       - name: Checkout code
         uses: actions/checkout@v2
         with:
