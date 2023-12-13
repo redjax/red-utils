@@ -19,12 +19,6 @@ jobs:
         uses: actions/checkout@v2
         with:
           ref: ${{ github.event.pull_request.head.ref }}
-        run: |
-          git config user.name "GitHub Action"
-          git config user.email "action@github.com"
-
-      # - name: Fetch code
-      #   run: git fetch origin pull/${{ github.event.pull_request.number }}/head:pr_branch
 
       - name: Set up Python
         uses: actions/setup-python@v2
@@ -47,9 +41,9 @@ jobs:
           cat requirements.dev.txt
 
       - name: Commit & push changes
-        # git config --global user.email "actions@github.com"
-        # git config --global user.name "Github Actions"
         run: |
+          git config user.name "GitHub Action"
+          git config user.email "action@github.com"
           git add requirements.txt requirements.dev.txt
           git commit -m "Auto-export requirements files"
           git push
