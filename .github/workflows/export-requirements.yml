@@ -1,7 +1,6 @@
 ---
 name: Export project requirements.txt file(s)
 
-
 on:
   pull_request:
     branches:
