@@ -53,6 +53,11 @@ def test_file_utils_list() -> list[Path]:
     list_files_test = path_utils.list_files(in_dir=search_dir, ext_filter=".py")
     print(f".py files found in {search_dir}: {len(list_files_test)}")
 
+    if len(list_files_test) == 0:
+        raise FileNotFoundError(
+            f"Did not find any Python files in directory: {search_dir}"
+        )
+
     rand_index = random.randint(0, len(list_files_test) - 1)
     print(f"Example util file: {list_files_test[rand_index]}")
 
@@ -395,6 +400,10 @@ def test_fastapi_utils():
 
 
 def test_sqlalchemy_utils():
+    if not pkgutil.find_loader("sqlalchemy"):
+        print(f"SQLAlchemy dependency missing, skipping tests.")
+        return None
+
     base = sqlalchemy_utils.Base()
     connection = sqlalchemy_utils.saSQLiteConnection()
     print(f"Connection: {connection}")
