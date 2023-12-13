@@ -31,4 +31,4 @@ jobs:
 
       - name: Run PDM Scripts
         run: |
-          pdm run lint
+          pdm run lint-ci
