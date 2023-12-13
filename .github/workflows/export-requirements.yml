@@ -14,13 +14,13 @@ jobs:
 
     steps:
 
-      - name: Fetch code
-        run: git fetch origin pull/${{ github.event.pull_request.number }}/head:pr_branch
-
       - name: Checkout code
         uses: actions/checkout@v2
         with:
           ref: ${{ github.event.pull_request.head.sha }}
+
+      - name: Fetch code
+        run: git fetch origin pull/${{ github.event.pull_request.number }}/head:pr_branch
 
       - name: Set up Python
         uses: actions/setup-python@v2
