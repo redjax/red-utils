@@ -8,9 +8,10 @@ from datetime import (
 )
 from typing import Union
 
-from .constants import default_format, twelve_hour_format
+from .constants import TIME_FMT_24H, TIME_FMT_12H
 
-def datetime_as_str(ts: dt = None, format: str = default_format) -> str:
+
+def datetime_as_str(ts: dt = None, format: str = TIME_FMT_24H) -> str:
     """Convert a datetime.datetime object to a string.
 
     datetime.datetime() -> str()
@@ -20,7 +21,7 @@ def datetime_as_str(ts: dt = None, format: str = default_format) -> str:
     return _ts
 
 
-def datetime_as_dt(ts: str = None, format: str = default_format) -> dt:
+def datetime_as_dt(ts: str = None, format: str = TIME_FMT_24H) -> dt:
     """Convert a datetime string to a datetime.datetime object.
 
     str() -> datetime.datetime()
@@ -30,7 +31,7 @@ def datetime_as_dt(ts: str = None, format: str = default_format) -> dt:
     return _ts
 
 
-def get_ts(as_str: bool = False, format: str = default_format) -> Union[dt, str]:
+def get_ts(as_str: bool = False, format: str = TIME_FMT_24H) -> Union[dt, str]:
     """Get a timestamp object.
 
     Returns a datetime.datetime by default. If as_str is True, converts datetime to

@@ -3,21 +3,22 @@ from __future__ import annotations
 from typing import Union
 
 from .constants import (
-    default_format,
-    default_tz,
-    safe_str_replace_map,
-    twelve_hour_format,
+    TIME_FMT_24H,
+    DEFAULT_TZ,
+    TS_STR_REPLACE_MAP,
+    TIME_FMT_12H,
 )
-from .validators import valid_time_periods
+from .validators import VALID_TIME_PERIODS
 
 import pendulum
 
+
 def get_ts(
-    tz: str = default_tz,
+    tz: str = DEFAULT_TZ,
     as_str: bool = False,
-    str_fmt: str = default_format,
+    str_fmt: str = TIME_FMT_24H,
     safe_str: bool = False,
-    char_replace_map: list[dict] = safe_str_replace_map,
+    char_replace_map: list[dict] = TS_STR_REPLACE_MAP,
 ) -> pendulum.DateTime:
     """Return a Pendulum.DateTime object of the current time. Optionally
     return timestamp as a string.
