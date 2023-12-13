@@ -4,9 +4,7 @@ name: Export project requirements.txt file(s)
 on:
   pull_request:
     branches:
-      # - main
-      # - dev
-      - workflow-test
+      - dev
       - ci
 
 jobs:
