@@ -34,6 +34,13 @@ The utilities are broken down into 2 modules:
 
     now = time_utils.get_ts()
     ```
+
+    or, with `arrow`:
+    ```
+    from red_utils.ext import time_utils.arrow_utils as arrow_utils
+
+    now = arrow_utils.get_ts()
+    ```
      
 Common code shared by the `std` and `ext` modules can be imported from `red_utils.core` and `red_utils.domain`. Any code in these modules should be clean of any external dependency. This is because the `std` module imports from `core`, and adding non-stdlib functionality in `red_utils.core` breaks the philosophy of the `stdlib` module. I may introduce a `red_utils.ext.core` at some point.
 
