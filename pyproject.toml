@@ -77,6 +77,9 @@ cmd = "git fetch --prune origin '+refs/tags/*:refs/tags/*'"
 [tool.pdm.scripts.lint]
 shell = "pdm run black . && pdm run ruff check . --fix"
 
+[tool.pdm.scripts.lint-ci]
+shell = "pdm run black . && RUFF_CONFIG=ruff.ci.toml pdm run ruff check . --fix"
+
 [tool.pdm.scripts.check]
 cmd = "black ."
 
