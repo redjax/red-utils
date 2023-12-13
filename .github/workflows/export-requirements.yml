@@ -14,8 +14,11 @@ jobs:
 
     steps:
 
-      - uses: actions/checkout@v2.3.4
-      - run: |
+      - name: Checkout code
+        uses: actions/checkout@v2
+        with:
+          ref: ${{ github.event.pull_request.head.ref }}
+          run: |
           git config user.name "GitHub Action"
           git config user.email "action@github.com"
 
@@ -43,6 +46,8 @@ jobs:
           cat requirements.dev.txt
 
       - name: Commit & push changes
+        # git config --global user.email "actions@github.com"
+        # git config --global user.name "Github Actions"
         run: |
           git add requirements.txt requirements.dev.txt
           git commit -m "Auto-export requirements files"
