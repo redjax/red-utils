@@ -31,4 +31,4 @@ jobs:
 
       - name: Run PDM Scripts
         run: |
-          pdm run lint-ci
+          pdm run ruff check . --fix --config ruff.ci.toml
