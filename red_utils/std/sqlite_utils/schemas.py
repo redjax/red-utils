@@ -4,7 +4,8 @@ from dataclasses import dataclass, field
 from pathlib import Path
 import sqlite3
 
-from core import DB_DIR
+from red_utils.core import DB_DIR
+
 
 @dataclass
 class SQLiteDB:

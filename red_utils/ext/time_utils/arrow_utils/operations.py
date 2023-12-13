@@ -4,10 +4,11 @@ import datetime
 
 from typing import Union
 
-from .constants import default_format, twelve_hour_format
-from .validators import valid_time_periods
+from .constants import TIME_FMT_24H, TIME_FMT_12H
+from .validators import VALID_TIME_PERIODS
 
 import arrow
+
 
 def shift_ts(
     start_date: Union[datetime.datetime, str, arrow.Arrow] = None,
@@ -47,15 +48,15 @@ def shift_ts(
     ## Validate inputs
     if not period:
         raise ValueError(
-            f"Missing a period of time. Must be one of {valid_time_periods}"
+            f"Missing a period of time. Must be one of {VALID_TIME_PERIODS}"
         )
     if not isinstance(period, str) and not isinstance(period, datetime.datetime):
         raise TypeError(
             f"Invalid type for period: ({type(period)}). Must be one of [str, datetime.datetime]"
         )
-    if period not in valid_time_periods:
+    if period not in VALID_TIME_PERIODS:
         raise TypeError(
-            f"Invalid period of time: [{period}]. Must be one of {valid_time_periods}"
+            f"Invalid period of time: [{period}]. Must be one of {VALID_TIME_PERIODS}"
         )
     if not amount:
         raise ValueError("Missing amount of time to shift timestamp")

@@ -45,6 +45,7 @@ import uuid
 from red_utils import CustomException
 from red_utils.ext.context_managers import cli_spinners
 
+
 def test_file_utils_list() -> list[Path]:
     cwd = Path.cwd()
     search_dir = f"{cwd}/red_utils"
@@ -209,8 +210,8 @@ def test_uuid_utils():
 
 
 def test_time_utils():
-    fmt: str = time_utils.default_format
-    fmt_12: str = time_utils.twelve_hour_format
+    fmt: str = time_utils.TIME_FMT_24H
+    fmt_12: str = time_utils.TIME_FMT_12H
 
     def dt_as_dt(ts=time_utils.get_ts(), fmt=fmt):
         _dt = time_utils.datetime_as_dt(ts=ts, format=fmt)
@@ -223,7 +224,7 @@ def test_time_utils():
         return _dt
 
     now_unformatted = time_utils.get_ts(format=fmt)
-    now = now_unformatted.strftime(time_utils.default_format)
+    now = now_unformatted.strftime(time_utils.TIME_FMT_24H)
     print(f"Timestamp ({type(now_unformatted)}): {now_unformatted}")
     print(f"Timestamp formatted ({type(now)}): {now}")
 
@@ -426,6 +427,48 @@ def post_test_cleanup(delete_dirs: list[str] = None, delete_files: list[str] = N
 
 def test_ensuredirs(_dirs: list[Path] = [Path("test"), Path("test/testing")]):
     path_utils.ensure_dirs_exist(ensure_dirs=_dirs)
+
+
+def test_pendulum():
+    if not pkgutil.find_loader("pendulum"):
+        print(f"Pendulum dependency not found, skipping timestamp demo.")
+        return None
+
+    from red_utils.ext.time_utils import (
+        VALID_TIME_PERIODS,
+        TIME_FMT_24H,
+        TIME_FMT_12H,
+        TS_STR_REPLACE_MAP,
+        get_ts,
+    )
+
+    test = get_ts()
+    print(f"Test timestamp 1 - 24h/no-params ({type(test)}): {test}")
+
+    test2 = get_ts(as_str=True)
+    print(f"Test timestamp 2 - 24h ({type(test2)}): {test2}")
+
+    test3 = get_ts(as_str=True, str_fmt=TIME_FMT_12H)
+    print(f"Test timestamp 3 - 12h ({type(test3)}): {test3}")
+
+    test4 = get_ts(as_str=True, safe_str=True)
+    print(f"Test timestamp 4 - 24h/safe-string ({type(test4)}): {test4}")
+
+    test5 = get_ts(as_str=True, safe_str=True, str_fmt=TIME_FMT_12H)
+    print(f"Test timestamp 5 - 12h/safe-string ({type(test5)}): {test5}")
+
+
+def test_arrow():
+    if not pkgutil.find_loader("arrow"):
+        print(f"Arrow dependency not found, skipping timestamp demo.")
+        return None
+
+    import arrow
+    from red_utils.ext.time_utils.arrow_utils import shift_ts
+
+    now = arrow.now()
+    print(f"Now: {now}")
+    print(f"+1 day: {now.shift(days=1)}")
 
 
 def main():
