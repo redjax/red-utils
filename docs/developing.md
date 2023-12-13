@@ -42,9 +42,9 @@ As an example real-world scenario, if a user installs `red-utils[http]`, they wi
 
 You can test a new build before pushing a release by creating a new PDM project somewhere else on the system and importing the path to the `red-utils` repository.
 
-For example, if creating a module `pandas_utils` for utility functions related to [`Pandas DataFrames`](https://pandas.pydata.org), you would follow a process like the following:
+For example, if creating a module `pandas_utils` for utility functions related to [`Pandas DataFrames`](https://pandas.pydata.org), and assuming the `red-utils` repository was cloned to `~/git/red-utils`, you would follow a process like the following:
 
-- Install `pandas` in the `[all]` and `[data]` dependency groups
+- In the `~/git/red-utils` directory, install `pandas` in the `[all]` and `[data]` dependency groups
   - `pdm add -G all pandas`
   - `pdm add -G data pandas`
 - Create a directory at `red_utils.ext.pandas_utils`
@@ -64,4 +64,12 @@ For example, if creating a module `pandas_utils` for utility functions related t
     if pkgutil.find_loader("pandas"):
         from . import pandas_utils
     ```
-- The new `pandas_utils` module should be available if `pandas` is available in the Python path
+  - The new `pandas_utils` module should be available if `pandas` is available in the Python path
+- Build the app with `pdm build`
+- Create a new directory somewhere outside the repository, i.e. `~/testing/red-utils`
+  - Initialize the project (example uses `pdm`):
+    - `pdm init`
+    - Answer the initialization prompts
+  - Add `red-utils` from its local path
+    - `pdm add ~/git/red-utils`
+  - To remove the local dependency, just run `pdm remove ~/git/red-utils`
