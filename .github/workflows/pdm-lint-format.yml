@@ -23,9 +23,10 @@ jobs:
         with:
           python-version: 3.11
 
-      - name: Install PDM
+      - name: Install PDM & dependencies
         run: |
           python -m pip install pdm
+          pdm install -d --no-lock
           pdm --version
 
       - name: Run PDM Scripts
