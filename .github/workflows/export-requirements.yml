@@ -39,6 +39,11 @@ jobs:
           pdm export -d -o requirements.dev.txt --without-hashes
           cat requirements.dev.txt
 
+      - name: Export requirements.ci.txt
+        run: |
+          pdm export -d -o requirements.ci.txt --without-hashes
+          cat requirements.ci.txt
+
       - name: Commit & push changes
         run: |
           git config user.name "GitHub Action"
@@ -46,7 +51,7 @@ jobs:
 
           ## If there are no changes, this keeps the workflow from failing
           if [[ -n $(git status -s) ]]; then
-            git add requirements.txt requirements.dev.txt
+            git add requirements.txt requirements.dev.txt requirements.ci.txt
             git commit -m "Auto-export requirements files"
             git push
           else
