@@ -9,7 +9,7 @@ import datetime
 
 from pathlib import Path
 
-from red_utils import file_utils
+from red_utils.std import path_utils
 
 from pytest import mark, xfail
 

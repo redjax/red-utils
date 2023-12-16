@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from pathlib import Path
 
-from red_utils import file_utils
+from red_utils.std import path_utils
 
 from pytest import fixture
 
@@ -19,6 +19,6 @@ def cwd() -> Path:
 
 @fixture
 def file_ts() -> str:
-    _ts = file_utils.constants.file_ts()
+    _ts = path_utils.file_ts()
 
     return _ts
