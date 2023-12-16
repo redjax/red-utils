@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from .path_util_tests.expect_fail_tests import (
+from .std_tests.path_util_tests.expect_fail_tests import (
     test_fail_crawl_cwd_exists,
     test_fail_crawl_cwd_none,
     test_fail_crawl_cwd_type,
@@ -8,7 +8,7 @@ from .path_util_tests.expect_fail_tests import (
     test_fail_list_files_cwd_type,
     test_fail_list_files_exists,
 )
-from .path_util_tests.expect_pass_tests import (
+from .std_tests.path_util_tests.expect_pass_tests import (
     test_crawl_all,
     test_crawl_dir_for_py_filetype,
     test_crawl_dirs,
