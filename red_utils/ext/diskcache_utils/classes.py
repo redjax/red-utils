@@ -5,7 +5,7 @@ from pathlib import Path
 from typing import Any, Union
 
 from red_utils.core.constants import CACHE_DIR
-from red_utils.std.dataclass_mixins import DictMixin
+from red_utils.core.dataclass_utils.mixins import DictMixin
 
 from .operations import (
     check_cache,

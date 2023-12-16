@@ -3,7 +3,7 @@ from __future__ import annotations
 from dataclasses import dataclass, field
 from typing import Optional, Type, Union
 
-from red_utils.std.dataclass_mixins import DictMixin
+from red_utils.core.dataclass_utils.mixins import DictMixin
 
 valid_key_types: list[Type] = [str, int, tuple, frozenset]
 valid_val_types: list[Type] = [str, bytes, float, int, list, dict]
