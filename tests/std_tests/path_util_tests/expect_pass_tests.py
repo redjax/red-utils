@@ -8,7 +8,7 @@ import datetime
 
 from pathlib import Path
 
-from red_utils import file_utils
+from red_utils.std import path_utils
 
 from pytest import mark, xfail
 
@@ -35,7 +35,7 @@ def test_crawl_all(cwd: Path):
     assert cwd is not None, "CWD cannot be None."
     assert isinstance(cwd, Path), f"CWD must be of type Path, not ({type(cwd)})"
 
-    all_crawl: dict[str, list[Path]] = file_utils.crawl_dir(in_dir=cwd)
+    all_crawl: dict[str, list[Path]] = path_utils.crawl_dir(in_dir=cwd)
 
     assert isinstance(
         all_crawl, dict
@@ -48,7 +48,7 @@ def test_crawl_files(cwd: Path):
     assert cwd is not None, "CWD cannot be None."
     assert isinstance(cwd, Path), f"CWD must be of type Path, not ({type(cwd)})"
 
-    file_crawl: dict[str, list[Path]] = file_utils.crawl_dir(
+    file_crawl: dict[str, list[Path]] = path_utils.crawl_dir(
         in_dir=cwd, return_type="files"
     )
 
@@ -63,7 +63,7 @@ def test_crawl_dirs(cwd: Path):
     assert cwd is not None, "CWD cannot be None."
     assert isinstance(cwd, Path), f"CWD must be of type Path, not ({type(cwd)})"
 
-    dir_crawl: dict[str, list[Path]] = file_utils.crawl_dir(
+    dir_crawl: dict[str, list[Path]] = path_utils.crawl_dir(
         in_dir=cwd, return_type="dirs"
     )
 
@@ -77,7 +77,7 @@ def test_crawl_dir_for_py_filetype(cwd: Path):
     assert cwd is not None, "CWD cannot be None."
     assert isinstance(cwd, Path), f"CWD must be of type Path, not ({type(cwd)})"
 
-    py_crawl: dict[str, list[Path]] = file_utils.crawl_dir(
+    py_crawl: dict[str, list[Path]] = path_utils.crawl_dir(
         in_dir=cwd, return_type="files", ext_filter=".py"
     )
 
@@ -95,7 +95,7 @@ def test_list_files(cwd: Path):
     assert cwd is not None, "CWD cannot be None."
     assert isinstance(cwd, Path), f"CWD must be of type Path, not ({type(cwd)})"
 
-    file_list: list[Path] = file_utils.list_files(in_dir=cwd)
+    file_list: list[Path] = path_utils.list_files(in_dir=cwd)
 
     assert isinstance(
         file_list, list
@@ -113,7 +113,7 @@ def test_list_files_py_filetype(cwd: Path):
     assert cwd is not None, "CWD cannot be None."
     assert isinstance(cwd, Path), f"CWD must be of type Path, not ({type(cwd)})"
 
-    file_list: list[Path] = file_utils.list_files(in_dir=cwd, ext_filter="py")
+    file_list: list[Path] = path_utils.list_files(in_dir=cwd, ext_filter="py")
 
     assert isinstance(
         file_list, list

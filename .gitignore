@@ -3,6 +3,8 @@ test.py
 **/*.db
 **/*.sqlite
 **/*.sqlite3
+**/*.parquet
+**/*.csv
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
