@@ -36,3 +36,6 @@ if pkgutil.find_loader("sqlalchemy"):
 
 if pkgutil.find_loader("rich"):
     from . import context_managers
+
+if pkgutil.find_loader("pandas") or pkgutil.find_loader("polars"):
+    from . import dataframe_utils
