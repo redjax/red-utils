@@ -145,22 +145,6 @@ def crawl_dir(
 
     return return_obj
 
-    # return_obj: dict[str, list[Path]] = {"files": [], "dirs": []}
-
-    # for i in target.glob(search_str):
-    #     if i.is_file():
-    #         return_obj["files"].append(i)
-    #     else:
-    #         return_obj["dirs"].append(i)
-
-    # match return_type:
-    #     case "all":
-    #         return return_obj
-    #     case "files":
-    #         return return_obj["files"]
-    #     case "dirs":
-    #         return return_obj["dirs"]
-
 
 def crawl_dir_old(
     in_dir: Union[str, Path] = None,
