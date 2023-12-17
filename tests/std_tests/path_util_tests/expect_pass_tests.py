@@ -35,7 +35,7 @@ def test_crawl_all(cwd: Path):
     assert cwd is not None, "CWD cannot be None."
     assert isinstance(cwd, Path), f"CWD must be of type Path, not ({type(cwd)})"
 
-    all_crawl: dict[str, list[Path]] = path_utils.crawl_dir(in_dir=cwd)
+    all_crawl: dict[str, list[Path]] = path_utils.crawl_dir(target=cwd)
 
     assert isinstance(
         all_crawl, dict
@@ -49,12 +49,12 @@ def test_crawl_files(cwd: Path):
     assert isinstance(cwd, Path), f"CWD must be of type Path, not ({type(cwd)})"
 
     file_crawl: dict[str, list[Path]] = path_utils.crawl_dir(
-        in_dir=cwd, return_type="files"
+        target=cwd, return_type="files"
     )
 
     assert isinstance(
-        file_crawl, dict
-    ), f"File crawl response should be a dict, not ({type(file_crawl)})"
+        file_crawl, list
+    ), f"File crawl response should be a list, not ({type(file_crawl)})"
 
 
 @mark.file_utils
@@ -64,12 +64,12 @@ def test_crawl_dirs(cwd: Path):
     assert isinstance(cwd, Path), f"CWD must be of type Path, not ({type(cwd)})"
 
     dir_crawl: dict[str, list[Path]] = path_utils.crawl_dir(
-        in_dir=cwd, return_type="dirs"
+        target=cwd, return_type="dirs"
     )
 
     assert isinstance(
-        dir_crawl, dict
-    ), f"Dir crawl response should be a dict, not ({type(dir_crawl)})"
+        dir_crawl, list
+    ), f"Dir crawl response should be a list, not ({type(dir_crawl)})"
 
 
 @mark.file_utils
@@ -78,14 +78,14 @@ def test_crawl_dir_for_py_filetype(cwd: Path):
     assert isinstance(cwd, Path), f"CWD must be of type Path, not ({type(cwd)})"
 
     py_crawl: dict[str, list[Path]] = path_utils.crawl_dir(
-        in_dir=cwd, return_type="files", ext_filter=".py"
+        target=cwd, return_type="files", filetype_filter=".py"
     )
 
     assert isinstance(
-        py_crawl, dict
-    ), f".py file crawl response should be a dict, not ({type(py_crawl)})"
+        py_crawl, list
+    ), f".py file crawl response should be a list, not ({type(py_crawl)})"
 
-    for f in py_crawl["files"]:
+    for f in py_crawl:
         assert f.is_file(), f"File should have been a file"
         assert f.suffix == ".py", f"Filetype should have been .py, not {f.suffix}"
 
