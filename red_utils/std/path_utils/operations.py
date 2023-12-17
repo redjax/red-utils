@@ -9,6 +9,8 @@ from typing import Any, Union
 
 from red_utils.core.constants import JSON_DIR
 
+from .constants import VALID_RETURN_TYPES
+
 def file_ts(fmt: str = "%Y-%m-%d_%H:%M:%S") -> str:
     """Return a formatted timestamp, useful for prepending to dir/file names."""
     now: str = datetime.now().strftime(fmt)
@@ -65,6 +67,102 @@ def export_json(
 
 
 def crawl_dir(
+    target: Union[str, Path] = None,
+    filetype_filter: str | None = None,
+    return_type: str = "all",
+) -> Union[dict[str, list[Path]], list[Path]]:
+    def validate_target(target: Union[str, Path] = target) -> Path:
+        if target is None:
+            raise ValueError("Missing a target directory to scan")
+        if isinstance(target, str):
+            target: Path = Path(target)
+        if not target.exists():
+            msg = FileNotFoundError(f"Could not find directory: {target}")
+
+            raise msg
+
+        return target
+
+    def validate_return_type(
+        return_type: str = return_type,
+        VALID_RETURN_TYPES: list[str] = VALID_RETURN_TYPES,
+    ) -> str:
+        if return_type is None:
+            raise ValueError("Missing return type")
+        if not isinstance(return_type, str):
+            raise TypeError(
+                f"Invalid type for return_type: ({type(return_type)}). Must be one of {VALID_RETURN_TYPES}"
+            )
+        if return_type not in VALID_RETURN_TYPES:
+            msg = ValueError(
+                f"Invalid return type: {return_type}. Must be one of: {VALID_RETURN_TYPES}"
+            )
+
+            raise msg
+
+        return return_type
+
+    def _crawl(
+        target=target, search_str=None, return_type=return_type
+    ) -> Union[dict[str, list[Path]], list[Path]]:
+        """Run Path crawl."""
+        return_obj: dict[str, list[Path]] = {"files": [], "dirs": []}
+
+        for i in target.glob(search_str):
+            if i.is_file():
+                if return_type in ["all", "files"]:
+                    return_obj["files"].append(i)
+                else:
+                    pass
+            else:
+                if return_type in ["all", "dirs"]:
+                    return_obj["dirs"].append(i)
+
+        match return_type:
+            case "all":
+                return return_obj
+            case "files":
+                return return_obj["files"]
+            case "dirs":
+                return return_obj["dirs"]
+
+    if filetype_filter:
+        if not isinstance(filetype_filter, str):
+            raise TypeError(
+                f"Invalid type for filetype_filter: ({type(filetype_filter)}). Must be of type str"
+            )
+        if not filetype_filter.startswith("."):
+            filetype_filter: str = f".{filetype_filter}"
+
+        search_str: str = f"**/*{filetype_filter}"
+    else:
+        search_str: str = "**/*"
+
+    target: Path = validate_target()
+    return_type: str = validate_return_type()
+
+    return_obj = _crawl(search_str=search_str)
+
+    return return_obj
+
+    # return_obj: dict[str, list[Path]] = {"files": [], "dirs": []}
+
+    # for i in target.glob(search_str):
+    #     if i.is_file():
+    #         return_obj["files"].append(i)
+    #     else:
+    #         return_obj["dirs"].append(i)
+
+    # match return_type:
+    #     case "all":
+    #         return return_obj
+    #     case "files":
+    #         return return_obj["files"]
+    #     case "dirs":
+    #         return return_obj["dirs"]
+
+
+def crawl_dir_old(
     in_dir: Union[str, Path] = None,
     return_type: str = "all",
     ext_filter: str | None = None,
@@ -88,7 +186,7 @@ def crawl_dir(
         found in path, including in subdirectories. return_obj['dirs'] will be a list of
         dirs and subdirs found during crawl.
     """
-    valid_return_types: list[str] = ["all", "files", "dirs"]
+    VALID_RETURN_TYPES: list[str] = ["all", "files", "dirs"]
     if not return_type:
         return_type = "all"
 
@@ -97,9 +195,9 @@ def crawl_dir(
 
     return_type = return_type.lower()
 
-    if return_type not in valid_return_types:
+    if return_type not in VALID_RETURN_TYPES:
         raise ValueError(
-            f"Invalid return type: {return_type}. Must be one of {valid_return_types}"
+            f"Invalid return type: {return_type}. Must be one of {VALID_RETURN_TYPES}"
         )
 
     if ext_filter is not None:
