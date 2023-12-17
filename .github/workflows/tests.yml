@@ -2,10 +2,10 @@
 name: Run Pytest tests
 
 on:
-  push:
-    branches:
-      - dev
-      - ci
+  # push:
+  #   branches:
+  #     - dev
+  #     - ci
   pull_request:
     branches:
       - main
