@@ -103,7 +103,7 @@ def crawl_dir(
         return return_type
 
     def _crawl(
-        target=target, search_str=None, return_type=return_type
+        target=target, search_str: str = "**/*", return_type=return_type
     ) -> Union[dict[str, list[Path]], list[Path]]:
         """Run Path crawl."""
         return_obj: dict[str, list[Path]] = {"files": [], "dirs": []}
@@ -141,7 +141,7 @@ def crawl_dir(
     target: Path = validate_target()
     return_type: str = validate_return_type()
 
-    return_obj = _crawl(search_str=search_str)
+    return_obj = _crawl(target=target, search_str=search_str, return_type=return_type)
 
     return return_obj
 
