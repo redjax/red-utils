@@ -2,7 +2,7 @@
 # It is not intended for manual editing.
 
 [metadata]
-groups = ["default", "dev", "all", "fastapi", "http", "standard", "ci.lint", "arrow", "data", "dataframes"]
+groups = ["default", "dev", "all", "fastapi", "http", "standard", "ci.lint", "arrow", "data", "dataframes", "ci", "ci.test"]
 strategy = ["cross_platform"]
 lock_version = "4.4"
 content_hash = "sha256:73e9fb89e18b40d615468a3ab41aef4f9bee8107f1584d440fcac3b07956f271"
