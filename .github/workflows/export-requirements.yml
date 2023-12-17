@@ -2,6 +2,10 @@
 name: Export project requirements.txt file(s)
 
 on:
+  push:
+    branches:
+      - dev
+      - ci
   pull_request:
     branches:
       - main

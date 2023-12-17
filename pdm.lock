@@ -2,10 +2,10 @@
 # It is not intended for manual editing.
 
 [metadata]
-groups = ["default", "dev", "all", "fastapi", "http", "standard", "ci.lint", "arrow", "data", "dataframes", "ci"]
+groups = ["default", "dev", "all", "fastapi", "http", "standard", "ci.lint", "arrow", "data", "dataframes", "ci", "ci.test"]
 strategy = ["cross_platform"]
 lock_version = "4.4"
-content_hash = "sha256:1f4172512b301225d0ae6d79a2102df5eb003ec5df10db188c2b395bb0d42cfc"
+content_hash = "sha256:ec00ca26b838e40ab378db50e4b6312827810b71fb66b17986d9e565614b1d46"
 
 [[package]]
 name = "aiohttp"

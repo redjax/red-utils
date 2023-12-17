@@ -81,6 +81,8 @@ dataframes = [
     "fastparquet>=2023.10.1",
 ]
 ci = [
+]
+"ci.test" = [
     "pytest>=7.4.3",
 ]
 

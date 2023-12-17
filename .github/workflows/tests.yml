@@ -1,5 +1,5 @@
 ---
-name: Run lint & format PDM Scripts
+name: Run Pytest tests
 
 on:
   push:
@@ -10,9 +10,10 @@ on:
     branches:
       - main
       - dev
+      - ci
 
 jobs:
-  run-pdm-scripts:
+  run-pytest-tests:
     runs-on: ubuntu-latest
 
     steps:
