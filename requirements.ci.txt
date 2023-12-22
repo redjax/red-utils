@@ -24,7 +24,7 @@ findpython==0.4.1
 frozenlist==1.4.1; sys_platform != "win32" or implementation_name != "pypy" and extra == "d"
 h11==0.14.0
 httpcore==1.0.2
-httpx==0.25.2
+httpx==0.26.0
 identify==2.5.33
 idna==3.6
 iniconfig==2.0.0
@@ -56,7 +56,7 @@ requests==2.31.0
 requests-toolbelt==1.0.0
 resolvelib==1.0.1
 rich==13.7.0
-ruff==0.1.8
+ruff==0.1.9
 setuptools==69.0.2
 shellingham==1.5.4
 six==1.16.0
