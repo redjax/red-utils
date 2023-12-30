@@ -34,7 +34,7 @@ if not REQUIREMENTS_OUTPUT_DIR.exists():
 @nox.session(python=TEST_PYVERS, name="testenv", reuse_venv=True)
 @nox.parametrize("pdm_ver", [PDM_VER])
 def setup_base_testenv(session: nox.Session, pdm_ver: str):
-    # session.install(f"pdm>={pdm_ver}")
+    session.install(f"pdm>={pdm_ver}")
 
     print("Installing development dependencies with PDM")
     session.run("pdm", "sync")
@@ -85,7 +85,6 @@ def export_requirements(session: nox.Session, pdm_ver: str):
         "-o",
         f"{REQUIREMENTS_OUTPUT_DIR}/requirements.txt",
         "--without-hashes",
-        # external=True,
     )
 
     print("Exporting development requirements")
@@ -96,7 +95,6 @@ def export_requirements(session: nox.Session, pdm_ver: str):
         "-o",
         f"{REQUIREMENTS_OUTPUT_DIR}/requirements.dev.txt",
         "--without-hashes",
-        # external=True,
     )
 
     # print("Exporting CI requirements")
@@ -108,7 +106,6 @@ def export_requirements(session: nox.Session, pdm_ver: str):
     #     "-o",
     #     f"{REQUIREMENTS_OUTPUT_DIR}/requirements.ci.txt",
     #     "--without-hashes",
-    #     # external=True,
     # )
 
 
