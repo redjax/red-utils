@@ -34,8 +34,8 @@ def setup_base_testenv(session: nox.Session, pdm_ver: str):
     session.install(f"pdm>={pdm_ver}")
 
     print("Installing development dependencies with PDM")
-    session.run("pdm", "sync", external=True)
-    session.run("pdm", "install", "-d", external=True)
+    session.run("python", "-m", "pdm", "sync", external=True)
+    session.run("python", "-m", "pdm", "install", "-d", external=True)
 
 
 @nox.session(python=[PYVER], name="lint", reuse_venv=True)
@@ -103,7 +103,7 @@ def export_requirements(session: nox.Session):
     #     "-o",
     #     f"{REQUIREMENTS_OUTPUT_DIR}/requirements.ci.txt",
     #     "--without-hashes",
-    #     external=True,
+    #     # external=True,
     # )
 
 
