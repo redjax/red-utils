@@ -31,7 +31,7 @@ if not REQUIREMENTS_OUTPUT_DIR.exists():
         REQUIREMENTS_OUTPUT_DIR: Path = Path(".")
 
 
-@nox.session(python=TEST_PYVERS, name="testenv") #, reuse_venv=True)
+@nox.session(python=TEST_PYVERS, name="testenv")  # , reuse_venv=True)
 @nox.parametrize("pdm_ver", [PDM_VER])
 def setup_base_testenv(session: nox.Session, pdm_ver: str):
     session.install(f"pdm>={pdm_ver}")
