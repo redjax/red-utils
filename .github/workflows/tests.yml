@@ -37,4 +37,4 @@ jobs:
         run: nox -s testenv --no-error-on-missing-interpreters
 
       - name: Run nox tests
-        run: nox -s tests
+        run: nox -s tests  --no-error-on-missing-interpreters
