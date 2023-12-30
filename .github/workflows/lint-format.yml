@@ -14,13 +14,10 @@ jobs:
 
     steps:
 
-      - name: Checkout code
-        uses: actions/checkout@v2
+      - uses: actions/checkout@v4
         with:
           ref: ${{ github.event.pull_request.head.ref }}
-
-      - name: Setup nox
-        uses: daisylb/setup-nox@v2.1.0
+      - uses: fjwillemsen/setup-nox2@v3.0.0
 
       - name: Create nox testenv
         run: nox -s testenv
