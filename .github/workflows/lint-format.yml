@@ -25,10 +25,11 @@ jobs:
           ref: ${{ github.event.pull_request.head.ref }}
       # - uses: fjwillemsen/setup-nox2@v3.0.0
 
-      - name: Set up Python ${{ env.python-version }}
-        uses: actions/setup-python@v3
+      - name: Set up Python 3.11
+        uses: actions/setup-python@v5
         with:
-          python-version: ${{ matrix.python-version }}
+          python-version:
+            - 3.11
 
       - name: Install nox
         run: |
@@ -40,3 +41,17 @@ jobs:
 
       - name: Lint & format
         run: nox -s lint --no-error-on-missing-interpreters
+
+      - name: Commit & push changes
+        run: |
+          git config user.name "GitHub Action"
+          git config user.email "action@github.com"
+
+          ## If there are no changes, this keeps the workflow from failing
+          if [[ -n $(git status -s) ]]; then
+            git add requirements.txt requirements.dev.txt requirements.ci.txt
+            git commit -m "Auto-export requirements files"
+            git push
+          else
+            echo "No changes to commit."
+          fi
