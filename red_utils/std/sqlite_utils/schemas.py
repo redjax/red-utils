@@ -6,7 +6,6 @@ import sqlite3
 
 from red_utils.core import DB_DIR
 
-
 @dataclass
 class SQLiteDB:
     """Define a simple SQLite database path.

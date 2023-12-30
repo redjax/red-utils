@@ -8,8 +8,7 @@ from datetime import (
 )
 from typing import Union
 
-from .constants import TIME_FMT_24H, TIME_FMT_12H
-
+from .constants import TIME_FMT_12H, TIME_FMT_24H
 
 def datetime_as_str(ts: dt = None, format: str = TIME_FMT_24H) -> str:
     """Convert a datetime.datetime object to a string.

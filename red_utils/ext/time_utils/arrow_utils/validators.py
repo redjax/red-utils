@@ -3,7 +3,6 @@ from __future__ import annotations
 
 from .constants import VALID_TIME_PERIODS
 
-
 def validate_time_period(period: str = None) -> str:
     """Validate a time period string.
 
