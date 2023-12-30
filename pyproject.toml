@@ -75,9 +75,12 @@ dev = [
     "black>=23.7.0",
     "pre-commit>=3.3.3",
     "pdm-bump>=0.7.3",
-    "tox-pdm>=0.7.0",
-    "tox>=4.11.4",
+    "nox>=2023.4.22",
+    "pytest-xdist>=3.5.0",
 ]
+
+[tool.pdm.scripts.tests]
+cmd = "nox -s tests"
 
 [tool.pdm.scripts.git-prune-tags]
 cmd = "git fetch --prune origin '+refs/tags/*:refs/tags/*'"
@@ -86,7 +89,8 @@ cmd = "git fetch --prune origin '+refs/tags/*:refs/tags/*'"
 shell = "pdm run ruff check --select I --fix ."
 
 [tool.pdm.scripts.lint]
-shell = "pdm run black . && pdm run ruff check . --fix"
+# shell = "pdm run black . && pdm run ruff check . --fix"
+cmd = "nox -s lint"
 
 [tool.pdm.scripts.lint-ci]
 shell = "pdm run black . && RUFF_CONFIG=ruff.ci.toml pdm run ruff check . --fix"
