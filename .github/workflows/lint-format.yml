@@ -53,7 +53,7 @@ jobs:
 
           ## If there are no changes, this keeps the workflow from failing
           if [[ -n $(git status -s) ]]; then
-            git add *
+            git add .
             git commit -m "Lint & format"
             git push
           else
