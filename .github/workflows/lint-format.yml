@@ -21,6 +21,8 @@ jobs:
 
       - name: Setup nox
         uses: daisylb/setup-nox@v2.1.0
+
+      - name: Create nox testenv
         run: nox -s testenv
 
       - name: Lint & format
