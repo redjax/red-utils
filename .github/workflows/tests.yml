@@ -1,6 +1,9 @@
 ---
 name: Run Pytest tests
 
+env:
+  CI: true
+
 on:
   pull_request:
     branches:
