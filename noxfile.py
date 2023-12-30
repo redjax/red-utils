@@ -6,8 +6,9 @@ import nox
 
 nox.options.default_venv_backend = "venv"
 nox.options.reuse_existing_virtualenvs = True
-nox.options.error_on_external_run = False
-nox.options.error_on_missing_interpreters = False
+nox.options.no_error_on_external_run = True
+nox.options.no_error_on_missing_interpreters = True
+# nox.options.report = True
 
 PYVER: str = "3.11"
 TEST_PYVERS: list[str] = ["3.12", "3.11"]
@@ -33,47 +34,49 @@ if not REQUIREMENTS_OUTPUT_DIR.exists():
 @nox.session(python=TEST_PYVERS, name="testenv", reuse_venv=True)
 @nox.parametrize("pdm_ver", [PDM_VER])
 def setup_base_testenv(session: nox.Session, pdm_ver: str):
-    session.install(f"pdm>={pdm_ver}")
+    # session.install(f"pdm>={pdm_ver}")
 
     print("Installing development dependencies with PDM")
-    session.run("python", "-m", "pdm", "sync", external=True)
-    session.run("python", "-m", "pdm", "install", "-d", external=True)
+    session.run("pdm", "sync")
+    session.run("pdm", "install", "-d")
 
 
 @nox.session(python=[PYVER], name="lint", reuse_venv=True)
 def run_linter(session: nox.Session):
+    session.install("ruff", "black")
+
     for d in LINT_PATHS:
         lint_path: Path = Path(d)
         print(f"Running ruff imports sort on '{d}'")
         session.run(
-            "pdm",
-            "run",
             "ruff",
             "--select",
             "I",
             "--fix",
             lint_path,
-            external=True,
         )
 
         print(f"Formatting '{d}' with Black")
-        session.run("pdm", "run", "black", lint_path, external=True)
+        session.run(
+            "black",
+            lint_path,
+        )
 
         print(f"Running ruff checks on '{d}' with --fix")
         session.run(
-            "pdm",
-            "run",
             "ruff",
             "--config",
             "ruff.ci.toml",
             lint_path,
             "--fix",
-            external=True,
         )
 
 
 @nox.session(python=[PYVER], name="export", reuse_venv=True)
-def export_requirements(session: nox.Session):
+@nox.parametrize("pdm_ver", [PDM_VER])
+def export_requirements(session: nox.Session, pdm_ver: str):
+    session.install(f"pdm>={pdm_ver}")
+
     print("Exporting production requirements")
     session.run(
         "pdm",
@@ -82,7 +85,7 @@ def export_requirements(session: nox.Session):
         "-o",
         f"{REQUIREMENTS_OUTPUT_DIR}/requirements.txt",
         "--without-hashes",
-        external=True,
+        # external=True,
     )
 
     print("Exporting development requirements")
@@ -93,7 +96,7 @@ def export_requirements(session: nox.Session):
         "-o",
         f"{REQUIREMENTS_OUTPUT_DIR}/requirements.dev.txt",
         "--without-hashes",
-        external=True,
+        # external=True,
     )
 
     # print("Exporting CI requirements")
@@ -110,7 +113,10 @@ def export_requirements(session: nox.Session):
 
 
 @nox.session(python=TEST_PYVERS, name="tests", reuse_venv=True)
-def run_tests(session: nox.Session):
+@nox.parametrize("pdm_ver", [PDM_VER])
+def run_tests(session: nox.Session, pdm_ver: str):
+    session.install(f"pdm>={pdm_ver}")
+
     print("Running Pytest tests")
     session.run(
         "pdm",
@@ -121,5 +127,4 @@ def run_tests(session: nox.Session):
         "--tb=auto",
         "-v",
         "-rsXxfP",
-        external=True,
     )
