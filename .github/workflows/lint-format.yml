@@ -1,4 +1,11 @@
 ---
+matrix:
+  python-major-version: [3]
+  python-minor-version: [11, 12]
+
+env:
+  python-version: ${{ format('{0}.{1}', matrix.python-major-version, matrix.python-minor-version)}}
+
 name: Lint & format code
 
 on:
@@ -19,10 +26,10 @@ jobs:
           ref: ${{ github.event.pull_request.head.ref }}
       # - uses: fjwillemsen/setup-nox2@v3.0.0
 
-      - name: Set up Python
-        uses: actions/setup-python@v2
+      - name: Set up Python ${{ env.python-version }}
+        uses: actions/setup-python@v3
         with:
-          python-version: '3.12.0 3.11'
+          python-version: ${{ env.python-version }}
 
       - name: Install nox
         run: |
@@ -30,7 +37,7 @@ jobs:
           nox --version
 
       - name: Create nox testenv
-        run: nox -s testenv
+        run: nox -s testenv --no-error-on-missing-interpreters
 
       - name: Lint & format
-        run: nox -s lint
+        run: nox -s lint --no-error-on-missing-interpreters
