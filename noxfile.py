@@ -9,6 +9,7 @@ nox.options.reuse_existing_virtualenvs = True
 nox.options.no_error_on_external_run = True
 nox.options.no_error_on_missing_interpreters = True
 # nox.options.report = True
+nox.sessions = ["lint", "export", "tests"]
 
 PYVER: str = "3.11"
 TEST_PYVERS: list[str] = ["3.12", "3.11"]
@@ -29,6 +30,16 @@ if not REQUIREMENTS_OUTPUT_DIR.exists():
         print(msg)
 
         REQUIREMENTS_OUTPUT_DIR: Path = Path(".")
+
+
+@nox.session(python=TEST_PYVERS, name="build-env")
+@nox.parametrize("pdm_ver", [PDM_VER])
+def setup_base_testenv(session: nox.Session, pdm_ver: str):
+    session.install(f"pdm>={pdm_ver}")
+
+    print("Installing development dependencies with PDM")
+    session.run("pdm", "sync")
+    session.run("pdm", "install", "-d")
 
 
 @nox.session(python=[PYVER], name="lint")
