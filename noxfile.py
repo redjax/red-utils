@@ -4,6 +4,11 @@ from pathlib import Path
 
 import nox
 
+nox.options.default_venv_backend = "venv"
+nox.options.reuse_existing_virtualenvs = True
+nox.options.error_on_external_run = False
+nox.options.error_on_missing_interpreters = False
+
 PYVER: str = "3.11"
 TEST_PYVERS: list[str] = ["3.12", "3.11"]
 
@@ -23,9 +28,6 @@ if not REQUIREMENTS_OUTPUT_DIR.exists():
         print(msg)
 
         REQUIREMENTS_OUTPUT_DIR: Path = Path(".")
-
-nox.options.error_on_external_run = False
-nox.options.error_on_missing_interpreters = False
 
 
 @nox.session(python=TEST_PYVERS, name="testenv", reuse_venv=True)

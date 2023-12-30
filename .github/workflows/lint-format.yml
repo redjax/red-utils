@@ -65,10 +65,10 @@ jobs:
           nox --version
 
       - name: Create nox testenv
-        run: nox -s testenv --no-error-on-missing-interpreters
+        run: python -m nox -s testenv --no-error-on-missing-interpreters
 
       - name: Lint & format
-        run: nox -s lint --no-error-on-missing-interpreters
+        run: python -m nox -s lint --no-error-on-missing-interpreters
 
       - name: Commit & push changes
         run: |
