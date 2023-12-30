@@ -31,7 +31,7 @@ if not REQUIREMENTS_OUTPUT_DIR.exists():
         REQUIREMENTS_OUTPUT_DIR: Path = Path(".")
 
 
-@nox.session(python=TEST_PYVERS, name="testenv", reuse_venv=True)
+@nox.session(python=TEST_PYVERS, name="testenv") #, reuse_venv=True)
 @nox.parametrize("pdm_ver", [PDM_VER])
 def setup_base_testenv(session: nox.Session, pdm_ver: str):
     session.install(f"pdm>={pdm_ver}")
@@ -41,7 +41,7 @@ def setup_base_testenv(session: nox.Session, pdm_ver: str):
     session.run("pdm", "install", "-d")
 
 
-@nox.session(python=[PYVER], name="lint", reuse_venv=True)
+@nox.session(python=[PYVER], name="lint")
 def run_linter(session: nox.Session):
     session.install("ruff", "black")
 
@@ -72,7 +72,7 @@ def run_linter(session: nox.Session):
         )
 
 
-@nox.session(python=[PYVER], name="export", reuse_venv=True)
+@nox.session(python=[PYVER], name="export")
 @nox.parametrize("pdm_ver", [PDM_VER])
 def export_requirements(session: nox.Session, pdm_ver: str):
     session.install(f"pdm>={pdm_ver}")
@@ -109,7 +109,7 @@ def export_requirements(session: nox.Session, pdm_ver: str):
     # )
 
 
-@nox.session(python=TEST_PYVERS, name="tests", reuse_venv=True)
+@nox.session(python=TEST_PYVERS, name="tests")
 @nox.parametrize("pdm_ver", [PDM_VER])
 def run_tests(session: nox.Session, pdm_ver: str):
     session.install(f"pdm>={pdm_ver}")
