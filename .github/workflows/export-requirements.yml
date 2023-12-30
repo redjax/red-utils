@@ -1,11 +1,4 @@
 ---
-matrix:
-  python-major-version: [3]
-  python-minor-version: [11, 12]
-
-env:
-  python-version: ${{ format('{0}.{1}', matrix.python-major-version, matrix.python-minor-version)}}
-
 name: Export project requirements.txt file(s)
 
 on:
@@ -16,6 +9,13 @@ on:
       - ci
 
 jobs:
+  matrix:
+    python-major-version: [3]
+    python-minor-version: [11, 12]
+
+  env:
+    python-version: ${{ format('{0}.{1}', matrix.python-major-version, matrix.python-minor-version)}}
+
   export-requirements:
     runs-on: ubuntu-latest
 
