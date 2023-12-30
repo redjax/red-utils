@@ -45,7 +45,6 @@ import uuid
 from red_utils import CustomException
 from red_utils.ext.context_managers import cli_spinners
 
-
 def test_file_utils_list() -> list[Path]:
     cwd = Path.cwd()
     search_dir = f"{cwd}/red_utils"
@@ -444,10 +443,10 @@ def test_pendulum():
         return None
 
     from red_utils.ext.time_utils import (
-        VALID_TIME_PERIODS,
-        TIME_FMT_24H,
         TIME_FMT_12H,
+        TIME_FMT_24H,
         TS_STR_REPLACE_MAP,
+        VALID_TIME_PERIODS,
         get_ts,
     )
 
@@ -472,8 +471,9 @@ def test_arrow():
         print(f"Arrow dependency not found, skipping timestamp demo.")
         return None
 
-    import arrow
     from red_utils.ext.time_utils.arrow_utils import shift_ts
+
+    import arrow
 
     now = arrow.now()
     print(f"Now: {now}")

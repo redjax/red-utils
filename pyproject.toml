@@ -1,6 +1,6 @@
 [project]
 name = "red_utils"
-version = "0.2.14"
+version = "0.2.15"
 description = "Collection of utility scripts/functions that I use frequently."
 authors = [
     { name = "redjax", email = "none@none.com" },
@@ -63,15 +63,10 @@ http = [
     "msgpack>=1.0.5",
     "pendulum>=2.1.2",
 ]
-"ci.lint" = ["ruff>=0.1.7", "black>=23.12.0"]
 arrow = ["arrow>=1.3.0"]
-data = [
-    "jupyter>=1.0.0",
-    "ipykernel>=6.27.1",
-    "pandas>=2.1.4",
-    "fastparquet>=2023.10.1",
-]
+data = ["ipykernel>=6.27.1", "pandas>=2.1.4", "fastparquet>=2023.10.1"]
 dataframes = ["pandas>=2.1.4", "fastparquet>=2023.10.1"]
+ci = ["tox>=4.11.4", "ruff>=0.1.9", "black>=23.12.0", "pytest>=7.4.3"]
 
 [tool.pdm.dev-dependencies]
 dev = [
@@ -80,13 +75,22 @@ dev = [
     "black>=23.7.0",
     "pre-commit>=3.3.3",
     "pdm-bump>=0.7.3",
+    "nox>=2023.4.22",
+    "pytest-xdist>=3.5.0",
 ]
+
+[tool.pdm.scripts.tests]
+cmd = "nox -s tests"
 
 [tool.pdm.scripts.git-prune-tags]
 cmd = "git fetch --prune origin '+refs/tags/*:refs/tags/*'"
 
+[tool.pdm.scripts.sort-imports]
+shell = "pdm run ruff check --select I --fix ."
+
 [tool.pdm.scripts.lint]
-shell = "pdm run black . && pdm run ruff check . --fix"
+# shell = "pdm run black . && pdm run ruff check . --fix"
+cmd = "nox -s lint"
 
 [tool.pdm.scripts.lint-ci]
 shell = "pdm run black . && RUFF_CONFIG=ruff.ci.toml pdm run ruff check . --fix"
@@ -104,7 +108,7 @@ shell = "pdm export --prod -o requirements.txt --without-hashes"
 shell = "pdm export -d -o requirements.dev.txt --without-hashes"
 
 [tool.pdm.scripts.export-ci]
-shell = "pdm export -d -o requirements.ci.txt --without-hashes"
+shell = "pdm export -G ci -o requirements.ci.txt --without-hashes"
 
 [tool.pdm.scripts.create-major-release]
 shell = "pdm bump major && pdm bump tag && pdm lock && pdm build && git push --tags"
