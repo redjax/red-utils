@@ -4,11 +4,10 @@ import datetime
 
 from typing import Union
 
-from .constants import TIME_FMT_24H, TIME_FMT_12H
+from .constants import TIME_FMT_12H, TIME_FMT_24H
 from .validators import VALID_TIME_PERIODS
 
 import arrow
-
 
 def shift_ts(
     start_date: Union[datetime.datetime, str, arrow.Arrow] = None,

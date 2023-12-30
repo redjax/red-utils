@@ -3,15 +3,14 @@ from __future__ import annotations
 from typing import Union
 
 from .constants import (
-    TIME_FMT_24H,
     DEFAULT_TZ,
-    TS_STR_REPLACE_MAP,
     TIME_FMT_12H,
+    TIME_FMT_24H,
+    TS_STR_REPLACE_MAP,
 )
 from .validators import VALID_TIME_PERIODS
 
 import pendulum
-
 
 def get_ts(
     tz: str = DEFAULT_TZ,
