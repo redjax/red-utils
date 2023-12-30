@@ -37,15 +37,15 @@ jobs:
           python -m pip install nox pdm
           pdm --version
           nox --version
-        if: ${{ matrix.python-version == $DEFAULT_PY }}
+        if: ${{ matrix.python-version == DEFAULT_PY }}
 
       - name: Create nox testenv
         run: python -m nox -s testenv --no-error-on-missing-interpreters
-        if: ${{ matrix.python-version == $DEFAULT_PY }}
+        if: ${{ matrix.python-version == DEFAULT_PY }}
 
       - name: Export requirements
         run: python -m nox -s export --no-error-on-missing-interpreters
-        if: ${{ matrix.python-version == $DEFAULT_PY }}
+        if: ${{ matrix.python-version == DEFAULT_PY }}
 
       - name: Commit & push changes
         run: |
@@ -61,4 +61,4 @@ jobs:
           else
             echo "No changes to commit."
           fi
-        if: ${{ matrix.python-version == $DEFAULT_PY }}
+        if: ${{ matrix.python-version == DEFAULT_PY }}
