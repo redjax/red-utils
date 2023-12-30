@@ -12,13 +12,11 @@ jobs:
 
   export-requirements:
     runs-on: ubuntu-latest
-
-    matrix:
-      python-major-version: [3]
-      python-minor-version: [11, 12]
-
-    env:
-      python-version: ${{ format('{0}.{1}', matrix.python-major-version, matrix.python-minor-version)}}
+    strategy:
+      matrix:
+        python-version:
+          - '3.12'
+          - '3.11'
 
     steps:
 
@@ -30,7 +28,7 @@ jobs:
       - name: Set up Python ${{ env.python-version }}
         uses: actions/setup-python@v3
         with:
-          python-version: ${{ env.python-version }}
+          python-version: ${{ matrix.python-version }}
 
       - name: Install nox
         run: |
