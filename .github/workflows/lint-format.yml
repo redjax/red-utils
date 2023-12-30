@@ -23,7 +23,7 @@ jobs:
       - uses: actions/checkout@v4
         with:
           ref: ${{ github.event.pull_request.head.ref }}
-      # - uses: fjwillemsen/setup-nox2@v3.0.0
+        needs: build
 
       - name: Set up Python 3.11
         uses: actions/setup-python@v5

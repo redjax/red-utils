@@ -1,5 +1,5 @@
 ---
-name: Run Pytest tests
+name: Build environment
 
 on:
   pull_request:
@@ -9,7 +9,7 @@ on:
       - ci
 
 jobs:
-  run-pytest-tests:
+  build:
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -21,21 +21,18 @@ jobs:
       - uses: actions/checkout@v4
         with:
           ref: ${{ github.event.pull_request.head.ref }}
-        needs: build
-      
+
       - name: Set up Python ${{ matrix.python-version }}
         uses: actions/setup-python@v5
         with:
           python-version: ${{ matrix.python-version }}
 
-      - name: Install nox
+      - name: Create CI environment
         run: |
           python -m pip install nox pdm
+
           pdm --version
           nox --version
       
       - name: Create nox testenv
         run: nox -s testenv --no-error-on-missing-interpreters
-
-      - name: Run nox tests
-        run: nox -s tests  --no-error-on-missing-interpreters
