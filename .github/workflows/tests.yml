@@ -41,4 +41,4 @@ jobs:
           nox --version
       
       - name: Run nox tests
-        run: python -m nox -s tests
+        run: pdm run nox -s tests
