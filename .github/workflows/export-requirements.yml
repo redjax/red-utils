@@ -28,6 +28,7 @@ jobs:
         uses: actions/setup-python@v5
         with:
           python-version: ${{ matrix.python-version }}
+        if: ${{ matrix.python-version }} == '3.11'
 
       - name: Install nox
         run: |
@@ -51,7 +52,7 @@ jobs:
 
           ## If there are no changes, this keeps the workflow from failing
           if [[ -n $(git status -s) ]]; then
-            git add requirements.txt requirements.dev.txt requirements.ci.txt
+            git add requirements/requirements.txt requirements/requirements.dev.txt requirements/requirements.ci.txt
             git commit -m "Auto-export requirements files"
             git push
           else
