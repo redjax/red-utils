@@ -24,8 +24,6 @@ jobs:
       
       - name: Set up Python ${{ matrix.python-version }}
         uses: actions/setup-python@v5
-        with:
-          python-version: ${{ matrix.python-version }}
 
       - name: Install nox
         run: |
@@ -35,5 +33,3 @@ jobs:
       
       - name: Run nox tests
         run: python -m nox -s tests
-        with:
-          python-version: ${{ matrix.python-version }}
