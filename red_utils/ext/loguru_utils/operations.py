@@ -2,7 +2,6 @@ from __future__ import annotations
 
 import datetime
 import io
-
 from logging import Handler
 from pathlib import Path
 import sys

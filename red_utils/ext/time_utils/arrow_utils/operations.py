@@ -1,7 +1,6 @@
 from __future__ import annotations
 
 import datetime
-
 from typing import Union
 
 from .constants import TIME_FMT_12H, TIME_FMT_24H

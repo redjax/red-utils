@@ -5,7 +5,6 @@ from __future__ import annotations
 
 from pathlib import Path
 import sqlite3
-
 from typing import Union
 
 class SQLiteConnManager:

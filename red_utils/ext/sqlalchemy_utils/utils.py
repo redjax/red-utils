@@ -11,7 +11,6 @@ from .connection_models import (
 from .constants import valid_db_types
 
 import sqlalchemy as sa
-
 from sqlalchemy import create_engine
 
 ## Import SQLAlchemy exceptions
