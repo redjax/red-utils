@@ -10,7 +10,7 @@ on:
 
 jobs:
 
-  export-requirements:
+  lint-format:
     runs-on: ubuntu-latest
     strategy:
       matrix:
