@@ -6,8 +6,8 @@ import nox
 
 nox.options.default_venv_backend = "venv"
 nox.options.reuse_existing_virtualenvs = True
-nox.options.no_error_on_external_run = True
-nox.options.no_error_on_missing_interpreters = True
+nox.options.error_on_external_run = False
+nox.options.error_on_missing_interpreters = False
 # nox.options.report = True
 nox.sessions = ["lint", "export", "tests"]
 

@@ -40,6 +40,9 @@ jobs:
         run: python -m nox -s export
         if: ${{ matrix.python-version == '3.11' }}
 
+      - name: Display Python version
+        run: python -c "import sys; print(sys.version)"
+
       - name: Commit & push changes
         run: |
           git config user.name "GitHub Action"
