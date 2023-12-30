@@ -38,7 +38,7 @@ jobs:
         if: ${{ matrix.python-version == '3.11' }}
 
       - name: Lint & format
-        run: python -m nox -s lint --no-error-on-missing-interpreters
+        run: python -m nox -s lint
         if: ${{ matrix.python-version == '3.11' }}
 
       - name: Commit & push changes

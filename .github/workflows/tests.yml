@@ -34,4 +34,6 @@ jobs:
           nox --version
       
       - name: Run nox tests
-        run: python -m nox -s tests  --no-error-on-missing-interpreters
+        run: python -m nox -s tests
+        with:
+          python-version: ${{ matrix.python-version }}
