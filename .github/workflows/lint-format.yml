@@ -38,11 +38,11 @@ jobs:
 
       - name: Create nox testenv
         run: python -m nox -s testenv --no-error-on-missing-interpreters
-      if: ${{ matrix.python-version }} == '3.11'
+        if: ${{ matrix.python-version }} == '3.11'
 
       - name: Lint & format
         run: python -m nox -s lint --no-error-on-missing-interpreters
-      if: ${{ matrix.python-version }} == '3.11'
+        if: ${{ matrix.python-version }} == '3.11'
 
       - name: Commit & push changes
         run: |

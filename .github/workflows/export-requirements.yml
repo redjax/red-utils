@@ -23,7 +23,7 @@ jobs:
       - uses: actions/checkout@v4
         with:
           ref: ${{ github.event.pull_request.head.ref }}
-      
+
       - name: Set up Python ${{ matrix.python-version }}
         uses: actions/setup-python@v5
         with:
@@ -35,7 +35,7 @@ jobs:
           pdm --version
           nox --version
         if: ${{ matrix.python-version }} == '3.11'
-      
+
       - name: Create nox testenv
         run: python -m nox -s testenv --no-error-on-missing-interpreters
         if: ${{ matrix.python-version }} == '3.11'
@@ -57,4 +57,4 @@ jobs:
           else
             echo "No changes to commit."
           fi
-      if: ${{ matrix.python-version }} == '3.11'
+        if: ${{ matrix.python-version }} == '3.11'
