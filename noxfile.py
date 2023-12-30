@@ -113,7 +113,7 @@ def export_requirements(session: nox.Session, pdm_ver: str):
 @nox.parametrize("pdm_ver", [PDM_VER])
 def run_tests(session: nox.Session, pdm_ver: str):
     session.install(f"pdm>={pdm_ver}")
-    session.run("pdm", "install", "-d")
+    # session.run("pdm", "install", "-d")
 
     print("Running Pytest tests")
     session.run(
