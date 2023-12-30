@@ -19,7 +19,6 @@ from .validators import (
 )
 
 import fastapi
-
 from fastapi import APIRouter, FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 

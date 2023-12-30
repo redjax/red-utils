@@ -10,7 +10,6 @@ from .validators import (
 )
 
 import httpx
-
 from httpx import Client
 
 def merge_headers(

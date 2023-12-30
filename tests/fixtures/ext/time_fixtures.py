@@ -5,7 +5,6 @@ from red_utils.ext.time_utils import arrow_utils
 
 import arrow
 import pendulum
-
 from pytest import fixture
 
 @fixture

@@ -28,7 +28,6 @@ from .validators import (
 )
 
 import diskcache
-
 from diskcache import Cache
 
 def convert_to_seconds(amount: int = None, unit: str = None) -> int:

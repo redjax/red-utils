@@ -2,7 +2,6 @@ from __future__ import annotations
 
 from dataclasses import dataclass, field
 import sys
-
 from typing import Generic, TextIO, TypeVar, Union
 
 from red_utils.core.constants import LOG_DIR
