@@ -4,7 +4,6 @@ from contextlib import contextmanager
 import time
 
 import rich
-
 from rich.console import Console
 
 @contextmanager

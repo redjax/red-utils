@@ -1,5 +1,5 @@
 ---
-name: Lint & format code
+name: Run Pytest tests
 
 on:
   pull_request:
@@ -13,24 +13,23 @@ on:
       - '*.md'
 
 jobs:
-
-  lint-format:
+  run-pytest-tests:
     runs-on: ubuntu-latest
+    env:
+        CI: true
     strategy:
       matrix:
         python-version: ['3.12', '3.11']
 
     steps:
-
       - uses: actions/checkout@v4
         with:
           ref: ${{ github.event.pull_request.head.ref }}
-
+      
       - name: Set up Python ${{ matrix.python-version }}
         uses: actions/setup-python@v5
         with:
           python-version: ${{ matrix.python-version }}
-        if: ${{ matrix.python-version == '3.11' }}
 
       - name: Display Python version
         run: python -c "import sys; print(sys.version)"
@@ -40,24 +39,7 @@ jobs:
           python -m pip install nox pdm
           pdm --version
           nox --version
-        if: ${{ matrix.python-version == '3.11' }}
-
-      - name: Lint & format
-        run: python -m nox -s lint
-        if: ${{ matrix.python-version == '3.11' }}
-
-      - name: Commit & push changes
-        run: |
-          git config user.name "GitHub Action"
-          git config user.email "action@github.com"
-          git config advice.addIgnoredFile false
-
-          ## If there are no changes, this keeps the workflow from failing
-          if [[ -n $(git status -s) ]]; then
-            git add .
-            git commit -m "Lint & format"
-            git push
-          else
-            echo "No changes to commit."
-          fi
-        if: ${{ matrix.python-version == '3.11' }}
+      
+      - name: Run nox tests
+        run: pdm run nox -s tests
+        continue-on-error: true

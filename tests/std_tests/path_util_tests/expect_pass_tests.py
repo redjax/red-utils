@@ -5,7 +5,6 @@ These tests expect assertions to be True, and will crash pytest if assertions fa
 from __future__ import annotations
 
 import datetime
-
 from pathlib import Path
 
 from red_utils.std import path_utils

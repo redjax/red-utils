@@ -6,7 +6,6 @@ from typing import Optional, Type, Union
 from .constants import valid_key_types, valid_tag_types, valid_val_types
 
 import diskcache
-
 from diskcache import Cache
 
 def validate_key(key: valid_key_types = None, none_ok: bool = False) -> Union[str, int]:
