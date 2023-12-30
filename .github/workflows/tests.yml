@@ -33,8 +33,5 @@ jobs:
           pdm --version
           nox --version
       
-      - name: Create nox testenv
-        run: python -m nox -s testenv --no-error-on-missing-interpreters
-
       - name: Run nox tests
         run: python -m nox -s tests  --no-error-on-missing-interpreters
