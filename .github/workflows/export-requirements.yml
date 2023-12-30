@@ -18,10 +18,10 @@ jobs:
         with:
           ref: ${{ github.event.pull_request.head.ref }}
       
-      - name: Set up Python 3.11
+      - name: Set up Python
         uses: actions/setup-python@v2
         with:
-          python-version: 3.11
+          python-version: '3.12 3.11'
 
       - name: Install nox
         run: |
