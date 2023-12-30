@@ -2,10 +2,6 @@
 name: Lint & format code
 
 on:
-  # push:
-  #   branches:
-  #     - dev
-  #     - ci
   pull_request:
     branches:
       - main
