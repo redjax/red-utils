@@ -37,4 +37,4 @@ jobs:
           nox --version
       
       - name: Run nox tests
-        run: python -m nox -s tests
+        run: python -m nox -s tests --no-error-on-missing-interpreters
