@@ -10,14 +10,14 @@ on:
 
 jobs:
   export-requirements:
-    runs-on: ubuntu-latest
+    runs-on: thekevjames/nox
 
     steps:
 
       - uses: actions/checkout@v4
         with:
           ref: ${{ github.event.pull_request.head.ref }}
-      - uses: fjwillemsen/setup-nox2@v3.0.0
+      # - uses: fjwillemsen/setup-nox2@v3.0.0
       
       - name: Create nox testenv
         run: nox -s testenv
