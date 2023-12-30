@@ -2,7 +2,6 @@ from __future__ import annotations
 
 from dataclasses import dataclass, field
 import sys
-
 from typing import Callable, Union
 
 _ts: str = "[{time:YYYY-MM-DD_HH:mm:ss}]"

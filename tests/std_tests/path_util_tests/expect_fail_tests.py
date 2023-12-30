@@ -6,7 +6,6 @@ these tests will not stop pytest execution.
 from __future__ import annotations
 
 import datetime
-
 from pathlib import Path
 
 from red_utils.std import path_utils

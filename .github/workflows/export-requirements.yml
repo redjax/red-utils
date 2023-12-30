@@ -2,62 +2,61 @@
 name: Export project requirements.txt file(s)
 
 on:
-  # push:
-  #   branches:
-  #     - dev
-  #     - ci
   pull_request:
     branches:
       - main
       - dev
       - ci
+    # Do not trigger tests for documentation or markdown docs.
+    paths-ignore:
+      - 'docs/**'
+      - '*.md'
 
 jobs:
+
   export-requirements:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ['3.12', '3.11']
 
     steps:
 
-      - name: Checkout code
-        uses: actions/checkout@v2
+      - uses: actions/checkout@v4
         with:
           ref: ${{ github.event.pull_request.head.ref }}
 
-      - name: Set up Python
-        uses: actions/setup-python@v2
+      - name: Set up Python 3.11
+        uses: actions/setup-python@v5
         with:
           python-version: 3.11
 
-      - name: Install PDM
+      - name: Install nox
         run: |
-          python -m pip install pdm
+          python -m pip install nox pdm
           pdm --version
+          nox --version
+        if: ${{ matrix.python-version == '3.11' }}
 
-      - name: Export requirements.txt
-        run: |
-          pdm export --prod -o requirements.txt --without-hashes
-          cat requirements.txt
+      - name: Export requirements
+        run: python -m nox -s export
+        if: ${{ matrix.python-version == '3.11' }}
 
-      - name: Export requirements.dev.txt
-        run: |
-          pdm export -d -o requirements.dev.txt --without-hashes
-          cat requirements.dev.txt
-
-      - name: Export requirements.ci.txt
-        run: |
-          pdm export -d -o requirements.ci.txt --without-hashes
-          cat requirements.ci.txt
+      - name: Display Python version
+        run: python -c "import sys; print(sys.version)"
 
       - name: Commit & push changes
         run: |
           git config user.name "GitHub Action"
           git config user.email "action@github.com"
+          git config advice.addIgnoredFile false
 
           ## If there are no changes, this keeps the workflow from failing
           if [[ -n $(git status -s) ]]; then
-            git add requirements.txt requirements.dev.txt requirements.ci.txt
+            git add requirements/requirements.txt requirements/requirements.dev.txt requirements/requirements.ci.txt
             git commit -m "Auto-export requirements files"
             git push
           else
             echo "No changes to commit."
           fi
+        if: ${{ matrix.python-version == '3.11' }}
