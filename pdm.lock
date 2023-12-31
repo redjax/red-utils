@@ -3,8 +3,9 @@
 
 [metadata]
 groups = ["default", "dev", "all", "fastapi", "http", "standard", "arrow", "data", "dataframes", "ci"]
-strategy = ["cross_platform"]
-lock_version = "4.4.1"
+cross_platform = true
+static_urls = false
+lock_version = "4.3"
 content_hash = "sha256:3c0c6a8b1eb78f3bcbaa9baabf85741cf550dbe1ee78992b60b8e5cf4d04c195"
 
 [[package]]
@@ -1683,7 +1684,7 @@ version = "2.0.23"
 requires_python = ">=3.7"
 summary = "Database Abstraction Library"
 dependencies = [
-    "greenlet!=0.4.17; platform_machine == \"win32\" or platform_machine == \"WIN32\" or platform_machine == \"AMD64\" or platform_machine == \"amd64\" or platform_machine == \"x86_64\" or platform_machine == \"ppc64le\" or platform_machine == \"aarch64\"",
+    "greenlet!=0.4.17; platform_machine == \"aarch64\" or (platform_machine == \"ppc64le\" or (platform_machine == \"x86_64\" or (platform_machine == \"amd64\" or (platform_machine == \"AMD64\" or (platform_machine == \"win32\" or platform_machine == \"WIN32\")))))",
     "typing-extensions>=4.2.0",
 ]
 files = [

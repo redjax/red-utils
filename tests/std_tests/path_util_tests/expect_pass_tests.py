@@ -7,9 +7,8 @@ from __future__ import annotations
 import datetime
 from pathlib import Path
 
-from red_utils.std import path_utils
-
 from pytest import mark, xfail
+from red_utils.std import path_utils
 
 @mark.file_utils
 def test_cwd_exists(cwd: Path):
