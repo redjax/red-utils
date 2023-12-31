@@ -1,9 +1,8 @@
 """Tests designed to fail when run with pytest."""
 from __future__ import annotations
 
-from red_utils.std import dict_utils
-
 from pytest import mark, xfail
+from red_utils.std import dict_utils
 
 @mark.xfail
 def test_fail_debug_dict_none(_dict: dict = None):

@@ -1,11 +1,10 @@
 from __future__ import annotations
 
-from red_utils.ext import time_utils
-from red_utils.ext.time_utils import arrow_utils
-
 import arrow
 import pendulum
 from pytest import mark, xfail
+from red_utils.ext import time_utils
+from red_utils.ext.time_utils import arrow_utils
 
 @mark.xfail
 def test_fail_arrow_ts(bad_ts_str: str):

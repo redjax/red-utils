@@ -2,9 +2,8 @@ from __future__ import annotations
 
 from pathlib import Path
 
-from red_utils.std import path_utils
-
 from pytest import fixture
+from red_utils.std import path_utils
 
 @fixture
 def cwd() -> Path:
@@ -12,7 +11,7 @@ def cwd() -> Path:
 
     Useful for testing path/file functions.
     """
-    _cwd: Path = Path("red_utils")
+    _cwd: Path = Path("src/red_utils")
 
     return _cwd
 

@@ -1,11 +1,10 @@
 from __future__ import annotations
 
-from red_utils.ext import time_utils
-from red_utils.ext.time_utils import arrow_utils
-
 import arrow
 import pendulum
 from pytest import fixture
+from red_utils.ext import time_utils
+from red_utils.ext.time_utils import arrow_utils
 
 @fixture
 def bad_ts_str() -> str:

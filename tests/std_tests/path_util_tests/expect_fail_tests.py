@@ -8,9 +8,8 @@ from __future__ import annotations
 import datetime
 from pathlib import Path
 
-from red_utils.std import path_utils
-
 from pytest import mark, xfail
+from red_utils.std import path_utils
 
 ## Tests below are expected to fail and will not raise an exception
 
