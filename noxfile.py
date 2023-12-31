@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 from pathlib import Path
+import platform
 
 import nox
 
@@ -11,8 +12,11 @@ nox.options.error_on_missing_interpreters = False
 # nox.options.report = True
 nox.sessions = ["lint", "export", "tests"]
 
-PYVER: str = "3.11"
-TEST_PYVERS: list[str] = ["3.12", "3.11"]
+PY_VER_TUPLE = platform.python_version_tuple()
+# DEFAULT_PYTHON: str = "3.11"
+DEFAULT_PYTHON: str = f"{PY_VER_TUPLE[0]}.{PY_VER_TUPLE[1]}"
+
+PY_VERSIONS: list[str] = ["3.12", "3.11"]
 
 PDM_VER: str = "2.11"
 
@@ -32,7 +36,7 @@ if not REQUIREMENTS_OUTPUT_DIR.exists():
         REQUIREMENTS_OUTPUT_DIR: Path = Path(".")
 
 
-@nox.session(python=TEST_PYVERS, name="build-env")
+@nox.session(python=PY_VERSIONS, name="build-env")
 @nox.parametrize("pdm_ver", [PDM_VER])
 def setup_base_testenv(session: nox.Session, pdm_ver: str):
     session.install(f"pdm>={pdm_ver}")
@@ -42,7 +46,7 @@ def setup_base_testenv(session: nox.Session, pdm_ver: str):
     session.run("pdm", "install")
 
 
-@nox.session(python=[PYVER], name="lint")
+@nox.session(python=[DEFAULT_PYTHON], name="lint")
 def run_linter(session: nox.Session):
     session.install("ruff", "black")
 
@@ -73,7 +77,7 @@ def run_linter(session: nox.Session):
         )
 
 
-@nox.session(python=[PYVER], name="export")
+@nox.session(python=[DEFAULT_PYTHON], name="export")
 @nox.parametrize("pdm_ver", [PDM_VER])
 def export_requirements(session: nox.Session, pdm_ver: str):
     session.install(f"pdm>={pdm_ver}")
@@ -110,9 +114,11 @@ def export_requirements(session: nox.Session, pdm_ver: str):
     # )
 
 
-@nox.session(python=TEST_PYVERS, name="tests")
+@nox.session(python=PY_VERSIONS, name="tests")
 @nox.parametrize("pdm_ver", [PDM_VER])
 def run_tests(session: nox.Session, pdm_ver: str):
+    print(f"Default Python: {DEFAULT_PYTHON}")
+
     session.install(f"pdm>={pdm_ver}")
     session.run("pdm", "install")
 
