@@ -1,8 +1,7 @@
 from __future__ import annotations
 
-from red_utils.std import hash_utils
-
 from pytest import mark, xfail
+from red_utils.std import hash_utils
 
 @mark.xfail
 def test_fail_str_to_hash(str_to_hash: str = None):
