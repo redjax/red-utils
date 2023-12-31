@@ -1,0 +1,105 @@
+site_name: Red-Utils
+repo_name: redjax/red-utils
+site_url: https://github.com/redjax/red-utils
+repo_url: https://github.com/redjax/red-utils
+site_description: "Collection of utility scripts/functions that I use frequently."
+
+nav:
+  - Home: index.md
+  - Reference: stdlib-reference.md
+  # - Modules:
+  #   - stdlib: stdlib-reference.md
+  #   - external: red_utils.ext/ext_utils.md
+  - Development:
+    - dev/developing.md
+    - dev/extending.md
+
+exclude_docs: |
+  drafts/
+
+theme:
+  name: material
+  icon:
+    repo: fontawesome/brands/git-alt
+  font:
+    text: Open Sans
+    code: Fira Code
+  features:
+    - navigation.instant
+    - navigation.instant.prefetch
+    - navigation.instant.progress
+    - navigation.tracking
+    # - navigation.tabs
+    - navigation.sections
+    - navigation.expand
+    - navigation.path
+    - navigation.prune
+    - navigation.indexes
+    - toc.follow
+    - toc.integrate
+    - navigation.top
+    - search.suggest
+    - search.highlight
+    - search.share
+    - header.autohide
+    - announce.dismiss
+
+  plugins:
+  - search
+  - optimize
+  - offline
+  - gen-files:
+      scripts:
+        - src/red_utils
+  - mkdocstrings:
+      handlers:
+        python:
+          paths: [src]
+          options:
+            allow_inspection: true
+            show_submodules: true
+
+  palette:
+    # - media: "(prefers-color-scheme)"
+    #   toggle:
+    #     icon: material/brightness-auto
+    #     name: Switch to light mode
+
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      toggle:
+        icon: material/weather-night
+        name: Switch to dark mode
+      primary: red
+      accent: amber
+
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      toggle:
+        icon: material/weather-sunny
+        name: Switch to light mode
+      primary: red
+      accent: amber
+
+  highlightjs: true
+  hljs_languages:
+    - yaml
+    - python
+    - bash
+    - powershell
+    - docker
+  include_homepage_in_sidebar: true
+  sticky_navigation: false
+  logo: null
+markdown_extensions:
+  - toc:
+      permalink: "#"
+  - pymdownx.highlight:
+      anchor_linenums: true
+      line_spans: __span
+      pygments_lang_class: true
+  - admonition
+  - codehilite
+  - pymdownx.inlinehilite
+  - pymdownx.snippets
+  - pymdownx.superfences

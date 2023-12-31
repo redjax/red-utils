@@ -1,4 +1,4 @@
-# Extending module by adding additional utils
+# Extending a red-utils module by adding additional utils
 
 - Create a new directory in `red_utils`
 - Initialize with `pdm init`
