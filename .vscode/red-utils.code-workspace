@@ -5,11 +5,15 @@
 			"name": "Git Root"
 		},
 		{
+			"path": "../docs",
+			"name": "Documentation"
+		},
+		{
 			"path": "../tests",
 			"name": "Tests"
 		},
 		{
-			"path": "../red_utils/",
+			"path": "../src/red_utils/",
 			"name": "Red-Utils App"
 		}
 	]
