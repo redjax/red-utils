@@ -117,6 +117,8 @@ def export_requirements(session: nox.Session, pdm_ver: str):
 @nox.session(python=PY_VERSIONS, name="tests")
 @nox.parametrize("pdm_ver", [PDM_VER])
 def run_tests(session: nox.Session, pdm_ver: str):
+    print(f"Default Python: {DEFAULT_PYTHON}")
+
     session.install(f"pdm>={pdm_ver}")
     session.run("pdm", "install")
 
