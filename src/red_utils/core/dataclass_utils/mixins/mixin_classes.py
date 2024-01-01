@@ -31,12 +31,13 @@ class DictMixin:
 
     def as_dict(self: Generic[T]):
         """Return dict representation of a dataclass instance.
-        
+
         Description:
         Any class that inherits from `DictMixin` will automatically have a method `.as_dict()`.
         There are no extra params.
-        
-        Returns:
+
+        Returns
+        -------
         A Python `dict` representation of a Python `dataclass` class.
         """
         try:
