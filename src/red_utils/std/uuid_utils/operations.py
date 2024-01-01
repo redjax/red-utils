@@ -25,11 +25,12 @@ def gen_uuid(as_hex: bool = False) -> Union[str, uuid.UUID]:
     """Return a UUID.
 
     Nested function to simply return a UUID object.
-    
+
     Params:
         as_hex (bool): If True, returns a UUID hex (a UUID without the '-' characters, which is 32 characters instead of 36).
-    
-    Returns:
+
+    Returns
+    -------
         (str): A 36 character UUID string
         (str): A 32 character UUID hex string (a UUID minus the `-` characters)
     """
@@ -47,13 +48,14 @@ def gen_uuid(as_hex: bool = False) -> Union[str, uuid.UUID]:
 
 def trim_uuid(trim: int = 0, in_uuid: str = uuid.uuid4(), as_hex: bool = False) -> str:
     """Trim UUID string, removing n characters from end of string (where n is value of trim).
-    
+
     Params:
         trim (int): Number of characters to remove from end of UUID string.
         in_uuid (str): An existing UUID `str` to be trimmed/converted to hex.
         as_hex (bool): If `True`, returns a UUID hex (UUID `str` without the `-` characters).
-    
-    Returns:
+
+    Returns
+    -------
         (str): A 36 character UUID string
         (str): A 32 character UUID hex string (a UUID minus the `-` characters)
     """
@@ -81,17 +83,19 @@ def trim_uuid(trim: int = 0, in_uuid: str = uuid.uuid4(), as_hex: bool = False) 
 
 def first_n_chars(first_n: int = 36, in_uuid: str = uuid.uuid4(), as_hex: bool = False):
     """Return first n characters of UUID string (where n is first_n).
-    
+
     Params:
         first_n (int): trim (int): Number of characters to remove from beginning of UUID string.
         in_uuid (str): in_uuid (str): An existing UUID `str` to be trimmed/converted to hex.
         as_hex (bool): as_hex (bool): If `True`, returns a UUID hex (UUID `str` without the `-` characters).
 
-    Returns:
+    Returns
+    -------
         (str): A 36 character UUID string
         (str): A 32 character UUID hex string (a UUID minus the `-` characters)
 
-    Raises:
+    Raises
+    ------
         ValueError: If input `first_n` is an invalid number of characters to return, less than 0 or greater than predefined max value (32 for hex, 36 for standard).
     """
     if not isinstance(first_n, int):
@@ -121,14 +125,16 @@ def get_rand_uuid(
     Params:
         trim (int): Remove `n` characters from end of string.
         characters(int): Return first `n` characters from beginning of string.
-        as_str (bool): 
+        as_str (bool):
         as_hex (bool): Return UUID as a hexadecimal (32 chars, UUID without `-` characters).
-    
-    Returns:
+
+    Returns
+    -------
         (str): A 36 character UUID string
         (str): A 32 character UUID hex string (a UUID minus the `-` characters)
-        
-    Raises:
+
+    Raises
+    ------
         ValueError: If inputs `trim` or `characters` are invalid. TODO: Add `TypeErrors` too
     """
     if isinstance(trim, int) and isinstance(characters, int):

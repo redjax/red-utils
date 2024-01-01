@@ -12,13 +12,14 @@ class SQLiteDB:
 
     Use this object's `.create_empty_db()` function to attempt to create a database at the object's `.db_path` property
     (this is a calculated property, available once the class is initialized).
-    
+
     Params:
         name (str): The name of the database file
         ext (str): The file extension to use (`.db`, `.sqlite`, etc)
         location (str): Path where database file will be created. Database file will be created at `self.location`/`self.name` + `self.ext`
-        
-    Returns:
+
+    Returns
+    -------
         (SQLiteDB): An initialized `SQLiteDB` object
     """
 

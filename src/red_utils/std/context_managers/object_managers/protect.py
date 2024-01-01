@@ -16,7 +16,7 @@ class ListProtect:
         the original if the operation succeeds.
 
     Usage:
-    
+
     ``` py linenums="1"
     ex_list = [1, 2, 3]
 

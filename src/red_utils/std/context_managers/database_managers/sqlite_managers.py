@@ -73,11 +73,12 @@ class SQLiteConnManager:
 
     def get_cols(self, table: str = None) -> list[str]:
         """Return list of column names from a given table.
-        
+
         Params:
             table (str): Name of the table in the SQLite database
-            
-        Returns:
+
+        Returns
+        -------
             (list[str]): List of column names found in table
         """
         cols: list[str] = []
@@ -98,8 +99,9 @@ class SQLiteConnManager:
 
     def get_tables(self) -> list[str]:
         """Get all table names from a SQLite databse.
-        
-        Returns:
+
+        Returns
+        -------
             (list[str]): List of table names found in SQLite database.
         """
         get_tbls_stmt: str = "SELECT name FROM sqlite_master WHERE type='table';"
@@ -120,11 +122,12 @@ class SQLiteConnManager:
 
     def run_sqlite_stmt(self, stmt: str = None) -> list[sqlite3.Row]:
         """Execute a SQL statement.
-        
+
         Params:
             stmt (str): The SQL statement to execute against a SQLite database
-            
-        Returns:
+
+        Returns
+        -------
             (list[sqlite3.Row]): The results from executing the query
         """
         assert stmt, "Must pass a SQL statement"

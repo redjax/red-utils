@@ -12,11 +12,12 @@ from .constants import VALID_RETURN_TYPES
 
 def file_ts(fmt: str = "%Y-%m-%d_%H:%M:%S") -> str:
     """Return a formatted timestamp, useful for prepending to dir/file names.
-    
+
     Params:
         fmt (str): String that defines the format of a timestamp
-        
-    Returns:
+
+    Returns
+    -------
         (str): A formatted datetime string
     """
     now: str = datetime.now().strftime(fmt)
@@ -35,8 +36,9 @@ def export_json(
         input (str|list[list,dict]|dict[str,Any]): The input object to be output to a file.
         output_dir (str): The directory where a .json file will be saved.
         output_filename (str): The name of the file that will be saved in output_dir.
-        
-    Raises:
+
+    Raises
+    ------
         FileExistsError: When the output path already exists
         FileNotFoundError: When the export path does not exist
         Exception: When other exceptions have not been caught, a generic `Exception` is raised
@@ -82,30 +84,35 @@ def crawl_dir(
     return_type: str = "all",
 ) -> Union[dict[str, list[Path]], list[Path]]:
     """Crawl a directory and return an object with all found files & dirs.
-    
+
     Params:
         target (str | Path): The target directory to crawl
         filetype_filter (str): An optional filetype filter str; only files matching this filter will be returned
         return_type (str): Return `files`, `dirs`, or `all`
-    
-    Returns:
+
+    Returns
+    -------
         (list[Path]): A list of `Path` objects if `return_type` is `dirs` or `files`
         (dict[str, list[Path]]): If `return_type` is `all`, return a dict `{"file": [], "dirs": []}`
-    
-    Raises:
+
+    Raises
+    ------
         ValueError: When input validation fails
         FileNotFoundError: When a file/directory path cannot be found
-        """
+    """
+
     def validate_target(target: Union[str, Path] = target) -> Path:
         """Validate a target path.
-        
+
         Params:
             target (str, Path): The path to validate
-        
-        Returns:
+
+        Returns
+        -------
             (Path): A Python `Path` object
-            
-        Raises:
+
+        Raises
+        ------
             ValueError: When input validation fails
             FileNotFoundError: When the path to validate does not exist
         """
@@ -125,15 +132,17 @@ def crawl_dir(
         VALID_RETURN_TYPES: list[str] = VALID_RETURN_TYPES,
     ) -> str:
         """Validate a return type.
-        
+
         Params:
             return_type (str): The `return_type` string to validate
             VALID_RETURN_TYPES `list[str]`: Valid options for the `return_type` string. Defaults to a predefined list of `["all", "files", "dirs"]`
-        
-        Returns:
+
+        Returns
+        -------
             (str): The validated `return_type` string
-        
-        Raises:
+
+        Raises
+        ------
             ValueError: When input validation fails
             TypeError: When input value is not a `str`
         """
@@ -156,7 +165,7 @@ def crawl_dir(
         target=target, search_str: str = "**/*", return_type=return_type
     ) -> Union[dict[str, list[Path]], list[Path]]:
         """Run Path crawl.
-        
+
         Inherits `target`, `search_str`, and `return_type` from parent method that calls this function.
         """
         return_obj: dict[str, list[Path]] = {"files": [], "dirs": []}
@@ -203,13 +212,14 @@ def list_files(
     in_dir: str = None, ext_filter: str = None, return_files: list[Path] = []
 ) -> list[Path]:
     """List all files in a path, optionally filtering by file extension.
-    
+
     Params:
         in_dir (str): Directory path to scan
         ext_filter (str): Filetype to search for
         return_files (list[Path]): Used by the function to recurse through subdirectories
-    
-    Returns:
+
+    Returns
+    -------
         (list[Path]): A list of found files, represented as `Path` objects
     """
     if not in_dir:
@@ -287,15 +297,17 @@ def ensure_dirs_exist(ensure_dirs: list[Union[str, Path]] = None) -> None:
 
 def delete_path(rm_path: Union[str, Path] = None) -> bool:
     """Recursively delete a path.
-    
+
     Params:
         rm_path (str | Path): The path to delete
-    
-    Returns:
+
+    Returns
+    -------
         (bool): `True` if `rm_path` deleted successfully
         (bool): `False` if `rm_path` not deleted successfully
-        
-    Raises:
+
+    Raises
+    ------
         FileNotFoundError: When path to delete does not exist
         PermissionError: When permission to delete the path is not granted
         Exception: Generic `Exception` when operation fails and is not caught by another exception
