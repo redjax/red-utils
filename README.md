@@ -17,7 +17,8 @@
 # Description
 
 - 🔗 [Project Home - Github Repository](https://github.com/redjax/red-utils)
-- 🔗 [Red Utils on Pypi]([https://](https://pypi.org/project/red_utils/))
+- 🔗 [Red Utils on Pypi](https://pypi.org/project/red_utils/)
+- 🔗 [Red Utils on ReadTheDocs](https://red-utils.readthedocs.io/en/latest/)
 
 
 A collection of utility scripts/functions that I use frequently. Includes helper functions/default variables for libraries like `loguru`, `diskcache`, and `msgpack`.
