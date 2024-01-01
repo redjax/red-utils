@@ -10,7 +10,7 @@ class CustomException(CustomExceptionBase):
     """A generic Exception.
 
     Description: This object can store arbitrary types in one of 2 extra fields:
-    
+
     - errors
     - extra
 

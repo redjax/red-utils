@@ -1,5 +1,4 @@
-"""
-The `core` module contains constants & utility functions meant for internal use. Other modules in `red_utils` can access the `red_utils.core`
+"""The `core` module contains constants & utility functions meant for internal use. Other modules in `red_utils` can access the `red_utils.core`
 package to call constants like `DATA_DIR` (defaults to `.data`) when setting default params for a function.
 """
 from __future__ import annotations

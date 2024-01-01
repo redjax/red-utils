@@ -1,5 +1,4 @@
-"""
-Mixin classes for Python dataclasses.
+"""Mixin classes for Python dataclasses.
 
 Usage:
 

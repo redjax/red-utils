@@ -1,5 +1,4 @@
-"""
-Extensions & utilities for third-party libraries I use frequently, like `red_utils.ext.sqla_utils`, which contains
+"""Extensions & utilities for third-party libraries I use frequently, like `red_utils.ext.sqla_utils`, which contains
 boilerplate code for `SQLAlchemy`, or `red_utils.ext.pydantic`, which contains a method (parse_pydantic_schema) that can
 parse a `Pydantic` class object into a compatible `SQLAlchemy` model.
 
@@ -15,7 +14,6 @@ for type completion & usage.
 from __future__ import annotations
 
 import pkgutil
-
 
 if pkgutil.find_loader("arrow") or pkgutil.find_loader("pendulum"):
     from . import time_utils
