@@ -3,6 +3,19 @@ from __future__ import annotations
 import hashlib
 
 def get_hash_from_str(input_str: str = None, encoding: str = "utf-8") -> str:
+    """Return a hashed version of an input string.
+    
+    Params:
+        input_str (str): The string to hash
+        encoding (str): The character encoding to use
+    
+    Returns:
+        (str): A hashed representation of `input_str`
+    
+    Raises:
+        ValueError: When input validation fails
+        Exception: A generic `Exception` when converting string to hash fails
+    """
     if not input_str:
         raise ValueError("Missing input string")
 

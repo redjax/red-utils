@@ -8,6 +8,12 @@ def debug_dict(in_dict: dict = None) -> None:
     """Debug print a dict by looping overkeys and printing.
 
     If type of key is also dict, re-run the loop on that key and continue.
+    
+    Params:
+        in_dict (dict): The input dict to loop & debug print
+    
+    Raises:
+        Exception: A generic `Exception` whenever debug printing a `dict` fails
     """
     validate_dict(in_dict)
 
@@ -31,7 +37,18 @@ def merge_dicts(
     original_dict: dict[str, Any] = None,
     update_vals: dict[str, Any] = None,
 ) -> dict[str, str]:
-    """Merge dicts into new dict."""
+    """Merge dicts into new dict.
+    
+    Params:
+        original_dict (dict): The first `dict`
+        update_vals (dict): The new `dict` to be merged into the first `dict`.
+        
+    Returns:
+        (dict): A merged `dict` from the 2 input `dict`s
+    
+    Raises:
+        Exception: When merging the `dict`s fails
+    """
     validate_dict(original_dict)
     validate_dict(update_vals)
 
@@ -50,10 +67,12 @@ def update_dict(
 ) -> dict[str, str]:
     """Update a dict with values from a second dict.
 
-    Args:
-    ----
+    Params:
         original_dict: The original dictionary to be updated.
         update_vals: The dict with values with which to update the original dict.
+        
+    Returns:
+        (dict): A `dict` with updated values
     """
     validate_dict(original_dict)
     validate_dict(update_vals)
