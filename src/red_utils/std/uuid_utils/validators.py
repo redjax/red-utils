@@ -7,7 +7,18 @@ glob_uuid_lens: UUIDLength = UUIDLength()
 
 
 def validate_trim(trim_in: int = 0, as_hex: bool = False) -> int:
-    """Validate a trim value."""
+    """Validate a trim value.
+    
+    Params:
+        trim_in (int): Value of `trim` passed from another function.
+        as_hex (bool): Value of `as_hex` passed from another function.
+    
+    Returns:
+        (int): A validated `int`
+    
+    Raises:
+        ValueError: When `trim_in` is less than 0, or greater than the length of a UUID string/hex (36/32 characters).
+    """
     if not isinstance(trim_in, int):
         ## If trim_in is not an int, try converting to one
         try:
@@ -40,7 +51,16 @@ def validate_trim(trim_in: int = 0, as_hex: bool = False) -> int:
 
 
 def validate_characters(characters_in: int = 0, as_hex: bool = False) -> int:
-    """Validate a characters value."""
+    """Validate a characters value.
+    
+    Params:
+        characters_in (int): Integer value passed from another function
+        as_hex (int): Bool value passed from another function
+    
+    Raises:
+        Exception: When attempting to convert `characters_in` value to an `int` fails.
+        ValueError: When `trim_in` is less than 0, or greater than the length of a UUID string/hex (36/32 characters).
+    """
     if not isinstance(characters_in, str):
         try:
             characters_in = int(characters_in)
