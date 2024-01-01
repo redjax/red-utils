@@ -1,3 +1,4 @@
+"""Utilities for interacting with Pythons `hashlib` module."""
 from __future__ import annotations
 
 from . import operations
