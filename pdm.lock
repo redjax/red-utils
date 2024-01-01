@@ -2,10 +2,10 @@
 # It is not intended for manual editing.
 
 [metadata]
-groups = ["default", "dev", "all", "fastapi", "http", "standard", "arrow", "data", "dataframes", "ci", "documentation", "documentataion"]
+groups = ["default", "dev", "all", "fastapi", "http", "standard", "arrow", "data", "dataframes", "ci", "documentation", "documentataion", "docs"]
 strategy = ["cross_platform"]
 lock_version = "4.4.1"
-content_hash = "sha256:dc91cc3e3fbf101da6929b0ac3a36c00eb4c99ecbddbcdd666bb49f698568fee"
+content_hash = "sha256:fc77c60ced9a43e0fcafa3588187517efc600a435b2bfa48c7bf057277b83600"
 
 [[package]]
 name = "annotated-types"
