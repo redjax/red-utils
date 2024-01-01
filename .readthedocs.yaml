@@ -15,7 +15,7 @@ build:
       - pip install pdm
     post_install:
       ## Install docs dependency group
-      pdm install -G docs
+      - pdm install -G docs
 
 mkdocs:
   configuration: mkdocs.yml
