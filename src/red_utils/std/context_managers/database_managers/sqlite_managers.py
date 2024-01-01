@@ -1,5 +1,8 @@
 """Context manager utilities for interacting with SQLite databases, using
 the stdlib sqlite3 library.
+
+The `SQLiteConnManager` class facilitates clean & safe transactions to the database by
+trying operations before committing.
 """
 from __future__ import annotations
 
@@ -13,23 +16,30 @@ class SQLiteConnManager:
     Uses built-in functions to query a database, execute SQL statements,
     and gracefully open/close the DB using context managers.
 
-    Usage:
-        Provide a path string to the SQLite database:
-            sqlite_connection = SQLiteConnManager(path="/path/to/db.sqlite")
+    Params:
+        path(str|Path): A path to a SQLite database file to work on.
 
-        Call sqlite3 functions, i.e. "get_tables()":
-            tables = sqlite_conn.get_tables()
+    Usage:
+    Provide a path string to the SQLite database:
+    ``` py linenums="1"
+    sqlite_connection = SQLiteConnManager(path="/path/to/db.sqlite")
+    ```
+
+    Call sqlite3 functions, i.e. `.get_tables()`:
+    ``` py linenums="1"
+    tables = sqlite_conn.get_tables()
+    ```
     """
 
     def __init__(self, path: Path):
-        """Initialize SQLite connection manager."""
+        ## Initialize SQLite connection manager.
         if isinstance(path, str):
             path: Path = Path(path)
 
         self.path = path
 
     def __enter__(self):
-        """Run when used like 'with SQLiteConnManager() as conn: ..."""
+        ## Executed automatically when class is used as a context handler, like `with SQLiteConnManager() as conn: ...`
         if not self.path.exists():
             print(FileNotFoundError(f"Database does not exist at path: {self.path}."))
             with sqlite3.connect(self.path):
@@ -58,11 +68,18 @@ class SQLiteConnManager:
             )
 
     def __exit__(self, exc_type, exc_val, exc_traceback):
-        """Run on exit, success or failure."""
+        ## Executed automatically when `with SQLiteConnManager()` exits. Executes on success or failure.
         self.connection.close()
 
     def get_cols(self, table: str = None) -> list[str]:
-        """Return list of column names from a given table."""
+        """Return list of column names from a given table.
+        
+        Params:
+            table (str): Name of the table in the SQLite database
+            
+        Returns:
+            (list[str]): List of column names found in table
+        """
         cols: list[str] = []
         stmt: str = f"SELECT * FROM {table}"
 
@@ -80,7 +97,11 @@ class SQLiteConnManager:
             raise Exception(f"Unhandled exception executing SQL. Details: {exc}")
 
     def get_tables(self) -> list[str]:
-        """Get all table names from a SQLite databse."""
+        """Get all table names from a SQLite databse.
+        
+        Returns:
+            (list[str]): List of table names found in SQLite database.
+        """
         get_tbls_stmt: str = "SELECT name FROM sqlite_master WHERE type='table';"
         tables: list[str] = []
 
@@ -98,7 +119,14 @@ class SQLiteConnManager:
             raise Exception(f"Unhandled exception getting tables. Details: {exc}")
 
     def run_sqlite_stmt(self, stmt: str = None) -> list[sqlite3.Row]:
-        """Execute a SQL statement."""
+        """Execute a SQL statement.
+        
+        Params:
+            stmt (str): The SQL statement to execute against a SQLite database
+            
+        Returns:
+            (list[sqlite3.Row]): The results from executing the query
+        """
         assert stmt, "Must pass a SQL statement"
         assert isinstance(stmt, str), "Statement must be a Python str"
 
