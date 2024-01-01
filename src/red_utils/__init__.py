@@ -6,6 +6,9 @@
 A collection of enhancements/utilities for modules & Python packages I use frequently. Modules are broken down into `std` and `ext`.
 Modules in `red_utils.std` have no external dependencies, requiring only the Python `stdlib`. Modules in `red_utils.ext`, on the other
 hand, are utilities & extensions I've written for packages like `Loguru`, `SQLAlchemy`, and `Pydantic`.
+
+The reference documentation is automatically generated from comments in the code. If I have not added docstrings to a file/function/class, it will not
+show up in the Reference section of this site. I'll get to it 🤷‍♂️
 """
 
 from __future__ import annotations
