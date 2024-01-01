@@ -7,12 +7,18 @@ from typing import Union
 
 from .schemas import SQLiteDB
 
-def init_sqlite_db(db_definition: SQLiteDB = None):
+def init_sqlite_db(db_definition: SQLiteDB = None) -> bool:
     """Initialize an empty SQLite database.
 
     Params:
-    -------
-    - db_definition (SQLiteDB): An initialized SQLiteDB object defining the SQLite database to create.
+        db_definition (SQLiteDB): An initialized SQLiteDB object defining the SQLite database to create.
+        
+    Returns:
+        (bool): `True` if SQLite database successfully initialized
+        (bool): `False` if SQLite database initialization unsuccessful
+        
+    Raises:
+        Exception: When initializing empty SQLite database fails
     """
     if db_definition is None:
         raise ValueError("Missing SQLiteDB object.")
@@ -38,7 +44,11 @@ def init_sqlite_db(db_definition: SQLiteDB = None):
 def get_demo_db() -> SQLiteDB:
     """Return an initialized SQLiteDB object with default settings.
 
-    A new database called "demo.db" will be created at the default '.db' path.
+    Returns:
+        (SQLiteDB): An initialized `SQLiteDB` instance. A SQLite database file will also be created at the path: `.db/demo.db`
+        
+    Raises:
+        Exception: When SQLite database initialization is unsuccessful
     """
     try:
         _db: SQLiteDB = SQLiteDB()
@@ -53,13 +63,22 @@ def get_sqlite_db(name: str = None, location: Union[str, Path] = None) -> SQLite
     """Initialize a SQLiteDB object.
 
     This is the same as simply instantiating a SQLiteDB object, like:
-        example_db: SQLiteDB = SQLiteDB(name=..., location=...)
+        
+    ``` py linenums="1"
+    example_db: SQLiteDB = SQLiteDB(name=..., location=...)
+    ```
 
     Params:
-    -------
-    - name (str): The name of the SQLite database. This will be used for the filename.
-    - location (str|Path): The directory location to save the database. Note that Path values will be converted to string, then
+        name (str): The name of the SQLite database. This will be used for the filename.
+        location (str|Path): The directory location to save the database. Note that Path values will be converted to string, then
         back to Path, so it is best to just pass the location as a string.
+        
+    Returns:
+        (SQLiteDB): An initialized `SQLiteDB` object
+        
+    Raises:
+        ValueError: When input value validation fails
+        Exception: When SQLite database initialization fails
     """
     if name is None:
         raise ValueError("Missing database name")

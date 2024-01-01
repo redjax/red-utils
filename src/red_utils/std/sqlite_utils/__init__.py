@@ -1,3 +1,5 @@
+"""Utilities & classes for interacting with the builtin `sqlite` module.
+"""
 from __future__ import annotations
 
 import sys
