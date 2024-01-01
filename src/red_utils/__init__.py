@@ -1,5 +1,4 @@
-"""
-!!! warning
+"""!!! warning
 
     `red_utils` is a pet project, not meant to be used in any serious capacity. If you really want to use specific features/functions of `red_utils`,
     copy the code into your own project and rewrite it enough that it works with your app.

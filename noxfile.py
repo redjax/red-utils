@@ -93,6 +93,7 @@ def export_requirements(session: nox.Session, pdm_ver: str):
         "pdm",
         "export",
         "--prod",
+        "--no-default",
         "-o",
         f"{REQUIREMENTS_OUTPUT_DIR}/requirements.txt",
         "--without-hashes",
@@ -103,8 +104,21 @@ def export_requirements(session: nox.Session, pdm_ver: str):
         "pdm",
         "export",
         "-d",
+        "--no-default",
         "-o",
         f"{REQUIREMENTS_OUTPUT_DIR}/requirements.dev.txt",
+        "--without-hashes",
+    )
+
+    print("Exporting docs requirements")
+    session.run(
+        "pdm",
+        "export",
+        "-G",
+        "docs",
+        "--no-default",
+        "-o",
+        "docs/requirements.txt",
         "--without-hashes",
     )
 
@@ -138,16 +152,12 @@ def run_tests(session: nox.Session, pdm_ver: str):
         "-rsXxfP",
     )
 
+
 @nox.session(python=[DEFAULT_PYTHON], name="docs")
 @nox.parametrize("pdm_ver", [PDM_VER])
 def build_docs(session: nox.Session, pdm_ver: str):
     session.install(f"pdm>={pdm_ver}")
     session.run("pdm", "install", "-d")
-    
+
     print("Building docs with mkdocs")
-    session.run(
-        "pdm",
-        "run",
-        "mkdocs",
-        "build"
-    )
+    session.run("pdm", "run", "mkdocs", "build")

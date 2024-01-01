@@ -1,5 +1,4 @@
-"""
-Custom exceptions used throughout `red_utils`. These exceptions can be imported & raised in your own code.
+"""Custom exceptions used throughout `red_utils`. These exceptions can be imported & raised in your own code.
 
 For example, to use `CustomException` as a base class for a new exception specific to your app:
 
