@@ -9,27 +9,29 @@ from .base import CustomExceptionBase
 class CustomException(CustomExceptionBase):
     """A generic Exception.
 
-    This object can store arbitrary types in one of 2 extra fields: errors and extra.
+    Description: This object can store arbitrary types in one of 2 extra fields:
+    
+    - errors
+    - extra
 
-    Errors is meant to store an error/a list of errors.
-    Extra is meant to store any non-message, non-error data with the exception. This could be a class
+    `errors` is meant to store an error/a list of errors.
+    `extra` is meant to store any non-message, non-error data with the exception. This could be a class
     object, a dict, or some other form of arbitrary data.
 
     Params:
-    -------
-
-        msg | str: A message to display with the exception.
-        errors | Any: Property to store arbitrary data. Meant to be used for errors associated with the exception.
-        extra | Any: Property to store arbitrary data. Data stored in this property can be a Python object (i.e. a class
-        instance, dict, str, or other), a list of objects/strings, etc.
+        msg (str): A message to display with the exception.
+        errors (Any): Property to store arbitrary data. Meant to be used for errors associated with the exception.
+        extra (Any): Property to store arbitrary data.
+            Data stored in this property can be a Python object (i.e. a class
+            instance, dict, str, or other), a list of objects/strings, etc.
 
     Usage:
-    ------
-
+        ``` py
         try:
             ...
         except CustomException as exc:
             raise CustomException(msg="Custom exception occurred", errors=exc)
+        ```
     """
 
     errors: Any | None = field(default=None)

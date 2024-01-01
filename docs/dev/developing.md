@@ -1,4 +1,4 @@
-# Developing red-utils
+# Setup dev environment
 
 These notes are mostly for me, but I suppose if anyone ever takes an interest in submitting a pull request, the documentation here will help get the local dev environment set up.
 
@@ -6,7 +6,7 @@ These notes are mostly for me, but I suppose if anyone ever takes an interest in
 
 - [PDM](https://pdm-project.org/latest/)
   - `pdm` is used to manage this package and its dependencies
-  - Take a look at the project's [`pyproject.toml`](../pyproject.toml) for available dependency groups. As you develop modules, consider which dependency group they belong in, i.e. most dependencies should *not* be added to the default dependency group.
+  - Take a look at the project's `pyproject.toml` for available dependency groups. As you develop modules, consider which dependency group they belong in, i.e. most dependencies should *not* be added to the default dependency group.
     - If you are working on a FastAPI module, for example, add new dependencies to the `fastapi` and `all` groups.
       - `pdm add -G fastapi <package>`
       - `pdm add -G all <package>`
@@ -18,13 +18,13 @@ These notes are mostly for me, but I suppose if anyone ever takes an interest in
         - `pdm run export`
 - (Optional) [Pre-commit](https://pre-commit.com)
   - There are some `pre-commit` scripts configured, too, for things like linting/formatting the code during commit.
-    - To see configured `pre-commit` steps, check [`.pre-commit-config.yaml`](../.pre-commit-config.yaml)
+    - To see configured `pre-commit` steps, check `.pre-commit-config.yaml`
   - To use these `pre-commit` scripts, they need to be installed locally with `pdm run pre-commit install`
   - To disable the pre-commit hooks, run `pdm run pre-commit uninstall`
 
 # Using the VSCode Workspace
 
-If you use Visual Studio Code as your text editor, you can open the workspace in [the `.vscode`](../.vscode) directory to have a more focused view of the code.
+If you use Visual Studio Code as your text editor, you can open the workspace in the `.vscode` directory to have a more focused view of the code.
 
 # Developing new modules
 

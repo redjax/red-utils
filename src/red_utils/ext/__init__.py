@@ -1,13 +1,20 @@
+"""
+Extensions & utilities for third-party libraries I use frequently, like `red_utils.ext.sqla_utils`, which contains
+boilerplate code for `SQLAlchemy`, or `red_utils.ext.pydantic`, which contains a method (parse_pydantic_schema) that can
+parse a `Pydantic` class object into a compatible `SQLAlchemy` model.
+
+This module uses pkgutil to only load modules if dependencies are met, keeping the `red_utils` package functional by limiting the utilities that are loaded.
+If a pkgutil.find_loader() check fails, that import is passed over and will be unavailable
+for type completion & usage.
+
+!!! warning
+
+    `pkutil.find_loader()` will be deprecated in a future Python 3.12 release. I will start updating the code in `red_utils` to be
+    compatible with the new `importlib.util.find_spec()` method.
+"""
 from __future__ import annotations
 
 import pkgutil
-
-"""Use pkgutil to only load modules if dependencies are met.
-
-This keeps the red_utils package functional by limiting the utilities that are loaded.
-If a pkgutil.find_loader() check fails, that import is passed over and will be unavailable
-for type completion & usage.
-"""
 
 
 if pkgutil.find_loader("arrow") or pkgutil.find_loader("pendulum"):
