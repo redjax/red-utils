@@ -82,6 +82,11 @@ dev = [
     "mkdocs>=1.5.3",
     "mkdocs-material>=9.5.3",
     "mkdocstrings[python]>=0.24.0",
+    "markdown-include>=0.8.1",
+    "mkdocs-gen-files>=0.5.0",
+    "mkdocs-autorefs>=0.5.0",
+    "mkdocs-section-index>=0.3.8",
+    "mkdocs-literate-nav>=0.6.1",
 ]
 
 [tool.pdm.scripts.tests]
@@ -130,8 +135,8 @@ shell = "pdm lock && pdm publish --repository pypi --verbose"
 [tool.pdm.scripts.upload-pypi-test]
 shell = "pdm lock && pdm publish --repository testpypi --verbose"
 
-[tool.pdm.scripts.mkdocs-build]
+[tool.pdm.scripts.docs-build]
 cmd = "mkdocs build"
 
-[tool.pdm.scripts.mkdocs-serve]
+[tool.pdm.scripts.docs-serve]
 cmd = "mkdocs serve --dev-addr 0.0.0.0:8000"

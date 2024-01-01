@@ -10,14 +10,13 @@ class CustomExceptionBase(BaseException):
     This class itself inherits from Python's Exception class.
 
     Params:
-    -------
-
         msg (str): A message to display with the exception
 
     Usage:
-    -------
+        ``` py linenums="1"
 
         raise CustomExceptionBase(msg="This is a custom exception")
+        ```
     """
 
     msg: str = field(default="Custom exception called")
