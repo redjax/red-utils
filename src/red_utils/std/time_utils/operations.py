@@ -10,9 +10,14 @@ from typing import Union
 from .constants import TIME_FMT_12H, TIME_FMT_24H
 
 def datetime_as_str(ts: dt = None, format: str = TIME_FMT_24H) -> str:
-    """Convert a datetime.datetime object to a string.
+    """Convert a `datetime.datetime` object to a string.
 
-    datetime.datetime() -> str()
+    Params:
+        ts (datetime.datetime): A Python `datetime.datetime` object to convert to a `str`
+        format (str): The `str` time string format to use
+        
+    Returns:
+        (str): A formatted `datetime.datetime` `str`
     """
     _ts: str = ts.strftime(format=format)
 
@@ -20,9 +25,14 @@ def datetime_as_str(ts: dt = None, format: str = TIME_FMT_24H) -> str:
 
 
 def datetime_as_dt(ts: str = None, format: str = TIME_FMT_24H) -> dt:
-    """Convert a datetime string to a datetime.datetime object.
+    """Convert a datetime string to a `datetime.datetime` object.
 
-    str() -> datetime.datetime()
+    Params:
+        ts (str): A datetime str to convert to a Python `datetime.datetime` object
+        format (str): The `str` time string format to use
+        
+    Returns:
+        (str): A formatted `datetime.datetime` object
     """
     _ts: dt = dt.strptime(ts, format)
 
@@ -31,9 +41,14 @@ def datetime_as_dt(ts: str = None, format: str = TIME_FMT_24H) -> dt:
 
 def get_ts(as_str: bool = False, format: str = TIME_FMT_24H) -> Union[dt, str]:
     """Get a timestamp object.
-
-    Returns a datetime.datetime by default. If as_str is True, converts datetime to
-    a string and returns.
+    
+    Params:
+        as_str (bool): If `True`, converts `datetime` to a `str`
+        format (str): The `str` time string format to use
+        
+    Returns:
+        (datetime.datetime): a Python `datetime.datetime` object.
+        (str): If `as_str` is `True`, converts datetime to a string & returns.
     """
     now: dt = dt.now()
 
