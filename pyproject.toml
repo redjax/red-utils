@@ -22,6 +22,7 @@ text = "MIT"
 
 [project.urls]
 Repository = "https://github.com/redjax/red-utils"
+Documentation = "https://red-utils.readthedocs.io/en/latest/"
 
 [project.optional-dependencies]
 standard = [

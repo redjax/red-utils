@@ -5,14 +5,21 @@ import time
 
 @contextmanager
 def benchmark(description: str = "Unnamed function timer") -> None:
-    """Time a function call.
+    """Time an operation.
 
-    Run a function with this context manager to time function execution.
+    Run an operation with this context manager (`with benchmark("time some function"):`) to time function execution.
+
+    Params:
+        description (str): A string that prints while the benchmark is running. This can be a message to the user, like
+        "benchmarking move_files()", or a message like "this will take a while...".
+
+        Once the benchmark finishes, details about the benchmarked function's execution will be printed to the terminal.
 
     Usage:
-
+    ``` py linenums="1"
     with benchmark("Short description here"):
-        ...
+        some_function()
+    ```
     """
     start = time.time()
     yield
@@ -27,10 +34,17 @@ async def async_benchmark(description: str = "Unnamed async function timer") -> 
 
     Run an async function/operation with this context manager to time function execution.
 
-    Usage:
+    Params:
+        description (str): A string that prints while the benchmark is running. This can be a message to the user, like
+        "benchmarking move_files()", or a message like "this will take a while...".
 
+        Once the benchmark finishes, details about the benchmarked function's execution will be printed to the terminal.
+
+    Usage:
+    ``` py linenums="1"
     with async_benchmark("Short description here"):
-        ...
+        await some_async_function()
+    ```
     """
     start = time.monotonic()
 

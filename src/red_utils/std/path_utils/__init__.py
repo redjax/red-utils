@@ -1,6 +1,6 @@
+"""Utilities for interacting with the Python `pathlib` module."""
 from __future__ import annotations
 
-from . import constants, operations
 from .constants import VALID_RETURN_TYPES
 from .operations import (
     crawl_dir,

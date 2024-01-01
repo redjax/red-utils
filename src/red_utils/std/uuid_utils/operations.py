@@ -5,8 +5,8 @@ Can generate a UUID as a uuid.UUID, str, or hex (UUID without '-' characters).
 Allows trimming a number of characters from the end of a UUID string,
 as well as returning the first n number of characters.
 
-NOTE: A UUID string is 36 characters (32 characters as hex).
-
+!!! note
+    A UUID string is 36 characters (32 characters as hex).
 """
 from __future__ import annotations
 
@@ -25,6 +25,14 @@ def gen_uuid(as_hex: bool = False) -> Union[str, uuid.UUID]:
     """Return a UUID.
 
     Nested function to simply return a UUID object.
+
+    Params:
+        as_hex (bool): If True, returns a UUID hex (a UUID without the '-' characters, which is 32 characters instead of 36).
+
+    Returns
+    -------
+        (str): A 36 character UUID string
+        (str): A 32 character UUID hex string (a UUID minus the `-` characters)
     """
     if as_hex:
         hex_uuid = uuid.uuid4().hex
@@ -39,7 +47,18 @@ def gen_uuid(as_hex: bool = False) -> Union[str, uuid.UUID]:
 
 
 def trim_uuid(trim: int = 0, in_uuid: str = uuid.uuid4(), as_hex: bool = False) -> str:
-    """Trim UUID string, removing n characters from end of string (where n is value of trim)."""
+    """Trim UUID string, removing n characters from end of string (where n is value of trim).
+
+    Params:
+        trim (int): Number of characters to remove from end of UUID string.
+        in_uuid (str): An existing UUID `str` to be trimmed/converted to hex.
+        as_hex (bool): If `True`, returns a UUID hex (UUID `str` without the `-` characters).
+
+    Returns
+    -------
+        (str): A 36 character UUID string
+        (str): A 32 character UUID hex string (a UUID minus the `-` characters)
+    """
     ## Set max character count
     ## Attempt to convert inputs value to integer
     if not isinstance(trim, int):
@@ -63,7 +82,22 @@ def trim_uuid(trim: int = 0, in_uuid: str = uuid.uuid4(), as_hex: bool = False) 
 
 
 def first_n_chars(first_n: int = 36, in_uuid: str = uuid.uuid4(), as_hex: bool = False):
-    """Return first n characters of UUID string (where n is first_n)."""
+    """Return first n characters of UUID string (where n is first_n).
+
+    Params:
+        first_n (int): trim (int): Number of characters to remove from beginning of UUID string.
+        in_uuid (str): in_uuid (str): An existing UUID `str` to be trimmed/converted to hex.
+        as_hex (bool): as_hex (bool): If `True`, returns a UUID hex (UUID `str` without the `-` characters).
+
+    Returns
+    -------
+        (str): A 36 character UUID string
+        (str): A 32 character UUID hex string (a UUID minus the `-` characters)
+
+    Raises
+    ------
+        ValueError: If input `first_n` is an invalid number of characters to return, less than 0 or greater than predefined max value (32 for hex, 36 for standard).
+    """
     if not isinstance(first_n, int):
         first_n = int(first_n)
 
@@ -88,11 +122,20 @@ def get_rand_uuid(
 ) -> Union[str, uuid.UUID]:
     """Return a UUID.
 
-    Pass a trim value to remove n characters from end of string.
-    Pass a characters value to return first n characters from beginning of string.
-    Pass as_hex to get UUID as a hexadecimal (32 chars).
+    Params:
+        trim (int): Remove `n` characters from end of string.
+        characters(int): Return first `n` characters from beginning of string.
+        as_str (bool):
+        as_hex (bool): Return UUID as a hexadecimal (32 chars, UUID without `-` characters).
 
-    Function reacts to inputs, and guards against returning an invalid UUID.
+    Returns
+    -------
+        (str): A 36 character UUID string
+        (str): A 32 character UUID hex string (a UUID minus the `-` characters)
+
+    Raises
+    ------
+        ValueError: If inputs `trim` or `characters` are invalid. TODO: Add `TypeErrors` too
     """
     if isinstance(trim, int) and isinstance(characters, int):
         if trim > 0 and characters > 0:
@@ -128,149 +171,145 @@ def get_rand_uuid(
     return _uuid
 
 
-if __name__ == "__main__":
-    """
-    If this script is run directly, run a series of test UUIDs.
-    """
+# if __name__ == "__main__":
+#     def debug_print_test(test_input: dict[str, Union[str, uuid.UUID]] = None) -> None:
+#         """Debug print a UUID generator test."""
+#         if not test_input:
+#             raise ValueError("Missing input to test.")
 
-    def debug_print_test(test_input: dict[str, Union[str, uuid.UUID]] = None) -> None:
-        """Debug print a UUID generator test."""
-        if not test_input:
-            raise ValueError("Missing input to test.")
+#         if not isinstance(test_input, dict):
+#             raise TypeError("Test input must be a dict.")
 
-        if not isinstance(test_input, dict):
-            raise TypeError("Test input must be a dict.")
+#         if test_input["valid"]:
+#             _valid: str = "VALID"
+#         else:
+#             _valid: str = "INVALID"
 
-        if test_input["valid"]:
-            _valid: str = "VALID"
-        else:
-            _valid: str = "INVALID"
+#         print(f"[{_valid}] {test_input['description']}: {test_input['value']}")
 
-        print(f"[{_valid}] {test_input['description']}: {test_input['value']}")
+#     valid_trim: int = 12
+#     invalid_trim: int = 37
+#     valid_chars: int = 12
+#     invalid_chars: int = 36
+#     valid_hex_chars: int = 12
+#     invalid_hex_chars: int = 36
+#     valid_hex_trim: int = 12
+#     invalid_hex_trim: int = 36
 
-    valid_trim: int = 12
-    invalid_trim: int = 37
-    valid_chars: int = 12
-    invalid_chars: int = 36
-    valid_hex_chars: int = 12
-    invalid_hex_chars: int = 36
-    valid_hex_trim: int = 12
-    invalid_hex_trim: int = 36
+#     ## Simple UUID
+#     simple_uuid = {
+#         "valid": True,
+#         "description": "Simple UUID",
+#         "value": get_rand_uuid(),
+#     }
 
-    ## Simple UUID
-    simple_uuid = {
-        "valid": True,
-        "description": "Simple UUID",
-        "value": get_rand_uuid(),
-    }
+#     ## Valid trimmed UUID
+#     valid_trimmed_uuid = {
+#         "valid": True,
+#         "description": f"Valid trimmed ({valid_trim}) UUID",
+#         "value": get_rand_uuid(trim=valid_trim),
+#     }
 
-    ## Valid trimmed UUID
-    valid_trimmed_uuid = {
-        "valid": True,
-        "description": f"Valid trimmed ({valid_trim}) UUID",
-        "value": get_rand_uuid(trim=valid_trim),
-    }
+#     ## Invalid trimmed UUID
+#     try:
+#         invalid_trimmed_uuid = {
+#             "valid": True,
+#             "description": f"Valid trimmed UUID (-{invalid_trim})",
+#             "value": get_rand_uuid(trim=37),
+#         }
+#     except Exception as exc:
+#         # print(f"[ERROR]: {exc}")
+#         invalid_trimmed_uuid = {
+#             "valid": False,
+#             "description": "Invalid trimmed UUID",
+#             "value": exc,
+#         }
 
-    ## Invalid trimmed UUID
-    try:
-        invalid_trimmed_uuid = {
-            "valid": True,
-            "description": f"Valid trimmed UUID (-{invalid_trim})",
-            "value": get_rand_uuid(trim=37),
-        }
-    except Exception as exc:
-        # print(f"[ERROR]: {exc}")
-        invalid_trimmed_uuid = {
-            "valid": False,
-            "description": "Invalid trimmed UUID",
-            "value": exc,
-        }
+#     ## Valid first 12 characters
+#     valid_first_n = {
+#         "valid": True,
+#         "description": f"Valid first {valid_trim} characters.",
+#         "value": get_rand_uuid(characters=valid_trim),
+#     }
 
-    ## Valid first 12 characters
-    valid_first_n = {
-        "valid": True,
-        "description": f"Valid first {valid_trim} characters.",
-        "value": get_rand_uuid(characters=valid_trim),
-    }
+#     ## Invalid first 12 characters
+#     try:
+#         invalid_first_n = {
+#             "valid": True,
+#             "description": f"Valid trimmed UUID (-{invalid_chars})",
+#             "value": get_rand_uuid(characters=invalid_chars),
+#         }
+#     except Exception as exc:
+#         # print(f"[ERROR]: {exc}")
+#         invalid_first_n = invalid_first_n = {
+#             "valid": False,
+#             "description": f"Invalid first {invalid_chars} UUID",
+#             "value": exc,
+#         }
 
-    ## Invalid first 12 characters
-    try:
-        invalid_first_n = {
-            "valid": True,
-            "description": f"Valid trimmed UUID (-{invalid_chars})",
-            "value": get_rand_uuid(characters=invalid_chars),
-        }
-    except Exception as exc:
-        # print(f"[ERROR]: {exc}")
-        invalid_first_n = invalid_first_n = {
-            "valid": False,
-            "description": f"Invalid first {invalid_chars} UUID",
-            "value": exc,
-        }
+#     ## Simple hex UUID
+#     simple_hex_uuid: str = {
+#         "valid": True,
+#         "description": "Valid UUID hex.",
+#         "value": get_rand_uuid(as_hex=True),
+#     }
 
-    ## Simple hex UUID
-    simple_hex_uuid: str = {
-        "valid": True,
-        "description": "Valid UUID hex.",
-        "value": get_rand_uuid(as_hex=True),
-    }
+#     ## Valid hex trim
+#     valid_trimmed_hex = {
+#         "valid": True,
+#         "description": f"Valid trimmed UUID (-{valid_hex_trim}).",
+#         "value": get_rand_uuid(as_hex=True, trim=valid_hex_trim),
+#     }
 
-    ## Valid hex trim
-    valid_trimmed_hex = {
-        "valid": True,
-        "description": f"Valid trimmed UUID (-{valid_hex_trim}).",
-        "value": get_rand_uuid(as_hex=True, trim=valid_hex_trim),
-    }
+#     ## Invalid trimmed hex
+#     try:
+#         invalid_trimmed_hex = {
+#             "valid": True,
+#             "description": f"Valid trimmed UUID (-{invalid_hex_trim}).",
+#             "value": get_rand_uuid(as_hex=True, trim=invalid_hex_trim),
+#         }
+#     except Exception as exc:
+#         # print(f"[ERROR]: {exc}")
+#         invalid_trimmed_hex = {
+#             "valid": False,
+#             "description": f"Invalid trimmed UUID hex (-{invalid_hex_trim})",
+#             "value": exc,
+#         }
 
-    ## Invalid trimmed hex
-    try:
-        invalid_trimmed_hex = {
-            "valid": True,
-            "description": f"Valid trimmed UUID (-{invalid_hex_trim}).",
-            "value": get_rand_uuid(as_hex=True, trim=invalid_hex_trim),
-        }
-    except Exception as exc:
-        # print(f"[ERROR]: {exc}")
-        invalid_trimmed_hex = {
-            "valid": False,
-            "description": f"Invalid trimmed UUID hex (-{invalid_hex_trim})",
-            "value": exc,
-        }
+#     ## Valid first 12 hex characters
+#     valid_first_n_hex = {
+#         "valid": True,
+#         "description": f"Valid first {valid_hex_trim} characters of UUID hex.",
+#         "value": get_rand_uuid(characters=valid_hex_trim, as_hex=True),
+#     }
 
-    ## Valid first 12 hex characters
-    valid_first_n_hex = {
-        "valid": True,
-        "description": f"Valid first {valid_hex_trim} characters of UUID hex.",
-        "value": get_rand_uuid(characters=valid_hex_trim, as_hex=True),
-    }
+#     ## Invalid first 12 hex characters
+#     try:
+#         invalid_first_n_hex = {
+#             "valid": True,
+#             "description": f"Valid first {invalid_hex_chars} characters of UUID hex.",
+#             "value": get_rand_uuid(characters=invalid_hex_chars),
+#         }
+#     except Exception as exc:
+#         # print(f"[ERROR]: {exc}")
+#         invalid_first_n_hex = {
+#             "valid": False,
+#             "description": f"Invalid first {invalid_chars} of UUID hex",
+#             "value": exc,
+#         }
 
-    ## Invalid first 12 hex characters
-    try:
-        invalid_first_n_hex = {
-            "valid": True,
-            "description": f"Valid first {invalid_hex_chars} characters of UUID hex.",
-            "value": get_rand_uuid(characters=invalid_hex_chars),
-        }
-    except Exception as exc:
-        # print(f"[ERROR]: {exc}")
-        invalid_first_n_hex = {
-            "valid": False,
-            "description": f"Invalid first {invalid_chars} of UUID hex",
-            "value": exc,
-        }
+#     debug_prints: list[dict[str, Union[str, uuid.UUID]]] = [
+#         simple_uuid,
+#         valid_trimmed_uuid,
+#         invalid_trimmed_uuid,
+#         valid_first_n,
+#         invalid_first_n,
+#         simple_hex_uuid,
+#         valid_trimmed_hex,
+#         invalid_trimmed_hex,
+#         valid_first_n_hex,
+#         invalid_first_n_hex,
+#     ]
 
-    debug_prints: list[dict[str, Union[str, uuid.UUID]]] = [
-        simple_uuid,
-        valid_trimmed_uuid,
-        invalid_trimmed_uuid,
-        valid_first_n,
-        invalid_first_n,
-        simple_hex_uuid,
-        valid_trimmed_hex,
-        invalid_trimmed_hex,
-        valid_first_n_hex,
-        invalid_first_n_hex,
-    ]
-
-    for _test in debug_prints:
-        debug_print_test(test_input=_test)
+#     for _test in debug_prints:
+#         debug_print_test(test_input=_test)

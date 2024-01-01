@@ -7,23 +7,29 @@ import json
 class ListProtect:
     """Protect a list during modification by modifying a copy instead of the original.
 
-    Description:
-        ListProtect creates a copy of a list before running operations like .append(), and prevents
-        errors on the original object by destroying the copy if an error is encountered, only
-        overwriting the original if no errors occur.
+    ListProtect creates a copy of a list before running operations like .append(), and prevents
+    errors on the original object by destroying the copy if an error is encountered, only
+    overwriting the original if no errors occur.
+
+    Params:
+        original (list): The original Python `list`. A copy will be made during any operations, and will only overwrite
+        the original if the operation succeeds.
 
     Usage:
-        ex_list = [1, 2, 3]
 
-        ## Protects from a ZeroDivision error
-        with ListProtect(ex_list) as copy:
-            copy.append(1/0)
+    ``` py linenums="1"
+    ex_list = [1, 2, 3]
 
-        print(f'List: {ex_list}')
+    ## Protects from a ZeroDivision error
+    with ListProtect(ex_list) as copy:
+        copy.append(1/0)
+
+    print(f'List: {ex_list}')
+    ```
     """
 
     def __init__(self, original: list):
-        """Call immediately after with ListProtect() as copy."""
+        ## Call immediately after with ListProtect() as copy.
         if not isinstance(original, list):
             raise TypeError(
                 f"Invalid type for protected list: ({type(original)}). Must be of type list."
@@ -33,14 +39,14 @@ class ListProtect:
         self.original = original
 
     def __enter__(self):
-        """Call after initializing ListProtect instance."""
+        ## Call after initializing ListProtect instance.
         ## Create a copy of the list to work on
         self.clone: list = self.original.copy()
 
         return self.clone
 
     def __exit__(self, exc_type, exc_value, exc_traceback):
-        """Call if ListProtect context manager encounters an error."""
+        ## Call if ListProtect context manager encounters an error.
         ## No exception encountered, update original
         #  list and return
         if exc_type is None:
@@ -77,12 +83,17 @@ class ListProtect:
 class DictProtect:
     """Protect a dict during modification by modifying a copy instead of the original.
 
-    Description:
-        DictProtect creates a copy of a dict before running operations like .update(), and prevents
-        errors on the original object by destroying the copy if an error is encountered, only
-        overwriting the original if no errors occur.
+    DictProtect creates a copy of a dict before running operations like .update(), and prevents
+    errors on the original object by destroying the copy if an error is encountered, only
+    overwriting the original if no errors occur.
+
+    Params:
+        original (dict): The original Python `dict`. A copy will be made during any operations, and will only overwrite
+        the original if the operation succeeds.
 
     Usage:
+
+    ``` py linenums="1"
         ex_dict = {"example": "value"}
 
         ## Protects from a ZeroDivision error
@@ -90,10 +101,11 @@ class DictProtect:
             copy["example"] = 1 / 0
 
         print(f'Dict: {ex_dict}')
+    ```
     """
 
     def __init__(self, original: dict):
-        """Call immediately after with DictProtect() as copy."""
+        ## Call immediately after with DictProtect() as copy.
         if not isinstance(original, dict):
             raise TypeError(
                 f"Invalid type for protected dict: ({type(original)}). Must be of type dict."
@@ -103,14 +115,14 @@ class DictProtect:
         self.original = original
 
     def __enter__(self):
-        """Call after initializing DictProtect instance."""
+        ## Call after initializing DictProtect instance.
         ## Create a copy of the dict to work on
         self.clone: dict = self.original.copy()
 
         return self.clone
 
     def __exit__(self, exc_type, exc_value, exc_traceback):
-        """Call if DictProtect context manager encounters an error."""
+        ## Call if DictProtect context manager encounters an error.
         ## No exception encountered, update original
         #  list and return
         if exc_type is None:

@@ -11,7 +11,15 @@ from red_utils.core.constants import JSON_DIR
 from .constants import VALID_RETURN_TYPES
 
 def file_ts(fmt: str = "%Y-%m-%d_%H:%M:%S") -> str:
-    """Return a formatted timestamp, useful for prepending to dir/file names."""
+    """Return a formatted timestamp, useful for prepending to dir/file names.
+
+    Params:
+        fmt (str): String that defines the format of a timestamp
+
+    Returns
+    -------
+        (str): A formatted datetime string
+    """
     now: str = datetime.now().strftime(fmt)
 
     return now
@@ -25,10 +33,15 @@ def export_json(
     """Export JSON object to an output file.
 
     Params:
-    -------
-    - input (str|list[list,dict]|dict[str,Any]): The input object to be output to a file.
-    - output_dir (str): The directory where a .json file will be saved.
-    - output_filename (str): The name of the file that will be saved in output_dir.
+        input (str|list[list,dict]|dict[str,Any]): The input object to be output to a file.
+        output_dir (str): The directory where a .json file will be saved.
+        output_filename (str): The name of the file that will be saved in output_dir.
+
+    Raises
+    ------
+        FileExistsError: When the output path already exists
+        FileNotFoundError: When the export path does not exist
+        Exception: When other exceptions have not been caught, a generic `Exception` is raised
     """
     if not Path(output_dir).exists():
         Path(output_dir).mkdir(parents=True, exist_ok=True)
@@ -70,7 +83,39 @@ def crawl_dir(
     filetype_filter: str | None = None,
     return_type: str = "all",
 ) -> Union[dict[str, list[Path]], list[Path]]:
+    """Crawl a directory and return an object with all found files & dirs.
+
+    Params:
+        target (str | Path): The target directory to crawl
+        filetype_filter (str): An optional filetype filter str; only files matching this filter will be returned
+        return_type (str): Return `files`, `dirs`, or `all`
+
+    Returns
+    -------
+        (list[Path]): A list of `Path` objects if `return_type` is `dirs` or `files`
+        (dict[str, list[Path]]): If `return_type` is `all`, return a dict `{"file": [], "dirs": []}`
+
+    Raises
+    ------
+        ValueError: When input validation fails
+        FileNotFoundError: When a file/directory path cannot be found
+    """
+
     def validate_target(target: Union[str, Path] = target) -> Path:
+        """Validate a target path.
+
+        Params:
+            target (str, Path): The path to validate
+
+        Returns
+        -------
+            (Path): A Python `Path` object
+
+        Raises
+        ------
+            ValueError: When input validation fails
+            FileNotFoundError: When the path to validate does not exist
+        """
         if target is None:
             raise ValueError("Missing a target directory to scan")
         if isinstance(target, str):
@@ -86,6 +131,21 @@ def crawl_dir(
         return_type: str = return_type,
         VALID_RETURN_TYPES: list[str] = VALID_RETURN_TYPES,
     ) -> str:
+        """Validate a return type.
+
+        Params:
+            return_type (str): The `return_type` string to validate
+            VALID_RETURN_TYPES `list[str]`: Valid options for the `return_type` string. Defaults to a predefined list of `["all", "files", "dirs"]`
+
+        Returns
+        -------
+            (str): The validated `return_type` string
+
+        Raises
+        ------
+            ValueError: When input validation fails
+            TypeError: When input value is not a `str`
+        """
         if return_type is None:
             raise ValueError("Missing return type")
         if not isinstance(return_type, str):
@@ -104,7 +164,10 @@ def crawl_dir(
     def _crawl(
         target=target, search_str: str = "**/*", return_type=return_type
     ) -> Union[dict[str, list[Path]], list[Path]]:
-        """Run Path crawl."""
+        """Run Path crawl.
+
+        Inherits `target`, `search_str`, and `return_type` from parent method that calls this function.
+        """
         return_obj: dict[str, list[Path]] = {"files": [], "dirs": []}
 
         for i in target.glob(search_str):
@@ -145,107 +208,20 @@ def crawl_dir(
     return return_obj
 
 
-def crawl_dir_old(
-    in_dir: Union[str, Path] = None,
-    return_type: str = "all",
-    ext_filter: str | None = None,
-    files: list[Path] | None = None,
-    dirs: list[Path] | None = None,
-) -> dict[str, list[Path]]:
-    """Crawl a directory for sub-directories/files. Continue crawl on new subdirectory.
-
-    Parameters
-    ----------
-        in_dir (str | Path): An input directory to start the crawl at.
-        return_type (str): Return "files", "dirs", or "all"
-        ext_filter (str): Set a filetype filter, only return files matching ext
-            (i.e. "csv" or ".csv")
-        files (list[Path]): A list of Path objects to append found files to.
-        dirs (list[Path]): A list of Path objects to append found dirs to.
-
-    Returns
-    -------
-        A dict object of file and dir lists. return_obj['files'] will be a list of files
-        found in path, including in subdirectories. return_obj['dirs'] will be a list of
-        dirs and subdirs found during crawl.
-    """
-    VALID_RETURN_TYPES: list[str] = ["all", "files", "dirs"]
-    if not return_type:
-        return_type = "all"
-
-    if not isinstance(return_type, str):
-        raise TypeError(f"return_type must be a string")
-
-    return_type = return_type.lower()
-
-    if return_type not in VALID_RETURN_TYPES:
-        raise ValueError(
-            f"Invalid return type: {return_type}. Must be one of {VALID_RETURN_TYPES}"
-        )
-
-    if ext_filter is not None:
-        if not ext_filter.startswith("."):
-            ext_filter = f".{ext_filter}"
-
-    if not in_dir:
-        raise ValueError(f"Missing input directory to crawl")
-
-    if not isinstance(in_dir, Path):
-        if not isinstance(in_dir, str):
-            raise TypeError(
-                f"Invalid type for input directory: {type(in_dir)}. Must be a str or Path object."
-            )
-        elif isinstance(in_dir, str):
-            in_dir: Path = Path(in_dir)
-        else:
-            raise Exception(
-                f"Unhandled exception parsing input directory. Could not detect type of in_dir."
-            )
-
-    ## Create files/dirs lists if they do not exist at function call.
-    if not files:
-        files = []
-    if not dirs:
-        dirs = []
-
-    try:
-        if ext_filter:
-            search_str: str = f"**/*{ext_filter}"
-        else:
-            search_str: str = "**/*"
-
-        ## Loop over in_dir
-        for _f in in_dir.glob(search_str):
-            if _f.is_file():
-                ## Append file to files list, if it does not already exist in the list
-                if _f not in files:
-                    files.append(_f)
-            elif _f.is_dir():
-                ## Append dir to dirs list, if it does not already exist in the list
-                if _f not in dirs:
-                    dirs.append(_f)
-
-                ## Re-crawl on new directory
-                crawl_dir(in_dir=_f, files=files, dirs=dirs)
-
-    except FileNotFoundError as fnf_exc:
-        raise FileNotFoundError(f"Path does not exist: {in_dir}. Details: {fnf_exc}")
-    except PermissionError as perm_exc:
-        raise PermissionError(
-            f"Encountered permission error while scanning {in_dir}. Details: {perm_exc}"
-        )
-    except Exception as exc:
-        raise Exception(f"Unhandled exception crawling path: {in_dir}. Details: {exc}")
-
-    return_obj: dict[str, list[Path]] = {"files": files, "dirs": dirs}
-
-    return return_obj
-
-
 def list_files(
     in_dir: str = None, ext_filter: str = None, return_files: list[Path] = []
 ) -> list[Path]:
-    """Return list of all files in a path, optionally filtering by file extension."""
+    """List all files in a path, optionally filtering by file extension.
+
+    Params:
+        in_dir (str): Directory path to scan
+        ext_filter (str): Filetype to search for
+        return_files (list[Path]): Used by the function to recurse through subdirectories
+
+    Returns
+    -------
+        (list[Path]): A list of found files, represented as `Path` objects
+    """
     if not in_dir:
         raise ValueError("Missing input directory to search")
     if ext_filter is not None:
@@ -282,8 +258,7 @@ def ensure_dirs_exist(ensure_dirs: list[Union[str, Path]] = None) -> None:
     """Loop over a list of directories and create any paths that do not already exist.
 
     Params:
-    -------
-    - ensure_dirs (list[str]|list[Path]): A list of directory paths formatted as strings or Path objects.
+        ensure_dirs (list[str]|list[Path]): A list of directory paths formatted as strings or Path objects.
         If any list item is of type str, it will be converted to a Path.
     """
     if not ensure_dirs:
@@ -321,7 +296,22 @@ def ensure_dirs_exist(ensure_dirs: list[Union[str, Path]] = None) -> None:
 
 
 def delete_path(rm_path: Union[str, Path] = None) -> bool:
-    """Recursively delete a path."""
+    """Recursively delete a path.
+
+    Params:
+        rm_path (str | Path): The path to delete
+
+    Returns
+    -------
+        (bool): `True` if `rm_path` deleted successfully
+        (bool): `False` if `rm_path` not deleted successfully
+
+    Raises
+    ------
+        FileNotFoundError: When path to delete does not exist
+        PermissionError: When permission to delete the path is not granted
+        Exception: Generic `Exception` when operation fails and is not caught by another exception
+    """
     if rm_path is None:
         raise ValueError("Missing a path to remove.")
     if isinstance(rm_path, str):
