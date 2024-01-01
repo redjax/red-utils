@@ -137,3 +137,17 @@ def run_tests(session: nox.Session, pdm_ver: str):
         "-v",
         "-rsXxfP",
     )
+
+@nox.session(python=[DEFAULT_PYTHON], name="docs")
+@nox.parametrize("pdm_ver", [PDM_VER])
+def build_docs(session: nox.Session, pdm_ver: str):
+    session.install(f"pdm>={pdm_ver}")
+    session.run("pdm", "install", "-d")
+    
+    print("Building docs with mkdocs")
+    session.run(
+        "pdm",
+        "run",
+        "mkdocs",
+        "build"
+    )
