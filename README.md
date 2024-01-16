@@ -53,7 +53,7 @@ Custom/common exceptions are stored in `red_utils.exc`.
 
 The `red-utils` package makes use of the Python stdlib `pkgutil` module to control imports. Packages in the `ext` module are only imported and available in `red_utils` if the corresponding dependency exists.
 
-For instance, `red_utils.ext.msgpack_utils` will only be available if this check in [src/red_utils/ext/__init__.py](https://github.com/redjax/red-utils/blob/main/red_utils/ext/__init__.py) passes:
+For instance, `red_utils.ext.msgpack_utils` will only be available if this check in [src/red_utils/ext/__init__.py](https://github.com/redjax/red-utils/blob/main/src/red_utils/ext/__init__.py) passes:
 ```
 import pkgutil
 
@@ -95,7 +95,7 @@ This project uses dependencies groups, meaning it can be installed with `pip ins
 
 # Modules
 
-Check the [Github page](https://github.com/redjax/red-utils/tree/main/red_utils) to see modules in the [`ext`](https://github.com/redjax/red-utils/tree/main/red_utils/ext) and [`std`](https://github.com/redjax/red-utils/tree/main/red_utils/std) modules (or click one of those words to be taken there).
+Check the [Github page](https://github.com/redjax/red-utils/tree/main/src/red_utils) to see modules in the [`ext`](https://github.com/redjax/red-utils/tree/main/src/red_utils/ext) and [`std`](https://github.com/redjax/red-utils/tree/main/src/red_utils/std) modules (or click one of those words to be taken there).
 
 # Developing red-utils
 
