@@ -1,3 +1,37 @@
+"""Constant values for use throughout the app, or to be imported from `red_utils` into other applications
+
+---
+
+!!! warning
+
+The list below is a preview, check the source code for `red_utils.ext.loguru_utils.constants.py` to see all constants defined.
+``` py linenums="1"
+_ts: str = "[{time:YYYY-MM-DD_HH:mm:ss}]"
+_level: str = "[{level}]"
+_module: str = "[{module}]"
+_function: str = "[{function}]"
+_name: str = "[{name}]"
+_line: str = "[{line}]"
+_name_line: str = "[{name}:{line}]"
+_module_line: str = "[{module}:{line}]"
+_msg: str = "{message}"
+
+default_fmt: str = f"{_ts} {_level} > {_name_line}: {_msg}"
+default_color_fmt: str = f"<green>{_ts}</green> <level>{_level}</level> > <level>{_name_line}</level>: {_msg}"
+
+valid_compression_strs: list[str] = [
+    "gz",
+    "bz2",
+    "xz",
+    "lzma",
+    "tar",
+    "tar.gz",
+    "tar.bz2",
+    "tar.xz",
+    "zip",
+]
+```
+"""
 from __future__ import annotations
 
 from dataclasses import dataclass, field
@@ -23,6 +57,7 @@ default_color_fmt: str = f"<green>{_ts}</green> <level>{_level}</level> > <level
 
 @dataclass
 class LogLevel:
+    """Class representing a `loguru` log level."""
     name: str = field(default=None)
     level_name: str = field(default=None)
     severity: int = field(default=None)

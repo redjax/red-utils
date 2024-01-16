@@ -33,11 +33,13 @@ from diskcache import Cache
 def convert_to_seconds(amount: int = None, unit: str = None) -> int:
     """Convert an amount of time to seconds.
 
-    Args:
-    ----
-        amount (int): Number of <units> to convert. To convert 4 days, amount=4, unit="days"
+    Params:
+        amount (int): Amount of time
         unit (str): The starting unit of time to convert to seconds.
             Options: ["seconds", "hours", "minutes", "days", "weeks"]
+            
+    Returns:
+        (int): `amount` of time converted to seconds representing the `unit` of time passed
     """
     ## Allowed strings for conversion
     valid_time_units: list[int] = ["seconds", "hours", "minutes", "days", "weeks"]
@@ -81,7 +83,16 @@ def new_cache(
     cache_conf: dict = None,
     index: bool = True,
 ) -> diskcache.core.Cache:
-    """Prepare and return a diskcache.Cache object."""
+    """Prepare and return a diskcache.Cache object.
+    
+    Params:
+        cache_dir (str): Directory path where cache will be created
+        cache_conf (dict): A Python `dict` with cache configuration options
+        index (bool): Whether or not to create an index for the cache
+        
+    Returns:
+        (diskcache.core.Cache): An initialized `diskcache.Cache` object
+    """
     if not cache_dir:
         raise ValueError("Missing cache directory")
 
@@ -110,6 +121,15 @@ def new_cache(
 
 
 def clear_cache(cache: Cache = None) -> bool:
+    """Clear all items from the cache.
+    
+    Params:
+        cache (diskcache.Cache): The target cache to clear
+    
+    Returns:
+        (bool): `True` if cache cleared successfully
+        (bool): `False` if cache not cleared successfully
+    """
     validate_cache(cache)
 
     try:
@@ -125,7 +145,16 @@ def clear_cache(cache: Cache = None) -> bool:
 
 
 def check_cache_key_exists(cache: diskcache.core.Cache = None, key: str = None) -> bool:
-    """Check if a key exists in a cache."""
+    """Check if a key exists in a cache.
+    
+    Params:
+        cache (diskcache.Cache): A `diskcache.Cache` instance to check
+        key (str): The key name to search the `cache` for
+        
+    Returns:
+        (bool): `True` if the key exists
+        (bool): `False` if the key does not exist
+    """
     ## Key validation
     validate_key(key=key)
     validate_cache(cache=cache)
@@ -138,6 +167,12 @@ def check_cache_key_exists(cache: diskcache.core.Cache = None, key: str = None) 
 
 
 def manage_cache_tag_index(cache: Cache = None, operation: str = "create") -> None:
+    """Create or delete a cache's tag index.
+    
+    Params:
+        cache (diskcache.Cache): A `diskcache.Cache` instance to work on
+        operation (str): The operation (create/delete) to perform on the tag index
+    """
     valid_operations: list[str] = ["create", "delete"]
 
     validate_cache(cache=cache)
@@ -179,7 +214,14 @@ def set_val(
 ) -> None:
     """Set a key value pair in the cache.
 
-    Handles optional properties like expiration, tag, retry, etc.
+    Params:
+        cache (diskcache.Cache): A `diskcache.Cache` object to work on
+        key (str): The key to store the value under in the cache
+        val (str): The value to store in the cache
+        expire (int): Time (in seconds) before value expires
+        read (bool): If `True`, read value as a file-like object
+        tag (str): Applies a tag to the cached value
+        retry (bool): If `True`, retry setting cache key if first attempt fails
     """
     validate_key(key)
     validate_val(val)
@@ -202,6 +244,13 @@ def set_val(
 def set_expire(
     cache: Cache = None, key: str = None, expire: int = None
 ) -> Union[dict[str, str], None]:
+    """Set/change a cache key's expiration time.
+    
+    Params:
+        cache (diskcache.Cache): A `diskcache.Cache` instance to work on
+        key (str): The cache key name to set an expiration time on
+        expire (int): Time (in seconds) before cache key expires
+    """
     validate_key(key)
     validate_cache(cache)
     validate_expire(expire)
@@ -223,10 +272,15 @@ def set_expire(
 
 def get_val(cache: Cache = None, key: str = None, tags: list[str] = None):
     """Search for a key in a given cache.
+    
+    Params:
+        cache (diskcache.Cache): A `diskcache.Cache` instance to work on
+        key (str): A key name to retrieve from the cache
+        tags: A list of tags to filter by
 
-    Pass a diskcache.Cache object for cache, and a key (and optionally a list of tags).
-    Function will search the cache and return a value if found, or a structured
-    error dict describing the lack of key.
+    Returns:
+        (Any): The cached value
+        (dict[str, str]): A structured dict with error details, if operation fails
     """
     validate_key(key)
     validate_cache(cache)
@@ -261,6 +315,13 @@ def get_val(cache: Cache = None, key: str = None, tags: list[str] = None):
 def delete_val(
     cache: Cache = None, key: valid_key_types = None, tag: str = None
 ) -> tuple:
+    """Delete a value from the cache
+    
+    Params:
+        cache (diskcache.Cache): A `diskcache.Cache` instance to work on
+        key (str): The name of a key to delete
+        tag (str): Tag to filter by
+    """
     validate_key(key)
     validate_cache(cache)
     validate_tag(tag)
@@ -278,6 +339,15 @@ def delete_val(
 
 
 def get_cache_size(cache: Cache = None) -> dict[str, int]:
+    """Get the total size of a `diskcache.Cache` instance.
+    
+    Params:
+        cache (diskcache.Cache): A `diskcache.Cache` object to get the size of
+    
+    Returns:
+        (dict[str, int]): Details about the cache's size. Example:
+            `{"unit": "bytes", "size": cache_size}`
+    """
     validate_cache(cache=cache)
 
     try:
@@ -290,6 +360,11 @@ def get_cache_size(cache: Cache = None) -> dict[str, int]:
 
 
 def check_cache(cache: Cache = None):
+    """Run healthcheck on cache.
+    
+    Params:
+        cache (diskcache.Cache): A `diskcache.Cache` instance to work on
+    """
     validate_cache(cache=cache)
 
     try:

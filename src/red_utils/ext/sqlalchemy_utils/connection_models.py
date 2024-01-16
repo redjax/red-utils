@@ -11,18 +11,27 @@ class saConnectionBase:
 
     Each model will inherit the connection_string propery,
     which outputs a URL conection object.
+    
+    Params:
+        drivername (str): The SQLAlchemy drivername string
+        host (str): The database host name/address
+        port (int): The connection port for the database
+        username (str): The database username to authenticate as
+        password (str): The `username`'s password to authenticate with
+        database (str): The name of the database to connect to
     """
 
     drivername: str = field(default=None)
     host: str = field(default=None)
+    port: int = field(default=None)
     username: str = field(default=None)
     ## Hide password from __repr__
     password: str = field(default=None, repr=False)
-    port: int = field(default=None)
     database: str = field(default=None)
 
     @property
     def connection_string(self) -> sa.engine.url.URL:
+        """Return a formatted SQLAlchemy `Engine` connection URI string."""
         _string: sa.engine.url.URL = sa.engine.url.URL.create(
             drivername=self.drivername,
             host=self.host,
@@ -37,10 +46,12 @@ class saConnectionBase:
     def __post_init__(self):
         """Dataclasses does not have inbuilt validation for class variables.
 
-        Define validator functions below. Classes that inherit from this
+        Define validator functions in `__post_init__()`. Classes that inherit from this
         base class will pass their values through these validators as well.
 
-        https://www.slingacademy.com/article/python-how-to-validate-data-in-dataclass/
+        !!! note
+        
+        [SlingAcademy: How to validate data in dataclass](https://www.slingacademy.com/article/python-how-to-validate-data-in-dataclass/)
         """
         if self.drivername and not isinstance(self.drivername, str):
             raise TypeError(
@@ -90,14 +101,14 @@ class saConnectionGeneric(saConnectionBase):
 class saSQLiteConnection(saConnectionBase):
     """Default SQLite connection. Useful for local testing.
 
-    Accepts 2 values:
-        - drivername: The SQLAlchemy driver string for the database
-        - database: The name/path to the SQLite database.
+    Params:
+        drivername (str): The SQLAlchemy driver string for the database
+        database (str): The name/path to the SQLite database.
             It is recommended to use .sqlite for the file extension,
             although .db or any other should work fine as well.
 
-    Pass a value for $database to change the name of the database file.
-    If you use a path (i.e. db/test.sqlite), you need to create the Path
+    Pass a value for `database` to change the name of the SQLite database file.
+    If you use a path (i.e. `db/test.sqlite`), you need to create the Path
     manually.
     """
 
@@ -107,7 +118,7 @@ class saSQLiteConnection(saConnectionBase):
     def ensure_path(self) -> None:
         """Ensure path to self.database exists.
 
-        Use Path() to split the directory path
+        Use `Path()` to split the directory path
         from the filename, and ensure directores in path
         exist.
         """
@@ -134,30 +145,49 @@ class saPGConnection(saConnectionBase):
 
     For Postgres databases, the database you specify must exist before
     creating the initial connection/engine.
+    
+    Params:
+        drivername (str): The SQLAlchemy drivername string
+        host (str): The PostgreSQL database server address/hostname
+        port (int): The PostgreSQL database connection port
+        username (str): The PostgreSQL user to authenticate as
+        password (str): The PostgreSQL password associated with `username` to authenticate with
+        database (str): The name of the database to connect to
     """
 
     drivername: str = field(default="postgresql+psycopg2")
+    host: str = field(default="127.0.0.1")
+    port: int = field(default=5432)
     username: str = field(default="postgres")
     ## Hide password from __repr__
     password: str = field(default="postgres", repr=False)
-    host: str = field(default="127.0.0.1")
-    port: int = field(default=5432)
     database: str = field(default="postgres")
 
 
 @dataclass
 class saMSSQLConnection(saConnectionBase):
+    """Default Microsoft SQL Server connection.
+    
+    Params:
+        drivername (str): The SQLAlchemy drivername string
+        host (str): The PostgreSQL database server address/hostname
+        port (int): The PostgreSQL database connection port
+        username (str): The PostgreSQL user to authenticate as
+        password (str): The PostgreSQL password associated with `username` to authenticate with
+        database (str): The name of the database to connect to
+    """
     drivername: str = field(default="mssql+pyodbc")
-    username: str = field(default="SA")
-    ## Hide password from __repr__
-    password: str = field(default="1Secure*Password1", repr=False)
     host: str = field(default="127.0.0.1")
     # instance: str = field(default="\\SQLEXPRESS")
     port: int = field(default=1433)
+    username: str = field(default="SA")
+    ## Hide password from __repr__
+    password: str = field(default="1Secure*Password1", repr=False)
     database: str = field(default="master")
 
     @property
     def connection_string(self) -> sa.engine.url.URL:
+        """Return a formatted SQLAlchemy `Engine` connection URI string."""
         _string: sa.engine.url.URL = sa.engine.url.URL.create(
             drivername=self.drivername,
             host=self.host,

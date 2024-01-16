@@ -1,3 +1,20 @@
+"""Utilities, classes, functions, constants, & more for the `loguru` library.
+
+When using the `init_logger()` function, make sure to run it as soon as possible. If possible,
+start your script like:
+
+``` py linenums="1"
+...
+
+## List of Loguru sink dicts
+loguru_sinks = [LoguruSinkStdOut(level="DEBUG").as_dict(), LoguruSinkErrFile().as_dict()]
+
+if __name__ == "__main__":
+    init_logger(sinks=loguru_sinks)
+    
+    ...
+```
+"""
 ## Import default constants
 from __future__ import annotations
 

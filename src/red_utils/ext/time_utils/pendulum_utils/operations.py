@@ -18,22 +18,25 @@ def get_ts(
     str_fmt: str = TIME_FMT_24H,
     safe_str: bool = False,
     char_replace_map: list[dict] = TS_STR_REPLACE_MAP,
-) -> pendulum.DateTime:
-    """Return a Pendulum.DateTime object of the current time. Optionally
+) -> Union[str, pendulum.DateTime]:
+    """Return a `pendulum.DateTime` object of the current time. Optionally
     return timestamp as a string.
 
     Params:
-    -------
-    - tz (str): Unix timezone string, defaults to 'America/New_York'.
-        - [Unix timezone strings](https://en.wikipedia.org/wiki/List_of_tz_database_time_zones)
-    - as_str (bool): If True, returns timestamp as a string instead of DateTime.
-    - str_fmt (str): String that defines the format of the timestamp if as_str=True.
-        - [Pendulum Docs: String Formatting](https://pendulum.eustace.io/docs/#string-formatting)
-    - safe_str (bool): If True, replaces characters (like ':' and ' ') with a string that is safe
-        to use in a terminal, as a filename, etc.
-    - char_replace_map (list[dict]): A list of dicts defining characters to search for and replace
-        in the timestamp str.
-        - Example replace map: `[{"search": ":", "replace": "-"}, {"search": " ", "replace": "_"}]`
+        tz (str): Unix timezone string, defaults to `'America/New_York'`.
+            **Note**: [Unix timezone strings](https://en.wikipedia.org/wiki/List_of_tz_database_time_zones)
+        as_str (bool): If `True`, returns timestamp as a string instead of `DateTime`.
+        str_fmt (str): String that defines the format of the timestamp if `as_str=True`.
+            **Note**: [Pendulum Docs: String Formatting](https://pendulum.eustace.io/docs/#string-formatting)
+        safe_str (bool): If `True`, replaces characters (like `':'` and `' '`) with a string value that is safe
+            to use in a terminal, as a filename, etc (like `-` and `_`).
+        char_replace_map (list[dict]): A list of dicts defining characters to search for and replace
+            in the timestamp str.
+            Example replace map: `[{"search": ":", "replace": "-"}, {"search": " ", "replace": "_"}]`
+            
+    Returns:
+        (pendulum.DateTime): A `pendulum.DateTime` object of the current time
+        (str): If `as_str=True`, returns a string representation of the `pendulum.DateTime` timestamp, formatted by `str_fmt`
     """
     now = pendulum.now(tz=tz)
 
