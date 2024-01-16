@@ -15,6 +15,10 @@ class TimeoutConf(DictMixin):
     """Define cache timeout as a class.
 
     Inherits the .as_dict() method from DictMixin.
+    
+    Params:
+        amount (int): Amount of time to allow for timeout
+        unit (str): Unit of time corresponding with the `amount` passed. Examples: ["minutes", "hours", "days", etc]
     """
 
     unit: str | None = field(default="minutes")

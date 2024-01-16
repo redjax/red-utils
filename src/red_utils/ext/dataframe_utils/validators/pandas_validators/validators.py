@@ -23,7 +23,17 @@ VALID_COL_TYPES: list[str] = [
 
 
 def validate_df_col_type(col_type: str = None) -> str:
-    """Validate a given column type is in the list of allowed column types."""
+    """Validate a given column type is in the list of allowed column types.
+    
+    Params:
+        col_type (str): The `pandas`/`numpy` datatype of a column.
+    
+    Raises:
+        (ValueError): If a `col_type` does not exist in the list of `VALID_COL_TYPES`, a `ValueError` is raised
+
+    Returns:
+        (str): The validated `col_type`
+    """
     if col_type is None:
         raise ValueError("Missing a column type to validate")
 

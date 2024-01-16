@@ -14,6 +14,13 @@ def validate_key(key: valid_key_types = None, none_ok: bool = False) -> Union[st
     Supported key types:
     - int
     - str
+    
+    Params:
+        key (str): The key to evaluate
+        none_ok (bool): Allow null keys
+        
+    Returns:
+        (str|int): The original key after all validations are passed
     """
     ## Evaluate key existence
     if not key:
@@ -41,6 +48,12 @@ def validate_val(
     - int
     - str
 
+    Params:
+        val (str): The value to evaluate
+        none_ok (bool): Allow null keys
+        
+    Returns:
+        (str|bytes|float|int): The original value after all validations are passed
     """
     if not val:
         if none_ok:
@@ -60,6 +73,13 @@ def validate_expire(expire: int = None, none_ok: bool = False) -> int:
     """Validate input diskcache expiration time.
 
     Only int types allowed. Expiration time is in seconds.
+    
+    Params:
+        expire (int): The amount of seconds for an expiration value
+        none_ok (bool): none_ok (bool): Allow null values
+        
+    Returns:
+        (int): The original expiration time (in seconds) if validation passes
     """
     ## Evaluate var existence
     if not expire:
@@ -88,7 +108,13 @@ def validate_read(read: bool = None, none_ok: bool = True) -> bool:
     Docs: https://grantjenks.com/docs/diskcache/tutorial.html#cache
 
     Only int types allowed. Expiration time is in seconds.
+    
+    Params:
+        read (bool): `True`/`False` state
+        none_ok (bool): none_ok (bool): Allow null values
 
+    Returns:
+        (bool): The original value of `read` if all validations pass
     """
     ## Evaluate var existence
     if not read:
@@ -111,6 +137,15 @@ def validate_read(read: bool = None, none_ok: bool = True) -> bool:
 def validate_tags(
     tags: list[valid_tag_types] = None, none_ok: bool = True
 ) -> list[valid_tag_types]:
+    """Validate a list of tags.
+    
+    Params:
+        tags (list[str]): A list of tags to validate
+        none_ok (bool): Allow null values
+        
+    Returns:
+        (list[str]): A validated list of tags
+    """
     if not tags:
         if none_ok:
             return tags
@@ -133,6 +168,13 @@ def validate_tag(tag: valid_tag_types = None, none_ok: bool = True) -> str:
     """Validate input diskcache tag.
 
     A tag is an optional user-defined string that groups cache entries.
+    
+    Params:
+        tag (str): A tag to validate
+        none_ok (bool): Allow null values
+        
+    Returns:
+        (str): A validated tag
     """
     ## Evaluate var existence
     if not tag:
@@ -163,6 +205,13 @@ def validate_retry(retry: bool = None, none_ok: bool = True) -> bool:
     """Validate input diskcache retry.
 
     Determines whether or not cache will retry on failure before exiting.
+    
+    Params:
+        retry (bool): `True`/`False` state of retry
+        none_ok (bool): Allow nullable values
+        
+    Returns:
+        (bool): The original value of `retry` if validations pass
     """
     ## Evaluate var existence
     if not retry:
@@ -186,6 +235,13 @@ def validate_cache(cache: Cache = None, none_ok: bool = True) -> diskcache.core.
     """Validate a DiskCache cache object.
 
     Checks for existence and correct type.
+    
+    Params:
+        cache (diskcache.Cache): A `diskcache.Cache` instance to validate
+        none_ok (bool): Allow null values
+        
+    Returns:
+        (diskcache.Cache): The original `Cache` instance after validation passes
     """
     ## Check existence
     if cache is None:
