@@ -53,7 +53,7 @@ Custom/common exceptions are stored in `red_utils.exc`.
 
 The `red-utils` package makes use of the Python stdlib `pkgutil` module to control imports. Packages in the `ext` module are only imported and available in `red_utils` if the corresponding dependency exists.
 
-For instance, `red_utils.ext.msgpack_utils` will only be available if this check in [src/red_utils/ext/__init__.py](https://github.com/redjax/red-utils/blob/main/red_utils/ext/__init__.py) passes:
+For instance, `red_utils.ext.msgpack_utils` will only be available if this check in [src/red_utils/ext/__init__.py](https://github.com/redjax/red-utils/blob/main/src/red_utils/ext/__init__.py) passes:
 ```
 import pkgutil
 
