@@ -1,3 +1,4 @@
+"""Utilities for the `msgpack` serialization library."""
 from __future__ import annotations
 
 from . import classes, constants, operations, validators

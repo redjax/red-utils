@@ -25,4 +25,12 @@ class SerialFunctionResponseBase:
 
 @dataclass
 class SerialFunctionResponse(SerialFunctionResponseBase):
+    """A `dataclass` for passing `msgpack` serialization responses.
+    
+    Params:
+        success (bool): `True` if operation success, `False` if operation failure
+        detail (Any): Append additional details to a response
+        operation (str): The operation that produced this response.
+            Can be serialize/deserialize, or serialize/deserialize file.
+    """
     pass

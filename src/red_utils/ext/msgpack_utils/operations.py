@@ -13,7 +13,12 @@ import msgpack
 def ensure_path(dir: Union[str, Path] = None) -> bool:
     """Ensure a directory path exists.
 
-    Returns a bool
+    Params:
+        dir (str|Path): The directory path to ensure existence of
+
+    Returns:
+        (bool): `True` if Path exists/was created
+        (bool): `False` if an error was encountered
     """
     if not dir:
         raise ValueError("Missing input directory to validate")
@@ -50,11 +55,15 @@ def msgpack_serialize(
     _json: dict = None,
 ) -> SerialFunctionResponse:  # -> dict[str, Union[bool, str, bytes, None]]:
     """Serialize a Python dict to a msgpack string.
+    
+    Params:
+        _json (dict): A Python `dict` to serialize
 
-    Return object will be a dict with 2 keys, 'success' and 'detail.'
-    Success is a bool indicator of serialize success.
-    Detail contains the 'message' key with the bytestring, as well as other
-        optional details to be returned.
+    Returns:
+        (dict): A dict with 2 keys, `'success'` and `'detail'`.
+            `success` is a `bool` indicator of serialize operation success status.
+            `detail` contains the `'message'` key with the `bytestring`, as well as other
+                optional details to be returned.
     """
     if not _json:
         raise ValueError("Missing Python dict data to serialize")
@@ -83,13 +92,16 @@ def msgpack_serialize_file(
 ):  ## dict[str, Union[bool, str, dict[str, Union[str, dict]]]]:
     """Serialize a Python dict to a msgpack file.
 
-    Accepts a dict input, with an optional output_dir and filename. Serialize the
-    msgpack data to file at output_dir/filename.
+    Params:
+        _json (dict): A Python `dict` to serialize
+        output_dir (str): Output path where file should be saved
+        filename (str): Name of the serialized file
 
-    Return object will be a dict with 2 keys, 'success' and 'detail.'
-    Success is a bool indicator of serialize success.
-    Detail contains the 'message' key with the bytestring, as well as other
-        optional details to be returned.
+    Returns:
+        (dict): A dict with 2 keys, `'success'` and `'detail'`.
+            `success` is a `bool` indicator of serialize operation success status.
+            `detail` contains the `'message'` key with the `bytestring`, as well as other
+                optional details to be returned.
     """
     if not _json:
         raise ValueError("Missing Python dict data to serialize")
@@ -136,10 +148,14 @@ def msgpack_deserialize_file(
 ):  ## dict[str, Union[bool, str, dict[str, Union[str, dict]]]]:
     """Load serialized msgpack string from a file and return.
 
-    Return object will be a dict with 2 keys, 'success' and 'detail.'
-    Success is a bool indicator of serialize success.
-    Detail contains the 'message' key with the bytestring, as well as other
-        optional details to be returned.
+    Params:
+        filename (str): The path to a file with serialized data to load
+
+    Returns:
+        (dict): A dict with 2 keys, `'success'` and `'detail'`.
+            `success` is a `bool` indicator of deserialize operation success status.
+            `detail` contains the `'message'` key with the `bytestring`, as well as other
+                optional details to be returned.
     """
     if not filename:
         raise ValueError("Must pass a file name/path to deserialize")
@@ -175,8 +191,17 @@ def msgpack_deserialize(
     packed_str: bytes = None,
 ) -> dict[str, Union[bool, str, dict[str, Union[str, dict]]]]:
     """Load serialized msgpack string.
+    
+    Params:
+        packed_str (bytes): A `msgpack` serialized `bytestring` to be deserialized
 
-    Returns a dict with
+    Returns:
+        (bool): `False` if deserialization fails
+        (str): String value from serialized `packed_str`
+        (dict): A dict with 2 keys, `'success'` and `'detail'`.
+            `success` is a `bool` indicator of deserialize operation success status.
+            `detail` contains the `'message'` key with the `bytestring`, as well as other
+                optional details to be returned.
     """
     if not packed_str:
         raise ValueError("Must pass a bytestring to deserialize")

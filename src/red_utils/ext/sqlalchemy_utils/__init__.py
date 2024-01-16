@@ -1,11 +1,11 @@
 """SQLAlchemy common database code.
 
-Contains SQLAlchemy setup code, engine, and session(s). Uses dataclasses to define
-database connection, and builds a default engine & session. The use of dataclasses is
+Contains SQLAlchemy setup code, engine, and session(s). Uses `dataclasses` to define
+database connection, and builds a default `Engine` & `Session`. The use of `dataclasses` is
 to minimize depdencies for this common SQLAlchemy code so it can be easily re-used in
 other projects utilizing SQLAlchemy for database operations.
 
-The default engine and session are customizable using the get_engine() and get_session()
+The default `Engine` and `Session` are customizable using the `get_engine()` and `get_session()`
 functions. These functions can be imported & called from another app, with customized
 values to control engine & session behavior.
 
@@ -16,9 +16,9 @@ Currently supported databases:
     - [x] MSSQL
     - [ ] Azure Cosmos
     
-Be sure to import the Base object from this script and run Base.metadata.create_all(bind=engine)
-as early as possible. For example, import the Base object from this script into main.py,
-create/import an engine, and immediately run the metadata create function.
+Be sure to import the `Base` object from this script and run `Base.metadata.create_all(bind=engine)`
+as early as possible. For example, import the `Base` object from this script into a `main.py` or equivalent entrypoint,
+create/import an `Engine`, and immediately run the metadata create function.
 """
 from __future__ import annotations
 

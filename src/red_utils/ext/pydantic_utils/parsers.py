@@ -1,8 +1,16 @@
 """Parse a Pydantic model so it is usable by SQLAlchemy."""
 from __future__ import annotations
 
-def is_pydantic(obj: object):
-    """Checks whether an object is pydantic."""
+def is_pydantic(obj: object) -> bool:
+    """Checks whether an object is pydantic.
+    
+    Params:
+        obj (object): An arbitrary Python object to evaluate
+    
+    Returns:
+        (bool): `True` if `obj` is of Pydantic type `ModelMetaClass`
+        (bool): `False` if `obj` is not of Pydatic type `ModelMetaClass`
+    """
     return type(obj).__class__.__name__ == "ModelMetaclass"
 
 
@@ -13,8 +21,10 @@ def parse_pydantic_schema(schema):
 
     Make sure to add this line to Pydantic schemas that have an ORM class:
 
+    ``` py linenums="1"
     class Meta:
         orm_model = "SQLAModelName"
+    ```
     """
     parsed_schema: dict = dict(schema)
 
