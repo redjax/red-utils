@@ -1,14 +1,16 @@
 # Red-Utils
 
-> ⚠️Important⚠️: This is my first Python package. I'm experimenting with CI/CD and Pypi. This library is most likely not useful to anyone else, may be broken at times, may undergo refactors with little to no notice/documentation, and all that other awful stuff that comes with being an amateur developer doing this in their free time 🙃
+!!! warning
+
+    This is my first Python package. I'm experimenting with CI/CD and Pypi. This library is most likely not useful to anyone else, may be broken at times, may undergo refactors with little to no notice/documentation, and all that other awful stuff that comes with being an amateur developer doing this in their free time 🙃
 
 My personal collection of Python utilities (modules, functions, etc)
 
 ## Description
 
 - 🔗 [Project Home - Github Repository](https://github.com/redjax/red-utils)
-- 🔗 [Red Utils on Pypi](https://pypi.org/project/red_utils/)
-
+- 🐍 [Red Utils on Pypi](https://pypi.org/project/red_utils/)
+- 📖 [Red Utils Docs](https://red-utils.readthedocs.io/en/latest/)
 
 A collection of utility scripts/functions that I use frequently. Includes helper functions/default variables for libraries like `loguru`, `diskcache`, and `msgpack`.
 
