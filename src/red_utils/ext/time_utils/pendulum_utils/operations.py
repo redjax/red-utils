@@ -33,8 +33,9 @@ def get_ts(
         char_replace_map (list[dict]): A list of dicts defining characters to search for and replace
             in the timestamp str.
             Example replace map: `[{"search": ":", "replace": "-"}, {"search": " ", "replace": "_"}]`
-            
-    Returns:
+
+    Returns
+    -------
         (pendulum.DateTime): A `pendulum.DateTime` object of the current time
         (str): If `as_str=True`, returns a string representation of the `pendulum.DateTime` timestamp, formatted by `str_fmt`
     """

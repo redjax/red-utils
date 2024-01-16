@@ -8,7 +8,7 @@ def validate_time_period(period: str = None) -> str:
     Pass a time period (i.e. "days", "weeks", etc). If the period
     matches a valid time period, string is returned, otherwise a
     ValueError is raised.
-    
+
     Params:
         period (str): A period of time, like 'days' or 'weeks'
     """
