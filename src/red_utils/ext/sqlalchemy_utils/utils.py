@@ -22,6 +22,9 @@ def debug_metadata_obj(metadata_obj: sa.MetaData = None) -> None:
     """Debug-print a SQLAlchemy MetaData object.
 
     Loop over tables and print names.
+    
+    Params:
+        metadata_obj (sqlalchemy.MetaData): A SQLAlchemy `MetaData` object to debug
     """
     if not metadata_obj:
         raise ValueError("Missing a SQLAlchemy metadata object.")
@@ -37,7 +40,17 @@ def debug_metadata_obj(metadata_obj: sa.MetaData = None) -> None:
 
 ## Ensure a supported database is used
 def validate_db_type(in_str: str = None) -> bool:
-    """Validate db_type string in functions that utilize db_type."""
+    """Validate `db_type` string in functions that utilize `db_type`.
+    
+    Params:
+        in_str (str): A `db_type` string to validate
+    
+    Raises:
+        (ValueError): Raises a `ValueError` if the `in_str` is not valid
+    
+    Returns:
+        (bool): `True` if `in_str` is valid
+    """
     if not in_str:
         raise ValueError("Missing input string to validate")
 
@@ -54,6 +67,18 @@ def generate_metadata(
 
     Accept a SQLalchemy MetaData object, run .create_all(engine) to create
     table metadata.
+    
+    Raises:
+        (ValueError): When input values are invalid
+        (OperationalError): When SQLAlchemy runs into an error with the database, usually starting
+            on the database (not in SQLAlchemy)
+        (DBAPIERROR): When SQLAlchemy runs into an issue, generally in the way you've coded a SQLAlchemy
+            statement or operation
+        (Exception): When an uncaught/unhandled exception occurs
+    
+    Params:
+        metadata_obj (sqlalchemy.MetaData): A SQLAlchemy `MetaData` object to use for generating in the database
+        engine (sqlalchemy.Engine): The SQLAlchemy `Engine` to use for the database connection
     """
     if not metadata_obj:
         raise ValueError("Missing a SQLAlchemy MetaData object.")
@@ -86,16 +111,31 @@ def generate_metadata(
 def create_base_metadata(
     base_obj: sa_orm.DeclarativeBase = None, engine: sa.Engine = None
 ) -> bool:
-    """Create Base object's metadata.
+    """Create `Base` object's metadata.
 
-    Import this function early in your app/script (i.e. main.py) and run as soon as
+    Import this function early in your app/script (i.e. `main.py`) and run as soon as
     possible, i.e. after imports.
 
-    This function accepts a SQLAlchemy DeclarativeBase object, and creates the table
-    metadata from that object using the engine passed.
+    This function accepts a SQLAlchemy `DeclarativeBase` object, and creates the table
+    metadata from that object using the `Engine` passed.
 
-    This function will only ever return True if successful. It does not return False,
-    as an exception is raised if metadata creation fails and the program is halted.
+    This function will only ever return `True` if successful. It does not return `False`,
+    as an `Exception` is raised if metadata creation fails and the program is halted.
+    
+    Params:
+        base_obj (sqlalchemy.DeclarativeBase): A SQLAlchemy `DeclarativeBase` object to extract metadata from
+        engine (sqlalchemy.Engine): The `Engine` to use for the database connection.
+        
+    Raises:
+        (ValueError): When input values are invalid
+        (OperationalError): When SQLAlchemy runs into an error with the database, usually starting
+            on the database (not in SQLAlchemy)
+        (DBAPIERROR): When SQLAlchemy runs into an issue, generally in the way you've coded a SQLAlchemy
+            statement or operation
+        (Exception): When an uncaught/unhandled exception occurs
+    
+    Returns:
+        (bool): `True` if creating `Base` metadata is successful
     """
     try:
         base_obj.metadata.create_all(bind=engine)
@@ -117,17 +157,26 @@ def get_engine(
 ) -> sa.Engine:
     """Return a SQLAlchemy Engine object.
 
-    https://docs.sqlalchemy.org/en/20/tutorial/engine.html
+    [SQLAlchemy docs: Engine](https://docs.sqlalchemy.org/en/20/tutorial/engine.html)
 
     To use a database other than SQLite, i.e. Postgres or MySQL, pass
     the lowercase string name of the database.
-
-    Currently supported:
+    
+    Currently supported databases:
         - [x] SQLite
         - [x] Postgres
         - [ ] MySQL
         - [x] MSSQL
         - [ ] Azure Cosmos
+        
+    Params:
+        connection (saSQLiteConnection, saPGConnection): Instantiated instance of a custom database connection class
+        db_type (str): The string name (lowercase) of a database type
+        echo (bool): If `True`, the SQL the `Engine` runs will be echoed to the CLI
+        pool_pre_ping (bool): Test connection pool before starting operations
+    
+    Returns:
+        (sqlalchemy.Engine): An initialized SQLAlchemy `Engine` object
     """
     if not connection:
         raise ValueError("Missing connection object/string.")
@@ -183,9 +232,19 @@ def get_session(
 ) -> sessionmaker[Session]:
     """Define a factory for creating SQLAlchemy sessions.
 
-    Returns a sqlalchemy.orm.sessionmaker Session instance. Import this
+    Returns a `sqlalchemy.orm.sessionmaker` `Session` instance. Import this
     function in scripts that interact with the database, and create a
-    SessionLocal object with SessionLocal = get_session(**args)
+    `SessionLocal` object with `SessionLocal = get_session(**args)`
+    
+    Params:
+        engine (sqlalchemy.Engine): A SQLAlchemy `Engine` object to use for connections
+        autoflush (bool): Automatically run `flush` operation on commits
+        expire_on_commit (bool): If `True`, connection expires once it's closed
+        class_: You can specify a class which should be returned instead of `sqlalchemy.orm.Session`.
+            [SQLAlchemy: sessionmaker class_ docs](https://docs.sqlalchemy.org/en/20/orm/session_api.html#sqlalchemy.orm.Session.params.class_)
+            
+    Returns:
+        (sessionmaker[Session]): An initialized `Session` instance
     """
     try:
         _sess = sessionmaker(
