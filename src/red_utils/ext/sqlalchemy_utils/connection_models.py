@@ -11,7 +11,7 @@ class saConnectionBase:
 
     Each model will inherit the connection_string propery,
     which outputs a URL conection object.
-    
+
     Params:
         drivername (str): The SQLAlchemy drivername string
         host (str): The database host name/address
@@ -50,7 +50,7 @@ class saConnectionBase:
         base class will pass their values through these validators as well.
 
         !!! note
-        
+
         [SlingAcademy: How to validate data in dataclass](https://www.slingacademy.com/article/python-how-to-validate-data-in-dataclass/)
         """
         if self.drivername and not isinstance(self.drivername, str):
@@ -145,7 +145,7 @@ class saPGConnection(saConnectionBase):
 
     For Postgres databases, the database you specify must exist before
     creating the initial connection/engine.
-    
+
     Params:
         drivername (str): The SQLAlchemy drivername string
         host (str): The PostgreSQL database server address/hostname
@@ -167,7 +167,7 @@ class saPGConnection(saConnectionBase):
 @dataclass
 class saMSSQLConnection(saConnectionBase):
     """Default Microsoft SQL Server connection.
-    
+
     Params:
         drivername (str): The SQLAlchemy drivername string
         host (str): The PostgreSQL database server address/hostname
@@ -176,6 +176,7 @@ class saMSSQLConnection(saConnectionBase):
         password (str): The PostgreSQL password associated with `username` to authenticate with
         database (str): The name of the database to connect to
     """
+
     drivername: str = field(default="mssql+pyodbc")
     host: str = field(default="127.0.0.1")
     # instance: str = field(default="\\SQLEXPRESS")

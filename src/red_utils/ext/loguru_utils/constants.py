@@ -58,6 +58,7 @@ default_color_fmt: str = f"<green>{_ts}</green> <level>{_level}</level> > <level
 @dataclass
 class LogLevel:
     """Class representing a `loguru` log level."""
+
     name: str = field(default=None)
     level_name: str = field(default=None)
     severity: int = field(default=None)

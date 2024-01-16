@@ -16,7 +16,8 @@ def ensure_path(dir: Union[str, Path] = None) -> bool:
     Params:
         dir (str|Path): The directory path to ensure existence of
 
-    Returns:
+    Returns
+    -------
         (bool): `True` if Path exists/was created
         (bool): `False` if an error was encountered
     """
@@ -55,11 +56,12 @@ def msgpack_serialize(
     _json: dict = None,
 ) -> SerialFunctionResponse:  # -> dict[str, Union[bool, str, bytes, None]]:
     """Serialize a Python dict to a msgpack string.
-    
+
     Params:
         _json (dict): A Python `dict` to serialize
 
-    Returns:
+    Returns
+    -------
         (dict): A dict with 2 keys, `'success'` and `'detail'`.
             `success` is a `bool` indicator of serialize operation success status.
             `detail` contains the `'message'` key with the `bytestring`, as well as other
@@ -97,7 +99,8 @@ def msgpack_serialize_file(
         output_dir (str): Output path where file should be saved
         filename (str): Name of the serialized file
 
-    Returns:
+    Returns
+    -------
         (dict): A dict with 2 keys, `'success'` and `'detail'`.
             `success` is a `bool` indicator of serialize operation success status.
             `detail` contains the `'message'` key with the `bytestring`, as well as other
@@ -151,7 +154,8 @@ def msgpack_deserialize_file(
     Params:
         filename (str): The path to a file with serialized data to load
 
-    Returns:
+    Returns
+    -------
         (dict): A dict with 2 keys, `'success'` and `'detail'`.
             `success` is a `bool` indicator of deserialize operation success status.
             `detail` contains the `'message'` key with the `bytestring`, as well as other
@@ -191,11 +195,12 @@ def msgpack_deserialize(
     packed_str: bytes = None,
 ) -> dict[str, Union[bool, str, dict[str, Union[str, dict]]]]:
     """Load serialized msgpack string.
-    
+
     Params:
         packed_str (bytes): A `msgpack` serialized `bytestring` to be deserialized
 
-    Returns:
+    Returns
+    -------
         (bool): `False` if deserialization fails
         (str): String value from serialized `packed_str`
         (dict): A dict with 2 keys, `'success'` and `'detail'`.

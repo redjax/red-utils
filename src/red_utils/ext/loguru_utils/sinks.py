@@ -45,7 +45,7 @@ class LoguruSinkDefault(LoguruSinkBase):
     ``` py linenums="1"
     my_loguru_sink = LoguruSinkDefault(sink=...,level=..., colorize=True)
     ```
-    
+
     Params:
         sink (str|TextIO): A Loguru sink. Can be a string (i.e. "app.log" for a file at ./app.log) or a Python callable (i.e. sys.stdout).
             [Loguru Docs: sinks](https://loguru.readthedocs.io/en/stable/api/logger.html#sink)
@@ -63,7 +63,7 @@ class LoguruSinkDefault(LoguruSinkBase):
 @dataclass
 class LoguruSinkStdOut(LoguruSinkBase, DictMixin):
     """Console STDOUT sink.
-    
+
     Params:
         format (str): A formatted string for log messages
         colorize (bool): If `True`, log messages will be colorized
@@ -76,7 +76,7 @@ class LoguruSinkStdOut(LoguruSinkBase, DictMixin):
 @dataclass
 class LoguruSinkStdErr(LoguruSinkBase):
     """Console STDERR sink.
-    
+
     Params:
         sink (str, TextIO): the Loguru sink definition
         format (str): A formatted string for log messages
@@ -91,7 +91,7 @@ class LoguruSinkStdErr(LoguruSinkBase):
 @dataclass
 class LoguruSinkFileBase(DictMixin):
     """Base class for file sinks.
-    
+
     Params:
         sink (str, TextIO): the Loguru sink definition
         colorize (bool): If `True`, log messages will be colorized
@@ -100,7 +100,7 @@ class LoguruSinkFileBase(DictMixin):
         format (str): A formatted string for log messages
         level (str): Level of logs to log to file, i.e. `"INFO"`, `"DEBUG"`, etc
         enqueue (bool): Set to `True` if app is asynchronous in order to avoid IO
-            collisions        
+            collisions
     """
 
     sink: Union[str, TextIO] = field(default=f"{LOG_DIR}/app.log")
@@ -122,7 +122,7 @@ class LoguruSinkFileDefault(LoguruSinkFileBase):
     ``` py linenums="1"
     my_loguru_file_sink = LoguruSinkFileDefault(sink=...,level=..., colorize=True)
     ```
-    
+
     Params:
         sink (str, TextIO): the Loguru sink definition
         colorize (bool): If `True`, log messages will be colorized
@@ -140,7 +140,7 @@ class LoguruSinkFileDefault(LoguruSinkFileBase):
 @dataclass
 class LoguruSinkAppFile(LoguruSinkFileBase, DictMixin):
     """Sink class for app.log file.
-    
+
     Params:
         sink (str, TextIO): the Loguru sink definition
         colorize (bool): If `True`, log messages will be colorized
@@ -158,7 +158,7 @@ class LoguruSinkAppFile(LoguruSinkFileBase, DictMixin):
 @dataclass
 class LoguruSinkErrFile(LoguruSinkFileBase):
     """Sink class for error.log file.
-    
+
     Params:
         sink (str, TextIO): the Loguru sink definition
         colorize (bool): If `True`, log messages will be colorized
@@ -177,7 +177,7 @@ class LoguruSinkErrFile(LoguruSinkFileBase):
 @dataclass
 class LoguruSinkTraceFile(LoguruSinkFileBase):
     """Sink class for trace.log file.
-    
+
     Params:
         sink (str, TextIO): the Loguru sink definition
         colorize (bool): If `True`, log messages will be colorized
@@ -230,9 +230,10 @@ class DefaultSinks(LoguruSinkBase):
 
     To get a list of initialized default sinks (an `app.log`, `err.log`, and `STDOUT` logger), choose
     from `.color` (for loggers initialized with colorize; excludes file loggers), or `.nocolor` (no colorize initialized):
-    
+
     `DefaultSinks().stdout.color`
     """
+
     stdout: LoguruSinkStdOut | None = default_stdout_sink
     stderr: LoguruSinkStdErr | None = default_stderr_sink
     log_file: LoguruSinkAppFile | None = default_app_log_file_sink
@@ -245,7 +246,8 @@ class DefaultSinks(LoguruSinkBase):
     ) -> list[dict]:
         """List of initialized Loguru loggers.
 
-        Returns:
+        Returns
+        -------
             (list[dict]): List of Loguru sink dicts with `colorize=True`.
         """
         sink_list = [
@@ -263,7 +265,8 @@ class DefaultSinks(LoguruSinkBase):
     ) -> list[dict]:
         """List of initialized Loguru loggers.
 
-        Returns:
+        Returns
+        -------
             (list[dict]): List of Loguru sink dicts with `colorize=False`.
         """
         sink_list = [

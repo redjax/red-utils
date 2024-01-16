@@ -11,12 +11,12 @@ from rich.console import Console
 @contextmanager
 def SimpleSpinner(message: str = "Loading..."):
     """A simple CLI spinner context manager.
-    
+
     Params:
         message (str): The message to display while the spinner is running
-    
+
     Usage:
-    
+
     ``` py linenums="1"
     with SimpleSpinnner("Your message... "):
         ...
