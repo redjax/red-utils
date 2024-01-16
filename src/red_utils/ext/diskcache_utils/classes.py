@@ -35,6 +35,11 @@ from diskcache import Cache
 from diskcache.core import warnings
 
 def default_timeout() -> int:
+    """Return the default timeout period.
+    
+    Returns:
+        (int): The number of seconds in 24 hours
+    """
     timeout = convert_to_seconds(amount=24, unit="hours")
     return timeout
 
@@ -43,7 +48,11 @@ def default_timeout() -> int:
 class CacheInstanceBase(DictMixin):
     """Compose a Diskcache Cache from class parameters.
 
-    Implement functionality from operations.py, such as get_val and set_val.
+    Params:
+        cache_dir (str|Path): The directory where the cache database should be created
+        index (bool): If `True`, a database index will be created
+        cache (diskcache.Cache): A `diskcache.Cache` instance
+        cache_timeout (int): Default expiration time (in seconds)
     """
 
     cache_dir: Union[str, Path] | None = field(default=CACHE_DIR)
@@ -79,6 +88,9 @@ class CacheInstanceBase(DictMixin):
 
         Sets the self.cache parameter to the initialized Cache,
         and also returns Cache directly.
+        
+        Returns:
+            (diskcache.Cache): An initialized `DiskCache.Cache` object
         """
         try:
             cache = Cache(self.cache_dir, timeout=self.cache_timeout)
@@ -95,9 +107,8 @@ class CacheInstanceBase(DictMixin):
         """Create or delete a cache index.
 
         Params:
-        -------
-        - operation (str): The operation to perform on the cache's tag index.
-            - Options: ["create", "delete"]
+            operation (str): The operation to perform on the cache's tag index.
+                Options: ["create", "delete"]
         """
         valid_operations: list[str] = ["create", "delete"]
 
@@ -133,7 +144,9 @@ class CacheInstanceBase(DictMixin):
     def clear(self) -> bool:
         """Clear the entire cache.
 
-        Returns a bool for success (True) or failure (False) clearing the cache.
+        Returns:
+            (bool): `True` if clearing cache successful
+            (bool): `False` if clearing the cache not successful
         """
         validate_cache(self.cache)
 
@@ -154,15 +167,22 @@ class CacheInstance(CacheInstanceBase):
     """Class to control a Diskcache Cache instance.
 
     Params:
-    -------
-    - cache_dir (str|Path): Directory path where cache.db will be stored.
-    - index (bool): Controls creation of a tag index in the cache instance.
-    - cache (diskcache.Cache): A diskcache.Cache object. When the class is instantiated, a Cache will be created.
-    - cache_timeout(int): Default key expiration (in seconds).
+        cache_dir (str|Path): Directory path where cache.db will be stored.
+        index (bool): Controls creation of a tag index in the cache instance.
+        cache (diskcache.Cache): A diskcache.Cache object. When the class is instantiated, a Cache will be created.
+        cache_timeout(int): Default key expiration (in seconds).
     """
 
     def check_key_exists(self, key: valid_key_types = None) -> bool:
-        """Check if a key exists in a cache."""
+        """Check if a key exists in a cache.
+        
+        Params:
+            key (str): The cache key to search for
+            
+        Returns:
+            (bool): `True` if cache key found
+            (bool): `False` if cache key not found
+        """
         ## Key validation
         validate_key(key=key)
         validate_cache(cache=self.cache)
@@ -184,7 +204,13 @@ class CacheInstance(CacheInstanceBase):
     ) -> None:
         """Set a key value pair in the cache.
 
-        Handles optional properties like expiration, tag, retry, etc.
+        Params:
+            key (str): The key to store the value under in the cache
+            val (str): The value to store in the cache
+            expire (int): Time (in seconds) before value expires
+            read (bool): If `True`, read value as a file-like object
+            tag (str): Applies a tag to the cached value
+            retry (bool): If `True`, retry setting cache key if first attempt fails
         """
         validate_key(key)
         validate_val(val)
@@ -211,6 +237,10 @@ class CacheInstance(CacheInstanceBase):
         Pass a diskcache.Cache object for cache, and a key (and optionally a list of tags).
         Function will search the cache and return a value if found, or a structured
         error dict describing the lack of key.
+        
+        Params:
+            key (str): The key to search the cache for
+            tags (list[str]): List of tags to search the cache for
         """
         validate_key(key)
         validate_cache(self.cache)
@@ -247,9 +277,8 @@ class CacheInstance(CacheInstanceBase):
         """Set an expiration timeout (in seconds).
 
         Params:
-        -------
-        - key (str): Name of the key to set expiration on. Must already exist in the cache.
-        - expire (int): Time (in seconds) to wait before expiring cached value.
+            key (str): Name of the key to set expiration on. Must already exist in the cache.
+            expire (int): Time (in seconds) to wait before expiring cached value.
         """
         validate_key(key)
         validate_cache(self.cache)
@@ -275,8 +304,7 @@ class CacheInstance(CacheInstanceBase):
         If a tag is provided, only keys that also have that tag will be deleted.
 
         Params:
-        -------
-        - key (str|int): Name of key in cache.
+            key (str|int): Name of key in cache.
         """
         validate_key(key)
         validate_cache(self.cache)
@@ -296,8 +324,9 @@ class CacheInstance(CacheInstanceBase):
     def get_cache_size(self) -> dict[str, int]:
         """Get a dict describing the size of the cache, in bytes.
 
-        Return object is a dict with keys: 'unit', 'size'. Example return object:
-            {'unit': 'bytes', 'size': 36864}
+        Returns:
+            (dict): A Python `dict` with keys: 'unit', 'size'. Example return object:
+                `{'unit': 'bytes', 'size': 36864}`
         """
         validate_cache(cache=self.cache)
 
@@ -312,7 +341,8 @@ class CacheInstance(CacheInstanceBase):
     def check_cache(self) -> list[warnings.WarningMessage]:
         """Run checks on Cache instance.
 
-        Returns a list of Diskcache WarningMessage objects.
+        Returns:
+            (list[warning.WarningMessage]): A list of Diskcache `WarningMessage` objects.
         """
         validate_cache(cache=self.cache)
 

@@ -2,7 +2,7 @@
 
 Pass objects, strings, bools, etc for evaluation.
 
-Each validator checks for existence (unless none_ok=True),
+Each validator checks for existence (unless `none_ok=True`),
 then type, then value (if a list of allowed values is passed).
 """
 from __future__ import annotations
@@ -17,7 +17,15 @@ from .constants import (
 from loguru import logger
 
 def validate_logger(_logger: logger = None, none_ok: bool = False) -> logger:
-    """Validate a loguru.Logger object."""
+    """Validate a loguru.Logger object.
+    
+    Params:
+        _logger (loguru.logger): A Loguru `logger`
+        none_ok (bool): If `True`, allows null values
+        
+    Returns:
+        (loguru.logger): A validated `loguru.logger`
+    """
     if none_ok:
         return _logger
     elif not _logger:
@@ -32,6 +40,15 @@ def validate_logger(_logger: logger = None, none_ok: bool = False) -> logger:
 
 
 def validate_compression_str(string: str = None, none_ok: bool = True) -> str:
+    """Validate a Loguru compression string value.
+    
+    Params:
+        string (str): The compression string to validate
+        none_ok (bool): If `True`, allows null values
+        
+    Returns:
+        (str): A validated compression string
+    """
     if none_ok:
         return string
     elif not string:
@@ -49,6 +66,15 @@ def validate_compression_str(string: str = None, none_ok: bool = True) -> str:
 
 
 def validate_level(level: str = None, none_ok: bool = False) -> str:
+    """Validate a Loguru compression string value.
+    
+    Params:
+        level (str): A log level string
+        none_ok (bool): If `True`, allows null values
+        
+    Returns:
+        (str): A validated log level string
+    """
     if none_ok:
         return level
     elif not level:

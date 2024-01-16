@@ -1,19 +1,23 @@
 """Define custom type classes for SQLAlchemy.
 
+!!! note
+
 - [SQLAlchemy docs: Custom Types](https://docs.sqlalchemy.org/en/20/core/custom_types.html#custom-types)
 
-How to use custom type overrides:
+## How to use custom type overrides
 
 After defining a customer class (by inheriting from overriding sqlalchemy.types.TypeDecorator), use it in
-a model, after declaring a __tablename__.
+a model, after declaring a `__tablename__`.
 
-Example custom UUID class (https://docs.sqlalchemy.org/en/20/core/custom_types.html#backend-agnostic-guid-type):
+[Backend agnostic GUID type: example custom UUID class](https://docs.sqlalchemy.org/en/20/core/custom_types.html#backend-agnostic-guid-type):
 
+``` py linenums="1" title="CompatibleUUID demo"
 class SomeModel(Base):
     __tablename__ = "someTable"
     
     ## Tell this model to convert uuid.UUID Python types to custom CompatibleUUID class
     type_annotation_map = {uuid.UUID: CompatibleUUID}
+```
 """
 from __future__ import annotations
 
@@ -33,16 +37,19 @@ class CompatibleUUID(TypeDecorator):
     useful for cross-database support, i.e. for SQLite which does
     not support the UUID type.
 
-    https://docs.sqlalchemy.org/en/20/core/custom_types.html#backend-agnostic-guid-type
+    !!! note
+    - [SQLAlchemy docs: backend agnostic GUID type](https://docs.sqlalchemy.org/en/20/core/custom_types.html#backend-agnostic-guid-type)
 
     Usage:
 
-    When defining a table model, after declaring __tablename__, set the type_annotation_map, i.e.:
+    When defining a table model, after declaring `__tablename_`_, set the `type_annotation_map`, i.e.:
 
+    ``` py linenums="1"
     class ExampleModel(Base):
         __tablename__ = "__sometable__"
 
         type_annotation_map = {uuid.UUID: CompatibleUUID}
+    ```
     """
 
     impl = BINARY

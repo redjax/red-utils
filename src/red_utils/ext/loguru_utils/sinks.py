@@ -16,16 +16,14 @@ class LoguruSinkBase(DictMixin):
     Define common options for children to inherit from.
 
     Params:
-    -------
-    - sink (str|TextIO): A Loguru sink.
-        - [Loguru Docs: sinks](https://loguru.readthedocs.io/en/stable/api/logger.html#sink)
-        - Can be a string (i.e. "app.log" for a file at ./app.log) or a Python callable (i.e. sys.stdout)
-    - format (str): A string describing the format for the Loguru logger.
-        - [Loguru Docs: time formatting](https://loguru.readthedocs.io/en/stable/api/logger.html#time)
-        - [Loguru Docs: color markup formatting](https://loguru.readthedocs.io/en/stable/api/logger.html#color)
-    - level (str): A severity level string for the logger. Controls which messages will be outputted. Value will be forced uppercase.
-        - [Loguru Docs: Severity levels](https://loguru.readthedocs.io/en/stable/api/logger.html#levels)
-    - colorize (bool): Control whether logger outputs are colorized.
+        sink (str|TextIO): A Loguru sink. Can be a string (i.e. "app.log" for a file at ./app.log) or a Python callable (i.e. sys.stdout).
+            [Loguru Docs: sinks](https://loguru.readthedocs.io/en/stable/api/logger.html#sink)
+        format (str): A string describing the format for the Loguru logger.
+            [Loguru Docs: time formatting](https://loguru.readthedocs.io/en/stable/api/logger.html#time).
+            [Loguru Docs: color markup formatting](https://loguru.readthedocs.io/en/stable/api/logger.html#color).
+        level (str): A severity level string for the logger. Controls which messages will be outputted. Value will be forced uppercase.
+            [Loguru Docs: Severity levels](https://loguru.readthedocs.io/en/stable/api/logger.html#levels)
+        colorize (bool): Control whether logger outputs are colorized.
     """
 
     sink: Union[str, TextIO] = field(default=sys.stdout)
@@ -44,7 +42,19 @@ class LoguruSinkDefault(LoguruSinkBase):
     Use this class as a starting point to create customized Loguru sinks. Create a new class
     by inheriting from this one:
 
+    ``` py linenums="1"
     my_loguru_sink = LoguruSinkDefault(sink=...,level=..., colorize=True)
+    ```
+    
+    Params:
+        sink (str|TextIO): A Loguru sink. Can be a string (i.e. "app.log" for a file at ./app.log) or a Python callable (i.e. sys.stdout).
+            [Loguru Docs: sinks](https://loguru.readthedocs.io/en/stable/api/logger.html#sink)
+        format (str): A string describing the format for the Loguru logger.
+            [Loguru Docs: time formatting](https://loguru.readthedocs.io/en/stable/api/logger.html#time).
+            [Loguru Docs: color markup formatting](https://loguru.readthedocs.io/en/stable/api/logger.html#color).
+        level (str): A severity level string for the logger. Controls which messages will be outputted. Value will be forced uppercase.
+            [Loguru Docs: Severity levels](https://loguru.readthedocs.io/en/stable/api/logger.html#levels)
+        colorize (bool): Control whether logger outputs are colorized.
     """
 
     pass
@@ -52,7 +62,12 @@ class LoguruSinkDefault(LoguruSinkBase):
 
 @dataclass
 class LoguruSinkStdOut(LoguruSinkBase, DictMixin):
-    """Console STDOUT sink."""
+    """Console STDOUT sink.
+    
+    Params:
+        format (str): A formatted string for log messages
+        colorize (bool): If `True`, log messages will be colorized
+    """
 
     format: str = field(default=default_color_fmt)
     colorize: bool = field(default=True)
@@ -60,7 +75,13 @@ class LoguruSinkStdOut(LoguruSinkBase, DictMixin):
 
 @dataclass
 class LoguruSinkStdErr(LoguruSinkBase):
-    """Console STDERR sink."""
+    """Console STDERR sink.
+    
+    Params:
+        sink (str, TextIO): the Loguru sink definition
+        format (str): A formatted string for log messages
+        colorize (bool): If `True`, log messages will be colorized
+    """
 
     sink: Union[str, TextIO] = field(default=sys.stderr)
     format: str = field(default=default_color_fmt)
@@ -69,7 +90,18 @@ class LoguruSinkStdErr(LoguruSinkBase):
 
 @dataclass
 class LoguruSinkFileBase(DictMixin):
-    """Base class for file sinks."""
+    """Base class for file sinks.
+    
+    Params:
+        sink (str, TextIO): the Loguru sink definition
+        colorize (bool): If `True`, log messages will be colorized
+        retention (str|int): Amount of time to retain log files
+        rotation (str): Size limit when a log file will be rotated
+        format (str): A formatted string for log messages
+        level (str): Level of logs to log to file, i.e. `"INFO"`, `"DEBUG"`, etc
+        enqueue (bool): Set to `True` if app is asynchronous in order to avoid IO
+            collisions        
+    """
 
     sink: Union[str, TextIO] = field(default=f"{LOG_DIR}/app.log")
     colorize: bool = field(default=True)
@@ -82,12 +114,24 @@ class LoguruSinkFileBase(DictMixin):
 
 @dataclass
 class LoguruSinkFileDefault(LoguruSinkFileBase):
-    """Default Loguru file sink. Defaults to app.log, level=DEBUG.
+    """Default Loguru file sink. Defaults to file `app.log`, `level=DEBUG`.
 
     Use this class as a starting point to create customized Loguru file sinks. Create a new class
     by inheriting from this one:
 
+    ``` py linenums="1"
     my_loguru_file_sink = LoguruSinkFileDefault(sink=...,level=..., colorize=True)
+    ```
+    
+    Params:
+        sink (str, TextIO): the Loguru sink definition
+        colorize (bool): If `True`, log messages will be colorized
+        retention (str|int): Amount of time to retain log files
+        rotation (str): Size limit when a log file will be rotated
+        format (str): A formatted string for log messages
+        level (str): Level of logs to log to file, i.e. `"INFO"`, `"DEBUG"`, etc
+        enqueue (bool): Set to `True` if app is asynchronous in order to avoid IO
+            collisions
     """
 
     pass
@@ -95,14 +139,36 @@ class LoguruSinkFileDefault(LoguruSinkFileBase):
 
 @dataclass
 class LoguruSinkAppFile(LoguruSinkFileBase, DictMixin):
-    """Sink class for app.log file."""
+    """Sink class for app.log file.
+    
+    Params:
+        sink (str, TextIO): the Loguru sink definition
+        colorize (bool): If `True`, log messages will be colorized
+        retention (str|int): Amount of time to retain log files
+        rotation (str): Size limit when a log file will be rotated
+        format (str): A formatted string for log messages
+        level (str): Level of logs to log to file, i.e. `"INFO"`, `"DEBUG"`, etc
+        enqueue (bool): Set to `True` if app is asynchronous in order to avoid IO
+            collisions
+    """
 
     pass
 
 
 @dataclass
 class LoguruSinkErrFile(LoguruSinkFileBase):
-    """Sink class for error.log file."""
+    """Sink class for error.log file.
+    
+    Params:
+        sink (str, TextIO): the Loguru sink definition
+        colorize (bool): If `True`, log messages will be colorized
+        retention (str|int): Amount of time to retain log files
+        rotation (str): Size limit when a log file will be rotated
+        format (str): A formatted string for log messages
+        level (str): Level of logs to log to file, i.e. `"INFO"`, `"DEBUG"`, etc
+        enqueue (bool): Set to `True` if app is asynchronous in order to avoid IO
+            collisions
+    """
 
     sink: Union[str, TextIO] = field(default=f"{LOG_DIR}/error.log")
     level: str = field(default="ERROR")
@@ -110,7 +176,18 @@ class LoguruSinkErrFile(LoguruSinkFileBase):
 
 @dataclass
 class LoguruSinkTraceFile(LoguruSinkFileBase):
-    """Sink class for trace.log file."""
+    """Sink class for trace.log file.
+    
+    Params:
+        sink (str, TextIO): the Loguru sink definition
+        colorize (bool): If `True`, log messages will be colorized
+        retention (str|int): Amount of time to retain log files
+        rotation (str): Size limit when a log file will be rotated
+        format (str): A formatted string for log messages
+        level (str): Level of logs to log to file, i.e. `"INFO"`, `"DEBUG"`, etc
+        enqueue (bool): Set to `True` if app is asynchronous in order to avoid IO
+            collisions
+    """
 
     sink: Union[str, TextIO] = field(default=f"{LOG_DIR}/trace.log")
     level: str = field(default="TRACE")
@@ -149,13 +226,13 @@ class DefaultSinks(LoguruSinkBase):
     """Return initialized defaults for Loguru sink classes.
 
     Access initialized sinks as class parameters. For example, to get an STDOUT logger,
-    initialized with the default LoguruSinkStdOut settings, do:
-        DefaultSinks().stdout
+    initialized with the default LoguruSinkStdOut settings: `DefaultSinks().stdout`
 
-    To get a list of initialized default sinks (an app.log, err.log, and STDOUT logger), choose
-    from .color (for loggers initialized with colorize; excludes file loggers), or .nocolor (no colorize initialized).
+    To get a list of initialized default sinks (an `app.log`, `err.log`, and `STDOUT` logger), choose
+    from `.color` (for loggers initialized with colorize; excludes file loggers), or `.nocolor` (no colorize initialized):
+    
+    `DefaultSinks().stdout.color`
     """
-
     stdout: LoguruSinkStdOut | None = default_stdout_sink
     stderr: LoguruSinkStdErr | None = default_stderr_sink
     log_file: LoguruSinkAppFile | None = default_app_log_file_sink
@@ -168,7 +245,8 @@ class DefaultSinks(LoguruSinkBase):
     ) -> list[dict]:
         """List of initialized Loguru loggers.
 
-        Relevant classes are initialized with colorize=True.
+        Returns:
+            (list[dict]): List of Loguru sink dicts with `colorize=True`.
         """
         sink_list = [
             self.stdout,
@@ -185,7 +263,8 @@ class DefaultSinks(LoguruSinkBase):
     ) -> list[dict]:
         """List of initialized Loguru loggers.
 
-        Relevant classes are initialized with colorize=False.
+        Returns:
+            (list[dict]): List of Loguru sink dicts with `colorize=False`.
         """
         sink_list = [
             default_stdout_no_color_sink,
