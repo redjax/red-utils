@@ -95,7 +95,7 @@ This project uses dependencies groups, meaning it can be installed with `pip ins
 
 # Modules
 
-Check the [Github page](https://github.com/redjax/red-utils/tree/main/red_utils) to see modules in the [`ext`](https://github.com/redjax/red-utils/tree/main/red_utils/ext) and [`std`](https://github.com/redjax/red-utils/tree/main/red_utils/std) modules (or click one of those words to be taken there).
+Check the [Github page](https://github.com/redjax/red-utils/tree/main/src/red_utils) to see modules in the [`ext`](https://github.com/redjax/red-utils/tree/main/src/red_utils/ext) and [`std`](https://github.com/redjax/red-utils/tree/main/src/red_utils/std) modules (or click one of those words to be taken there).
 
 # Developing red-utils
 
