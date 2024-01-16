@@ -37,8 +37,9 @@ def convert_to_seconds(amount: int = None, unit: str = None) -> int:
         amount (int): Amount of time
         unit (str): The starting unit of time to convert to seconds.
             Options: ["seconds", "hours", "minutes", "days", "weeks"]
-            
-    Returns:
+
+    Returns
+    -------
         (int): `amount` of time converted to seconds representing the `unit` of time passed
     """
     ## Allowed strings for conversion
@@ -84,13 +85,14 @@ def new_cache(
     index: bool = True,
 ) -> diskcache.core.Cache:
     """Prepare and return a diskcache.Cache object.
-    
+
     Params:
         cache_dir (str): Directory path where cache will be created
         cache_conf (dict): A Python `dict` with cache configuration options
         index (bool): Whether or not to create an index for the cache
-        
-    Returns:
+
+    Returns
+    -------
         (diskcache.core.Cache): An initialized `diskcache.Cache` object
     """
     if not cache_dir:
@@ -122,11 +124,12 @@ def new_cache(
 
 def clear_cache(cache: Cache = None) -> bool:
     """Clear all items from the cache.
-    
+
     Params:
         cache (diskcache.Cache): The target cache to clear
-    
-    Returns:
+
+    Returns
+    -------
         (bool): `True` if cache cleared successfully
         (bool): `False` if cache not cleared successfully
     """
@@ -146,12 +149,13 @@ def clear_cache(cache: Cache = None) -> bool:
 
 def check_cache_key_exists(cache: diskcache.core.Cache = None, key: str = None) -> bool:
     """Check if a key exists in a cache.
-    
+
     Params:
         cache (diskcache.Cache): A `diskcache.Cache` instance to check
         key (str): The key name to search the `cache` for
-        
-    Returns:
+
+    Returns
+    -------
         (bool): `True` if the key exists
         (bool): `False` if the key does not exist
     """
@@ -168,7 +172,7 @@ def check_cache_key_exists(cache: diskcache.core.Cache = None, key: str = None) 
 
 def manage_cache_tag_index(cache: Cache = None, operation: str = "create") -> None:
     """Create or delete a cache's tag index.
-    
+
     Params:
         cache (diskcache.Cache): A `diskcache.Cache` instance to work on
         operation (str): The operation (create/delete) to perform on the tag index
@@ -245,7 +249,7 @@ def set_expire(
     cache: Cache = None, key: str = None, expire: int = None
 ) -> Union[dict[str, str], None]:
     """Set/change a cache key's expiration time.
-    
+
     Params:
         cache (diskcache.Cache): A `diskcache.Cache` instance to work on
         key (str): The cache key name to set an expiration time on
@@ -272,13 +276,14 @@ def set_expire(
 
 def get_val(cache: Cache = None, key: str = None, tags: list[str] = None):
     """Search for a key in a given cache.
-    
+
     Params:
         cache (diskcache.Cache): A `diskcache.Cache` instance to work on
         key (str): A key name to retrieve from the cache
         tags: A list of tags to filter by
 
-    Returns:
+    Returns
+    -------
         (Any): The cached value
         (dict[str, str]): A structured dict with error details, if operation fails
     """
@@ -316,7 +321,7 @@ def delete_val(
     cache: Cache = None, key: valid_key_types = None, tag: str = None
 ) -> tuple:
     """Delete a value from the cache
-    
+
     Params:
         cache (diskcache.Cache): A `diskcache.Cache` instance to work on
         key (str): The name of a key to delete
@@ -340,11 +345,12 @@ def delete_val(
 
 def get_cache_size(cache: Cache = None) -> dict[str, int]:
     """Get the total size of a `diskcache.Cache` instance.
-    
+
     Params:
         cache (diskcache.Cache): A `diskcache.Cache` object to get the size of
-    
-    Returns:
+
+    Returns
+    -------
         (dict[str, int]): Details about the cache's size. Example:
             `{"unit": "bytes", "size": cache_size}`
     """
@@ -361,7 +367,7 @@ def get_cache_size(cache: Cache = None) -> dict[str, int]:
 
 def check_cache(cache: Cache = None):
     """Run healthcheck on cache.
-    
+
     Params:
         cache (diskcache.Cache): A `diskcache.Cache` instance to work on
     """

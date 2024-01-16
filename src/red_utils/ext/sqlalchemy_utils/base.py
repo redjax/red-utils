@@ -40,7 +40,7 @@ class Base(DeclarativeBase):
 
     Global defaults can be set on this object (i.e. a SQLAlchemy registry), and will
     be inherited/accessible by all child classes.
-    
+
     Params:
         registry (sqlalchemy.Registry): A `registry` object for the `Base` class
         metadata (sqlalchemy.MetaData): A `MetaData` object, with data about the `Base` class

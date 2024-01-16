@@ -1,7 +1,7 @@
 """Constant values to use as defaults for the `pendulum_utils` module.
 
-Examples:
-
+Examples
+--------
 ``` py
 TIME_FMT_24H: str = "YYYY-MM-DD HH:MM:SS"
 TIME_FMT_12H: str = "YYYY-MM-DD hh:mm:ssA"
@@ -22,6 +22,7 @@ VALID_TIME_PERIODS: list[str] = [
     "seconds",
 ]
 ```
+
 """
 from __future__ import annotations
 

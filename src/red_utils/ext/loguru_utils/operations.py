@@ -44,7 +44,7 @@ def add_sink(
 
     Helper function for adding a sink to a Loguru logger.
     Can be called without arguments to use a default instance.
-        
+
     Params:
         _logger (loguru.logger): An instance of `loguru.logger` to add a sink to
         sink (str|Path|io.TextIOWrapper|Handler|Callable|Coroutine): A Loguru-compatible logger sink.
@@ -67,7 +67,7 @@ def add_sink(
             the caller, preventing your app from crashing.
         rotation (int|datetime.time|datetime.timedelta|str|Callable): Define log rotation rules for file logging
         retention (int|datetime.timedelta|str|Callable): Define how long log files should be retained during rotation
-        compression (str|Callable): 
+        compression (str|Callable):
     """
     ## Validate inputs
     validate_logger(_logger)
@@ -108,23 +108,23 @@ def init_logger(
     ]
 ):
     """Initializes a Loguru logger using sink dicts.
-    
+
     Call this script very early in program execution, ideally as the very first thing to happen.
     To ease with sink configuration, you can import sinks from `red_utils.ext.loguru_utils.sinks`,
     like `LoguruSinkStdOut` which defines a default, colorized `sys.stdout` sink.
-    
+
     !!! note
 
         If using a custom `red_utils` sink, when adding it to the list of sinks, use the `.as_dict()`
         function to convert the sink to a dict.
-        
-        Example:
-        
+
+    Example:
+    -------
         ``` py linenums="1"
         stdout_sink = LoguruSinkStdOut(level="DEBUG")
         init_logger(sinks=[stdout_sink.as_dict()])
         ```
-    
+
     Params:
         sinks (list[dict]): A list of dicts defining Loguru sinks
     """
