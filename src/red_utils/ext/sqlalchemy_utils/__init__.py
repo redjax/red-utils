@@ -38,7 +38,8 @@ from .connection_models import (
 
 ## Import constants
 from .constants import valid_db_types
-from .custom_types.generic import CompatibleUUID
+from .custom_types import CompatibleUUID
+from .mixins import TableNameMixin, TimestampMixin
 
 ## Import custom SQLAlchemy utils
 from .utils import (

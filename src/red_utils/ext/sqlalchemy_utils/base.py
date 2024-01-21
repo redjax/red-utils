@@ -21,18 +21,18 @@ The `registry()` function sets the global SQLAlchemy `registry` for the `Declara
 
 from __future__ import annotations
 
-from sqlalchemy import MetaData
-from sqlalchemy.orm import DeclarativeBase, registry
+import sqlalchemy as sa
+import sqlalchemy.orm as so
 
 ## Global SQLAlchemy MetaData object
-metadata: MetaData = MetaData()
+metadata: sa.MetaData = sa.MetaData()
 
 ## Registry object stores mappings & config hooks
-reg = registry()
+reg = so.registry()
 
 
 ## SQLAlchemy DeclarativeBase is the parent class object table classes will inherit from
-class Base(DeclarativeBase):
+class Base(so.DeclarativeBase):
     """Default/Base class for SQLAlchemy models.
 
     Child classes inheriting from this Base object will be treated as SQLAlchemy
@@ -46,5 +46,5 @@ class Base(DeclarativeBase):
         metadata (sqlalchemy.MetaData): A `MetaData` object, with data about the `Base` class
     """
 
-    registry: registry = reg
-    metadata: MetaData = metadata
+    registry: so.registry = reg
+    metadata: sa.MetaData = metadata
