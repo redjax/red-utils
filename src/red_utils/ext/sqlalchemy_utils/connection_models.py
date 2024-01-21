@@ -5,8 +5,11 @@ from pathlib import Path
 
 import sqlalchemy as sa
 
+from red_utils.core.dataclass_utils import DictMixin
+
+
 @dataclass
-class saConnectionBase:
+class saConnectionBase(DictMixin):
     """Base class for SQLAlchemy connection models.
 
     Each model will inherit the connection_string propery,
@@ -137,6 +140,13 @@ class saSQLiteConnection(saConnectionBase):
                 raise Exception(
                     f"Unhandled exception creating directories in path: {str(_path)}. Details: {exc}"
                 )
+
+
+@dataclass
+class saMySQLConnection(saConnectionBase):
+    drivername: str = field(default="mysql+pymysql")
+    def __init__(self):
+        raise NotImplementedError(f"Support for MySQL database connections is not yet implemented.")
 
 
 @dataclass

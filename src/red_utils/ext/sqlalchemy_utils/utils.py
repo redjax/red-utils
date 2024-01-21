@@ -11,11 +11,8 @@ from .connection_models import (
 from .constants import valid_db_types
 
 import sqlalchemy as sa
-from sqlalchemy import create_engine
-
-## Import SQLAlchemy exceptions
+import sqlalchemy.orm as so
 from sqlalchemy.exc import DBAPIError, OperationalError
-from sqlalchemy.orm import Session, sessionmaker
 from sqlalchemy.schema import CreateTable
 
 def debug_metadata_obj(metadata_obj: sa.MetaData = None) -> None:
@@ -112,7 +109,7 @@ def generate_metadata(
 
 
 def create_base_metadata(
-    base_obj: sa_orm.DeclarativeBase = None, engine: sa.Engine = None
+    base_obj: so.DeclarativeBase = None, engine: sa.Engine = None
 ) -> bool:
     """Create `Base` object's metadata.
 
@@ -215,7 +212,7 @@ def get_engine(
         pass
 
     try:
-        engine = create_engine(
+        engine = sa.create_engine(
             connection.connection_string, echo=echo, pool_pre_ping=pool_pre_ping
         )
 
@@ -230,12 +227,12 @@ def get_engine(
         raise Exception(f"Unhandled exception creating database engine. Details: {exc}")
 
 
-def get_session(
+def get_session_pool(
     engine: sa.Engine = None,
     autoflush: bool = False,
     expire_on_commit: bool = False,
-    class_=Session,
-) -> sessionmaker[Session]:
+    class_=so.Session,
+) -> so.sessionmaker[so.Session]:
     """Define a factory for creating SQLAlchemy sessions.
 
     Returns a `sqlalchemy.orm.sessionmaker` `Session` instance. Import this
@@ -254,14 +251,15 @@ def get_session(
         (sessionmaker[Session]): An initialized `Session` instance
     """
     try:
-        _sess = sessionmaker(
+        session_pool: so.sessionmaker[so.Session] = so.sessionmaker(
             bind=engine,
             autoflush=autoflush,
             expire_on_commit=expire_on_commit,
             class_=class_,
         )
 
-        return _sess
+        return session_pool
+
     except Exception as exc:
         raise Exception(
             f"Unhandled exception creating a sessionmaker Session. Details: {exc}"
