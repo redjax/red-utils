@@ -25,12 +25,10 @@ from typing import Any
 import uuid
 
 import sqlalchemy as sa
-import sqlalchemy.orm as so
-
 from sqlalchemy.dialects.postgresql import UUID
 from sqlalchemy.engine.interfaces import Dialect
+import sqlalchemy.orm as so
 from sqlalchemy.types import CHAR, TypeDecorator
-
 
 class CompatibleUUID(TypeDecorator):
     """Define a custom UUID, overriding SQLAlchemy's UUId type.

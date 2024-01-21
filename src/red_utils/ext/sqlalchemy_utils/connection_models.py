@@ -3,10 +3,9 @@ from __future__ import annotations
 from dataclasses import dataclass, field
 from pathlib import Path
 
-import sqlalchemy as sa
-
 from red_utils.core.dataclass_utils import DictMixin
 
+import sqlalchemy as sa
 
 @dataclass
 class saConnectionBase(DictMixin):
@@ -145,8 +144,11 @@ class saSQLiteConnection(saConnectionBase):
 @dataclass
 class saMySQLConnection(saConnectionBase):
     drivername: str = field(default="mysql+pymysql")
+
     def __init__(self):
-        raise NotImplementedError(f"Support for MySQL database connections is not yet implemented.")
+        raise NotImplementedError(
+            f"Support for MySQL database connections is not yet implemented."
+        )
 
 
 @dataclass

@@ -11,8 +11,8 @@ from .connection_models import (
 from .constants import valid_db_types
 
 import sqlalchemy as sa
-import sqlalchemy.orm as so
 from sqlalchemy.exc import DBAPIError, OperationalError
+import sqlalchemy.orm as so
 from sqlalchemy.schema import CreateTable
 
 def debug_metadata_obj(metadata_obj: sa.MetaData = None) -> None:

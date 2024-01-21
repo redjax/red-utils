@@ -36,13 +36,13 @@ class Base(so.DeclarativeBase):
     """Default/Base class for SQLAlchemy models.
 
     Description:
-    
+
     Child classes inheriting from this Base object will be treated as SQLAlchemy
     models. Set child class tables with `__tablename__ = ....`
 
     Global defaults can be set on this object (i.e. a SQLAlchemy registry), and will
     be inherited/accessible by all child classes.
-    
+
     !!! note
 
         When this class is instantiated, it will not be of type sqlalchemy.orm.DeclarativeBase;

@@ -31,8 +31,8 @@ from .base import Base
 from .connection_models import (
     saConnectionGeneric,
     saMSSQLConnection,
-    saPGConnection,
     saMySQLConnection,
+    saPGConnection,
     saSQLiteConnection,
 )
 

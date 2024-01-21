@@ -1,10 +1,12 @@
-from typing_extensions import Annotated
+from __future__ import annotations
+
 import uuid
 
 from .type_classes import CompatibleUUID
 
 import sqlalchemy as sa
 import sqlalchemy.orm as so
+from typing_extensions import Annotated
 
 ## Annotated auto-incrementing integer primary key column
 INT_PK = Annotated[
@@ -12,7 +14,9 @@ INT_PK = Annotated[
 ]
 
 ## SQLAlchemy multi-database compatible UUID primary key
-UUID_PK = Annotated[uuid.UUID, so.mapped_column(CompatibleUUID, primary_key=True, unique=True)]
+UUID_PK = Annotated[
+    uuid.UUID, so.mapped_column(CompatibleUUID, primary_key=True, unique=True)
+]
 
 ## SQLAlchemy CHAR(2)
 STR_2 = Annotated[str, so.mapped_column(sa.CHAR(2))]
