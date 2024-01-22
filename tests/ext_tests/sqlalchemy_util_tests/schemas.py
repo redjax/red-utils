@@ -15,4 +15,4 @@ class TestUser(TestUserBase):
 
 
 class TestUserOut(TestUserBase):
-    id: uuid.UUID
+    id: uuid.UUID = Field(default=None, alias="user_id")

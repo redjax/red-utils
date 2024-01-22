@@ -144,7 +144,7 @@ def test_sqla_select_all_users(
         
         for user in users:
             print(f"SELECT TestUserModel ({type(user)}): {user}")
-            
+
             try:
                 user_schema: TestUserOut = TestUserOut.model_validate(user.__dict__)
                 print(f"SELECT TestUserOut: {user_schema}")
