@@ -54,9 +54,19 @@ def get_user_schema() -> TestUser:
 
 def get_list_user_schemas() -> list[TestUser]:
     users: list[TestUser] = [
-        TestUser(username="TestListUser1", description="A TestUser in a list for Pytest"),
-        TestUser(username="TestListUser2", email="test2@example.com", description="A second TestUser in a list for Pytest"),
-        TestUser(username="TestListUser3", email="test3@example.com", description="A third TestUser in a list for Pytest")
+        TestUser(
+            username="TestListUser1", description="A TestUser in a list for Pytest"
+        ),
+        TestUser(
+            username="TestListUser2",
+            email="test2@example.com",
+            description="A second TestUser in a list for Pytest",
+        ),
+        TestUser(
+            username="TestListUser3",
+            email="test3@example.com",
+            description="A third TestUser in a list for Pytest",
+        ),
     ]
-    
+
     return users

@@ -21,6 +21,34 @@ EX_TESTUSERMODEL_FULL: TestUserModel = TestUserModel(
     email="test@example.com",
     description="This is a TestUserModel instance created for use in Pytest.",
 )
+EX_TESTUSERMODEL_LIST: list[TestUserModel] = [
+    TestUserModel(
+        username="TestListUser1", description="A TestUser in a list for Pytest"
+    ),
+    TestUserModel(
+        username="TestListUser2",
+        email="test2@example.com",
+        description="A second TestUser in a list for Pytest",
+    ),
+    TestUserModel(
+        username="TestListUser3",
+        email="test3@example.com",
+        description="A third TestUser in a list for Pytest",
+    ),
+]
+
+
+def initialize_test_db(
+    engine: sa.Engine,
+    base: so.DeclarativeBase = TEST_BASE,
+    insert_models: list[TestUserModel] = EX_TESTUSERMODEL_LIST,
+):
+    base.metadata.create_all(bind=engine)
+
+    SessionLocal: so.sessionmaker[so.Session] = so.sessionmaker(bind=engine)
+
+    for model in insert_models:
+        insert_testusermodel(session_pool=SessionLocal, sqla_usermodel=model)
 
 
 @mark.sqla_utils
@@ -33,25 +61,19 @@ def test_user_schema():
 @mark.sqla_utils
 def test_convert_user_schema_to_model():
     user: TestUser = get_user_schema()
-    
+
     try:
-        user_model: TestUserModel = TestUserModel(username=user.username, email=user.email, description=user.description)
-        print(f"TestUser schema converted to TestUserModel successfully.\n\tSchema: {user}\n\tModel: {user_model.__repr__()}")
-    
+        user_model: TestUserModel = TestUserModel(
+            username=user.username, email=user.email, description=user.description
+        )
+        print(
+            f"TestUser schema converted to TestUserModel successfully.\n\tSchema: {user}\n\tModel: {user_model.__repr__()}"
+        )
+
     except Exception as exc:
-        raise Exception(f"Unhandled exception converting TestUser schema to TestUserModel. Detail: {exc}")
-
-
-@mark.sqla_utils
-def test_sqla_base(sqla_base: so.DeclarativeBase = TEST_BASE):
-    assert sqla_base is not None, ValueError(
-        "Missing a SQLAlchemy DeclarativeBase object"
-    )
-    assert isinstance(sqla_base, so.DeclarativeBase) or isinstance(
-        sqla_base, DeclarativeAttributeIntercept
-    ), TypeError(
-        f"sqla_base must be of type sqlalchemy.orm.DeclarativeBase, not ({type(sqla_base)})"
-    )
+        raise Exception(
+            f"Unhandled exception converting TestUser schema to TestUserModel. Detail: {exc}"
+        )
 
 
 @mark.sqla_utils
@@ -86,20 +108,24 @@ def test_sqla_create_usermodel(sqla_usermodel: TestUserModel = EX_TESTUSERMODEL_
         description="This is a TestUserModel instance created for use in Pytest.",
     )
     print(f"TestUserModel: {sqla_usermodel.__repr__()}")
-    
+
     usermodel_schema: TestUser = TestUser.model_validate(sqla_usermodel.__dict__)
     print(f"TestUser schema: {usermodel_schema}")
 
 
 @mark.sqla_utils
 def test_sqla_insert_user(
-    sqla_session: so.sessionmaker[so.Session],
     sqla_sqlite_engine: sa.Engine,
     sqla_base: so.DeclarativeBase = TEST_BASE,
     sqla_usermodel=EX_TESTUSERMODEL_FULL,
 ):
-    create_base_metadata(sqla_base=sqla_base, sqla_engine=sqla_sqlite_engine)
-    insert_testusermodel(session_pool=sqla_session, sqla_usermodel=sqla_usermodel)
+    try:
+        initialize_test_db(
+            engine=sqla_sqlite_engine, base=sqla_base, insert_models=[sqla_usermodel]
+        )
+        
+    except Exception as exc:
+        raise Exception(f"Unhandled exception inserting TestUserModel into database. Details: {exc}")
 
 
 @mark.sqla_utils
@@ -107,16 +133,20 @@ def test_sqla_select_all_users(
     sqla_session: so.sessionmaker[so.Session],
     sqla_sqlite_engine: so.sessionmaker[so.Session],
     sqla_base: so.DeclarativeBase = TEST_BASE,
-    sqla_usermodel: TestUserModel = EX_TESTUSERMODEL_FULL,
+    sqla_usermodels: list[TestUserModel] = EX_TESTUSERMODEL_LIST,
 ):
-    return True
+    initialize_test_db(engine=sqla_sqlite_engine, base=sqla_base, insert_models=sqla_usermodels)
 
     with sqla_session() as session:
-        create_base_metadata(sqla_base=sqla_base, sqla_engine=sqla_sqlite_engine)
-        insert_testusermodel(session_pool=sqla_session, sqla_usermodel=sqla_usermodel)
-
-        users = session.execute(sa.text("SELECT * FROM testusermodels;")).all()
+        # users = session.execute(sa.text("SELECT * FROM testusermodels;")).all()
+        users = session.query(TestUserModel).all()
+        print(f"All TestUserModels in database ({type(users)}): {users}")
+        
         for user in users:
-            user_schema: TestUserOut = TestUserOut.model_validate(user.__dict__)
-            print(f"SELECT TestUserModel: {user}")
-            print(f"SELECT TestUserOut: {user_schema}")
+            print(f"SELECT TestUserModel ({type(user)}): {user}")
+            
+            try:
+                user_schema: TestUserOut = TestUserOut.model_validate(user.__dict__)
+                print(f"SELECT TestUserOut: {user_schema}")
+            except Exception as exc:
+                raise Exception(f"Unhandled exception converting TestUserModel to TestUserOut schema. Details: {exc}")

@@ -24,6 +24,5 @@ class TestUserModel(
     email: so.Mapped[str | None] = so.mapped_column(sa.VARCHAR(64), nullable=True)
     description: so.Mapped[sqlalchemy_utils.custom_types.STR_255]
 
-
     def __repr__(self):
         return f"user_id={self.user_id!r}, username={self.username!r}, email={self.email!r}, description={self.description!r}"
