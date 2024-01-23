@@ -38,3 +38,10 @@ def test_fail_sqla_create_usermodel():
     assert sqla_fail_usermodel.username is not None, ValueError(
         "Expected failure, TestUser.username is null"
     )
+
+
+## TODO: Expect fail:
+#   - [ ] create table metadata
+#   - [ ] insert
+#   - [ ] update
+#   - [ ] delete
