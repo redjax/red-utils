@@ -161,10 +161,10 @@ def test_sqla_select_all_users(
     sqla_session: so.sessionmaker[so.Session],
     sqla_sqlite_engine: so.sessionmaker[so.Session],
     sqla_base: so.DeclarativeBase = TEST_BASE,
-    sqla_usermodels: list[TestUserModel] = EX_TESTUSERMODEL_LIST,
+    sqla_usermodels: list[TestUserModel] = EX_TESTUSERMODEL_FULL,
 ):
     initialize_test_db(
-        engine=sqla_sqlite_engine, base=sqla_base, insert_models=sqla_usermodels
+        engine=sqla_sqlite_engine, base=sqla_base, insert_models=[sqla_usermodels]
     )
 
     with sqla_session() as session:
@@ -197,8 +197,6 @@ def test_update_user(
 
     with sqla_session() as session:
         try:
-            # stmt = sa.select(TestUserModel)
-            # usermodel: TestUserModel = session.scalars(stmt).one()
             usermodel: TestUserModel = session.query(TestUserModel).one()
             log.info(f"SELECT TestUserModel: {usermodel.__dict__}")
         except Exception as exc:
@@ -231,6 +229,43 @@ def test_update_user(
         )
         updated_userschema: TestUserOut = TestUserOut.model_validate(updated_usermodel)
         log.info(f"SELECT updated TestUserModel: {updated_userschema}")
+
+
+@mark.sqla_utils
+def test_delete_user(
+    sqla_session: so.sessionmaker[so.Session],
+    sqla_sqlite_engine: so.sessionmaker[so.Session],
+    sqla_base: so.DeclarativeBase = TEST_BASE,
+    sqla_usermodels: TestUserModel = EX_TESTUSERMODEL_LIST,
+):
+    initialize_test_db(
+        engine=sqla_sqlite_engine, base=sqla_base, insert_models=sqla_usermodels
+    )
+
+    with sqla_session() as session:
+        try:
+            usermodel: TestUserModel = session.query(TestUserModel).one()
+            log.info(f"SELECT TestUserModel: {usermodel.__dict__}")
+        except Exception as exc:
+            raise Exception(
+                f"Unhandled exception selecting TestUserModel from database. Details: {exc}"
+            )
+
+        userschema: TestUserOut = TestUserOut.model_validate(usermodel)
+        log.info(f"Deleting User: {userschema}")
+
+        try:
+            session.delete(usermodel)
+            log.success(f"Deleted TestUserModel with ID [{usermodel.user_id}]")
+        except Exception as exc:
+            msg = Exception(
+                f"Unhandled exception deleting TestUserModel with ID [{usermodel.user_id}]. Test User: {userschema}. Details: {exc}"
+            )
+            log.error(msg)
+
+            raise msg
+
+        session.commit()
 
 
 ## TODO: Expect fail:

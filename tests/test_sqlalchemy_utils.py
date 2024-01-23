@@ -8,6 +8,7 @@ from .ext_tests.sqlalchemy_util_tests.expect_fail_tests import (
 )
 from .ext_tests.sqlalchemy_util_tests.expect_pass_tests import (
     test_convert_user_schema_to_model,
+    test_delete_user,
     test_sqla_create_base_metadata,
     test_sqla_create_usermodel,
     test_sqla_insert_user,
