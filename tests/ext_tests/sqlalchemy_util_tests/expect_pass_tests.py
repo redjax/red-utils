@@ -10,14 +10,13 @@ from .methods import (
 from .models import TestUserModel
 from .schemas import TestUser, TestUserOut, TestUserUpdate
 
+from loguru import logger as log
 from pytest import mark, xfail
 from red_utils.ext import sqlalchemy_utils
+from red_utils.ext.loguru_utils import LoguruSinkStdOut, init_logger
 import sqlalchemy as sa
 import sqlalchemy.orm as so
 from sqlalchemy.orm.decl_api import DeclarativeAttributeIntercept
-
-from loguru import logger as log
-from red_utils.ext.loguru_utils import init_logger, LoguruSinkStdOut
 
 init_logger([LoguruSinkStdOut(level="DEBUG").as_dict()])
 
@@ -48,14 +47,16 @@ def initialize_test_db(
     base: so.DeclarativeBase = TEST_BASE,
     insert_models: list[TestUserModel] = EX_TESTUSERMODEL_LIST,
 ):
-    log.info(f"Initializing database & seeding with [{len(insert_models)}] TestUserModel(s)")
+    log.info(
+        f"Initializing database & seeding with [{len(insert_models)}] TestUserModel(s)"
+    )
     try:
         base.metadata.create_all(bind=engine)
         log.success("Table metadata created")
     except Exception as exc:
         msg = Exception(f"Unhandled exception initializing database. Details: {exc}")
         log.error(msg)
-        
+
         raise msg
 
     SessionLocal: so.sessionmaker[so.Session] = so.sessionmaker(bind=engine)
@@ -65,7 +66,9 @@ def initialize_test_db(
         try:
             insert_testusermodel(session_pool=SessionLocal, sqla_usermodel=model)
         except Exception as exc:
-            msg = Exception(f"Unhandled exception inserting TestUserModel into database. TestUserModel object: {model}. Details: {exc}")
+            msg = Exception(
+                f"Unhandled exception inserting TestUserModel into database. TestUserModel object: {model}. Details: {exc}"
+            )
             log.error(msg)
 
 
@@ -92,7 +95,7 @@ def test_convert_user_schema_to_model():
             f"Unhandled exception converting TestUser schema to TestUserModel. Detail: {exc}"
         )
         log.error(msg)
-        
+
         raise msg
 
 
@@ -143,11 +146,13 @@ def test_sqla_insert_user(
         initialize_test_db(
             engine=sqla_sqlite_engine, base=sqla_base, insert_models=[sqla_usermodel]
         )
-        
+
     except Exception as exc:
-        msg = Exception(f"Unhandled exception inserting TestUserModel into database. Details: {exc}")
+        msg = Exception(
+            f"Unhandled exception inserting TestUserModel into database. Details: {exc}"
+        )
         log.error(msg)
-        
+
         raise msg
 
 
@@ -158,13 +163,15 @@ def test_sqla_select_all_users(
     sqla_base: so.DeclarativeBase = TEST_BASE,
     sqla_usermodels: list[TestUserModel] = EX_TESTUSERMODEL_LIST,
 ):
-    initialize_test_db(engine=sqla_sqlite_engine, base=sqla_base, insert_models=sqla_usermodels)
+    initialize_test_db(
+        engine=sqla_sqlite_engine, base=sqla_base, insert_models=sqla_usermodels
+    )
 
     with sqla_session() as session:
         # users = session.execute(sa.text("SELECT * FROM testusermodels;")).all()
         users = session.query(TestUserModel).all()
         log.info(f"All TestUserModels in database ({type(users)}): {users}")
-        
+
         for user in users:
             log.info(f"SELECT TestUserModel ({type(user)}): {user}")
 
@@ -172,7 +179,9 @@ def test_sqla_select_all_users(
                 user_schema: TestUserOut = TestUserOut.model_validate(user.__dict__)
                 log.info(f"SELECT TestUserOut: {user_schema}")
             except Exception as exc:
-                raise Exception(f"Unhandled exception converting TestUserModel to TestUserOut schema. Details: {exc}")
+                raise Exception(
+                    f"Unhandled exception converting TestUserModel to TestUserOut schema. Details: {exc}"
+                )
 
 
 @mark.sqla_utils
@@ -180,40 +189,50 @@ def test_update_user(
     sqla_session: so.sessionmaker[so.Session],
     sqla_sqlite_engine: so.sessionmaker[so.Session],
     sqla_base: so.DeclarativeBase = TEST_BASE,
-    sqla_usermodels: TestUserModel = EX_TESTUSERMODEL_FULL
+    sqla_usermodels: TestUserModel = EX_TESTUSERMODEL_FULL,
 ):
-    initialize_test_db(engine=sqla_sqlite_engine, base=sqla_base, insert_models=[sqla_usermodels])
-    
+    initialize_test_db(
+        engine=sqla_sqlite_engine, base=sqla_base, insert_models=[sqla_usermodels]
+    )
+
     with sqla_session() as session:
-        
         try:
             # stmt = sa.select(TestUserModel)
             # usermodel: TestUserModel = session.scalars(stmt).one()
             usermodel: TestUserModel = session.query(TestUserModel).one()
             log.info(f"SELECT TestUserModel: {usermodel.__dict__}")
         except Exception as exc:
-            raise Exception(f"Unhandled exception selecting TestUserModel from database. Details: {exc}")
-        
+            raise Exception(
+                f"Unhandled exception selecting TestUserModel from database. Details: {exc}"
+            )
+
         userschema: TestUserUpdate = TestUserUpdate.model_validate(usermodel)
-        
+
         log.info(f"User schema before update: {userschema}")
-        userschema.description="This is an updated description!"
+        userschema.description = "This is an updated description!"
         log.info(f"User schema after update: {userschema}")
-        
+
         for field, value in userschema:
             setattr(usermodel, field, value)
-            
+
         log.info(f"Updated TestUserModel: {usermodel.__dict__}")
 
         try:
             session.commit()
         except Exception as exc:
-            raise Exception(f"Unhandled exception updating User with ID [{userschema.id}]. Details: {exc}")
-        
-        updated_usermodel = session.query(TestUserModel).where(TestUserModel.user_id == usermodel.user_id).one()
+            raise Exception(
+                f"Unhandled exception updating User with ID [{userschema.id}]. Details: {exc}"
+            )
+
+        updated_usermodel = (
+            session.query(TestUserModel)
+            .where(TestUserModel.user_id == usermodel.user_id)
+            .one()
+        )
         updated_userschema: TestUserOut = TestUserOut.model_validate(updated_usermodel)
         log.info(f"SELECT updated TestUserModel: {updated_userschema}")
-        
+
+
 ## TODO: Expect fail:
 #   - [x] create table metadata
 #   - [x] insert
