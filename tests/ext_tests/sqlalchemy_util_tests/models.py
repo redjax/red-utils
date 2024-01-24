@@ -26,3 +26,26 @@ class TestUserModel(
 
     def __repr__(self):
         return f"user_id={self.user_id!r}, username={self.username!r}, email={self.email!r}, description={self.description!r}"
+
+
+EX_TESTUSERMODEL_FULL: TestUserModel = TestUserModel(
+    username="TestUser1",
+    email="test@example.com",
+    description="This is a TestUserModel instance created for use in Pytest.",
+)
+
+EX_TESTUSERMODEL_LIST: list[TestUserModel] = [
+    TestUserModel(
+        username="TestListUser1", description="A TestUser in a list for Pytest"
+    ),
+    TestUserModel(
+        username="TestListUser2",
+        email="test2@example.com",
+        description="A second TestUser in a list for Pytest",
+    ),
+    TestUserModel(
+        username="TestListUser3",
+        email="test3@example.com",
+        description="A third TestUser in a list for Pytest",
+    ),
+]
