@@ -1,8 +1,10 @@
 from __future__ import annotations
 
-from .models import TestUserModel
+from .base import TEST_BASE
+from .models import EX_TESTUSERMODEL_FULL, EX_TESTUSERMODEL_LIST, TestUserModel
 from .schemas import TestUser, TestUserOut
 
+from loguru import logger as log
 import sqlalchemy as sa
 import sqlalchemy.orm as so
 
@@ -20,6 +22,36 @@ def create_base_metadata(
         raise Exception(
             f"Unhandled exception creating SQLAlchemy Base metadata. Details: {exc}"
         )
+
+
+def initialize_test_db(
+    engine: sa.Engine,
+    base: so.DeclarativeBase = TEST_BASE,
+    insert_models: list[TestUserModel] = EX_TESTUSERMODEL_LIST,
+):
+    log.info(
+        f"Initializing database & seeding with [{len(insert_models)}] TestUserModel(s)"
+    )
+    try:
+        base.metadata.create_all(bind=engine)
+        log.success("Table metadata created")
+    except Exception as exc:
+        msg = Exception(f"Unhandled exception initializing database. Details: {exc}")
+        log.error(msg)
+
+        raise msg
+
+    SessionLocal: so.sessionmaker[so.Session] = so.sessionmaker(bind=engine)
+
+    log.info(f"Inserting [{len(insert_models)}] TestUserModel(s) into the database")
+    for model in insert_models:
+        try:
+            insert_testusermodel(session_pool=SessionLocal, sqla_usermodel=model)
+        except Exception as exc:
+            msg = Exception(
+                f"Unhandled exception inserting TestUserModel into database. TestUserModel object: {model}. Details: {exc}"
+            )
+            log.error(msg)
 
 
 def insert_testusermodel(
