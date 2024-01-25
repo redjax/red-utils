@@ -63,15 +63,23 @@ def test_sqla_create_base_metadata(
 def test_sqla_list_tables(
     sqla_sqlite_engine, sqla_base: so.DeclarativeBase = TEST_BASE
 ):
-    create_base_metadata(sqla_engine=sqla_sqlite_engine, sqla_base=sqla_base)
-    tables = sqla_base.metadata.tables.keys()
+    try:
+        create_base_metadata(sqla_engine=sqla_sqlite_engine, sqla_base=sqla_base)
+        tables = sqla_base.metadata.tables.keys()
 
-    log.info(f"Database tables: {tables}")
+        log.info(f"Database tables: {tables}")
+    
+    except Exception as exc:
+        msg = Exception(f"Unhandled exception creating Base table metadata. Details: {exc}")
+        log.error(msg)
+        
+        raise msg
 
 
 @mark.sqla_utils
 def test_sqla_sqlite_session_pool(sqla_session: so.sessionmaker[so.Session]):
     with sqla_session() as session:
+        session.expire_on_commit = False
         session.execute(sa.text("SELECT 1"))
 
 
@@ -120,6 +128,7 @@ def test_sqla_select_all_users(
     )
 
     with sqla_session() as session:
+        session.expire_on_commit = False
         users = session.query(TestUserModel).all()
         log.info(f"All TestUserModels in database ({type(users)}): {users}")
 
@@ -140,15 +149,15 @@ def test_update_user(
     sqla_session: so.sessionmaker[so.Session],
     sqla_sqlite_engine: so.sessionmaker[so.Session],
     sqla_base: so.DeclarativeBase = TEST_BASE,
-    sqla_usermodels: TestUserModel = EX_TESTUSERMODEL_FULL,
+    sqla_usermodels: TestUserModel = EX_TESTUSERMODEL_LIST,
 ):
     initialize_test_db(
-        engine=sqla_sqlite_engine, base=sqla_base, insert_models=[sqla_usermodels]
+        engine=sqla_sqlite_engine, base=sqla_base, insert_models=sqla_usermodels
     )
 
     with sqla_session() as session:
         try:
-            usermodel: TestUserModel = session.query(TestUserModel).one()
+            usermodel: list[TestUserModel] = session.query(TestUserModel).first()
             log.info(f"SELECT TestUserModel: {usermodel.__dict__}")
         except Exception as exc:
             raise Exception(

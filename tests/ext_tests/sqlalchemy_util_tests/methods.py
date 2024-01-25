@@ -63,6 +63,7 @@ def insert_testusermodel(
 
     print(f"Inserting TestUserModel: ({sqla_usermodel.__repr__()})")
     with session_pool() as session:
+        session.expire_on_commit = False
         session.add(sqla_usermodel)
         try:
             session.commit()
