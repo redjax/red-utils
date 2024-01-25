@@ -1,6 +1,9 @@
 from __future__ import annotations
 
 import random
+from typing import Type
+
+from regex import E
 
 from .base import TEST_BASE
 from .methods import (
@@ -157,7 +160,14 @@ def test_update_user(
 
     with sqla_session() as session:
         try:
-            usermodel: list[TestUserModel] = session.query(TestUserModel).first()
+            usermodels: list[TestUserModel] = session.query(TestUserModel).all()
+            assert usermodels is not None, ValueError("usermodels should not have been None")
+            assert isinstance(usermodels, list), TypeError(f"usermodels should have been a non-empty list.")
+            assert len(usermodels) > 0, ValueError("usermodels list cannot be empty")
+            
+            rand_index: int = random.randint(0, len(usermodels) - 1)
+            usermodel: TestUserModel = usermodels[rand_index]
+
             log.info(f"SELECT TestUserModel: {usermodel.__dict__}")
         except Exception as exc:
             raise Exception(
