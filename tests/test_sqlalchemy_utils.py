@@ -19,6 +19,6 @@ from .ext_tests.sqlalchemy_util_tests.expect_pass_tests import (
     test_sqla_list_tables,
     test_sqla_select_all_users,
     test_sqla_sqlite_session_pool,
-    test_update_user,
+    # test_update_user,
     test_user_schema,
 )

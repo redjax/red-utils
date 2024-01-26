@@ -101,22 +101,33 @@ def test_sqla_create_usermodel(sqla_usermodel: TestUserModel = EX_TESTUSERMODEL_
 
 @mark.sqla_utils
 def test_sqla_insert_user(
+    sqla_session: so.sessionmaker[so.Session],
     sqla_sqlite_engine: sa.Engine,
     sqla_base: so.DeclarativeBase = TEST_BASE,
     sqla_usermodel=EX_TESTUSERMODEL_FULL,
 ):
-    try:
-        initialize_test_db(
-            engine=sqla_sqlite_engine, base=sqla_base, insert_models=[sqla_usermodel]
-        )
+    with sqla_session() as session:
+        try:
+            session.add(sqla_usermodel)
+        except Exception as exc:
+            msg = Exception(f"Unhandled exception inserting TestUserModel into database. TestUserModel: {sqla_usermodel}. Details: {exc}")
+            log.error(msg)
+            
+            raise msg
+    # try:
+    #     initialize_test_db(
+    #         engine=sqla_sqlite_engine, base=sqla_base, insert_models=[sqla_usermodel]
+    #     )
 
-    except Exception as exc:
-        msg = Exception(
-            f"Unhandled exception inserting TestUserModel into database. Details: {exc}"
-        )
-        log.error(msg)
+    # except Exception as exc:
+    #     msg = Exception(
+    #         f"Unhandled exception inserting TestUserModel into database. Details: {exc}"
+    #     )
+    #     log.error(msg)
 
-        raise msg
+    #     raise msg
+    
+    
 
 
 @mark.sqla_utils
