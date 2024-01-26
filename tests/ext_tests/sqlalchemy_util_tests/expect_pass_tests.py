@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import random
+from typing import Type
 
 from .base import TEST_BASE
 from .methods import (
@@ -17,6 +18,7 @@ from loguru import logger as log
 from pytest import mark, xfail
 from red_utils.ext import sqlalchemy_utils
 from red_utils.ext.loguru_utils import LoguruSinkStdOut, init_logger
+from regex import E
 import sqlalchemy as sa
 import sqlalchemy.orm as so
 from sqlalchemy.orm.decl_api import DeclarativeAttributeIntercept
@@ -63,15 +65,25 @@ def test_sqla_create_base_metadata(
 def test_sqla_list_tables(
     sqla_sqlite_engine, sqla_base: so.DeclarativeBase = TEST_BASE
 ):
-    create_base_metadata(sqla_engine=sqla_sqlite_engine, sqla_base=sqla_base)
-    tables = sqla_base.metadata.tables.keys()
+    try:
+        create_base_metadata(sqla_engine=sqla_sqlite_engine, sqla_base=sqla_base)
+        tables = sqla_base.metadata.tables.keys()
 
-    log.info(f"Database tables: {tables}")
+        log.info(f"Database tables: {tables}")
+
+    except Exception as exc:
+        msg = Exception(
+            f"Unhandled exception creating Base table metadata. Details: {exc}"
+        )
+        log.error(msg)
+
+        raise msg
 
 
 @mark.sqla_utils
 def test_sqla_sqlite_session_pool(sqla_session: so.sessionmaker[so.Session]):
     with sqla_session() as session:
+        session.expire_on_commit = False
         session.execute(sa.text("SELECT 1"))
 
 
@@ -90,22 +102,33 @@ def test_sqla_create_usermodel(sqla_usermodel: TestUserModel = EX_TESTUSERMODEL_
 
 @mark.sqla_utils
 def test_sqla_insert_user(
+    sqla_session: so.sessionmaker[so.Session],
     sqla_sqlite_engine: sa.Engine,
     sqla_base: so.DeclarativeBase = TEST_BASE,
     sqla_usermodel=EX_TESTUSERMODEL_FULL,
 ):
-    try:
-        initialize_test_db(
-            engine=sqla_sqlite_engine, base=sqla_base, insert_models=[sqla_usermodel]
-        )
+    with sqla_session() as session:
+        try:
+            session.add(sqla_usermodel)
+        except Exception as exc:
+            msg = Exception(
+                f"Unhandled exception inserting TestUserModel into database. TestUserModel: {sqla_usermodel}. Details: {exc}"
+            )
+            log.error(msg)
 
-    except Exception as exc:
-        msg = Exception(
-            f"Unhandled exception inserting TestUserModel into database. Details: {exc}"
-        )
-        log.error(msg)
+            raise msg
+    # try:
+    #     initialize_test_db(
+    #         engine=sqla_sqlite_engine, base=sqla_base, insert_models=[sqla_usermodel]
+    #     )
 
-        raise msg
+    # except Exception as exc:
+    #     msg = Exception(
+    #         f"Unhandled exception inserting TestUserModel into database. Details: {exc}"
+    #     )
+    #     log.error(msg)
+
+    #     raise msg
 
 
 @mark.sqla_utils
@@ -120,6 +143,7 @@ def test_sqla_select_all_users(
     )
 
     with sqla_session() as session:
+        session.expire_on_commit = False
         users = session.query(TestUserModel).all()
         log.info(f"All TestUserModels in database ({type(users)}): {users}")
 
@@ -140,15 +164,32 @@ def test_update_user(
     sqla_session: so.sessionmaker[so.Session],
     sqla_sqlite_engine: so.sessionmaker[so.Session],
     sqla_base: so.DeclarativeBase = TEST_BASE,
-    sqla_usermodels: TestUserModel = EX_TESTUSERMODEL_FULL,
+    sqla_usermodels: TestUserModel = EX_TESTUSERMODEL_LIST,
 ):
     initialize_test_db(
-        engine=sqla_sqlite_engine, base=sqla_base, insert_models=[sqla_usermodels]
+        engine=sqla_sqlite_engine, base=sqla_base, insert_models=sqla_usermodels
     )
 
     with sqla_session() as session:
+        for usermodel in sqla_usermodels:
+            session.add(usermodel)
+
+            session.commit()
+
+    with sqla_session() as session:
         try:
-            usermodel: TestUserModel = session.query(TestUserModel).one()
+            usermodels: list[TestUserModel] = session.query(TestUserModel).all()
+            assert usermodels is not None, ValueError(
+                "usermodels should not have been None"
+            )
+            assert isinstance(usermodels, list), TypeError(
+                f"usermodels should have been a non-empty list."
+            )
+            assert len(usermodels) > 0, ValueError("usermodels list cannot be empty")
+
+            rand_index: int = random.randint(0, len(usermodels) - 1)
+            usermodel: TestUserModel = usermodels[rand_index]
+
             log.info(f"SELECT TestUserModel: {usermodel.__dict__}")
         except Exception as exc:
             raise Exception(

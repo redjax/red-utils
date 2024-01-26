@@ -105,7 +105,7 @@ def test_fail_sqla_select_all_users(
 
 @mark.xfail
 @mark.sqla_utils
-def test_delete_user(
+def test_fail_delete_user(
     sqla_session: so.sessionmaker[so.Session],
     sqla_sqlite_engine: so.sessionmaker[so.Session],
     sqla_base: so.DeclarativeBase = TEST_BASE,
