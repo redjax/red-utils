@@ -159,6 +159,12 @@ def test_update_user(
     )
 
     with sqla_session() as session:
+        for usermodel in sqla_usermodels:
+            session.add(usermodel)
+            
+            session.commit()
+    
+    with sqla_session() as session:
         try:
             usermodels: list[TestUserModel] = session.query(TestUserModel).all()
             assert usermodels is not None, ValueError("usermodels should not have been None")
