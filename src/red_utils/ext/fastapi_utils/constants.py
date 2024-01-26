@@ -19,4 +19,6 @@ _ts: str = "[{time:YYYY-MM-DD_HH:mm:ss}]"
 _level: str = "[{level}]"
 _name_line: str = "[{name}:{line}]"
 _msg: str = "{message}"
-default_color_fmt: str = f"<green>{_ts}</green> <level>{_level}</level> > <level>{_name_line}</level>: {_msg}"
+default_color_fmt: str = (
+    f"<green>{_ts}</green> <level>{_level}</level> > <level>{_name_line}</level>: {_msg}"
+)

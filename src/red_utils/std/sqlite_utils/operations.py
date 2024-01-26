@@ -1,5 +1,6 @@
 """Create an empty sqlite database.
 """
+
 from __future__ import annotations
 
 from pathlib import Path

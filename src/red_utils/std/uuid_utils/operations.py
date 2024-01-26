@@ -8,6 +8,7 @@ as well as returning the first n number of characters.
 !!! note
     A UUID string is 36 characters (32 characters as hex).
 """
+
 from __future__ import annotations
 
 from dataclasses import dataclass

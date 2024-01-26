@@ -19,21 +19,19 @@ class SomeModel(Base):
     type_annotation_map = {uuid.UUID: CompatibleUUID}
 ```
 """
+
 from __future__ import annotations
 
+import json
 from typing import Any
 import uuid
 
 import sqlalchemy as sa
+from sqlalchemy import TypeDecorator, types
 from sqlalchemy.dialects.postgresql import UUID
 from sqlalchemy.engine.interfaces import Dialect
 import sqlalchemy.orm as so
 from sqlalchemy.types import CHAR
-from sqlalchemy import TypeDecorator, types
-
-import json
-
-
 
 class CompatibleUUID(TypeDecorator):
     """Define a custom UUID, overriding SQLAlchemy's UUId type.
@@ -86,7 +84,6 @@ class CompatibleUUID(TypeDecorator):
             if not isinstance(value, uuid.UUID):
                 value = uuid.UUID(value)
             return value
-
 
 
 class CustomJSON(TypeDecorator):

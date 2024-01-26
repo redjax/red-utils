@@ -1,4 +1,5 @@
 """Add a health check."""
+
 from __future__ import annotations
 
 import logging

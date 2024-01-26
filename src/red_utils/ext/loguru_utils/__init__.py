@@ -15,6 +15,7 @@ if __name__ == "__main__":
     ...
 ```
 """
+
 ## Import default constants
 from __future__ import annotations
 

@@ -20,6 +20,7 @@ Be sure to import the `Base` object from this script and run `Base.metadata.crea
 as early as possible. For example, import the `Base` object from this script into a `main.py` or equivalent entrypoint,
 create/import an `Engine`, and immediately run the metadata create function.
 """
+
 from __future__ import annotations
 
 from . import base, connection_models, constants, utils

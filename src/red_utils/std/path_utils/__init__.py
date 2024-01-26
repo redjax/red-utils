@@ -1,4 +1,5 @@
 """Utilities for interacting with the Python `pathlib` module."""
+
 from __future__ import annotations
 
 from .constants import VALID_RETURN_TYPES

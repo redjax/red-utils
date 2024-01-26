@@ -1,4 +1,5 @@
 """Functions that can be imported and used to manage `loguru`."""
+
 from __future__ import annotations
 
 import datetime

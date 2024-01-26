@@ -48,7 +48,9 @@ class SQLiteDB:
 
     @property
     def stat_str(self) -> str:
-        _str: str = f"[{self.filename}] | {'Exists' if self.exists else 'Does not exist'} @ {self.db_path}/"
+        _str: str = (
+            f"[{self.filename}] | {'Exists' if self.exists else 'Does not exist'} @ {self.db_path}/"
+        )
 
         return _str
 
