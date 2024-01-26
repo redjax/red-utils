@@ -1,5 +1,6 @@
 """Utilities for DataFrame libraries like `pandas` and `polars`.
 """
+
 from __future__ import annotations
 
 import pkgutil

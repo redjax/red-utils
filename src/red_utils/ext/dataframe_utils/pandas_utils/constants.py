@@ -7,6 +7,7 @@ Examples
 - `PANDAS_TIME_FORMAT` (str): "%H:%M:%S"    
 
 """
+
 from __future__ import annotations
 
 PANDAS_DATETIME_FORMAT: str = "%Y-%m-%dT%H:%M:%SZ"

@@ -3,6 +3,7 @@
 Separates some functions/classes from the main diskcache_utils to shorten
 length of individual scripts.
 """
+
 from __future__ import annotations
 
 from pathlib import Path
@@ -320,7 +321,7 @@ def get_val(cache: Cache = None, key: str = None, tags: list[str] = None):
 def delete_val(
     cache: Cache = None, key: valid_key_types = None, tag: str = None
 ) -> tuple:
-    """Delete a value from the cache
+    """Delete a value from the cache.
 
     Params:
         cache (diskcache.Cache): A `diskcache.Cache` instance to work on

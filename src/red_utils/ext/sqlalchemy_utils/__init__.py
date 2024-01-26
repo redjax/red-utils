@@ -20,9 +20,10 @@ Be sure to import the `Base` object from this script and run `Base.metadata.crea
 as early as possible. For example, import the `Base` object from this script into a `main.py` or equivalent entrypoint,
 create/import an `Engine`, and immediately run the metadata create function.
 """
+
 from __future__ import annotations
 
-from . import base, connection_models, constants, custom_types, utils
+from . import base, connection_models, constants, utils
 
 ## Import SQLAlchemy dependencies
 from .base import Base
@@ -31,6 +32,7 @@ from .base import Base
 from .connection_models import (
     saConnectionGeneric,
     saMSSQLConnection,
+    saMySQLConnection,
     saPGConnection,
     saSQLiteConnection,
 )
@@ -38,6 +40,7 @@ from .connection_models import (
 ## Import constants
 from .constants import valid_db_types
 from .custom_types import CompatibleUUID
+from .mixins import TableNameMixin, TimestampMixin
 
 ## Import custom SQLAlchemy utils
 from .utils import (
@@ -45,6 +48,6 @@ from .utils import (
     debug_metadata_obj,
     generate_metadata,
     get_engine,
-    get_session,
+    get_session_pool,
     validate_db_type,
 )

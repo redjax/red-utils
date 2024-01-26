@@ -12,7 +12,6 @@ from .constants import PANDAS_DATE_FORMAT, PANDAS_DATETIME_FORMAT, PANDAS_TIME_F
 
 import pandas as pd
 
-
 def get_oldest_newest(
     df: pd.DataFrame = None, date_col: str = None, filter_cols: list[str] | None = None
 ) -> Union[pd.Series, pd.DataFrame]:
@@ -318,10 +317,12 @@ def save_pq(
         pq_file (str|Path): The path to a `.parquet` file where the `DataFrame` should be saved
         dedupe (bool): If `True`, deduplicate the `DataFrame` before saving
 
-    Raises:
+    Raises
+    ------
         (Exception): If file cannot be saved, an `Exception` is raised
 
-    Returns:
+    Returns
+    -------
         (bool): `True` if `DataFrame` is saved to `pq_file` successfully
         (bool): `False` if `DataFrame` is not saved to `pq_file` successfully
     """

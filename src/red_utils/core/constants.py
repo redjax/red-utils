@@ -1,6 +1,9 @@
-"""Constants for use as default values throughout `red_utils`. Other modules import from `red_utils.core` to set values like the
+"""Constants for use as default values throughout `red_utils`.
+
+Other modules import from `red_utils.core` to set values like the
 default `DATA_DIR` (.data).
 """
+
 from __future__ import annotations
 
 from pathlib import Path

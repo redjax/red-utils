@@ -15,6 +15,7 @@ classobj = ExampleClass()
 classobj.as_dict()  # classobj now has access to the `.as_dict()` method of `DictMixin`.
 ```
 """
+
 from __future__ import annotations
 
 from .mixin_classes import DictMixin

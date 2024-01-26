@@ -1,4 +1,10 @@
-"""!!! warning
+"""Custom utilities for stdlib & select libraries.
+
+Add utilities to your projects to add functionality like context managers for editing files,
+lists, dicts, & more, SQLAlchemy helpers like a default `Base` class, functions to get SQLAlchemy
+`Session`s and custom connection classes to handle database URIs & configuration, and much more.
+
+!!! warning
 
     `red_utils` is a pet project, not meant to be used in any serious capacity. If you really want to use specific features/functions of `red_utils`,
     copy the code into your own project and rewrite it enough that it works with your app.

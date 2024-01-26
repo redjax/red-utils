@@ -258,7 +258,8 @@ def validate_cache(cache: Cache = None, none_ok: bool = True) -> diskcache.core.
 
     else:
         ## Only validate an existing cache
-        if not isinstance(cache, Cache):
-            raise TypeError(f"Cache must be of type diskcache.Cache, not {type(cache)}")
+        assert isinstance(cache, Cache), TypeError(
+            f"Cache must be of type diskcache.Cache, not {type(cache)}"
+        )
 
     return cache

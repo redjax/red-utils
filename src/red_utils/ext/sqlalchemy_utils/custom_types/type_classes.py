@@ -19,15 +19,19 @@ class SomeModel(Base):
     type_annotation_map = {uuid.UUID: CompatibleUUID}
 ```
 """
+
 from __future__ import annotations
 
+import json
 from typing import Any
 import uuid
 
-from sqlalchemy import BINARY
+import sqlalchemy as sa
+from sqlalchemy import TypeDecorator, types
 from sqlalchemy.dialects.postgresql import UUID
 from sqlalchemy.engine.interfaces import Dialect
-from sqlalchemy.types import CHAR, TypeDecorator
+import sqlalchemy.orm as so
+from sqlalchemy.types import CHAR
 
 class CompatibleUUID(TypeDecorator):
     """Define a custom UUID, overriding SQLAlchemy's UUId type.
@@ -52,7 +56,7 @@ class CompatibleUUID(TypeDecorator):
     ```
     """
 
-    impl = BINARY
+    impl = sa.BINARY
     cache_ok = True
 
     def load_diaclect_impl(self, dialect):
@@ -80,3 +84,25 @@ class CompatibleUUID(TypeDecorator):
             if not isinstance(value, uuid.UUID):
                 value = uuid.UUID(value)
             return value
+
+
+class CustomJSON(TypeDecorator):
+    """Class to handle storing JSON in a database."""
+
+    @property
+    def python_type(self):
+        return object
+
+    impl = types.String
+
+    def process_bind_param(self, value, dialect):
+        return json.dumps(value)
+
+    def process_literal_param(self, value, dialect):
+        return value
+
+    def process_result_value(self, value, dialect):
+        try:
+            return json.loads(value)
+        except (ValueError, TypeError):
+            return None

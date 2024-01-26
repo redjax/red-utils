@@ -24,6 +24,7 @@ VALID_TIME_PERIODS: list[str] = [
 ```
 
 """
+
 from __future__ import annotations
 
 TIME_FMT_24H: str = "YYYY-MM-DD HH:MM:SS"

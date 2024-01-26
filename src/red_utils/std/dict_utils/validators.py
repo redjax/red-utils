@@ -1,4 +1,5 @@
 """Functions to validate inputs for other `red_utils.std.dict_utils` methods."""
+
 from __future__ import annotations
 
 from typing import Any

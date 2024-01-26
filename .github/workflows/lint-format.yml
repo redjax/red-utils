@@ -9,19 +9,17 @@ on:
       - ci
     # Do not trigger tests for documentation or markdown docs.
     paths-ignore:
-      - 'docs/**'
-      - '*.md'
+      - "docs/**"
+      - "*.md"
 
 jobs:
-
   lint-format:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        python-version: ['3.12', '3.11']
+        python-version: ["3.11"]
 
     steps:
-
       - uses: actions/checkout@v4
         with:
           ref: ${{ github.event.pull_request.head.ref }}
