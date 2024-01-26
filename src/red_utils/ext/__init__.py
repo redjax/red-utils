@@ -11,6 +11,7 @@ for type completion & usage.
     `pkutil.find_loader()` will be deprecated in a future Python 3.12 release. I will start updating the code in `red_utils` to be
     compatible with the new `importlib.util.find_spec()` method.
 """
+
 from __future__ import annotations
 
 import pkgutil

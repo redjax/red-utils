@@ -4,6 +4,7 @@
 
 Supported: `["sqlite", "postgres", "mssql"]`
 """
+
 ## List of valid/supported databases
 from __future__ import annotations
 

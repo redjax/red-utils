@@ -1,4 +1,5 @@
 """Utilities, constants, & classes for the `pendulum` library."""
+
 from __future__ import annotations
 
 from .constants import (

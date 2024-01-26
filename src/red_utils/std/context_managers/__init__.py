@@ -2,6 +2,7 @@
 and classes that aid in updating `dict`s and `list`s by creating a working copy that only overwrites the original
 if the operation succeeds.
 """
+
 from __future__ import annotations
 
 from .benchmarks import async_benchmark, benchmark

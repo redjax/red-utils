@@ -47,7 +47,9 @@ def get_hash_from_str(input_str: str = None, encoding: str = "utf-8") -> str:
 if __name__ == "__main__":
     print(f"Hashlib demo start")
 
-    _str: str = "This is a test string to be hashed. It has alphanumeric characters like 'a' and 3, and special characters!"
+    _str: str = (
+        "This is a test string to be hashed. It has alphanumeric characters like 'a' and 3, and special characters!"
+    )
 
     hashed = get_hash_from_str(input_str=_str)
     print(f"Hashed ({type(hashed)}): {hashed}")

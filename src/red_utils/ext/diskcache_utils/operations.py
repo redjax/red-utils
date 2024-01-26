@@ -3,6 +3,7 @@
 Separates some functions/classes from the main diskcache_utils to shorten
 length of individual scripts.
 """
+
 from __future__ import annotations
 
 from pathlib import Path

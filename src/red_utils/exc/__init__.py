@@ -11,6 +11,7 @@ class MyException(CustomException):
     level: int = 0
 ```
 """
+
 from __future__ import annotations
 
 from .generic import CustomException
