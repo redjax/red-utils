@@ -1,4 +1,5 @@
 """Tests designed to fail when run with pytest."""
+
 from __future__ import annotations
 
 from pytest import mark, xfail

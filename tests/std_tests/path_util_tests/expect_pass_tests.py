@@ -2,6 +2,7 @@
 
 These tests expect assertions to be True, and will crash pytest if assertions fail.
 """
+
 from __future__ import annotations
 
 import datetime
