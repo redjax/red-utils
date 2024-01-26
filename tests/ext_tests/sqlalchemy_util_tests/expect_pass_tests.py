@@ -3,8 +3,6 @@ from __future__ import annotations
 import random
 from typing import Type
 
-from regex import E
-
 from .base import TEST_BASE
 from .methods import (
     create_base_metadata,
@@ -20,6 +18,7 @@ from loguru import logger as log
 from pytest import mark, xfail
 from red_utils.ext import sqlalchemy_utils
 from red_utils.ext.loguru_utils import LoguruSinkStdOut, init_logger
+from regex import E
 import sqlalchemy as sa
 import sqlalchemy.orm as so
 from sqlalchemy.orm.decl_api import DeclarativeAttributeIntercept
@@ -71,11 +70,13 @@ def test_sqla_list_tables(
         tables = sqla_base.metadata.tables.keys()
 
         log.info(f"Database tables: {tables}")
-    
+
     except Exception as exc:
-        msg = Exception(f"Unhandled exception creating Base table metadata. Details: {exc}")
+        msg = Exception(
+            f"Unhandled exception creating Base table metadata. Details: {exc}"
+        )
         log.error(msg)
-        
+
         raise msg
 
 
@@ -110,9 +111,11 @@ def test_sqla_insert_user(
         try:
             session.add(sqla_usermodel)
         except Exception as exc:
-            msg = Exception(f"Unhandled exception inserting TestUserModel into database. TestUserModel: {sqla_usermodel}. Details: {exc}")
+            msg = Exception(
+                f"Unhandled exception inserting TestUserModel into database. TestUserModel: {sqla_usermodel}. Details: {exc}"
+            )
             log.error(msg)
-            
+
             raise msg
     # try:
     #     initialize_test_db(
@@ -126,8 +129,6 @@ def test_sqla_insert_user(
     #     log.error(msg)
 
     #     raise msg
-    
-    
 
 
 @mark.sqla_utils
@@ -172,16 +173,20 @@ def test_update_user(
     with sqla_session() as session:
         for usermodel in sqla_usermodels:
             session.add(usermodel)
-            
+
             session.commit()
-    
+
     with sqla_session() as session:
         try:
             usermodels: list[TestUserModel] = session.query(TestUserModel).all()
-            assert usermodels is not None, ValueError("usermodels should not have been None")
-            assert isinstance(usermodels, list), TypeError(f"usermodels should have been a non-empty list.")
+            assert usermodels is not None, ValueError(
+                "usermodels should not have been None"
+            )
+            assert isinstance(usermodels, list), TypeError(
+                f"usermodels should have been a non-empty list."
+            )
             assert len(usermodels) > 0, ValueError("usermodels list cannot be empty")
-            
+
             rand_index: int = random.randint(0, len(usermodels) - 1)
             usermodel: TestUserModel = usermodels[rand_index]
 
