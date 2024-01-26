@@ -4,6 +4,7 @@
 
     The `arrow_utils` module will eventually be phased out, as I have nearly abandoned `arrow` in favor of `pendulum`.
 """
+
 from __future__ import annotations
 
 import pkgutil

@@ -1,4 +1,5 @@
 """Context manager classes to protect instances of objects."""
+
 from __future__ import annotations
 
 import inspect
