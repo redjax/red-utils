@@ -153,6 +153,25 @@ def run_tests(session: nox.Session, pdm_ver: str):
     )
 
 
+@nox.session(python=PY_VERSIONS, name="sqla-tests")
+@nox.parametrize("pdm_ver", [PDM_VER])
+def run_sqla_tests(session: nox.Session, pdm_ver: str):
+    session.install(f"pdm>={pdm_ver}")
+    session.run("pdm", "install")
+
+    print(f"Running SQLAlchemy Pytest tests")
+    session.run(
+        "pdm",
+        "run",
+        "pytest",
+        "-n",
+        "auto",
+        "-v",
+        "-rsXxfP",
+        "tests/test_sqlalchemy_utils.py",
+    )
+
+
 @nox.session(python=[DEFAULT_PYTHON], name="docs")
 @nox.parametrize("pdm_ver", [PDM_VER])
 def build_docs(session: nox.Session, pdm_ver: str):

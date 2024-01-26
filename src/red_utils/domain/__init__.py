@@ -1,2 +1,4 @@
-"""Shared domain objects (Python/Pydantic/Dataclasses classes) for use throughout the app.
+"""Shared domain objects for use throughout the app.
+
+Consists of Python/Pydantic/Dataclasses classes.
 """

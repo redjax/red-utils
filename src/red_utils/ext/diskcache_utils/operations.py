@@ -320,7 +320,7 @@ def get_val(cache: Cache = None, key: str = None, tags: list[str] = None):
 def delete_val(
     cache: Cache = None, key: valid_key_types = None, tag: str = None
 ) -> tuple:
-    """Delete a value from the cache
+    """Delete a value from the cache.
 
     Params:
         cache (diskcache.Cache): A `diskcache.Cache` instance to work on

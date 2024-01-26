@@ -24,9 +24,10 @@ from __future__ import annotations
 from typing import Any
 import uuid
 
-from sqlalchemy import BINARY
+import sqlalchemy as sa
 from sqlalchemy.dialects.postgresql import UUID
 from sqlalchemy.engine.interfaces import Dialect
+import sqlalchemy.orm as so
 from sqlalchemy.types import CHAR, TypeDecorator
 
 class CompatibleUUID(TypeDecorator):
@@ -52,7 +53,7 @@ class CompatibleUUID(TypeDecorator):
     ```
     """
 
-    impl = BINARY
+    impl = sa.BINARY
     cache_ok = True
 
     def load_diaclect_impl(self, dialect):
