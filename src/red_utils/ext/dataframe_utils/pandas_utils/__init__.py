@@ -1,4 +1,5 @@
 """Utilities for the `pandas` DataFrame library."""
+
 from __future__ import annotations
 
 from .constants import PANDAS_DATE_FORMAT, PANDAS_DATETIME_FORMAT, PANDAS_TIME_FORMAT

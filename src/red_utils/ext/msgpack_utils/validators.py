@@ -11,6 +11,7 @@ valid_operations: list[str] = [
 ]
 ```
 """
+
 from __future__ import annotations
 
 valid_operations: list[str] = [

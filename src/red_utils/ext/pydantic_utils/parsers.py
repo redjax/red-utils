@@ -1,4 +1,5 @@
 """Parse a Pydantic model so it is usable by SQLAlchemy."""
+
 from __future__ import annotations
 
 def is_pydantic(obj: object) -> bool:

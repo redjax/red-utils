@@ -4,6 +4,7 @@ the stdlib sqlite3 library.
 The `SQLiteConnManager` class facilitates clean & safe transactions to the database by
 trying operations before committing.
 """
+
 from __future__ import annotations
 
 from pathlib import Path
