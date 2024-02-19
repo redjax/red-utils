@@ -128,7 +128,7 @@ def init_logger(
 
     Params:
         sinks (list[dict]): A list of dicts defining Loguru sinks
-    
+
     """
     logger.remove()
 

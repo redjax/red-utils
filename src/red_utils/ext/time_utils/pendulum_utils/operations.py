@@ -38,7 +38,7 @@ def get_ts(
     -------
         (pendulum.DateTime): A `pendulum.DateTime` object of the current time
         (str): If `as_str=True`, returns a string representation of the `pendulum.DateTime` timestamp, formatted by `str_fmt`
-    
+
     """
     now = pendulum.now(tz=tz)
 

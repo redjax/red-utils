@@ -42,7 +42,7 @@ def convert_to_seconds(amount: int = None, unit: str = None) -> int:
     Returns
     -------
         (int): `amount` of time converted to seconds representing the `unit` of time passed
-    
+
     """
     ## Allowed strings for conversion
     valid_time_units: list[int] = ["seconds", "hours", "minutes", "days", "weeks"]
@@ -96,7 +96,7 @@ def new_cache(
     Returns
     -------
         (diskcache.core.Cache): An initialized `diskcache.Cache` object
-    
+
     """
     if not cache_dir:
         raise ValueError("Missing cache directory")
@@ -135,7 +135,7 @@ def clear_cache(cache: Cache = None) -> bool:
     -------
         (bool): `True` if cache cleared successfully
         (bool): `False` if cache not cleared successfully
-    
+
     """
     validate_cache(cache)
 
@@ -162,7 +162,7 @@ def check_cache_key_exists(cache: diskcache.core.Cache = None, key: str = None) 
     -------
         (bool): `True` if the key exists
         (bool): `False` if the key does not exist
-    
+
     """
     ## Key validation
     validate_key(key=key)
@@ -291,7 +291,7 @@ def get_val(cache: Cache = None, key: str = None, tags: list[str] = None):
     -------
         (Any): The cached value
         (dict[str, str]): A structured dict with error details, if operation fails
-    
+
     """
     validate_key(key)
     validate_cache(cache)
@@ -359,7 +359,7 @@ def get_cache_size(cache: Cache = None) -> dict[str, int]:
     -------
         (dict[str, int]): Details about the cache's size. Example:
             `{"unit": "bytes", "size": cache_size}`
-    
+
     """
     validate_cache(cache=cache)
 

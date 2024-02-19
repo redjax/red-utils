@@ -49,7 +49,7 @@ def validate_db_type(in_str: str = None) -> bool:
     Returns
     -------
         (bool): `True` if `in_str` is valid
-    
+
     """
     if not in_str:
         raise ValueError("Missing input string to validate")
@@ -80,7 +80,7 @@ def generate_metadata(
     Params:
         metadata_obj (sqlalchemy.MetaData): A SQLAlchemy `MetaData` object to use for generating in the database
         engine (sqlalchemy.Engine): The SQLAlchemy `Engine` to use for the database connection
-    
+
     """
     if not metadata_obj:
         raise ValueError("Missing a SQLAlchemy MetaData object.")
@@ -140,7 +140,7 @@ def create_base_metadata(
     Returns
     -------
         (bool): `True` if creating `Base` metadata is successful
-    
+
     """
     try:
         base_obj.metadata.create_all(bind=engine)
@@ -183,7 +183,7 @@ def get_engine(
     Returns
     -------
         (sqlalchemy.Engine): An initialized SQLAlchemy `Engine` object
-    
+
     """
     if not connection:
         raise ValueError("Missing connection object/string.")
@@ -253,7 +253,7 @@ def get_session_pool(
     Returns
     -------
         (sessionmaker[Session]): An initialized `Session` instance
-    
+
     """
     try:
         session_pool: so.sessionmaker[so.Session] = so.sessionmaker(
