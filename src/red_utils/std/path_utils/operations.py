@@ -11,6 +11,7 @@ from red_utils.core.constants import JSON_DIR
 
 from .constants import VALID_RETURN_TYPES
 
+
 def file_ts(fmt: str = "%Y-%m-%d_%H:%M:%S") -> str:
     """Return a formatted timestamp, useful for prepending to dir/file names.
 
@@ -39,8 +40,7 @@ def export_json(
         output_dir (str): The directory where a .json file will be saved.
         output_filename (str): The name of the file that will be saved in output_dir.
 
-    Raises
-    ------
+    Raises:
         FileExistsError: When the output path already exists
         FileNotFoundError: When the export path does not exist
         Exception: When other exceptions have not been caught, a generic `Exception` is raised
@@ -194,13 +194,11 @@ def crawl_dir(
         filetype_filter (str): An optional filetype filter str; only files matching this filter will be returned
         return_type (str): Return `files`, `dirs`, or `all`
 
-    Returns
-    -------
+    Returns:
         (list[Path]): A list of `Path` objects if `return_type` is `dirs` or `files`
         (dict[str, list[Path]]): If `return_type` is `all`, return a dict `{"file": [], "dirs": []}`
 
-    Raises
-    ------
+    Raises:
         ValueError: When input validation fails
         FileNotFoundError: When a file/directory path cannot be found
 
@@ -212,12 +210,10 @@ def crawl_dir(
         Params:
             target (str, Path): The path to validate
 
-        Returns
-        -------
+        Returns:
             (Path): A Python `Path` object
 
-        Raises
-        ------
+        Raises:
             ValueError: When input validation fails
             FileNotFoundError: When the path to validate does not exist
 
@@ -243,12 +239,10 @@ def crawl_dir(
             return_type (str): The `return_type` string to validate
             VALID_RETURN_TYPES `list[str]`: Valid options for the `return_type` string. Defaults to a predefined list of `["all", "files", "dirs"]`
 
-        Returns
-        -------
+        Returns:
             (str): The validated `return_type` string
 
-        Raises
-        ------
+        Raises:
             ValueError: When input validation fails
             TypeError: When input value is not a `str`
 
@@ -325,10 +319,8 @@ def list_files(
         ext_filter (str): Filetype to search for
         return_files (list[Path]): Used by the function to recurse through subdirectories
 
-    Returns
-    -------
+    Returns:
         (list[Path]): A list of found files, represented as `Path` objects
-
     """
     if not in_dir:
         raise ValueError("Missing input directory to search")
@@ -409,13 +401,11 @@ def delete_path(rm_path: Union[str, Path] = None) -> bool:
     Params:
         rm_path (str | Path): The path to delete
 
-    Returns
-    -------
+    Returns:
         (bool): `True` if `rm_path` deleted successfully
         (bool): `False` if `rm_path` not deleted successfully
 
-    Raises
-    ------
+    Raises:
         FileNotFoundError: When path to delete does not exist
         PermissionError: When permission to delete the path is not granted
         Exception: Generic `Exception` when operation fails and is not caught by another exception

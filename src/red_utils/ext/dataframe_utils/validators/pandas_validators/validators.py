@@ -28,14 +28,11 @@ def validate_df_col_type(col_type: str = None) -> str:
     Params:
         col_type (str): The `pandas`/`numpy` datatype of a column.
 
-    Raises
-    ------
-        (ValueError): If a `col_type` does not exist in the list of `VALID_COL_TYPES`, a `ValueError` is raised
-
-    Returns
-    -------
+    Returns:
         (str): The validated `col_type`
 
+    Raises:
+        (ValueError): If a `col_type` does not exist in the list of `VALID_COL_TYPES`, a `ValueError` is raised
     """
     if col_type is None:
         raise ValueError("Missing a column type to validate")

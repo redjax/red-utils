@@ -12,6 +12,7 @@ from .constants import PANDAS_DATE_FORMAT, PANDAS_DATETIME_FORMAT, PANDAS_TIME_F
 
 import pandas as pd
 
+
 def get_oldest_newest(
     df: pd.DataFrame = None, date_col: str = None, filter_cols: list[str] | None = None
 ) -> Union[pd.Series, pd.DataFrame]:
@@ -22,8 +23,7 @@ def get_oldest_newest(
         date_col (str): Name of the column to sort by
         filter_cols (list[str]): List of column names to return with the oldest/newest record.
 
-    Returns
-    -------
+    Returns:
         (pandas.Series|pandas.DataFrame): A Pandas `DataFrame` or `Series` containing oldest & newest records
         in the input `DataFrame`.
 
@@ -71,8 +71,7 @@ def rename_df_cols(
         col_rename_map (dict[str, str]): A Python `dict` defining existing column names and the value
         they should be renamed to.
 
-    Returns
-    -------
+    Returns:
         (pandas.DataFrame): A renamed Pandas `DataFrame`.
 
     """
@@ -106,8 +105,7 @@ def count_df_rows(df: pd.DataFrame = None) -> int:
     Params:
         df (pandas.DataFrame): A Pandas `DataFrame` to count the rows in
 
-    Returns
-    -------
+    Returns:
         (int): Count of rows in a `DataFrame`
 
     """
@@ -134,8 +132,7 @@ def load_pqs_to_df(
         search_dir (str): The directory to search for files in
         filetype (str): The file extension to filter results by
 
-    Returns
-    -------
+    Returns:
         (list[pandas.DataFrame]): A list of Pandas `DataFrame`s created from files in `search_dir`
 
     """
@@ -180,15 +177,12 @@ def convert_csv_to_pq(
         pq_file (str|Path): Path to a Parquet file to write to
         dedupe (bool): Whether to run .drop_duplicates() on the DataFrame
 
-    Raises
-    ------
-        (Exception): If file cannot be saved, an `Exception` is raised instead of returning
-        a bool value
-
-    Returns
-    -------
+    Returns:
         (bool): `True` if `csv_file` is converted to `pq_file` successfully
 
+    Raises:
+        (Exception): If file cannot be saved, an `Exception` is raised instead of returning
+        a bool value
     """
     if csv_file is None:
         raise ValueError("Missing a CSV input file to read from")
@@ -233,15 +227,12 @@ def convert_pq_to_csv(
         csv_file (str|Path): Path to a CSV file to write to
         dedupe (bool): Whether to run .drop_duplicates() on the DataFrame
 
-    Raises
-    ------
-        (Exception): If file cannot be saved, an `Exception` is raised instead of returning
-        a bool value
-
-    Returns
-    -------
+    Returns:
         (bool): `True` if `pq_file` is converted to `csv_file` successfully
 
+    Raises:
+        (Exception): If file cannot be saved, an `Exception` is raised instead of returning
+        a bool value
     """
     if csv_file is None:
         raise ValueError("Missing a CSV file to save to")
@@ -280,8 +271,7 @@ def load_pq(pq_file: Union[str, Path] = None) -> pd.DataFrame:
     Params:
         pq_file (str|Path): Path to a `.parquet` file to load
 
-    Returns
-    -------
+    Returns:
         (pandas.DataFrame): A Pandas `DataFrame` loaded from a `.parquet` file
 
     """
@@ -324,15 +314,12 @@ def save_pq(
         pq_file (str|Path): The path to a `.parquet` file where the `DataFrame` should be saved
         dedupe (bool): If `True`, deduplicate the `DataFrame` before saving
 
-    Raises
-    ------
-        (Exception): If file cannot be saved, an `Exception` is raised
-
-    Returns
-    -------
+    Returns:
         (bool): `True` if `DataFrame` is saved to `pq_file` successfully
         (bool): `False` if `DataFrame` is not saved to `pq_file` successfully
 
+    Raises:
+        (Exception): If file cannot be saved, an `Exception` is raised
     """
     if df is None or df.empty:
         msg = ValueError("DataFrame is None or empty")
@@ -382,8 +369,7 @@ def load_csv(csv_file: Union[str, Path] = None, delimiter: str = ",") -> pd.Data
         csv_file (str|Path): The path to a `.csv` file to load into a `DataFrame
         delimiter (str): The delimiter symbol the `csv_file` uses
 
-    Returns
-    -------
+    Returns:
         (pandas.DataFrame): A Pandas `DataFrame` with data loaded from the `csv_file`
 
     """
@@ -431,18 +417,12 @@ def save_csv(
         columns (list[str]): A list of string values representing column names for the `.csv` file
         dedupe (bool): If `True`, deduplicate the `DataFrame` before saving
 
-    Raises
-    ------
-
-    Raises
-    ------
-        (Exception): If file cannot be saved, an `Exception` is raised
-
-    Returns
-    -------
+    Returns:
         (bool): `True` if `DataFrame` is saved to `csv_file` successfully
         (bool): `False` if `DataFrame` is not saved to `csv_file` successfully
 
+    Raises:
+        (Exception): If file cannot be saved, an `Exception` is raised
     """
     if df is None or df.empty:
         msg = ValueError("DataFrame is None or empty")
