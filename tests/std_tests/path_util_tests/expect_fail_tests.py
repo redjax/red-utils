@@ -56,17 +56,21 @@ def test_fail_list_files_exists(cwd: Path = "/i/do-not/exist"):
     assert cwd.exists(), "CWD path should exist"
 
 
+@mark.xfail
 @mark.file_utils
 def test_fail_scan_all(cwd: Path):
     all_as_str: list[str] = path_utils.scan_dir(
-        target=cwd, as_str=False, as_pathlib=False, return_type="all"
+        target=cwd, as_str=False, as_pathlib=True, return_type="all"
     )
     assert all_as_str is not None, ValueError(
         "Expected failure, all_as_str should not have been None"
     )
-    assert not isinstance(all_as_str, list), ValueError("Expected failure")
+    assert isinstance(all_as_str[0], str), TypeError(
+        "Excepted TypeError for pytest.xfail"
+    )
 
 
+@mark.xfail
 @mark.file_utils
 def test_fail_scan_dirs(cwd: Path):
     ## Force test to fail
@@ -78,6 +82,7 @@ def test_fail_scan_dirs(cwd: Path):
     )
 
 
+@mark.xfail
 @mark.file_utils
 def test_fail_scan_files(cwd: Path):
     ## Force test to fail
