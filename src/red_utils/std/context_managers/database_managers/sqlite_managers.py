@@ -81,6 +81,7 @@ class SQLiteConnManager:
         Returns
         -------
             (list[str]): List of column names found in table
+        
         """
         cols: list[str] = []
         stmt: str = f"SELECT * FROM {table}"
@@ -104,6 +105,7 @@ class SQLiteConnManager:
         Returns
         -------
             (list[str]): List of table names found in SQLite database.
+        
         """
         get_tbls_stmt: str = "SELECT name FROM sqlite_master WHERE type='table';"
         tables: list[str] = []
@@ -130,6 +132,7 @@ class SQLiteConnManager:
         Returns
         -------
             (list[sqlite3.Row]): The results from executing the query
+        
         """
         assert stmt, "Must pass a SQL statement"
         assert isinstance(stmt, str), "Statement must be a Python str"

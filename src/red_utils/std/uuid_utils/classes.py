@@ -12,6 +12,7 @@ class UUIDLength:
     ----
         standard (int): The number of characters expected in a standard UUID string
         hex (int): The number of characters expeceted in a UUID hex string
+    
     """
 
     standard: int = 36

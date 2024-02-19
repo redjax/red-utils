@@ -249,6 +249,7 @@ class DefaultSinks(LoguruSinkBase):
         Returns
         -------
             (list[dict]): List of Loguru sink dicts with `colorize=True`.
+        
         """
         sink_list = [
             self.stdout,
@@ -268,6 +269,7 @@ class DefaultSinks(LoguruSinkBase):
         Returns
         -------
             (list[dict]): List of Loguru sink dicts with `colorize=False`.
+        
         """
         sink_list = [
             default_stdout_no_color_sink,

@@ -5,13 +5,12 @@ These tests expect assertions to be True, and will crash pytest if assertions fa
 
 from __future__ import annotations
 
-import os
 import datetime
+import os
 from pathlib import Path
 
 from pytest import mark, xfail
 from red_utils.std import path_utils
-
 
 @mark.file_utils
 def test_cwd_exists(cwd: Path):

@@ -35,6 +35,7 @@ def validate_df_col_type(col_type: str = None) -> str:
     Returns
     -------
         (str): The validated `col_type`
+    
     """
     if col_type is None:
         raise ValueError("Missing a column type to validate")

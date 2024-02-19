@@ -34,6 +34,7 @@ def gen_uuid(as_hex: bool = False) -> Union[str, uuid.UUID]:
     -------
         (str): A 36 character UUID string
         (str): A 32 character UUID hex string (a UUID minus the `-` characters)
+    
     """
     if as_hex:
         hex_uuid = uuid.uuid4().hex
@@ -59,6 +60,7 @@ def trim_uuid(trim: int = 0, in_uuid: str = uuid.uuid4(), as_hex: bool = False) 
     -------
         (str): A 36 character UUID string
         (str): A 32 character UUID hex string (a UUID minus the `-` characters)
+    
     """
     ## Set max character count
     ## Attempt to convert inputs value to integer
@@ -98,6 +100,7 @@ def first_n_chars(first_n: int = 36, in_uuid: str = uuid.uuid4(), as_hex: bool =
     Raises
     ------
         ValueError: If input `first_n` is an invalid number of characters to return, less than 0 or greater than predefined max value (32 for hex, 36 for standard).
+    
     """
     if not isinstance(first_n, int):
         first_n = int(first_n)
@@ -137,6 +140,7 @@ def get_rand_uuid(
     Raises
     ------
         ValueError: If inputs `trim` or `characters` are invalid. TODO: Add `TypeErrors` too
+    
     """
     if isinstance(trim, int) and isinstance(characters, int):
         if trim > 0 and characters > 0:

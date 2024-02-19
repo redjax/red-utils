@@ -6,8 +6,8 @@ these tests will not stop pytest execution.
 
 from __future__ import annotations
 
-import os
 import datetime
+import os
 from pathlib import Path
 
 from pytest import mark, xfail

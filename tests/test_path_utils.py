@@ -19,8 +19,8 @@ from .std_tests.path_util_tests.expect_pass_tests import (
     test_cwd_exists,
     test_list_files,
     test_list_files_py_filetype,
-    test_ts,
-    test_scan_files,
     test_scan_all,
     test_scan_dirs,
+    test_scan_files,
+    test_ts,
 )

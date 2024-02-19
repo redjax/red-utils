@@ -11,7 +11,6 @@ from red_utils.core.constants import JSON_DIR
 
 from .constants import VALID_RETURN_TYPES
 
-
 def file_ts(fmt: str = "%Y-%m-%d_%H:%M:%S") -> str:
     """Return a formatted timestamp, useful for prepending to dir/file names.
 
@@ -21,6 +20,7 @@ def file_ts(fmt: str = "%Y-%m-%d_%H:%M:%S") -> str:
     Returns
     -------
         (str): A formatted datetime string
+    
     """
     now: str = datetime.now().strftime(fmt)
 
@@ -44,6 +44,7 @@ def export_json(
         FileExistsError: When the output path already exists
         FileNotFoundError: When the export path does not exist
         Exception: When other exceptions have not been caught, a generic `Exception` is raised
+    
     """
     if not Path(output_dir).exists():
         Path(output_dir).mkdir(parents=True, exist_ok=True)
@@ -101,6 +102,7 @@ def scan_dir(
         list[os.DirEntry]: (default) If `as_str = False`
         list[str]: If `as_str = True`
         list[pathlib.Path]: If `as_str = False` and `as_pathlib = True`.
+    
     """
     ## Validate return_type
     if not return_type:
@@ -201,6 +203,7 @@ def crawl_dir(
     ------
         ValueError: When input validation fails
         FileNotFoundError: When a file/directory path cannot be found
+    
     """
 
     def validate_target(target: Union[str, Path] = target) -> Path:
@@ -217,6 +220,7 @@ def crawl_dir(
         ------
             ValueError: When input validation fails
             FileNotFoundError: When the path to validate does not exist
+        
         """
         if target is None:
             raise ValueError("Missing a target directory to scan")
@@ -247,6 +251,7 @@ def crawl_dir(
         ------
             ValueError: When input validation fails
             TypeError: When input value is not a `str`
+        
         """
         if return_type is None:
             raise ValueError("Missing return type")
@@ -323,6 +328,7 @@ def list_files(
     Returns
     -------
         (list[Path]): A list of found files, represented as `Path` objects
+    
     """
     if not in_dir:
         raise ValueError("Missing input directory to search")
@@ -413,6 +419,7 @@ def delete_path(rm_path: Union[str, Path] = None) -> bool:
         FileNotFoundError: When path to delete does not exist
         PermissionError: When permission to delete the path is not granted
         Exception: Generic `Exception` when operation fails and is not caught by another exception
+    
     """
     if rm_path is None:
         raise ValueError("Missing a path to remove.")

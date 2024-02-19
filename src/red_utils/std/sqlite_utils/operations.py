@@ -22,6 +22,7 @@ def init_sqlite_db(db_definition: SQLiteDB = None) -> bool:
     Raises
     ------
         Exception: When initializing empty SQLite database fails
+    
     """
     if db_definition is None:
         raise ValueError("Missing SQLiteDB object.")
@@ -54,6 +55,7 @@ def get_demo_db() -> SQLiteDB:
     Raises
     ------
         Exception: When SQLite database initialization is unsuccessful
+    
     """
     try:
         _db: SQLiteDB = SQLiteDB()
@@ -86,6 +88,7 @@ def get_sqlite_db(name: str = None, location: Union[str, Path] = None) -> SQLite
     ------
         ValueError: When input value validation fails
         Exception: When SQLite database initialization fails
+    
     """
     if name is None:
         raise ValueError("Missing database name")
