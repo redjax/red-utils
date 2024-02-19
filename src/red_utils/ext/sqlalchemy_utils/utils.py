@@ -15,6 +15,7 @@ from sqlalchemy.exc import DBAPIError, OperationalError
 import sqlalchemy.orm as so
 from sqlalchemy.schema import CreateTable
 
+
 def debug_metadata_obj(metadata_obj: sa.MetaData = None) -> None:
     """Debug-print a SQLAlchemy MetaData object.
 
@@ -42,14 +43,11 @@ def validate_db_type(in_str: str = None) -> bool:
     Params:
         in_str (str): A `db_type` string to validate
 
-    Raises
-    ------
-        (ValueError): Raises a `ValueError` if the `in_str` is not valid
-
-    Returns
-    -------
+    Returns:
         (bool): `True` if `in_str` is valid
 
+    Raises:
+        (ValueError): If the `in_str` is not valid
     """
     if not in_str:
         raise ValueError("Missing input string to validate")
@@ -68,19 +66,17 @@ def generate_metadata(
     Accept a SQLalchemy MetaData object, run .create_all(engine) to create
     table metadata.
 
-    Raises
-    ------
+    Params:
+        metadata_obj (sqlalchemy.MetaData): A SQLAlchemy `MetaData` object to use for generating in the database
+        engine (sqlalchemy.Engine): The SQLAlchemy `Engine` to use for the database connection
+
+    Raises:
         (ValueError): When input values are invalid
         (OperationalError): When SQLAlchemy runs into an error with the database, usually starting
             on the database (not in SQLAlchemy)
         (DBAPIERROR): When SQLAlchemy runs into an issue, generally in the way you've coded a SQLAlchemy
             statement or operation
         (Exception): When an uncaught/unhandled exception occurs
-
-    Params:
-        metadata_obj (sqlalchemy.MetaData): A SQLAlchemy `MetaData` object to use for generating in the database
-        engine (sqlalchemy.Engine): The SQLAlchemy `Engine` to use for the database connection
-
     """
     if not metadata_obj:
         raise ValueError("Missing a SQLAlchemy MetaData object.")
@@ -115,32 +111,30 @@ def create_base_metadata(
 ) -> bool:
     """Create `Base` object's metadata.
 
-    Import this function early in your app/script (i.e. `main.py`) and run as soon as
-    possible, i.e. after imports.
+    Description:
+        Import this function early in your app/script (i.e. `main.py`) and run as soon as
+        possible, i.e. after imports.
 
-    This function accepts a SQLAlchemy `DeclarativeBase` object, and creates the table
-    metadata from that object using the `Engine` passed.
+        This function accepts a SQLAlchemy `DeclarativeBase` object, and creates the table
+        metadata from that object using the `Engine` passed.
 
-    This function will only ever return `True` if successful. It does not return `False`,
-    as an `Exception` is raised if metadata creation fails and the program is halted.
+        This function will only ever return `True` if successful. It does not return `False`,
+        as an `Exception` is raised if metadata creation fails and the program is halted.
 
     Params:
         base_obj (sqlalchemy.DeclarativeBase): A SQLAlchemy `DeclarativeBase` object to extract metadata from
         engine (sqlalchemy.Engine): The `Engine` to use for the database connection.
 
-    Raises
-    ------
+    Returns:
+        (bool): `True` if creating `Base` metadata is successful
+
+    Raises:
         (ValueError): When input values are invalid
         (OperationalError): When SQLAlchemy runs into an error with the database, usually starting
             on the database (not in SQLAlchemy)
         (DBAPIERROR): When SQLAlchemy runs into an issue, generally in the way you've coded a SQLAlchemy
             statement or operation
         (Exception): When an uncaught/unhandled exception occurs
-
-    Returns
-    -------
-        (bool): `True` if creating `Base` metadata is successful
-
     """
     try:
         base_obj.metadata.create_all(bind=engine)

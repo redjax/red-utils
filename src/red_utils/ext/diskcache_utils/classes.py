@@ -34,11 +34,11 @@ from .validators import (
 from diskcache import Cache
 from diskcache.core import warnings
 
+
 def default_timeout() -> int:
     """Return the default timeout period.
 
-    Returns
-    -------
+    Returns:
         (int): The number of seconds in 24 hours
 
     """
@@ -91,8 +91,7 @@ class CacheInstanceBase(DictMixin):
         Sets the self.cache parameter to the initialized Cache,
         and also returns Cache directly.
 
-        Returns
-        -------
+        Returns:
             (diskcache.Cache): An initialized `DiskCache.Cache` object
 
         """
@@ -148,8 +147,7 @@ class CacheInstanceBase(DictMixin):
     def clear(self) -> bool:
         """Clear the entire cache.
 
-        Returns
-        -------
+        Returns:
             (bool): `True` if clearing cache successful
             (bool): `False` if clearing the cache not successful
 
@@ -185,8 +183,7 @@ class CacheInstance(CacheInstanceBase):
         Params:
             key (str): The cache key to search for
 
-        Returns
-        -------
+        Returns:
             (bool): `True` if cache key found
             (bool): `False` if cache key not found
 
@@ -332,8 +329,7 @@ class CacheInstance(CacheInstanceBase):
     def get_cache_size(self) -> dict[str, int]:
         """Get a dict describing the size of the cache, in bytes.
 
-        Returns
-        -------
+        Returns:
             (dict): A Python `dict` with keys: 'unit', 'size'. Example return object:
                 `{'unit': 'bytes', 'size': 36864}`
 
@@ -351,8 +347,7 @@ class CacheInstance(CacheInstanceBase):
     def check_cache(self) -> list[warnings.WarningMessage]:
         """Run checks on Cache instance.
 
-        Returns
-        -------
+        Returns:
             (list[warning.WarningMessage]): A list of Diskcache `WarningMessage` objects.
 
         """
