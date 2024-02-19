@@ -26,6 +26,7 @@ def get_oldest_newest(
     -------
         (pandas.Series|pandas.DataFrame): A Pandas `DataFrame` or `Series` containing oldest & newest records
         in the input `DataFrame`.
+
     """
     if df is None or df.empty:
         raise ValueError("Missing or empty DataFrame")
@@ -73,6 +74,7 @@ def rename_df_cols(
     Returns
     -------
         (pandas.DataFrame): A renamed Pandas `DataFrame`.
+
     """
     if col_rename_map is None:
         msg = ValueError("No col_rename_map passed")
@@ -107,6 +109,7 @@ def count_df_rows(df: pd.DataFrame = None) -> int:
     Returns
     -------
         (int): Count of rows in a `DataFrame`
+
     """
     if df is not None:
         if df.empty:
@@ -134,6 +137,7 @@ def load_pqs_to_df(
     Returns
     -------
         (list[pandas.DataFrame]): A list of Pandas `DataFrame`s created from files in `search_dir`
+
     """
     if search_dir is None:
         raise ValueError("Missing a directory to search")
@@ -184,6 +188,7 @@ def convert_csv_to_pq(
     Returns
     -------
         (bool): `True` if `csv_file` is converted to `pq_file` successfully
+
     """
     if csv_file is None:
         raise ValueError("Missing a CSV input file to read from")
@@ -236,6 +241,7 @@ def convert_pq_to_csv(
     Returns
     -------
         (bool): `True` if `pq_file` is converted to `csv_file` successfully
+
     """
     if csv_file is None:
         raise ValueError("Missing a CSV file to save to")
@@ -277,6 +283,7 @@ def load_pq(pq_file: Union[str, Path] = None) -> pd.DataFrame:
     Returns
     -------
         (pandas.DataFrame): A Pandas `DataFrame` loaded from a `.parquet` file
+
     """
     if pq_file is None:
         raise ValueError("Missing pq_file to load")
@@ -325,6 +332,7 @@ def save_pq(
     -------
         (bool): `True` if `DataFrame` is saved to `pq_file` successfully
         (bool): `False` if `DataFrame` is not saved to `pq_file` successfully
+
     """
     if df is None or df.empty:
         msg = ValueError("DataFrame is None or empty")
@@ -377,6 +385,7 @@ def load_csv(csv_file: Union[str, Path] = None, delimiter: str = ",") -> pd.Data
     Returns
     -------
         (pandas.DataFrame): A Pandas `DataFrame` with data loaded from the `csv_file`
+
     """
     if csv_file is None:
         raise ValueError("Missing output path")
@@ -433,6 +442,7 @@ def save_csv(
     -------
         (bool): `True` if `DataFrame` is saved to `csv_file` successfully
         (bool): `False` if `DataFrame` is not saved to `csv_file` successfully
+
     """
     if df is None or df.empty:
         msg = ValueError("DataFrame is None or empty")

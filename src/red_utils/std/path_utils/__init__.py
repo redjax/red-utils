@@ -10,4 +10,5 @@ from .operations import (
     export_json,
     file_ts,
     list_files,
+    scan_dir,
 )

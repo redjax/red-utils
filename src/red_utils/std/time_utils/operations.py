@@ -19,6 +19,7 @@ def datetime_as_str(ts: dt = None, format: str = TIME_FMT_24H) -> str:
     Returns
     -------
         (str): A formatted `datetime.datetime` `str`
+
     """
     _ts: str = ts.strftime(format=format)
 
@@ -35,6 +36,7 @@ def datetime_as_dt(ts: str = None, format: str = TIME_FMT_24H) -> dt:
     Returns
     -------
         (str): A formatted `datetime.datetime` object
+
     """
     _ts: dt = dt.strptime(ts, format)
 
@@ -52,6 +54,7 @@ def get_ts(as_str: bool = False, format: str = TIME_FMT_24H) -> Union[dt, str]:
     -------
         (datetime.datetime): a Python `datetime.datetime` object.
         (str): If `as_str` is `True`, converts datetime to a string & returns.
+
     """
     now: dt = dt.now()
 

@@ -39,6 +39,7 @@ class DictMixin:
         Returns
         -------
         A Python `dict` representation of a Python `dataclass` class.
+
         """
         try:
             return self.__dict__.copy()
