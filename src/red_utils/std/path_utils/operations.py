@@ -11,7 +11,6 @@ from red_utils.core.constants import JSON_DIR
 
 from .constants import VALID_RETURN_TYPES
 
-
 def file_ts(fmt: str = "%Y-%m-%d_%H:%M:%S") -> str:
     """Return a formatted timestamp, useful for prepending to dir/file names.
 
@@ -321,6 +320,7 @@ def list_files(
 
     Returns:
         (list[Path]): A list of found files, represented as `Path` objects
+    
     """
     if not in_dir:
         raise ValueError("Missing input directory to search")

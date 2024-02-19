@@ -4,7 +4,6 @@ from __future__ import annotations
 
 from typing import Any
 
-
 def validate_dict(_dict: dict[str, str] = None) -> dict[Any, Any]:
     """Validate an input dict.
 
@@ -17,6 +16,7 @@ def validate_dict(_dict: dict[str, str] = None) -> dict[Any, Any]:
     Raises:
         ValueError: If _dict is `None` or an invalid type
         TypeError: When `_dict`'s type is not `dict`
+    
     """
     if _dict is None:
         raise ValueError("Missing dict to evaluate")

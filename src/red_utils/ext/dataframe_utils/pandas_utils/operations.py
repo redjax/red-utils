@@ -12,7 +12,6 @@ from .constants import PANDAS_DATE_FORMAT, PANDAS_DATETIME_FORMAT, PANDAS_TIME_F
 
 import pandas as pd
 
-
 def get_oldest_newest(
     df: pd.DataFrame = None, date_col: str = None, filter_cols: list[str] | None = None
 ) -> Union[pd.Series, pd.DataFrame]:
@@ -183,6 +182,7 @@ def convert_csv_to_pq(
     Raises:
         (Exception): If file cannot be saved, an `Exception` is raised instead of returning
         a bool value
+    
     """
     if csv_file is None:
         raise ValueError("Missing a CSV input file to read from")
@@ -233,6 +233,7 @@ def convert_pq_to_csv(
     Raises:
         (Exception): If file cannot be saved, an `Exception` is raised instead of returning
         a bool value
+    
     """
     if csv_file is None:
         raise ValueError("Missing a CSV file to save to")
@@ -320,6 +321,7 @@ def save_pq(
 
     Raises:
         (Exception): If file cannot be saved, an `Exception` is raised
+    
     """
     if df is None or df.empty:
         msg = ValueError("DataFrame is None or empty")
@@ -423,6 +425,7 @@ def save_csv(
 
     Raises:
         (Exception): If file cannot be saved, an `Exception` is raised
+    
     """
     if df is None or df.empty:
         msg = ValueError("DataFrame is None or empty")
