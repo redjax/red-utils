@@ -2,6 +2,7 @@ from __future__ import annotations
 
 from datetime import datetime
 import json
+import os
 from pathlib import Path
 import shutil
 from typing import Any, Union
@@ -9,6 +10,7 @@ from typing import Any, Union
 from red_utils.core.constants import JSON_DIR
 
 from .constants import VALID_RETURN_TYPES
+
 
 def file_ts(fmt: str = "%Y-%m-%d_%H:%M:%S") -> str:
     """Return a formatted timestamp, useful for prepending to dir/file names.
@@ -78,11 +80,111 @@ def export_json(
             )
 
 
+def scan_dir(
+    target: Union[str, Path] = None,
+    as_str: bool = False,
+    as_pathlib: bool = False,
+    return_type: str = "all",
+) -> Union[list[os.DirEntry, str, Path]]:
+    """Return a list of path strings found in self.path.
+
+    Params:
+        as_str (bool): If `True`, returns a list of paths formatted as Python strings.
+        as_pathlib (bool): If `True`, returns a list of paths formatted as Python `pathlib.Path` objects.
+        retirm_type (str): Control return type.
+            Options:
+                - `all`: Return both files & dirs
+                - `files`: Return only files
+                - `dirs`: Return only dirs
+
+    Returns:
+        list[os.DirEntry]: (default) If `as_str = False`
+        list[str]: If `as_str = True`
+        list[pathlib.Path]: If `as_str = False` and `as_pathlib = True`.
+    """
+    ## Validate return_type
+    if not return_type:
+        print(
+            f"[WARNING] @path_utils.scan_dir return_type cannot be None. Defaulting to 'all'."
+        )
+        return_type = "all"
+    else:
+        return_type: str = return_type.lower()
+        assert isinstance(return_type, str), TypeError(
+            f"@path_utils.scan_dir() return_type must be of type str. Got type: {type(return_type)}"
+        )
+        assert return_type in VALID_RETURN_TYPES, ValueError(
+            f"@path_utils.scan_dir() Invalid return type: '{return_type}'. Must be one of {VALID_RETURN_TYPES}"
+        )
+
+    ## Validate as_str/as_pathlib
+    if as_str and as_pathlib:
+        print(
+            f"[WARNING] @path_utils.scan_dir() as_str and as_pathlib cannot both be true. Defaulting to as_str=True, as_pathlib=False"
+        )
+        as_pathlib = False
+
+    ## Validate target
+    assert target is not None, ValueError(
+        "@path_utils.scan_dir() target cannot be None"
+    )
+    assert isinstance(target, str) or isinstance(target, Path), TypeError(
+        f"@path_utils.scan_dir() target must be of type str or pathlib.Path. Got type: {type(target)}"
+    )
+    if isinstance(target, str):
+        target: Path = Path(target)
+    assert target.exists(), FileNotFoundError(
+        f"@path_utils.scan_dir() Could not find target path: '{target}'."
+    )
+
+    ## Initialize empty list to store found paths
+    paths: list[os.DirEntry] = []
+
+    ## Scan target directory
+    for p in os.scandir(target):
+        if return_type == "all":
+            ## Append path
+            paths.append(p)
+        elif return_type == "files":
+            if Path(p.path).is_file():
+                ## Append file path
+                paths.append(p)
+        elif return_type == "dirs":
+            if Path(p.path).is_dir():
+                ## Append dir path
+                paths.append(p)
+
+    if as_str:
+        ## Convert all found paths to str type
+        _paths: list[str] = []
+
+        for p in paths:
+            _path: str = p.path
+
+            _paths.append(_path)
+
+        return _paths
+
+    elif as_pathlib:
+        ## Convert all found paths to pathlib.Path type
+        _paths: list[Path] = []
+
+        for p in paths:
+            _path: Path = Path(p.path)
+            _paths.append(_path)
+
+        return _paths
+
+    else:
+        ## Return list of os.DirEntry types
+        return paths
+
+
 def crawl_dir(
     target: Union[str, Path] = None,
     filetype_filter: str | None = None,
     return_type: str = "all",
-) -> Union[dict[str, list[Path]], list[Path]]:
+) -> Union[dict[str, list[Path]]]:
     """Crawl a directory and return an object with all found files & dirs.
 
     Params:
