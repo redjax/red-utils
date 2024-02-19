@@ -8,6 +8,7 @@ from .constants import valid_key_types, valid_tag_types, valid_val_types
 import diskcache
 from diskcache import Cache
 
+
 def validate_key(key: valid_key_types = None, none_ok: bool = False) -> Union[str, int]:
     """Validate input diskcache key.
 
@@ -19,8 +20,7 @@ def validate_key(key: valid_key_types = None, none_ok: bool = False) -> Union[st
         key (str): The key to evaluate
         none_ok (bool): Allow null keys
 
-    Returns
-    -------
+    Returns:
         (str|int): The original key after all validations are passed
 
     """
@@ -54,8 +54,7 @@ def validate_val(
         val (str): The value to evaluate
         none_ok (bool): Allow null keys
 
-    Returns
-    -------
+    Returns:
         (str|bytes|float|int): The original value after all validations are passed
 
     """
@@ -82,8 +81,7 @@ def validate_expire(expire: int = None, none_ok: bool = False) -> int:
         expire (int): The amount of seconds for an expiration value
         none_ok (bool): none_ok (bool): Allow null values
 
-    Returns
-    -------
+    Returns:
         (int): The original expiration time (in seconds) if validation passes
 
     """
@@ -119,8 +117,7 @@ def validate_read(read: bool = None, none_ok: bool = True) -> bool:
         read (bool): `True`/`False` state
         none_ok (bool): none_ok (bool): Allow null values
 
-    Returns
-    -------
+    Returns:
         (bool): The original value of `read` if all validations pass
 
     """
@@ -151,8 +148,7 @@ def validate_tags(
         tags (list[str]): A list of tags to validate
         none_ok (bool): Allow null values
 
-    Returns
-    -------
+    Returns:
         (list[str]): A validated list of tags
 
     """
@@ -183,8 +179,7 @@ def validate_tag(tag: valid_tag_types = None, none_ok: bool = True) -> str:
         tag (str): A tag to validate
         none_ok (bool): Allow null values
 
-    Returns
-    -------
+    Returns:
         (str): A validated tag
 
     """
@@ -222,8 +217,7 @@ def validate_retry(retry: bool = None, none_ok: bool = True) -> bool:
         retry (bool): `True`/`False` state of retry
         none_ok (bool): Allow nullable values
 
-    Returns
-    -------
+    Returns:
         (bool): The original value of `retry` if validations pass
 
     """
@@ -254,8 +248,7 @@ def validate_cache(cache: Cache = None, none_ok: bool = True) -> diskcache.core.
         cache (diskcache.Cache): A `diskcache.Cache` instance to validate
         none_ok (bool): Allow null values
 
-    Returns
-    -------
+    Returns:
         (diskcache.Cache): The original `Cache` instance after validation passes
 
     """

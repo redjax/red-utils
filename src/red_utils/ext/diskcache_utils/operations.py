@@ -31,6 +31,7 @@ from .validators import (
 import diskcache
 from diskcache import Cache
 
+
 def convert_to_seconds(amount: int = None, unit: str = None) -> int:
     """Convert an amount of time to seconds.
 
@@ -39,8 +40,7 @@ def convert_to_seconds(amount: int = None, unit: str = None) -> int:
         unit (str): The starting unit of time to convert to seconds.
             Options: ["seconds", "hours", "minutes", "days", "weeks"]
 
-    Returns
-    -------
+    Returns:
         (int): `amount` of time converted to seconds representing the `unit` of time passed
 
     """
@@ -93,8 +93,7 @@ def new_cache(
         cache_conf (dict): A Python `dict` with cache configuration options
         index (bool): Whether or not to create an index for the cache
 
-    Returns
-    -------
+    Returns:
         (diskcache.core.Cache): An initialized `diskcache.Cache` object
 
     """
@@ -131,8 +130,7 @@ def clear_cache(cache: Cache = None) -> bool:
     Params:
         cache (diskcache.Cache): The target cache to clear
 
-    Returns
-    -------
+    Returns:
         (bool): `True` if cache cleared successfully
         (bool): `False` if cache not cleared successfully
 
@@ -158,8 +156,7 @@ def check_cache_key_exists(cache: diskcache.core.Cache = None, key: str = None) 
         cache (diskcache.Cache): A `diskcache.Cache` instance to check
         key (str): The key name to search the `cache` for
 
-    Returns
-    -------
+    Returns:
         (bool): `True` if the key exists
         (bool): `False` if the key does not exist
 
@@ -287,8 +284,7 @@ def get_val(cache: Cache = None, key: str = None, tags: list[str] = None):
         key (str): A key name to retrieve from the cache
         tags: A list of tags to filter by
 
-    Returns
-    -------
+    Returns:
         (Any): The cached value
         (dict[str, str]): A structured dict with error details, if operation fails
 
@@ -355,8 +351,7 @@ def get_cache_size(cache: Cache = None) -> dict[str, int]:
     Params:
         cache (diskcache.Cache): A `diskcache.Cache` object to get the size of
 
-    Returns
-    -------
+    Returns:
         (dict[str, int]): Details about the cache's size. Example:
             `{"unit": "bytes", "size": cache_size}`
 
