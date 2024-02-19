@@ -12,6 +12,7 @@ def is_pydantic(obj: object) -> bool:
     -------
         (bool): `True` if `obj` is of Pydantic type `ModelMetaClass`
         (bool): `False` if `obj` is not of Pydatic type `ModelMetaClass`
+
     """
     return type(obj).__class__.__name__ == "ModelMetaclass"
 

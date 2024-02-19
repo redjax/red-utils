@@ -10,18 +10,26 @@ nox.options.reuse_existing_virtualenvs = True
 nox.options.error_on_external_run = False
 nox.options.error_on_missing_interpreters = False
 # nox.options.report = True
+
+## Define sessions to run when no session is specified
 nox.sessions = ["lint", "export", "tests"]
+
+# INIT_COPY_FILES: list[dict[str, str]] = [
+#     {"src": "config/.secrets.example.toml", "dest": "config/.secrets.toml"},
+#     {"src": "config/settings.toml", "dest": "config/settings.local.toml"},
+# ]
+## Define versions to test
+PY_VERSIONS: list[str] = ["3.12", "3.11"]
+## Set PDM version to install throughout
+PDM_VER: str = "2.12.3"
+## Set paths to lint with the lint session
+LINT_PATHS: list[str] = ["src", "tests", "./noxfile.py"]
 
 ## Get tuple of Python ver ('maj', 'min', 'mic')
 PY_VER_TUPLE = platform.python_version_tuple()
 ## Dynamically set Python version
 DEFAULT_PYTHON: str = f"{PY_VER_TUPLE[0]}.{PY_VER_TUPLE[1]}"
-## Define versions to test
-PY_VERSIONS: list[str] = ["3.12", "3.11"]
-## Set PDM version to install throughout
-PDM_VER: str = "2.11.2"
-## Set paths to lint with the lint session
-LINT_PATHS: list[str] = ["src", "tests", "./noxfile.py"]
+
 ## Set directory for requirements.txt file output
 REQUIREMENTS_OUTPUT_DIR: Path = Path("./requirements")
 ## Ensure REQUIREMENTS_OUTPUT_DIR path exists
@@ -93,7 +101,7 @@ def export_requirements(session: nox.Session, pdm_ver: str):
         "pdm",
         "export",
         "--prod",
-        "--no-default",
+        # "--no-default",
         "-o",
         f"{REQUIREMENTS_OUTPUT_DIR}/requirements.txt",
         "--without-hashes",
@@ -180,3 +188,25 @@ def build_docs(session: nox.Session, pdm_ver: str):
 
     print("Building docs with mkdocs")
     session.run("pdm", "run", "mkdocs", "build")
+
+
+# @nox.session(python=[PY_VER_TUPLE], name="init-setup")
+# def run_initial_setup(session: nox.Session):
+#     if INIT_COPY_FILES is None:
+#         print(f"INIT_COPY_FILES is empty. Skipping")
+#         pass
+
+#     else:
+
+#         for pair_dict in INIT_COPY_FILES:
+#             src = Path(pair_dict["src"])
+#             dest = Path(pair_dict["dest"])
+#             if not dest.exists():
+#                 print(f"Copying {src} to {dest}")
+#                 try:
+#                     shutil.copy(src, dest)
+#                 except Exception as exc:
+#                     msg = Exception(
+#                         f"Unhandled exception copying file from '{src}' to '{dest}'. Details: {exc}"
+#                     )
+#                     print(f"[ERROR] {msg}")

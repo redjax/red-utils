@@ -36,6 +36,8 @@ ignore = [
     "D401", ## First line of docstring should be in imperative mood
     "E402", ## Module level import not at top of file
     "D404", ## First word of the docstring should not be "This"
+    "D406", ## Section name should end with a newline
+    "D407", ## Missing dashed underline after section
     "D414", ## Section has no content
     "D415", ## First line should end with a period, question mark, or exclamation point
     "D417", ## Missing argument descriptions in the docstring for [variables]

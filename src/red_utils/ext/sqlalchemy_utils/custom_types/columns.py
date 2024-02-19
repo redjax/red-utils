@@ -15,7 +15,10 @@ INT_PK = Annotated[
 
 ## SQLAlchemy multi-database compatible UUID primary key
 UUID_PK = Annotated[
-    uuid.UUID, so.mapped_column(CompatibleUUID, primary_key=True, unique=True)
+    uuid.UUID,
+    so.mapped_column(
+        CompatibleUUID, primary_key=True, unique=True, insert_default=uuid.uuid4
+    ),
 ]
 
 ## SQLAlchemy CHAR(2)

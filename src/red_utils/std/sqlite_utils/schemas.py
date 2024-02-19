@@ -21,6 +21,7 @@ class SQLiteDB:
     Returns
     -------
         (SQLiteDB): An initialized `SQLiteDB` object
+
     """
 
     name: str = field(default="demo")

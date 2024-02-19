@@ -6,6 +6,7 @@ These tests expect assertions to be True, and will crash pytest if assertions fa
 from __future__ import annotations
 
 import datetime
+import os
 from pathlib import Path
 
 from pytest import mark, xfail
@@ -26,6 +27,155 @@ def test_ts(file_ts: str):
     assert isinstance(
         file_ts, str
     ), f"Timestamp must be a string, not ({type(file_ts)})"
+
+
+@mark.file_utils
+def test_scan_all(cwd: Path):
+    all_as_str: list[str] = path_utils.scan_dir(
+        target=cwd, as_str=True, as_pathlib=False, return_type="all"
+    )
+    assert all_as_str is not None, ValueError("all_as_str should not have been None")
+    assert isinstance(all_as_str, list), TypeError(
+        f"all_as_str should have been of type list[str]. Got type: ({type(all_as_str)})"
+    )
+    for i in all_as_str:
+        assert isinstance(i, str), TypeError(
+            f"All items in all_as_str should be of type str. Got type: ({type(i)})"
+        )
+
+    all_as_direntry: list[os.DirEntry] = path_utils.scan_dir(
+        target=cwd, as_str=False, as_pathlib=False, return_type="all"
+    )
+    assert all_as_direntry is not None, ValueError(
+        "all_as_direntry should not have been None"
+    )
+    assert isinstance(all_as_direntry, list), TypeError(
+        f"all_as_direntry should have been of type list[os.DirEntry]. Got type: ({type(all_as_direntry)})"
+    )
+    for i in all_as_direntry:
+        assert isinstance(i, os.DirEntry), TypeError(
+            f"All items in all_as_direntry should be of type os.DirEntry. Got type: ({type(i)})"
+        )
+
+    all_as_pathlib_path: list[Path] = path_utils.scan_dir(
+        target=cwd, as_str=False, as_pathlib=True, return_type="all"
+    )
+    assert all_as_pathlib_path is not None, ValueError(
+        "all_as_pathlib_path should not have been None"
+    )
+    assert isinstance(all_as_pathlib_path, list), TypeError(
+        f"all_as_pathlib_path should have been of type list[pathlib.Path]. Got type: ({type(all_as_pathlib_path)})"
+    )
+    for i in all_as_pathlib_path:
+        assert isinstance(i, Path), TypeError(
+            f"All items in all_as_pathlib_path should be of type pathlib.Path. Got type: ({type(i)})"
+        )
+
+
+@mark.file_utils
+def test_scan_dirs(cwd: Path):
+    dirs_as_str: list[str] = path_utils.scan_dir(
+        target=cwd, as_str=True, as_pathlib=False, return_type="dirs"
+    )
+    assert dirs_as_str is not None, ValueError("dirs_as_str should not have been None")
+    assert isinstance(dirs_as_str, list), TypeError(
+        f"dirs_as_str should have been of type list[str]. Got type: ({type(dirs_as_str)})"
+    )
+    for i in dirs_as_str:
+        assert isinstance(i, str), TypeError(
+            f"All items in dirs_as_str should be of type str. Got type: ({type(i)})"
+        )
+        assert Path(i).is_dir(), ValueError(
+            f"Path '{i}' should have been a directory, but was a file."
+        )
+
+    dirs_as_direntry: list[os.DirEntry] = path_utils.scan_dir(
+        target=cwd, as_str=False, as_pathlib=False, return_type="dirs"
+    )
+    assert dirs_as_direntry is not None, ValueError(
+        "dirs_as_direntry should not have been None"
+    )
+    assert isinstance(dirs_as_direntry, list), TypeError(
+        f"dirs_as_direntry should have been of type list[os.DirEntry]. Got type: ({type(dirs_as_direntry)})"
+    )
+    for i in dirs_as_direntry:
+        assert isinstance(i, os.DirEntry), TypeError(
+            f"All items in dirs_as_direntry should be of type os.DirEntry. Got type: ({type(i)})"
+        )
+        assert Path(i.path).is_dir(), ValueError(
+            f"Path '{i.path}' should have been a directory, but was a file."
+        )
+
+    dirs_as_pathlib_path: list[Path] = path_utils.scan_dir(
+        target=cwd, as_str=False, as_pathlib=True, return_type="dirs"
+    )
+    assert dirs_as_pathlib_path is not None, ValueError(
+        "dirs_as_pathlib_path should not have been None"
+    )
+    assert isinstance(dirs_as_pathlib_path, list), TypeError(
+        f"dirs_as_pathlib_path should have been of type list[pathlib.Path]. Got type: ({type(dirs_as_pathlib_path)})"
+    )
+    for i in dirs_as_pathlib_path:
+        assert isinstance(i, Path), TypeError(
+            f"All items in dirs_as_pathlib_path should be of type pathlib.Path. Got type: ({type(i)})"
+        )
+        assert i.is_dir(), ValueError(
+            f"Path '{i}' should have been a directory, but was a file."
+        )
+
+
+@mark.file_utils
+def test_scan_files(cwd: Path):
+    files_as_str: list[str] = path_utils.scan_dir(
+        target=cwd, as_str=True, as_pathlib=False, return_type="files"
+    )
+    assert files_as_str is not None, ValueError(
+        "files_as_str should not have been None"
+    )
+    assert isinstance(files_as_str, list), TypeError(
+        f"files_as_str should have been of type list[str]. Got type: ({type(files_as_str)})"
+    )
+    for i in files_as_str:
+        assert isinstance(i, str), TypeError(
+            f"All items in files_as_str should be of type str. Got type: ({type(i)})"
+        )
+        assert Path(i).is_file(), ValueError(
+            f"Path '{i}' should have been a file, but was a directory."
+        )
+
+    files_as_direntry: list[os.DirEntry] = path_utils.scan_dir(
+        target=cwd, as_str=False, as_pathlib=False, return_type="files"
+    )
+    assert files_as_direntry is not None, ValueError(
+        "files_as_direntry should not have been None"
+    )
+    assert isinstance(files_as_direntry, list), TypeError(
+        f"files_as_direntry should have been of type list[os.DirEntry]. Got type: ({type(files_as_direntry)})"
+    )
+    for i in files_as_direntry:
+        assert isinstance(i, os.DirEntry), TypeError(
+            f"All items in files_as_direntry should be of type os.DirEntry. Got type: ({type(i)})"
+        )
+        assert Path(i.path).is_file(), ValueError(
+            f"Path '{i}' should have been a file, but was a directory."
+        )
+
+    files_as_pathlib_path: list[Path] = path_utils.scan_dir(
+        target=cwd, as_str=False, as_pathlib=True, return_type="files"
+    )
+    assert files_as_pathlib_path is not None, ValueError(
+        "files_as_pathlib_path should not have been None"
+    )
+    assert isinstance(files_as_pathlib_path, list), TypeError(
+        f"files_as_pathlib_path should have been of type list[pathlib.Path]. Got type: ({type(files_as_pathlib_path)})"
+    )
+    for i in files_as_pathlib_path:
+        assert isinstance(i, Path), TypeError(
+            f"All items in files_as_pathlib_path should be of type pathlib.Path. Got type: ({type(i)})"
+        )
+        assert i.is_file(), ValueError(
+            f"Path '{i}' should have been a file, but was a directory."
+        )
 
 
 @mark.file_utils

@@ -18,6 +18,7 @@ def validate_dict(_dict: dict[str, str] = None) -> dict[Any, Any]:
     ------
         ValueError: If _dict is `None` or an invalid type
         TypeError: When `_dict`'s type is not `dict`
+
     """
     if _dict is None:
         raise ValueError("Missing dict to evaluate")

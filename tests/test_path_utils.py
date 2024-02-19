@@ -7,6 +7,9 @@ from .std_tests.path_util_tests.expect_fail_tests import (
     test_fail_list_files_cwd_none,
     test_fail_list_files_cwd_type,
     test_fail_list_files_exists,
+    test_fail_scan_all,
+    test_fail_scan_dirs,
+    test_fail_scan_files,
 )
 from .std_tests.path_util_tests.expect_pass_tests import (
     test_crawl_all,
@@ -16,5 +19,8 @@ from .std_tests.path_util_tests.expect_pass_tests import (
     test_cwd_exists,
     test_list_files,
     test_list_files_py_filetype,
+    test_scan_all,
+    test_scan_dirs,
+    test_scan_files,
     test_ts,
 )

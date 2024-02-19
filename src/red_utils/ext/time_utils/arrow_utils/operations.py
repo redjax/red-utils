@@ -42,6 +42,7 @@ def shift_ts(
         start_date = arrow.get(_start_date_time_str, tzinfo=_tz)
 
         ## start_date = 2022-08-19T00:00:00-04:00
+
     """
     ## Validate inputs
     if not period:

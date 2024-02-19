@@ -22,6 +22,7 @@ def validate_key(key: valid_key_types = None, none_ok: bool = False) -> Union[st
     Returns
     -------
         (str|int): The original key after all validations are passed
+
     """
     ## Evaluate key existence
     if not key:
@@ -56,6 +57,7 @@ def validate_val(
     Returns
     -------
         (str|bytes|float|int): The original value after all validations are passed
+
     """
     if not val:
         if none_ok:
@@ -83,6 +85,7 @@ def validate_expire(expire: int = None, none_ok: bool = False) -> int:
     Returns
     -------
         (int): The original expiration time (in seconds) if validation passes
+
     """
     ## Evaluate var existence
     if not expire:
@@ -119,6 +122,7 @@ def validate_read(read: bool = None, none_ok: bool = True) -> bool:
     Returns
     -------
         (bool): The original value of `read` if all validations pass
+
     """
     ## Evaluate var existence
     if not read:
@@ -150,6 +154,7 @@ def validate_tags(
     Returns
     -------
         (list[str]): A validated list of tags
+
     """
     if not tags:
         if none_ok:
@@ -181,6 +186,7 @@ def validate_tag(tag: valid_tag_types = None, none_ok: bool = True) -> str:
     Returns
     -------
         (str): A validated tag
+
     """
     ## Evaluate var existence
     if not tag:
@@ -219,6 +225,7 @@ def validate_retry(retry: bool = None, none_ok: bool = True) -> bool:
     Returns
     -------
         (bool): The original value of `retry` if validations pass
+
     """
     ## Evaluate var existence
     if not retry:
@@ -250,6 +257,7 @@ def validate_cache(cache: Cache = None, none_ok: bool = True) -> diskcache.core.
     Returns
     -------
         (diskcache.Cache): The original `Cache` instance after validation passes
+
     """
     ## Check existence
     if cache is None:

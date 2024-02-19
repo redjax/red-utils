@@ -15,6 +15,7 @@ def debug_dict(in_dict: dict = None) -> None:
     Raises
     ------
         Exception: A generic `Exception` whenever debug printing a `dict` fails
+
     """
     validate_dict(in_dict)
 
@@ -51,6 +52,7 @@ def merge_dicts(
     Raises
     ------
         Exception: When merging the `dict`s fails
+
     """
     validate_dict(original_dict)
     validate_dict(update_vals)
@@ -77,6 +79,7 @@ def update_dict(
     Returns
     -------
         (dict): A `dict` with updated values
+
     """
     validate_dict(original_dict)
     validate_dict(update_vals)

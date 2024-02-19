@@ -40,6 +40,7 @@ def default_timeout() -> int:
     Returns
     -------
         (int): The number of seconds in 24 hours
+
     """
     timeout = convert_to_seconds(amount=24, unit="hours")
     return timeout
@@ -93,6 +94,7 @@ class CacheInstanceBase(DictMixin):
         Returns
         -------
             (diskcache.Cache): An initialized `DiskCache.Cache` object
+
         """
         try:
             cache = Cache(self.cache_dir, timeout=self.cache_timeout)
@@ -150,6 +152,7 @@ class CacheInstanceBase(DictMixin):
         -------
             (bool): `True` if clearing cache successful
             (bool): `False` if clearing the cache not successful
+
         """
         validate_cache(self.cache)
 
@@ -186,6 +189,7 @@ class CacheInstance(CacheInstanceBase):
         -------
             (bool): `True` if cache key found
             (bool): `False` if cache key not found
+
         """
         ## Key validation
         validate_key(key=key)
@@ -332,6 +336,7 @@ class CacheInstance(CacheInstanceBase):
         -------
             (dict): A Python `dict` with keys: 'unit', 'size'. Example return object:
                 `{'unit': 'bytes', 'size': 36864}`
+
         """
         validate_cache(cache=self.cache)
 
@@ -349,6 +354,7 @@ class CacheInstance(CacheInstanceBase):
         Returns
         -------
             (list[warning.WarningMessage]): A list of Diskcache `WarningMessage` objects.
+
         """
         validate_cache(cache=self.cache)
 
