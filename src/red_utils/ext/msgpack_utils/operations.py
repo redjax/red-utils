@@ -20,7 +20,7 @@ def ensure_path(dir: Union[str, Path] = None) -> bool:
     -------
         (bool): `True` if Path exists/was created
         (bool): `False` if an error was encountered
-    
+
     """
     if not dir:
         raise ValueError("Missing input directory to validate")
@@ -67,7 +67,7 @@ def msgpack_serialize(
             `success` is a `bool` indicator of serialize operation success status.
             `detail` contains the `'message'` key with the `bytestring`, as well as other
                 optional details to be returned.
-    
+
     """
     if not _json:
         raise ValueError("Missing Python dict data to serialize")
@@ -107,7 +107,7 @@ def msgpack_serialize_file(
             `success` is a `bool` indicator of serialize operation success status.
             `detail` contains the `'message'` key with the `bytestring`, as well as other
                 optional details to be returned.
-    
+
     """
     if not _json:
         raise ValueError("Missing Python dict data to serialize")
@@ -163,7 +163,7 @@ def msgpack_deserialize_file(
             `success` is a `bool` indicator of deserialize operation success status.
             `detail` contains the `'message'` key with the `bytestring`, as well as other
                 optional details to be returned.
-    
+
     """
     if not filename:
         raise ValueError("Must pass a file name/path to deserialize")
@@ -211,7 +211,7 @@ def msgpack_deserialize(
             `success` is a `bool` indicator of deserialize operation success status.
             `detail` contains the `'message'` key with the `bytestring`, as well as other
                 optional details to be returned.
-    
+
     """
     if not packed_str:
         raise ValueError("Must pass a bytestring to deserialize")
