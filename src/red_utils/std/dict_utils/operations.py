@@ -12,10 +12,9 @@ def debug_dict(in_dict: dict = None) -> None:
     Params:
         in_dict (dict): The input dict to loop & debug print
 
-    Raises
-    ------
+    Raises:
         Exception: A generic `Exception` whenever debug printing a `dict` fails
-
+    
     """
     validate_dict(in_dict)
 
@@ -49,7 +48,7 @@ def merge_dicts(
     -------
         (dict): A merged `dict` from the 2 input `dict`s
 
-    Raises
+
     ------
         Exception: When merging the `dict`s fails
 

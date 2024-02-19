@@ -97,8 +97,7 @@ def first_n_chars(first_n: int = 36, in_uuid: str = uuid.uuid4(), as_hex: bool =
         (str): A 36 character UUID string
         (str): A 32 character UUID hex string (a UUID minus the `-` characters)
 
-    Raises
-    ------
+    Raises:
         ValueError: If input `first_n` is an invalid number of characters to return, less than 0 or greater than predefined max value (32 for hex, 36 for standard).
 
     """
@@ -137,8 +136,7 @@ def get_rand_uuid(
         (str): A 36 character UUID string
         (str): A 32 character UUID hex string (a UUID minus the `-` characters)
 
-    Raises
-    ------
+    Raises:
         ValueError: If inputs `trim` or `characters` are invalid. TODO: Add `TypeErrors` too
 
     """

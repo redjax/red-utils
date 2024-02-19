@@ -14,15 +14,13 @@ def init_sqlite_db(db_definition: SQLiteDB = None) -> bool:
     Params:
         db_definition (SQLiteDB): An initialized SQLiteDB object defining the SQLite database to create.
 
-    Returns
-    -------
+    Returns:
         (bool): `True` if SQLite database successfully initialized
         (bool): `False` if SQLite database initialization unsuccessful
 
-    Raises
-    ------
+    Raises:
         Exception: When initializing empty SQLite database fails
-
+    
     """
     if db_definition is None:
         raise ValueError("Missing SQLiteDB object.")
@@ -48,14 +46,12 @@ def init_sqlite_db(db_definition: SQLiteDB = None) -> bool:
 def get_demo_db() -> SQLiteDB:
     """Return an initialized SQLiteDB object with default settings.
 
-    Returns
-    -------
+    Returns:
         (SQLiteDB): An initialized `SQLiteDB` instance. A SQLite database file will also be created at the path: `.db/demo.db`
 
-    Raises
-    ------
+    Raises:
         Exception: When SQLite database initialization is unsuccessful
-
+    
     """
     try:
         _db: SQLiteDB = SQLiteDB()
@@ -80,12 +76,10 @@ def get_sqlite_db(name: str = None, location: Union[str, Path] = None) -> SQLite
         location (str|Path): The directory location to save the database. Note that Path values will be converted to string, then
         back to Path, so it is best to just pass the location as a string.
 
-    Returns
-    -------
+    Returns:
         (SQLiteDB): An initialized `SQLiteDB` object
 
-    Raises
-    ------
+    Raises:
         ValueError: When input value validation fails
         Exception: When SQLite database initialization fails
 
