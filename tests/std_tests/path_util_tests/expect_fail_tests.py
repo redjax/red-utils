@@ -6,6 +6,7 @@ these tests will not stop pytest execution.
 
 from __future__ import annotations
 
+import os
 import datetime
 from pathlib import Path
 
@@ -53,3 +54,29 @@ def test_fail_list_files_exists(cwd: Path = "/i/do-not/exist"):
     assert cwd is not None, "CWD cannot be None."
     assert isinstance(cwd, Path), f"CWD should be of type Path, not ({type(cwd)})"
     assert cwd.exists(), "CWD path should exist"
+
+
+@mark.file_utils
+def test_fail_scan_all(cwd: Path):
+    all_as_str: list[str] = path_utils.scan_dir(
+        target=cwd, as_str=False, as_pathlib=False, return_type="all"
+    )
+    assert all_as_str is not None, ValueError("all_as_str should not have been None")
+
+
+@mark.file_utils
+def test_fail_scan_dirs(cwd: Path):
+    dirs_as_str: list[str] = path_utils.scan_dir(
+        target=cwd, as_str=False, as_pathlib=False, return_type="dirs"
+    )
+    assert dirs_as_str is not None, ValueError("dirs_as_str should not have been None")
+
+
+@mark.file_utils
+def test_fail_scan_files(cwd: Path):
+    files_as_str: list[str] = path_utils.scan_dir(
+        target=cwd, as_str=False, as_pathlib=False, return_type="all"
+    )
+    assert files_as_str is not None, ValueError(
+        "files_as_str should not have been None"
+    )
