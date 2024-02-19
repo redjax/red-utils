@@ -4,7 +4,6 @@ from typing import Any
 
 from .validators import validate_dict
 
-
 def debug_dict(in_dict: dict = None) -> None:
     """Debug print a dict by looping overkeys and printing.
 
@@ -15,6 +14,7 @@ def debug_dict(in_dict: dict = None) -> None:
 
     Raises:
         Exception: A generic `Exception` whenever debug printing a `dict` fails
+    
     """
     validate_dict(in_dict)
 

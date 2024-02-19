@@ -33,6 +33,7 @@ def validate_df_col_type(col_type: str = None) -> str:
 
     Raises:
         (ValueError): If a `col_type` does not exist in the list of `VALID_COL_TYPES`, a `ValueError` is raised
+    
     """
     if col_type is None:
         raise ValueError("Missing a column type to validate")

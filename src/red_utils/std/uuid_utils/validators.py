@@ -66,6 +66,7 @@ def validate_characters(characters_in: int = 0, as_hex: bool = False) -> int:
     Raises:
         Exception: When attempting to convert `characters_in` value to an `int` fails.
         ValueError: When `trim_in` is less than 0, or greater than the length of a UUID string/hex (36/32 characters).
+    
     """
     if not isinstance(characters_in, str):
         try:

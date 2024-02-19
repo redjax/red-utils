@@ -8,7 +8,6 @@ from typing import Union
 
 from .schemas import SQLiteDB
 
-
 def init_sqlite_db(db_definition: SQLiteDB = None) -> bool:
     """Initialize an empty SQLite database.
 
@@ -21,6 +20,7 @@ def init_sqlite_db(db_definition: SQLiteDB = None) -> bool:
 
     Raises:
         Exception: When initializing empty SQLite database fails
+    
     """
     if db_definition is None:
         raise ValueError("Missing SQLiteDB object.")
@@ -51,6 +51,7 @@ def get_demo_db() -> SQLiteDB:
 
     Raises:
         Exception: When SQLite database initialization is unsuccessful
+    
     """
     try:
         _db: SQLiteDB = SQLiteDB()
