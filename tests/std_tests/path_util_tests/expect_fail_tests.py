@@ -61,22 +61,29 @@ def test_fail_scan_all(cwd: Path):
     all_as_str: list[str] = path_utils.scan_dir(
         target=cwd, as_str=False, as_pathlib=False, return_type="all"
     )
-    assert all_as_str is not None, ValueError("all_as_str should not have been None")
+    assert all_as_str is not None, ValueError(
+        "Expected failure, all_as_str should not have been None"
+    )
+    assert not isinstance(all_as_str, list), ValueError("Expected failure")
 
 
 @mark.file_utils
 def test_fail_scan_dirs(cwd: Path):
+    ## Force test to fail
     dirs_as_str: list[str] = path_utils.scan_dir(
-        target=cwd, as_str=False, as_pathlib=False, return_type="dirs"
+        target=cwd, as_str=False, as_pathlib=False, return_type="all"
     )
-    assert dirs_as_str is not None, ValueError("dirs_as_str should not have been None")
+    assert dirs_as_str is not None, ValueError(
+        "Expected failure, dirs_as_str should not have been None"
+    )
 
 
 @mark.file_utils
 def test_fail_scan_files(cwd: Path):
+    ## Force test to fail
     files_as_str: list[str] = path_utils.scan_dir(
         target=cwd, as_str=False, as_pathlib=False, return_type="all"
     )
     assert files_as_str is not None, ValueError(
-        "files_as_str should not have been None"
+        "Expected failure, files_as_str should not have been None"
     )
