@@ -1,6 +1,6 @@
 site_name: Red-Utils
 site_description: Collection of utility scripts/functions that I use frequently.
-site_url: https://github.com/redjax/red-utils
+site_url: https://red-utils.readthedocs.io/en/latest/
 
 repo_name: redjax/red-utils
 repo_url: https://github.com/redjax/red-utils
