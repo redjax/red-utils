@@ -14,7 +14,7 @@ def debug_dict(in_dict: dict = None) -> None:
 
     Raises:
         Exception: A generic `Exception` whenever debug printing a `dict` fails
-    
+
     """
     validate_dict(in_dict)
 
