@@ -320,7 +320,7 @@ def list_files(
 
     Returns:
         (list[Path]): A list of found files, represented as `Path` objects
-    
+
     """
     if not in_dir:
         raise ValueError("Missing input directory to search")

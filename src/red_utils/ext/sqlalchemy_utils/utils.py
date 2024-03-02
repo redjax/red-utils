@@ -47,7 +47,7 @@ def validate_db_type(in_str: str = None) -> bool:
 
     Raises:
         (ValueError): If the `in_str` is not valid
-    
+
     """
     if not in_str:
         raise ValueError("Missing input string to validate")
@@ -77,7 +77,7 @@ def generate_metadata(
         (DBAPIERROR): When SQLAlchemy runs into an issue, generally in the way you've coded a SQLAlchemy
             statement or operation
         (Exception): When an uncaught/unhandled exception occurs
-    
+
     """
     if not metadata_obj:
         raise ValueError("Missing a SQLAlchemy MetaData object.")
@@ -136,7 +136,7 @@ def create_base_metadata(
         (DBAPIERROR): When SQLAlchemy runs into an issue, generally in the way you've coded a SQLAlchemy
             statement or operation
         (Exception): When an uncaught/unhandled exception occurs
-    
+
     """
     try:
         base_obj.metadata.create_all(bind=engine)
