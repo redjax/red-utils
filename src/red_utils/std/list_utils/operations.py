@@ -13,7 +13,7 @@ def select_random_from_list(lst: list[t.Any] = None) -> t.Any:
 
     Returns:
         (Any): An object from the original list.
-    
+
     """
     validate_list(lst)
 
