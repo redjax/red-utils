@@ -19,9 +19,6 @@ show up in the Reference section of this site. I'll get to it 🤷‍♂️
 
 from __future__ import annotations
 
-import pkgutil
 import sys
 
 sys.path.append(".")
-
-from .exc import CustomException
