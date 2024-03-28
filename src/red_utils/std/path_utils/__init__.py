@@ -11,4 +11,5 @@ from .operations import (
     file_ts,
     list_files,
     scan_dir,
+    extract_file_ext,
 )
