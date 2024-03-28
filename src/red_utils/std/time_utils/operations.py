@@ -5,6 +5,7 @@ from datetime import (
     datetime as dt,
     timedelta,
 )
+import time
 from typing import Union
 
 from .constants import TIME_FMT_12H, TIME_FMT_24H
@@ -62,6 +63,48 @@ def get_ts(as_str: bool = False, format: str = TIME_FMT_24H) -> Union[dt, str]:
         now: str = datetime_as_str(ts=now, format=format)
 
     return now
+
+
+def wait(s: int = 1, msg: str | None = "Waiting {} seconds...") -> None:
+    """Sleep for a number of seconds, with optional custom message.
+
+    Params:
+        s (int): Amount of time (in seconds) to sleep/pause.
+        msg (str): [default: 'Wating {} seconds...'] A custom message to print. Use {} in the
+            message to print the value of s.
+
+                Example: 'I will now wait for {} second(s)' => 'I will now wait for 15 seconds...'
+    """
+    assert s, ValueError("Missing amount of time to sleep")
+    assert isinstance(s, int) and s > 0, ValueError(
+        f"Value of s must be a positive, non-zero integer. Input value ({type(s)}): {s} is invalid."
+    )
+
+    ## If msg != None, validate & print before pausing
+    if msg:
+        try:
+            ## Validate & print pause message
+            assert isinstance(msg, str), TypeError(
+                f"msg must be a string or None. Got type: ({type(msg)})"
+            )
+
+            try:
+                print(msg.format(s))
+            except Exception as exc:
+                ## Error compiling message text. Print an error, then wait
+                _msg = Exception(
+                    f"Unhandled exception composing wait message. Details: {exc}.\nWaiting [{s}] seconds..."
+                )
+                print(_msg)
+        except Exception as exc:
+            ## Error compiling message text. Print an error, then wait
+            _msg = Exception(
+                f"Unhandled exception composing wait message. Details: {exc}\nWaiting [{s}] seconds..."
+            )
+            print(_msg)
+
+    ## Pause
+    time.sleep(s)
 
 
 if __name__ == "__main__":
