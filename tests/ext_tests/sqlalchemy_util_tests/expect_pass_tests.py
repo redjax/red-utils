@@ -58,7 +58,15 @@ def test_sqla_create_base_metadata(
     sqla_sqlite_engine: sa.Engine,
     sqla_base: so.DeclarativeBase = TEST_BASE,
 ):
-    create_base_metadata(sqla_engine=sqla_sqlite_engine, sqla_base=sqla_base)
+    try:
+        create_base_metadata(sqla_engine=sqla_sqlite_engine, sqla_base=sqla_base)
+    except Exception as exc:
+        msg = Exception(
+            f"Unhandled exception creating test Base metadata. Details: {exc}"
+        )
+        log.error(msg)
+
+        raise msg
 
 
 @mark.sqla_utils

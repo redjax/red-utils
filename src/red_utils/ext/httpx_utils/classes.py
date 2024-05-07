@@ -4,7 +4,7 @@ from dataclasses import dataclass, field
 from typing import Union
 
 from red_utils.core.dataclass_utils import DictMixin
-from red_utils.validators.ext.httpx_validators import (
+from .validators import (
     valid_methods,
     validate_client,
     validate_headers,
@@ -15,6 +15,7 @@ from .constants import default_headers
 
 import httpx
 
+
 @dataclass
 class SimpleHTTPXClientBase:
     method: str | None = field(default="GET")
@@ -22,7 +23,7 @@ class SimpleHTTPXClientBase:
     timeout: int | None = field(default=5)
     data: Union[dict, str] | None = field(default=None)
 
-    def __post_init__(self):
+    def __post_init__(self):  # noqa: D105
         self.method = self.method.upper()
         validate_method(self.method)
         validate_headers(self.headers)
