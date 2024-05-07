@@ -5,7 +5,7 @@
 groups = ["default", "dev", "all", "fastapi", "http", "standard", "arrow", "data", "dataframes", "ci", "docs"]
 strategy = ["cross_platform"]
 lock_version = "4.4.1"
-content_hash = "sha256:8d30cfb0da4898bbd4f09f7685297fc32a28b111b2a507028e48f57426edfc56"
+content_hash = "sha256:fca7ae8464e73dccd465e7edeb30c1e68220f356618f00f51c26a916515b133f"
 
 [[package]]
 name = "annotated-types"
@@ -566,6 +566,20 @@ summary = "A pure-Python, bring-your-own-I/O implementation of HTTP/1.1"
 files = [
     {file = "h11-0.14.0-py3-none-any.whl", hash = "sha256:e3fe4ac4b851c468cc8363d500db52c2ead036020723024a109d37346efaa761"},
     {file = "h11-0.14.0.tar.gz", hash = "sha256:8f19fbbe99e72420ff35c00b27a34cb9937e902a8b810e2c88300c6f0a3b699d"},
+]
+
+[[package]]
+name = "hishel"
+version = "0.0.26"
+requires_python = ">=3.8"
+summary = "Persistent cache implementation for httpx and httpcore"
+dependencies = [
+    "httpx>=0.22.0",
+    "typing-extensions>=4.8.0",
+]
+files = [
+    {file = "hishel-0.0.26-py3-none-any.whl", hash = "sha256:63cd3fee495124e0ed3461b374c43eab3e9deb2f01ba72eafe36d7df5fcf8b46"},
+    {file = "hishel-0.0.26.tar.gz", hash = "sha256:f0ae2766214499cb0253a5ec7694f0d6e3835c9a35634356f8926fb7a1cf379e"},
 ]
 
 [[package]]

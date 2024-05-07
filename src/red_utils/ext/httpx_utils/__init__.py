@@ -13,3 +13,8 @@ from .validators import (
     validate_headers,
     validate_method,
 )
+from .controllers import HTTPXController
+from .transports import get_cache_transport
+from . import controllers
+from . import transports
+from . import encoders
