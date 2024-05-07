@@ -4,6 +4,8 @@ from dataclasses import dataclass, field
 from typing import Union
 
 from red_utils.core.dataclass_utils import DictMixin
+
+from .constants import default_headers
 from .validators import (
     valid_methods,
     validate_client,
@@ -11,10 +13,7 @@ from .validators import (
     validate_method,
 )
 
-from .constants import default_headers
-
 import httpx
-
 
 @dataclass
 class SimpleHTTPXClientBase:
