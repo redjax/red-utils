@@ -1,7 +1,8 @@
+from __future__ import annotations
+
 from pathlib import Path
 
 from pytest import mark, xfail
-
 
 @mark.httpx_utils
 def test_httpx_tmpdir(httpx_tmp_cache: Path):
