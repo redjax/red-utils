@@ -1,6 +1,6 @@
 [project]
 name = "red_utils"
-version = "0.2.18"
+version = "0.2.19"
 description = "Collection of utility scripts/functions that I use frequently."
 authors = [
     { name = "redjax", email = "none@none.com" },
@@ -28,6 +28,8 @@ standard = [
     "sqlalchemy>=2.0.25",
     "chardet>=5.2.0",
     "hishel>=0.0.26",
+    "chardet>=5.2.0",
+    "hishel>=0.0.26",
 ]
 all = [
     "diskcache>=5.6.3",
@@ -42,6 +44,8 @@ all = [
     "fastparquet>=2024.2.0",
     "pyarrow>=15.0.0",
     "ipykernel>=6.29.2",
+    "hishel>=0.0.26",
+    "chardet>=5.2.0",
     "hishel>=0.0.26",
     "chardet>=5.2.0",
 ]
@@ -123,15 +127,12 @@ shell = "pdm export -G ci --no-default -o requirements.ci.txt --without-hashes"
 [tool.pdm.scripts.export-docs]
 shell = "pdm export -G docs --no-default -o docs/requirements.txt --without-hashes"
 
-## BUMP.x.x
 [tool.pdm.scripts.create-major-release]
 shell = "pdm bump major && pdm bump tag && pdm lock && pdm build && git push --tags"
 
-## x.BUMP.x
 [tool.pdm.scripts.create-minor-release]
 shell = "pdm bump minor && pdm bump tag && pdm lock && pdm build && git push --tags"
 
-## x.x.BUMP
 [tool.pdm.scripts.create-micro-release]
 shell = "pdm bump micro && pdm bump tag && pdm lock && pdm build && git push --tags"
 
