@@ -4,7 +4,6 @@ import pendulum
 from pytest import fixture
 from red_utils.ext import time_utils
 
-
 @fixture
 def bad_ts_str() -> str:
     return "20023-12-17"
