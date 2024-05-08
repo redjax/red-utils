@@ -80,6 +80,46 @@ def export_json(
             )
 
 
+def extract_file_ext(path: Path = None) -> str:
+    """Extract full file extension from a Path.
+
+    Description:
+        Given a file with multiple file extensions, i.e. `file.tar.gz`,
+        this function will join all suffixes (`.tar`, `.gz`) into a single string.
+        A `Path.suffix` on its own only returns the last suffix (i.e. `.gz`).
+
+    Params:
+        path (Path): A `pathlib.Path` object to a file. Path is checked with `.is_file()`, skipping directories passed by mistake.
+
+    """
+    assert path, ValueError("Missing a file path")
+    assert isinstance(path, Path), TypeError(
+        f"path must be a pathlib.Path object. Got type: ({type(path)})"
+    )
+    if not path.is_file():
+        print(
+            ValueError(f"[WARNING] path should be a file, but {path} is a directory.")
+        )
+
+        return ""
+
+    ## Extract all suffixes from file path
+    suffixes: list[str] = path.suffixes
+
+    if len(suffixes) > 1:
+        ## Join suffixes, i.e. [".tar", ".gz"] -> ".tar.gz"
+        return "".join(suffixes)
+
+    elif len(suffixes) == 1:
+        ## Return [".suffix"] -> ".suffix"
+        return suffixes[0]
+
+    else:
+        ## No suffix(es) detected, return empty string
+
+        return ""
+
+
 def scan_dir(
     target: Union[str, Path] = None,
     as_str: bool = False,

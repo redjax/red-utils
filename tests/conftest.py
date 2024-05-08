@@ -9,4 +9,5 @@ pytest_plugins = [
     "tests.fixtures.std.uuid_fixtures",
     "tests.fixtures.ext.time_fixtures",
     "tests.fixtures.ext.sqla_fixtures",
+    "tests.fixtures.ext.httpx_fixtures",
 ]
