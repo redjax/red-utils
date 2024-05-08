@@ -9,9 +9,6 @@ from __future__ import annotations
 
 import pkgutil
 
-if pkgutil.find_loader("arrow"):
-    from . import arrow_utils
-
 if pkgutil.find_loader("pendulum"):
     from . import pendulum_utils
     from .pendulum_utils import get_ts

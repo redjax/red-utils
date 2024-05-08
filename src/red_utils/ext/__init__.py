@@ -16,7 +16,7 @@ from __future__ import annotations
 
 import pkgutil
 
-if pkgutil.find_loader("arrow") or pkgutil.find_loader("pendulum"):
+if pkgutil.find_loader("pendulum"):
     from . import time_utils
 
 if pkgutil.find_loader("loguru"):
