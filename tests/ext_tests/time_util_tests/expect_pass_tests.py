@@ -4,7 +4,6 @@ import pendulum
 from pytest import mark, xfail
 from red_utils.ext import time_utils
 
-
 @mark.time_utils
 def test_pendulum_ts(pendulum_now):
     assert pendulum_now is not None, "ts_str must not be None"
