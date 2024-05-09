@@ -5,7 +5,7 @@
 groups = ["default", "dev", "all", "fastapi", "http", "standard", "data", "dataframes", "ci", "docs"]
 strategy = ["cross_platform"]
 lock_version = "4.4.1"
-content_hash = "sha256:16e62e08ac6a775b1da90ae24001fb82d45130bf7f9bbd554383840e09580d24"
+content_hash = "sha256:16c665d5372a2eda7b8da897e658cadd331163b861cfee0f0341de1e3f8c7d71"
 
 [[package]]
 name = "annotated-types"
