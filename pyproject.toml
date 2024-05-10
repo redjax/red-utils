@@ -92,6 +92,7 @@ dev = [
     "pdm-bump>=0.7.3",
     "nox>=2023.4.22",
     "pytest-xdist>=3.5.0",
+    "vulture>=2.11",
 ]
 
 [tool.pdm.scripts.tests]
@@ -114,6 +115,9 @@ cmd = "black ."
 
 [tool.pdm.scripts.format]
 cmd = "ruff check . --fix"
+
+[tool.pdm.scripts.vulture-check]
+cmd = "vulture src/red_utils --min-confidence 100"
 
 [tool.pdm.scripts.export]
 shell = "pdm export --prod --no-default -o requirements.txt --without-hashes"

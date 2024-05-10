@@ -210,3 +210,16 @@ def build_docs(session: nox.Session, pdm_ver: str):
 #                         f"Unhandled exception copying file from '{src}' to '{dest}'. Details: {exc}"
 #                     )
 #                     print(f"[ERROR] {msg}")
+
+
+@nox.session(python=[DEFAULT_PYTHON], name="vulture-check")
+def run_vulture_check(session: nox.Session):
+    session.install(f"vulture")
+
+    print("Checking for dead code with vulture")
+    try:
+        session.run("vulture", "src/red_utils", "--min-confidence", "100")
+    except Exception as exc:
+        print(
+            f"\nNote: For some reason, this always 'fails' with exit code 3. Vulture still works when running in a Nox session, it seems this error can be ignored."
+        )
