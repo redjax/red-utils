@@ -331,3 +331,16 @@ def radon_halstead(session: nox.Session):
         # "-O",
         # "radon_halstead_results.json",
     )
+
+
+@nox.session(python=[DEFAULT_PYTHON], name="xenon")
+def xenon_scan(session: nox.Session):
+    session.install("xenon")
+
+    print("Scanning complexity with xenon")
+    try:
+        session.run("xenon", "-b", "B", "-m", "C", "-a", "C", "src/red_utils")
+    except Exception as exc:
+        print(
+            f"\nNote: For some reason, this always 'fails' with exit code 1. Xenon still works when running in a Nox session, it seems this error can be ignored."
+        )

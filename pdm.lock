@@ -5,7 +5,7 @@
 groups = ["default", "dev", "all", "fastapi", "http", "standard", "data", "dataframes", "ci", "docs"]
 strategy = ["cross_platform"]
 lock_version = "4.4.1"
-content_hash = "sha256:5191019009eec0bc3794a9ff1a14db290294316a549136ab65407b8cde7dabac"
+content_hash = "sha256:4255f42b19972148edb29724ca1babfaed9013fca77c688c1dfc7d593f7c34fc"
 
 [[package]]
 name = "annotated-types"
@@ -2595,6 +2595,20 @@ summary = "A small Python utility to set file creation time on Windows"
 files = [
     {file = "win32_setctime-1.1.0-py3-none-any.whl", hash = "sha256:231db239e959c2fe7eb1d7dc129f11172354f98361c4fa2d6d2d7e278baa8aad"},
     {file = "win32_setctime-1.1.0.tar.gz", hash = "sha256:15cf5750465118d6929ae4de4eb46e8edae9a5634350c01ba582df868e932cb2"},
+]
+
+[[package]]
+name = "xenon"
+version = "0.9.1"
+summary = "Monitor code metrics for Python on your CI server"
+dependencies = [
+    "PyYAML<7.0,>=4.2b1",
+    "radon<7,>=4",
+    "requests<3.0,>=2.0",
+]
+files = [
+    {file = "xenon-0.9.1-py2.py3-none-any.whl", hash = "sha256:b2888a5764ebd57a1f9f1624fde86e8303cb30c686e492f19d98867c458f7870"},
+    {file = "xenon-0.9.1.tar.gz", hash = "sha256:d6745111c3e258b749a4fd424b1b899d99ea183cea232365ee2f88fe7d80c03b"},
 ]
 
 [[package]]

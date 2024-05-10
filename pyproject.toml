@@ -96,6 +96,7 @@ dev = [
     "bandit[toml]>=1.7.8",
     "detect-secrets>=1.5.0",
     "radon>=6.0.1",
+    "xenon>=0.9.1",
 ]
 
 [tool.pdm.scripts.tests]
@@ -142,7 +143,10 @@ cmd = "radon raw src/red_utils -sjO radon_raw_results.json"
 cmd = "radon mi src/red_utils -n C -x F -s -j -O radon_maintainability_results.json"
 
 [tool.pdm.scripts.radon-halstead]
-cmd = "pdm run radon hal src red_utils -f -j -O radon_halstead_results.json"
+cmd = "radon hal src red_utils -f -j -O radon_halstead_results.json"
+
+[tool.pdm.scripts.xenon-scan]
+cmd = "xenon -b B -m C -a C src/red_utils"
 
 [tool.pdm.scripts.export]
 shell = "pdm export --prod --no-default -o requirements.txt --without-hashes"
