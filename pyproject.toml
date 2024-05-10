@@ -93,6 +93,7 @@ dev = [
     "nox>=2023.4.22",
     "pytest-xdist>=3.5.0",
     "vulture>=2.11",
+    "bandit[toml]>=1.7.8",
 ]
 
 [tool.pdm.scripts.tests]
@@ -118,6 +119,13 @@ cmd = "ruff check . --fix"
 
 [tool.pdm.scripts.vulture-check]
 cmd = "vulture src/red_utils --min-confidence 100"
+
+[tool.pdm.scripts.bandit-check]
+cmd = "bandit -r src/red_utils"
+
+[tool.bandit]
+exclude_dirs = ["tests"]
+skips = ["B324"]
 
 [tool.pdm.scripts.export]
 shell = "pdm export --prod --no-default -o requirements.txt --without-hashes"

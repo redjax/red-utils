@@ -223,3 +223,31 @@ def run_vulture_check(session: nox.Session):
         print(
             f"\nNote: For some reason, this always 'fails' with exit code 3. Vulture still works when running in a Nox session, it seems this error can be ignored."
         )
+
+
+@nox.session(python=[DEFAULT_PYTHON], name="bandit-check")
+def run_bandit_check(session: nox.Session):
+    session.install(f"bandit")
+
+    print("Checking code security with bandit")
+    try:
+        session.run("bandit", "-r", "src/red_utils")
+    except Exception as exc:
+        print(
+            f"\nNote: For some reason, this always 'fails' with exit code 1. Bandit still works when running in a Nox session, it seems this error can be ignored."
+        )
+
+
+@nox.session(python=[DEFAULT_PYTHON], name="bandit-baseline")
+def run_bandit_baseline(session: nox.Session):
+    session.install(f"bandit")
+
+    print("Getting bandit baseline")
+    try:
+        session.run(
+            "bandit", "-r", "src/red_utils", "-f", "json", "-o", "bandit_baseline.json"
+        )
+    except Exception as exc:
+        print(
+            f"\nNote: For some reason, this always 'fails' with exit code 1. Bandit still works when running in a Nox session, it seems this error can be ignored."
+        )
