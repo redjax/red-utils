@@ -317,13 +317,11 @@ def radon_maintainability(session: nox.Session):
 
 
 @nox.session(python=[DEFAULT_PYTHON], name="radon-halstead")
-def radon_maintainability(session: nox.Session):
+def radon_halstead(session: nox.Session):
     session.install("radon")
 
     print("Running radon Halstead metrics scan")
     session.run(
-        "pdm",
-        "run",
         "radon",
         "hal",
         "src",
