@@ -259,3 +259,77 @@ def scan_for_secrets(session: nox.Session):
 
     # print("Scanning project for secrets")
     session.run("detect-secrets", "scan")
+
+
+@nox.session(python=[DEFAULT_PYTHON], name="radon-code-complexity")
+def radon_code_complexity(session: nox.Session):
+    session.install("radon")
+
+    print("Getting code complexity score")
+    session.run(
+        "radon",
+        "cc",
+        "src/red_utils",
+        "-s",
+        "-a",
+        "--total-average",
+        "-nc",
+        # "-j",
+        # "-O",
+        # "radon_complexity_results.json",
+    )
+
+
+@nox.session(python=[DEFAULT_PYTHON], name="radon-raw")
+def radon_raw(session: nox.Session):
+    session.install("radon")
+
+    print("Running radon raw scan")
+    session.run(
+        "radon",
+        "raw",
+        "src/red_utils",
+        "-s",
+        # "-j",
+        # "-O",
+        # "radon_raw_results.json"
+    )
+
+
+@nox.session(python=[DEFAULT_PYTHON], name="radon-maintainability")
+def radon_maintainability(session: nox.Session):
+    session.install("radon")
+
+    print("Running radon maintainability scan")
+    session.run(
+        "radon",
+        "mi",
+        "src/red_utils",
+        "-n",
+        "C",
+        "-x",
+        "F",
+        "-s",
+        # "-j",
+        # "-O",
+        # "radon_maitinability_results.json",
+    )
+
+
+@nox.session(python=[DEFAULT_PYTHON], name="radon-halstead")
+def radon_maintainability(session: nox.Session):
+    session.install("radon")
+
+    print("Running radon Halstead metrics scan")
+    session.run(
+        "pdm",
+        "run",
+        "radon",
+        "hal",
+        "src",
+        "red_utils",
+        "-f",
+        # "-j",
+        # "-O",
+        # "radon_halstead_results.json",
+    )

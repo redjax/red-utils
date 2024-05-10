@@ -95,6 +95,7 @@ dev = [
     "vulture>=2.11",
     "bandit[toml]>=1.7.8",
     "detect-secrets>=1.5.0",
+    "radon>=6.0.1",
 ]
 
 [tool.pdm.scripts.tests]
@@ -130,6 +131,18 @@ skips = ["B324"]
 
 [tool.pdm.scripts.scan-secrets]
 cmd = "detect-secrets scan > .secrets.baseline"
+
+[tool.pdm.scripts.radon-complexity]
+cmd = "radon cc src/red_utils -s -a --total-average -nc -j -O radon_complexity_results.json"
+
+[tool.pdm.scripts.radon-raw]
+cmd = "radon raw src/red_utils -sjO radon_raw_results.json"
+
+[tool.pdm.scripts.radon-maintainability]
+cmd = "radon mi src/red_utils -n C -x F -s -j -O radon_maintainability_results.json"
+
+[tool.pdm.scripts.radon-halstead]
+cmd = "pdm run radon hal src red_utils -f -j -O radon_halstead_results.json"
 
 [tool.pdm.scripts.export]
 shell = "pdm export --prod --no-default -o requirements.txt --without-hashes"
