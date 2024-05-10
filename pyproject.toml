@@ -97,6 +97,7 @@ dev = [
     "detect-secrets>=1.5.0",
     "radon>=6.0.1",
     "xenon>=0.9.1",
+    "memray>=1.12.0",
 ]
 
 [tool.pdm.scripts.tests]

@@ -189,3 +189,6 @@ radon_raw_results.json
 radon_complexity_results.json
 radon_maintainability_results.json
 radon_halstead_results.json
+
+## Memray
+memray-*
