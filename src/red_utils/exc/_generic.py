@@ -5,6 +5,7 @@ from typing import Any
 
 from .base import CustomExceptionBase
 
+
 @dataclass
 class CustomException(CustomExceptionBase):
     """A generic Exception.

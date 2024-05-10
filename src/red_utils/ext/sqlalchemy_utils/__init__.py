@@ -23,31 +23,35 @@ create/import an `Engine`, and immediately run the metadata create function.
 
 from __future__ import annotations
 
-from . import base, connection_models, constants, utils
+from red_utils.exc import CustomModuleNotFoundError, MissingDependencyException
+from importlib.util import find_spec
 
-## Import SQLAlchemy dependencies
-from .base import Base
+if find_spec("sqlalchemy"):
+    from . import base, connection_models, constants, utils
 
-## Import SQLAlchemy connection classes
-from .connection_models import (
-    saConnectionGeneric,
-    saMSSQLConnection,
-    saMySQLConnection,
-    saPGConnection,
-    saSQLiteConnection,
-)
+    ## Import SQLAlchemy dependencies
+    from .base import Base
 
-## Import constants
-from .constants import valid_db_types
-from .custom_types import CompatibleUUID
-from .mixins import TableNameMixin, TimestampMixin
+    ## Import SQLAlchemy connection classes
+    from .connection_models import (
+        saConnectionGeneric,
+        saMSSQLConnection,
+        saMySQLConnection,
+        saPGConnection,
+        saSQLiteConnection,
+    )
 
-## Import custom SQLAlchemy utils
-from .utils import (
-    create_base_metadata,
-    debug_metadata_obj,
-    generate_metadata,
-    get_engine,
-    get_session_pool,
-    validate_db_type,
-)
+    ## Import constants
+    from .constants import valid_db_types
+    from .custom_types import CompatibleUUID
+    from .mixins import TableNameMixin, TimestampMixin
+
+    ## Import custom SQLAlchemy utils
+    from .utils import (
+        create_base_metadata,
+        debug_metadata_obj,
+        generate_metadata,
+        get_engine,
+        get_session_pool,
+        validate_db_type,
+    )
