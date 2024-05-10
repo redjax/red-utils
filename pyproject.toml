@@ -94,6 +94,7 @@ dev = [
     "pytest-xdist>=3.5.0",
     "vulture>=2.11",
     "bandit[toml]>=1.7.8",
+    "detect-secrets>=1.5.0",
 ]
 
 [tool.pdm.scripts.tests]
@@ -126,6 +127,9 @@ cmd = "bandit -r src/red_utils"
 [tool.bandit]
 exclude_dirs = ["tests"]
 skips = ["B324"]
+
+[tool.pdm.scripts.scan-secrets]
+cmd = "detect-secrets scan > .secrets.baseline"
 
 [tool.pdm.scripts.export]
 shell = "pdm export --prod --no-default -o requirements.txt --without-hashes"

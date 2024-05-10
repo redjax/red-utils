@@ -181,3 +181,5 @@ cython_debug/
 .pdm-python
 
 bandit_baseline.json
+
+.secrets.baseline

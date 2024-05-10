@@ -251,3 +251,11 @@ def run_bandit_baseline(session: nox.Session):
         print(
             f"\nNote: For some reason, this always 'fails' with exit code 1. Bandit still works when running in a Nox session, it seems this error can be ignored."
         )
+
+
+@nox.session(python=[DEFAULT_PYTHON], name="detect-secrets")
+def scan_for_secrets(session: nox.Session):
+    session.install("detect-secrets")
+
+    # print("Scanning project for secrets")
+    session.run("detect-secrets", "scan")

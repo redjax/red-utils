@@ -5,7 +5,7 @@
 groups = ["default", "dev", "all", "fastapi", "http", "standard", "data", "dataframes", "ci", "docs"]
 strategy = ["cross_platform"]
 lock_version = "4.4.1"
-content_hash = "sha256:a55996292d3806b0a3f37e93c481770e70feb8ce855659462bc6cdaa9f00463d"
+content_hash = "sha256:15d307eaae78bf82f8e43ea4acea9d104917e8d7c0f491c0eae411ae2986fa2a"
 
 [[package]]
 name = "annotated-types"
@@ -382,6 +382,19 @@ dependencies = [
 files = [
     {file = "dep_logic-0.2.0-py3-none-any.whl", hash = "sha256:af439c2acaf7522dd321a71f30e0c4fd59b7553eb99967af07d53320902cde39"},
     {file = "dep_logic-0.2.0.tar.gz", hash = "sha256:cff502b515aff2d413d19d6afc70174fc67da19e821be4a9b68460ccee2514c9"},
+]
+
+[[package]]
+name = "detect-secrets"
+version = "1.5.0"
+summary = "Tool for detecting secrets in the codebase"
+dependencies = [
+    "pyyaml",
+    "requests",
+]
+files = [
+    {file = "detect_secrets-1.5.0-py3-none-any.whl", hash = "sha256:e24e7b9b5a35048c313e983f76c4bd09dad89f045ff059e354f9943bf45aa060"},
+    {file = "detect_secrets-1.5.0.tar.gz", hash = "sha256:6bb46dcc553c10df51475641bb30fd69d25645cc12339e46c824c1e0c388898a"},
 ]
 
 [[package]]
