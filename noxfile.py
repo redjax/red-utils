@@ -130,6 +130,18 @@ def export_requirements(session: nox.Session, pdm_ver: str):
         "--without-hashes",
     )
 
+    print("Exporting test requirements")
+    session.run(
+        "pdm",
+        "export",
+        "-G",
+        "tests",
+        "--no-default",
+        "-o",
+        f"{REQUIREMENTS_OUTPUT_DIR}/requirements.tests.txt",
+        "--without-hashes",
+    )
+
     # print("Exporting CI requirements")
     # session.run(
     #     "pdm",
@@ -145,8 +157,7 @@ def export_requirements(session: nox.Session, pdm_ver: str):
 @nox.session(python=PY_VERSIONS, name="tests")
 @nox.parametrize("pdm_ver", [PDM_VER])
 def run_tests(session: nox.Session, pdm_ver: str):
-    session.install(f"pdm>={pdm_ver}")
-    session.run("pdm", "install")
+    session.install("-r", f"{REQUIREMENTS_OUTPUT_DIR}/requirements.tests.txt")
 
     print("Running Pytest tests")
     session.run(
@@ -155,9 +166,9 @@ def run_tests(session: nox.Session, pdm_ver: str):
         "pytest",
         "-n",
         "auto",
-        "--tb=auto",
+        "--tb=native",
         "-v",
-        "-rsXxfP",
+        "-rasXxfP",
     )
 
 

@@ -1,6 +1,4 @@
-from __future__ import annotations
-
 from red_utils.ext import sqlalchemy_utils
-from sqlalchemy.orm.decl_api import DeclarativeAttributeIntercept
+import sqlalchemy.orm as so
 
-TEST_BASE: DeclarativeAttributeIntercept = sqlalchemy_utils.Base
+TEST_BASE: so.DeclarativeBase = sqlalchemy_utils.Base

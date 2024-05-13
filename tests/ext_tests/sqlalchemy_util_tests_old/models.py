@@ -9,7 +9,6 @@ from red_utils.std import uuid_utils
 import sqlalchemy as sa
 import sqlalchemy.orm as so
 
-
 class TestUserModel(
     TEST_BASE,
     sqlalchemy_utils.mixins.TableNameMixin,
