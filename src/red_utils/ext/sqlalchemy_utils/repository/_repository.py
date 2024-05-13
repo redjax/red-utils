@@ -14,6 +14,11 @@ class RepositoryBase(t.Generic[T], metaclass=abc.ABCMeta):
         raise NotImplementedError()
 
     @abc.abstractmethod
+    def update(self, entity: T):
+        """Update existing entity."""
+        raise NotImplementedError()
+
+    @abc.abstractmethod
     def remove(self, entity: T):
         """Remove existing entity from database."""
         raise NotImplementedError()

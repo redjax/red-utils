@@ -1,18 +1,16 @@
-from __future__ import annotations
-
+from _collections_abc import dict_keys
 import random
 from typing import Type
 
 from .base import TEST_BASE
 from .methods import (
-    create_base_metadata,
+    init_test_db,
     get_list_user_schemas,
     get_user_schema,
-    initialize_test_db,
-    insert_testusermodel,
 )
 from .models import EX_TESTUSERMODEL_FULL, EX_TESTUSERMODEL_LIST, TestUserModel
 from .schemas import TestUser, TestUserOut, TestUserUpdate
+from .repository import TestUserRepository
 
 from loguru import logger as log
 from pytest import mark, xfail
@@ -29,11 +27,17 @@ init_logger([LoguruSinkStdOut(level="DEBUG").as_dict()])
 @mark.sqla_utils
 def test_user_schema():
     user: TestUser = get_user_schema()
+
+    assert user, ValueError("TestUser should not have been None")
+    assert isinstance(user, TestUser), TypeError(
+        f"user should have been a TestUser object. Got type: ({type(user)})"
+    )
+
     log.success(f"TestUser schema: {user}")
 
 
 @mark.sqla_utils
-def test_convert_user_schema_to_model():
+def test_convert_user_schema_to_model() -> None:
     user: TestUser = get_user_schema()
 
     try:
@@ -55,11 +59,13 @@ def test_convert_user_schema_to_model():
 
 @mark.sqla_utils
 def test_sqla_create_base_metadata(
-    sqla_sqlite_engine: sa.Engine,
+    sqla_db_settings: sqlalchemy_utils.DBSettings,
     sqla_base: so.DeclarativeBase = TEST_BASE,
-):
+) -> None:
     try:
-        create_base_metadata(sqla_engine=sqla_sqlite_engine, sqla_base=sqla_base)
+        sqlalchemy_utils.create_base_metadata(
+            engine=sqla_db_settings.get_engine(), base_obj=sqla_base
+        )
     except Exception as exc:
         msg = Exception(
             f"Unhandled exception creating test Base metadata. Details: {exc}"
@@ -71,11 +77,14 @@ def test_sqla_create_base_metadata(
 
 @mark.sqla_utils
 def test_sqla_list_tables(
-    sqla_sqlite_engine, sqla_base: so.DeclarativeBase = TEST_BASE
-):
+    sqla_db_settings: sqlalchemy_utils.DBSettings,
+    sqla_base: so.DeclarativeBase = TEST_BASE,
+) -> None:
     try:
-        create_base_metadata(sqla_engine=sqla_sqlite_engine, sqla_base=sqla_base)
-        tables = sqla_base.metadata.tables.keys()
+        sqlalchemy_utils.create_base_metadata(
+            engine=sqla_db_settings.get_engine(), base_obj=sqla_base
+        )
+        tables: dict_keys[str, sa.Table] = sqla_base.metadata.tables.keys()
 
         log.info(f"Database tables: {tables}")
 
@@ -89,9 +98,19 @@ def test_sqla_list_tables(
 
 
 @mark.sqla_utils
-def test_sqla_sqlite_session_pool(sqla_session: so.sessionmaker[so.Session]):
-    with sqla_session() as session:
-        session.expire_on_commit = False
+def test_sqla_sqlite_session_pool(
+    sqla_db_settings: sqlalchemy_utils.DBSettings = sqlalchemy_utils.DBSettings,
+):
+    assert sqla_db_settings, ValueError("Missing DBSettings object")
+    # assert isinstance(sqla_db_settings, sqlalchemy_utils.DBSettings), TypeError(
+    #     f"sqla_db_settings should be a DBSettings object. Got type: ({type(sqla_db_settings)})"
+    # )
+
+    session_pool: so.sessionmaker[so.Session] = sqlalchemy_utils.get_session_pool(
+        engine=sqla_db_settings.get_engine(), autoflush=True
+    )
+
+    with session_pool() as session:
         session.execute(sa.text("SELECT 1"))
 
 
@@ -110,14 +129,17 @@ def test_sqla_create_usermodel(sqla_usermodel: TestUserModel = EX_TESTUSERMODEL_
 
 @mark.sqla_utils
 def test_sqla_insert_user(
-    sqla_session: so.sessionmaker[so.Session],
-    sqla_sqlite_engine: sa.Engine,
-    sqla_base: so.DeclarativeBase = TEST_BASE,
+    sqla_db_settings: sqlalchemy_utils.DBSettings,
     sqla_usermodel=EX_TESTUSERMODEL_FULL,
 ):
-    with sqla_session() as session:
+    session_pool: so.sessionmaker[so.Session] = sqlalchemy_utils.get_session_pool(
+        engine=sqla_db_settings.get_engine(), autoflush=True
+    )
+
+    with session_pool() as session:
+        repo = TestUserRepository(session=session)
         try:
-            session.add(sqla_usermodel)
+            repo.add(sqla_usermodel)
         except Exception as exc:
             msg = Exception(
                 f"Unhandled exception inserting TestUserModel into database. TestUserModel: {sqla_usermodel}. Details: {exc}"
@@ -125,34 +147,26 @@ def test_sqla_insert_user(
             log.error(msg)
 
             raise msg
-    # try:
-    #     initialize_test_db(
-    #         engine=sqla_sqlite_engine, base=sqla_base, insert_models=[sqla_usermodel]
-    #     )
-
-    # except Exception as exc:
-    #     msg = Exception(
-    #         f"Unhandled exception inserting TestUserModel into database. Details: {exc}"
-    #     )
-    #     log.error(msg)
-
-    #     raise msg
 
 
 @mark.sqla_utils
 def test_sqla_select_all_users(
-    sqla_session: so.sessionmaker[so.Session],
-    sqla_sqlite_engine: so.sessionmaker[so.Session],
+    sqla_db_settings: sqlalchemy_utils.DBSettings,
     sqla_base: so.DeclarativeBase = TEST_BASE,
     sqla_usermodels: list[TestUserModel] = EX_TESTUSERMODEL_FULL,
 ):
-    initialize_test_db(
-        engine=sqla_sqlite_engine, base=sqla_base, insert_models=[sqla_usermodels]
+    init_test_db(
+        db_settings=sqla_db_settings, base=sqla_base, insert_models=[sqla_usermodels]
     )
 
-    with sqla_session() as session:
-        session.expire_on_commit = False
-        users = session.query(TestUserModel).all()
+    session_pool: so.sessionmaker[so.Session] = sqlalchemy_utils.get_session_pool(
+        engine=sqla_db_settings.get_engine(), autoflush=True
+    )
+
+    with session_pool() as session:
+        repo = TestUserRepository(session=session)
+
+        users: list[TestUserModel] = repo.get_all()
         log.info(f"All TestUserModels in database ({type(users)}): {users}")
 
         for user in users:
@@ -168,83 +182,24 @@ def test_sqla_select_all_users(
 
 
 @mark.sqla_utils
-def test_update_user(
-    sqla_session: so.sessionmaker[so.Session],
-    sqla_sqlite_engine: so.sessionmaker[so.Session],
-    sqla_base: so.DeclarativeBase = TEST_BASE,
-    sqla_usermodels: TestUserModel = EX_TESTUSERMODEL_LIST,
-):
-    initialize_test_db(
-        engine=sqla_sqlite_engine, base=sqla_base, insert_models=sqla_usermodels
-    )
-
-    with sqla_session() as session:
-        for usermodel in sqla_usermodels:
-            session.add(usermodel)
-
-            session.commit()
-
-    with sqla_session() as session:
-        try:
-            usermodels: list[TestUserModel] = session.query(TestUserModel).all()
-            assert usermodels is not None, ValueError(
-                "usermodels should not have been None"
-            )
-            assert isinstance(usermodels, list), TypeError(
-                f"usermodels should have been a non-empty list."
-            )
-            assert len(usermodels) > 0, ValueError("usermodels list cannot be empty")
-
-            rand_index: int = random.randint(0, len(usermodels) - 1)
-            usermodel: TestUserModel = usermodels[rand_index]
-
-            log.info(f"SELECT TestUserModel: {usermodel.__dict__}")
-        except Exception as exc:
-            raise Exception(
-                f"Unhandled exception selecting TestUserModel from database. Details: {exc}"
-            )
-
-        userschema: TestUserUpdate = TestUserUpdate.model_validate(usermodel)
-
-        log.info(f"User schema before update: {userschema}")
-        userschema.description = "This is an updated description!"
-        log.info(f"User schema after update: {userschema}")
-
-        for field, value in userschema:
-            setattr(usermodel, field, value)
-
-        log.info(f"Updated TestUserModel: {usermodel.__dict__}")
-
-        try:
-            session.commit()
-        except Exception as exc:
-            raise Exception(
-                f"Unhandled exception updating User with ID [{userschema.id}]. Details: {exc}"
-            )
-
-        updated_usermodel = (
-            session.query(TestUserModel)
-            .where(TestUserModel.user_id == usermodel.user_id)
-            .one()
-        )
-        updated_userschema: TestUserOut = TestUserOut.model_validate(updated_usermodel)
-        log.info(f"SELECT updated TestUserModel: {updated_userschema}")
-
-
-@mark.sqla_utils
 def test_delete_user(
-    sqla_session: so.sessionmaker[so.Session],
-    sqla_sqlite_engine: so.sessionmaker[so.Session],
+    sqla_db_settings: sqlalchemy_utils.DBSettings,
     sqla_base: so.DeclarativeBase = TEST_BASE,
     sqla_usermodels: TestUserModel = EX_TESTUSERMODEL_LIST,
 ):
-    initialize_test_db(
-        engine=sqla_sqlite_engine, base=sqla_base, insert_models=sqla_usermodels
+    init_test_db(
+        db_settings=sqla_db_settings, base=sqla_base, insert_models=[sqla_usermodels]
     )
 
-    with sqla_session() as session:
+    session_pool: so.sessionmaker[so.Session] = sqlalchemy_utils.get_session_pool(
+        engine=sqla_db_settings.get_engine(), autoflush=True
+    )
+
+    with session_pool() as session:
+        repo = TestUserRepository(session=session())
+
         try:
-            usermodels: list[TestUserModel] = session.query(TestUserModel).all()
+            usermodels: list[TestUserModel] = repo.get_all()
         except Exception as exc:
             raise Exception(
                 f"Unhandled exception selecting TestUserModel from database. Details: {exc}"
@@ -258,7 +213,7 @@ def test_delete_user(
         log.info(f"Deleting User: {userschema}")
 
         try:
-            session.delete(usermodel)
+            repo.remove(usermodel)
             log.success(f"Deleted TestUserModel with ID [{usermodel.user_id}]")
         except Exception as exc:
             msg = Exception(
@@ -268,4 +223,34 @@ def test_delete_user(
 
             raise msg
 
-        session.commit()
+
+def test_update_user(
+    sqla_db_settings: sqlalchemy_utils.DBSettings,
+    sqla_base: so.DeclarativeBase = TEST_BASE,
+    sqla_usermodels: TestUserModel = EX_TESTUSERMODEL_LIST,
+):
+    init_test_db(
+        db_settings=sqla_db_settings, base=sqla_base, insert_models=[sqla_usermodels]
+    )
+
+    session_pool: so.sessionmaker[so.Session] = sqlalchemy_utils.get_session_pool(
+        engine=sqla_db_settings.get_engine(), autoflush=True
+    )
+
+    with session_pool() as session:
+        repo = TestUserRepository(session=session())
+
+        usermodels: list[TestUserModel] = repo.get_all()
+
+        assert usermodels is not None, ValueError(
+            "usermodels should not have been None"
+        )
+        assert isinstance(usermodels, list), TypeError(
+            f"usermodels should have been a non-empty list."
+        )
+        assert len(usermodels) > 0, ValueError("usermodels list cannot be empty")
+
+        rand_index: int = random.randint(0, len(usermodels) - 1)
+        usermodel: TestUserModel = usermodels[rand_index]
+
+        log.info(f"SELECT TestUserModel: {usermodel.__dict__}")

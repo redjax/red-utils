@@ -105,7 +105,7 @@ class DBSettings:
             )
             raise msg
 
-    def get_engine(self) -> sa.Engine:
+    def get_engine(self, echo_override: bool | None = None) -> sa.Engine:
         """Build & return a SQLAlchemy `Engine`.
 
         Returns:
@@ -117,10 +117,15 @@ class DBSettings:
             f"db_uri must be of type sqlalchemy.URL. Got type: ({type(self.db_uri)})"
         )
 
+        if echo_override is not None:
+            _echo: bool = echo_override
+        else:
+            _echo: bool = self.echo
+
         try:
             engine: sa.Engine = sa.create_engine(
                 url=self.get_db_uri().render_as_string(hide_password=False),
-                echo=self.echo,
+                echo=_echo,
             )
 
             return engine
