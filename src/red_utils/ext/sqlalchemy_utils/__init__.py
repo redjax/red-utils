@@ -27,10 +27,13 @@ from red_utils.exc import CustomModuleNotFoundError, MissingDependencyException
 from importlib.util import find_spec
 
 if find_spec("sqlalchemy"):
-    from . import base, connection_models, constants, utils
+    from . import base, connection_models, constants, utils, repository
 
     ## Import SQLAlchemy dependencies
     from .base import Base
+    from .repository import RepositoryBase
+    from .db_config import DBSettings
+    from ._depends import get_db
 
     ## Import SQLAlchemy connection classes
     from .connection_models import (
