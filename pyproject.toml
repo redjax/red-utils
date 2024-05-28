@@ -51,6 +51,7 @@ all = [
     "chardet>=5.2.0",
     "hishel>=0.0.26",
     "chardet>=5.2.0",
+    "rich>=13.7.1",
 ]
 fastapi = [
     "fastapi>=0.109.0",
