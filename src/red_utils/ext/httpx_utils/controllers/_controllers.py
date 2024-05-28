@@ -263,8 +263,8 @@ class HTTPXController(AbstractContextManager):
                 auth=auth,
                 follow_redirects=self.follow_redirects,
             )
-            print(
-                f"[DEBUG] URL: {request.url}, Response: [{res.status_code}: {res.reason_phrase}]"
+            log.debug(
+                f"URL: {request.url}, Response: [{res.status_code}: {res.reason_phrase}]"
             )
 
             return res
@@ -311,9 +311,8 @@ class HTTPXController(AbstractContextManager):
             msg = Exception(
                 f"Unhandled exception detecting response content's encoding. Details: {exc}"
             )
-            print(f"[ERROR] {msg}")
-            print(f"[TRACE] {exc}")
-            print("[WARNING] Defaulting to 'utf-8'")
+            log.error(msg)
+            log.warning("Defaulting to 'utf-8'")
 
             decode_charset: str = "utf-8"
 
@@ -326,12 +325,12 @@ class HTTPXController(AbstractContextManager):
             msg = Exception(
                 f"[Attempt 1/2] Unhandled exception decoding response content. Details: {exc}"
             )
-            print(f"[WARNING] {msg}")
+            log.warning(msg)
 
             if not res.encoding == "utf-8":
                 ## Try decoding again, using response's .encoding param
-                print(
-                    f"[WARNING] Retrying response content decode with encoding '{res.encoding}'"
+                log.warning(
+                    f"Retrying response content decode with encoding '{res.encoding}'"
                 )
                 try:
                     _decode = res.content.decode(res.encoding)
@@ -339,15 +338,15 @@ class HTTPXController(AbstractContextManager):
                     inner_msg = Exception(
                         f"[Attempt 2/2] Unhandled exception decoding response content. Details: {exc}"
                     )
-                    print(f"[ERROR] {inner_msg}")
+                    log.error(inner_msg)
 
                     raise inner_msg
 
             else:
                 ## Decoding with utf-8 failed, attempt with ISO-8859-1
                 #  https://en.wikipedia.org/wiki/ISO/IEC_8859-1
-                print(
-                    "[WARNING] Detected UTF-8 encoding, but decoding as UTF-8 failed. Retrying with encoding ISO-8859-1."
+                log.warning(
+                    "Detected UTF-8 encoding, but decoding as UTF-8 failed. Retrying with encoding ISO-8859-1."
                 )
                 try:
                     _decode = res.content.decode("ISO-8859-1")
