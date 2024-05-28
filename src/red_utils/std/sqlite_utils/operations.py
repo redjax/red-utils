@@ -1,12 +1,16 @@
-"""Create an empty sqlite database.
-"""
+"""Methods for interacting with a SQLite database."""
 
 from __future__ import annotations
+
+import logging
+
+log = logging.getLogger("red_log.std.sqlite_utils")
 
 from pathlib import Path
 from typing import Union
 
 from .schemas import SQLiteDB
+
 
 def init_sqlite_db(db_definition: SQLiteDB = None) -> bool:
     """Initialize an empty SQLite database.
@@ -26,7 +30,7 @@ def init_sqlite_db(db_definition: SQLiteDB = None) -> bool:
         raise ValueError("Missing SQLiteDB object.")
 
     if db_definition.exists:
-        print(f"Database already exists at {db_definition.db_path}")
+        log.warning(f"Database already exists at {db_definition.db_path}")
         return False
 
     try:
@@ -38,7 +42,7 @@ def init_sqlite_db(db_definition: SQLiteDB = None) -> bool:
         msg = Exception(
             f"Unhandled exception initializing empty SQLite database. Details: {exc}"
         )
-        print(msg)
+        log.error(msg)
 
         return False
 
@@ -57,9 +61,12 @@ def get_demo_db() -> SQLiteDB:
         _db: SQLiteDB = SQLiteDB()
         return _db
     except Exception as exc:
-        raise Exception(
+        msg = Exception(
             f"Unhandled exception initializing default database. Details: {exc}"
         )
+        log.error(msg)
+
+        raise exc
 
 
 def get_sqlite_db(name: str = None, location: Union[str, Path] = None) -> SQLiteDB:
@@ -100,6 +107,6 @@ def get_sqlite_db(name: str = None, location: Union[str, Path] = None) -> SQLite
 
 if __name__ == "__main__":
     demo_db: SQLiteDB = SQLiteDB()
-    print(demo_db.stat_str)
+    log.info(demo_db.stat_str)
 
     init_sqlite_db(demo_db)

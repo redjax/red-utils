@@ -2,7 +2,12 @@
 
 from __future__ import annotations
 
+import logging
+
+log = logging.getLogger("red_utils.std.dict_utils.validators")
+
 from typing import Any
+
 
 def validate_dict(_dict: dict[str, str] = None) -> dict[Any, Any]:
     """Validate an input dict.

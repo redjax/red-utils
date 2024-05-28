@@ -1,5 +1,9 @@
 from __future__ import annotations
 
+import logging
+
+log = logging.getLogger("red_utils.std.time_utils")
+
 import datetime
 from datetime import (
     datetime as dt,
@@ -9,6 +13,7 @@ import time
 from typing import Union
 
 from .constants import TIME_FMT_12H, TIME_FMT_24H
+
 
 def datetime_as_str(ts: dt = None, format: str = TIME_FMT_24H) -> str:
     """Convert a `datetime.datetime` object to a string.
@@ -89,19 +94,20 @@ def wait(s: int = 1, msg: str | None = "Waiting {} seconds...") -> None:
             )
 
             try:
-                print(msg.format(s))
+                log.info(msg.format(s))
             except Exception as exc:
                 ## Error compiling message text. Print an error, then wait
-                _msg = Exception(
+                msg = Exception(
                     f"Unhandled exception composing wait message. Details: {exc}.\nWaiting [{s}] seconds..."
                 )
-                print(_msg)
+                log.error(msg)
+
         except Exception as exc:
             ## Error compiling message text. Print an error, then wait
-            _msg = Exception(
+            msg = Exception(
                 f"Unhandled exception composing wait message. Details: {exc}\nWaiting [{s}] seconds..."
             )
-            print(_msg)
+            log.error(msg)
 
     ## Pause
     time.sleep(s)
@@ -110,10 +116,10 @@ def wait(s: int = 1, msg: str | None = "Waiting {} seconds...") -> None:
 if __name__ == "__main__":
     ts = get_ts()
 
-    print(f"Timestamp ({type(ts)}): {ts}")
+    log.info(f"Timestamp ({type(ts)}): {ts}")
 
     as_str: str = get_ts(as_str=True)
-    print(f"Timestamp: datetime to str Type({type(as_str).__name__}): {as_str}")
+    log.info(f"Timestamp: datetime to str Type({type(as_str).__name__}): {as_str}")
 
     as_dt: dt = datetime_as_dt(ts=as_str)
-    print(f"Timestamp: str to datetime Type({type(as_dt).__name__}): {as_dt}")
+    log.info(f"Timestamp: str to datetime Type({type(as_dt).__name__}): {as_dt}")
