@@ -1,5 +1,9 @@
 from __future__ import annotations
 
+import logging
+
+log = logging.getLogger("red_utils.ext.fastapi_utils")
+
 from typing import Union
 
 from .constants import (
@@ -21,6 +25,7 @@ from .validators import (
 import fastapi
 from fastapi import APIRouter, FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+
 
 def fix_api_docs(app: FastAPI = None):
     """Fix error loading /docs when a root_path is set.
@@ -109,9 +114,12 @@ def add_cors_middleware(
         )
 
     except Exception as exc:
-        raise Exception(
+        msg = Exception(
             f"Unhandled exception adding CORS middleware to FastAPI app. Details: {exc}"
         )
+        log.error(msg)
+
+        raise exc
 
     return app
 
@@ -183,6 +191,9 @@ def get_app(
                 app.include_router(router)
 
     except Exception as exc:
-        raise Exception(f"Unhandled exception creating FastAPI App. Details: {exc}")
+        msg = Exception(f"Unhandled exception creating FastAPI App. Details: {exc}")
+        log.error(msg)
+
+        raise exc
 
     return app

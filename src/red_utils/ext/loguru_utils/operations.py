@@ -2,6 +2,10 @@
 
 from __future__ import annotations
 
+import logging
+
+log = logging.getLogger("red_utils.ext.loguru_utils")
+
 import datetime
 import io
 from logging import Handler
@@ -23,6 +27,7 @@ from .sinks import (
 from .validators import validate_compression_str, validate_level, validate_logger
 
 from loguru import logger
+
 
 def add_sink(
     _logger: logger = None,
@@ -108,7 +113,7 @@ def init_logger(
         default_trace_log_file_sink,
     ]
 ):
-    """Initializes a Loguru logger using sink dicts.
+    """Initialize a Loguru logger using sink dicts.
 
     Call this script very early in program execution, ideally as the very first thing to happen.
     To ease with sink configuration, you can import sinks from `red_utils.ext.loguru_utils.sinks`,
@@ -120,7 +125,6 @@ def init_logger(
         function to convert the sink to a dict.
 
     Example:
-    -------
         ``` py linenums="1"
         stdout_sink = LoguruSinkStdOut(level="DEBUG")
         init_logger(sinks=[stdout_sink.as_dict()])
