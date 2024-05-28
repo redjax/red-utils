@@ -8,6 +8,10 @@ then type, then value (if a list of allowed values is passed).
 
 from __future__ import annotations
 
+import logging
+
+log = logging.getLogger("red_utils.ext.loguru_utils.validators")
+
 from .constants import (
     default_color_fmt,
     default_fmt,
@@ -16,6 +20,7 @@ from .constants import (
 )
 
 from loguru import logger
+
 
 def validate_logger(_logger: logger = None, none_ok: bool = False) -> logger:
     """Validate a loguru.Logger object.
@@ -98,4 +103,7 @@ def validate_level(level: str = None, none_ok: bool = False) -> str:
                 return _level
 
     except ValueError as exc:
-        raise ValueError(f"Unhandled exception validating log level. Details: {exc}")
+        msg = ValueError(f"Unhandled exception validating log level. Details: {exc}")
+        log.error(msg)
+
+        raise exc

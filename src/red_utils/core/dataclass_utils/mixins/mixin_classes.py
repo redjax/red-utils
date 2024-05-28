@@ -1,5 +1,9 @@
 from __future__ import annotations
 
+import logging
+
+log = logging.getLogger("red_utils.core.dataclass_utils.mixins")
+
 from dataclasses import dataclass
 from typing import Generic, TypeVar
 
@@ -44,6 +48,9 @@ class DictMixin:
             return self.__dict__.copy()
 
         except Exception as exc:
-            raise Exception(
+            msg = Exception(
                 f"Unhandled exception converting class instance to dict. Details: {exc}"
             )
+            log.error(msg)
+
+            raise exc

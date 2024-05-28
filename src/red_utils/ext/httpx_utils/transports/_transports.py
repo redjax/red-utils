@@ -1,9 +1,14 @@
 from __future__ import annotations
 
+import logging
+
+log = logging.getLogger("red_utils.ext.httpx_utils.transports")
+
 import typing as t
 
 import hishel
 import httpx
+
 
 def get_cache_transport(
     cache_dir: str = ".cache/hishel",
@@ -39,6 +44,6 @@ def get_cache_transport(
         msg = Exception(
             f"Unhandled exception returning cache transport. Details: {exc}"
         )
-        print(f"[ERROR] {msg}")
+        log.error(msg)
 
         raise exc
