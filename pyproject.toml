@@ -1,7 +1,6 @@
 [project]
 name = "red_utils"
 version = "0.2.19"
-version = "0.2.19"
 description = "Collection of utility scripts/functions that I use frequently."
 authors = [
     { name = "redjax", email = "none@none.com" },
@@ -27,8 +26,6 @@ standard = [
     "rich>=13.7.0",
     "msgpack>=1.0.7",
     "sqlalchemy>=2.0.25",
-    "chardet>=5.2.0",
-    "hishel>=0.0.26",
     "chardet>=5.2.0",
     "hishel>=0.0.26",
     "chardet>=5.2.0",
