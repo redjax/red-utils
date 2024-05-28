@@ -56,6 +56,8 @@ class ListProtect:
         #  list and return
         if exc_type is None:
             self.original[:] = self.clone
+        if exc_traceback:
+            log.error(exc_traceback)
 
         ## Error encountered, print details
         else:
@@ -132,6 +134,8 @@ class DictProtect:
         #  list and return
         if exc_type is None:
             self.original.update(self.clone)
+        if exc_traceback:
+            log.error(exc_traceback)
 
         ## Error encountered, print details
         else:
