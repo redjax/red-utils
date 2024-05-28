@@ -1,8 +1,13 @@
 from __future__ import annotations
 
+import logging
+
+log = logging.getLogger("red_utils.std.dict_utils")
+
 from typing import Any
 
 from .validators import validate_dict
+
 
 def debug_dict(in_dict: dict = None) -> None:
     """Debug print a dict by looping overkeys and printing.
@@ -29,9 +34,12 @@ def debug_dict(in_dict: dict = None) -> None:
                 continue
 
     except Exception as exc:
-        raise Exception(
+        msg = Exception(
             f"Unhandled exception looping dict. Errored on key {k}. Details: {exc}"
         )
+        log.error(msg)
+
+        raise exc
 
 
 def merge_dicts(
@@ -60,7 +68,10 @@ def merge_dicts(
         _new: dict = {**update_vals, **original_dict}
 
     except Exception as exc:
-        raise Exception(f"Unhandled exception merging dicts. Details: {exc}")
+        msg = Exception(f"Unhandled exception merging dicts. Details: {exc}")
+        log.error(msg)
+
+        raise exc
 
     return _new
 
@@ -92,4 +103,7 @@ def update_dict(
         return new_dict
 
     except Exception as exc:
-        raise Exception(f"Unhandled exception updating dict. Details: {exc}")
+        msg = Exception(f"Unhandled exception updating dict. Details: {exc}")
+        log.error(msg)
+
+        raise exc

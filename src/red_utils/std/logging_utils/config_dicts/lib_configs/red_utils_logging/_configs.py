@@ -16,11 +16,11 @@ from red_utils.std.logging_utils.fmts import (
 
 
 RED_UTILS_STANDARD_FORMATTER = {
-    "red_utils_fmt": {"format": MESSAGE_FMT_STANDARD, "datefmt": DATE_FMT_STANDARD}
+    "red_utils_fmt": {"format": RED_UTILS_FMT, "datefmt": DATE_FMT_STANDARD}
 }
 RED_UTILS_DETAILED_FORMATTER: dict = {
     "red_utils_detail_fmt": {
-        "format": MESSAGE_FMT_DETAILED,
+        "format": RED_UTILS_DETAIL_FMT,
         "datefmt": DATE_FMT_STANDARD,
     }
 }
@@ -48,7 +48,7 @@ RED_UTILS_STANDARD_CONSOLE_HANDLER: dict = {
     "red_utils_standard_console": {
         "class": "logging.StreamHandler",
         "level": "DEBUG",
-        "formatter": "red_utils_standard_fmt",
+        "formatter": "red_utils_fmt",
         "stream": "ext://sys.stdout",
     }
 }
@@ -61,21 +61,34 @@ RED_UTILS_DETAILED_CONSOLE_HANDLER: dict = {
     }
 }
 
-RED_UTILS_STANDARD_LOGGER: dict = {
-    "red_utils": {
-        "handlers": ["red_utils_standard_console"],
-        "level": "DEBUG",
-        "propagate": False,
-    }
-}
 
-RED_UTILS_DETAILED_LOGGER: dict = {
-    "red_utils": {
-        "handlers": ["red_utils_detailed_console"],
-        "level": "DEBUG",
-        "propagate": False,
+def get_red_utils_standard_logger(log_level: str = "INFO") -> dict:
+    _logger_dict: dict = {
+        "red_utils": {
+            "handlers": ["red_utils_standard_console"],
+            "level": log_level.upper(),
+            "propagate": False,
+        }
     }
-}
+
+    return _logger_dict
+
+
+def get_red_utils_detailed_logger(log_level: str = "INFO") -> dict:
+    _logger_dict: dict = {
+        "red_utils": {
+            "handlers": ["red_utils_detailed_console"],
+            "level": log_level.upper(),
+            "propagate": False,
+        }
+    }
+
+    return _logger_dict
+
+
+RED_UTILS_STANDARD_LOGGER = get_red_utils_standard_logger()
+
+RED_UTILS_DETAILED_LOGGER = get_red_utils_detailed_logger()
 
 RED_UTILS_STANDARD_LOGGING_CONFIGDICT = {
     "formatters": {
