@@ -4,6 +4,7 @@ import logging
 
 log = logging.getLogger("red_utils.ext.httpx_utils.controllers")
 
+
 from contextlib import AbstractContextManager, contextmanager
 import json
 from pathlib import Path
@@ -569,7 +570,7 @@ class HishelCacheClientController(AbstractContextManager):
                 follow_redirects=self.follow_redirects,
             )
             log.debug(
-                f"URL: {request.url}, Response: [{res.status_code}: {res.reason_phrase}]"
+                f"Response: [{res.status_code}: {res.reason_phrase}] {request.url}"
             )
 
             return res

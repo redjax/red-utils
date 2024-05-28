@@ -27,16 +27,6 @@ RED_UTILS_DETAILED_FORMATTER: dict = {
 }
 
 
-RED_UTILS_CONSOLE_HANDLER: dict = {
-    "red_utils_console": {
-        "class": "logging.StreamHandler",
-        "level": "DEBUG",
-        "formatter": "red_utils_fmt",
-        "stream": "ext://sys.stdout",
-    }
-}
-
-
 RED_UTILS_LOGGER: dict = {
     "red_utils": {
         "handlers": ["red_utils_console"],
@@ -63,7 +53,7 @@ RED_UTILS_DETAILED_CONSOLE_HANDLER: dict = {
 }
 
 
-def get_red_utils_standard_logger(log_level: str = "INFO") -> dict:
+def get_red_utils_standard_logger(log_level: str = "DEBUG") -> dict:
     _logger_dict: dict = {
         "red_utils": {
             "handlers": ["red_utils_standard_console"],
@@ -75,7 +65,7 @@ def get_red_utils_standard_logger(log_level: str = "INFO") -> dict:
     return _logger_dict
 
 
-def get_red_utils_detailed_logger(log_level: str = "INFO") -> dict:
+def get_red_utils_detailed_logger(log_level: str = "DEBUG") -> dict:
     _logger_dict: dict = {
         "red_utils": {
             "handlers": ["red_utils_detailed_console"],

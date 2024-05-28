@@ -28,7 +28,7 @@ def merge_config_dicts(configdict1: dict = None, configdict2: dict = None):
         return merged_config
     except Exception as exc:
         msg = Exception(
-            f"Unhandled exception merging config dicts. Returning original dict."
+            f"Unhandled exception merging config dicts. Returning original dict. Details: {exc}"
         )
         log.error(msg)
 
@@ -37,6 +37,7 @@ def merge_config_dicts(configdict1: dict = None, configdict2: dict = None):
 
 def return_logging_config_dict() -> dict[str, t.Any]:
     """Reconstruct the logging configuration dictionary from the current logging setup."""
+    raise NotImplementedError("This function doesn't work and is being revised.")
     config: dict[str, t.Any] = {
         "version": 1,
         "disable_existing_loggers": logging.root.manager.disable,
@@ -45,35 +46,55 @@ def return_logging_config_dict() -> dict[str, t.Any]:
         "loggers": {},
     }
 
-    # Extract formatters from the handlers
-    handlers = {
-        handler.name: handler
-        for logger in logging.root.manager.loggerDict.values()
-        if isinstance(logger, logging.Logger)
-        for handler in logger.handlers
-    }
+    formatter_name = "standard"  # Define a default formatter name
 
-    for handler_name, handler in handlers.items():
-        if handler.formatter:
-            formatter_name = handler.formatter._fmt
-            config["formatters"][formatter_name] = {
-                "format": handler.formatter._fmt,
-                "datefmt": handler.formatter.datefmt,
-            }
+    # Collect all formatters and handlers from all loggers
+    for logger in logging.root.manager.loggerDict.values():
+        if isinstance(logger, logging.Logger):
+            for handler in logger.handlers:
+                # Formatters
+                if handler.formatter and formatter_name not in config["formatters"]:
+                    formatter_name = handler.formatter._fmt
+                    config["formatters"][formatter_name] = {
+                        "format": handler.formatter._fmt,
+                        "datefmt": handler.formatter.datefmt,
+                    }
 
-    for handler_name, handler in handlers.items():
-        config["handlers"][handler_name] = {
-            "class": f"{handler.__module__}.{handler.__class__.__name__}",
-            "level": logging.getLevelName(handler.level),
-            "formatter": handler.formatter._fmt if handler.formatter else None,
-        }
+                # Handlers
+                handler_name = (
+                    handler.get_name() if hasattr(handler, "get_name") else str(handler)
+                )
+                if handler_name not in config["handlers"]:
+                    config["handlers"][handler_name] = {
+                        "class": f"{handler.__module__}.{handler.__class__.__name__}",
+                        "level": logging.getLevelName(handler.level),
+                        "formatter": formatter_name,
+                        "stream": (
+                            handler.stream.name if hasattr(handler, "stream") else None
+                        ),
+                    }
 
+    # Collect loggers
     for name, logger in logging.root.manager.loggerDict.items():
         if isinstance(logger, logging.Logger):
             config["loggers"][name] = {
                 "level": logging.getLevelName(logger.level),
-                "handlers": [h.name for h in logger.handlers],
+                "handlers": [
+                    handler.get_name() if hasattr(handler, "get_name") else str(handler)
+                    for handler in logger.handlers
+                ],
                 "propagate": logger.propagate,
             }
+
+    # Add root logger to the config
+    root_logger = logging.getLogger()
+    config["loggers"][""] = {
+        "level": logging.getLevelName(root_logger.level),
+        "handlers": [
+            handler.get_name() if hasattr(handler, "get_name") else str(handler)
+            for handler in root_logger.handlers
+        ],
+        "propagate": root_logger.propagate,
+    }
 
     return config
