@@ -16,6 +16,7 @@ from .constants import PANDAS_DATE_FORMAT, PANDAS_DATETIME_FORMAT, PANDAS_TIME_F
 
 import pandas as pd
 
+
 def get_oldest_newest(
     df: pd.DataFrame = None, date_col: str = None, filter_cols: list[str] | None = None
 ) -> Union[pd.Series, pd.DataFrame]:
@@ -99,8 +100,6 @@ def rename_df_cols(
 
         raise ValueError(msg)
 
-        return None
-
     try:
         df = df.rename(columns=col_rename_map)
 
@@ -112,7 +111,6 @@ def rename_df_cols(
         log.error(msg)
 
         raise exc
-        return df
 
 
 def count_df_rows(df: pd.DataFrame = None) -> int:
@@ -320,8 +318,6 @@ def load_pq(pq_file: Union[str, Path] = None) -> pd.DataFrame:
 
         raise exc
 
-        return None
-
     try:
         df = pd.read_parquet(pq_file, engine="fastparquet")
 
@@ -334,8 +330,6 @@ def load_pq(pq_file: Union[str, Path] = None) -> pd.DataFrame:
         log.error(msg)
 
         raise exc
-
-        return None
 
 
 def save_pq(
@@ -397,8 +391,6 @@ def save_pq(
         log.error(msg)
         raise exc
 
-        return False
-
 
 def load_csv(csv_file: Union[str, Path] = None, delimiter: str = ",") -> pd.DataFrame:
     """Load a CSV file into a DataFrame.
@@ -426,8 +418,6 @@ def load_csv(csv_file: Union[str, Path] = None, delimiter: str = ",") -> pd.Data
         log.error(msg)
         raise exc
 
-        return None
-
     try:
         df = pd.read_csv(csv_file, delimiter=delimiter)
 
@@ -440,8 +430,6 @@ def load_csv(csv_file: Union[str, Path] = None, delimiter: str = ",") -> pd.Data
         log.error(msg)
 
         raise exc
-
-        return False
 
 
 def save_csv(
@@ -511,5 +499,3 @@ def save_csv(
         )
         log.error(msg)
         raise exc
-
-        return False

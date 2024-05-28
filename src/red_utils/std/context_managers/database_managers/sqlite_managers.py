@@ -15,6 +15,7 @@ from pathlib import Path
 import sqlite3
 from typing import Union
 
+
 class SQLiteConnManager:
     """Handle interactions with a SQLite database.
 
@@ -87,6 +88,11 @@ class SQLiteConnManager:
             raise exc
 
     def __exit__(self, exc_type, exc_val, exc_traceback):  # noqa: D105
+        if exc_val:
+            log.error(f"({exc_type}): {exc_val}")
+        if exc_traceback:
+            log.error(exc_traceback)
+
         ## Executed automatically when `with SQLiteConnManager()` exits. Executes on success or failure.
         self.connection.close()
 
