@@ -6,11 +6,17 @@ from copy import deepcopy
 log = logging.getLogger("red_utils.std.logging_utils.setup")
 
 from red_utils.std.logging_utils._methods import merge_config_dicts
+from red_utils.std.logging_utils.fmts._formats import (
+    DATE_FMT_STANDARD,
+    MESSAGE_FMT_STANDARD,
+    MESSAGE_FMT_DETAILED,
+)
 
 
 def setup_logging(
     app_name: str = "app",
     log_level: str = "DEBUG",
+    merge_extra_formatters: list[dict] | None = None,
     merge_logging_configs: list[dict] | None = None,
 ):
     """Initialize Python's standard logging module.
@@ -24,12 +30,12 @@ def setup_logging(
         "disable_existing_loggers": False,
         "formatters": {
             "standard": {
-                "format": "[%(asctime)s] [%(levelname)s] [%(module)s:%(lineno)d > %(funcName)s()]: %(message)s",
-                "datefmt": "%Y-%m-%d %H:%M:%S",
+                "format": MESSAGE_FMT_STANDARD,
+                "datefmt": DATE_FMT_STANDARD,
             },
             "detail": {
-                "format": "[%(asctime)s] [%(levelname)s] [module:%(module)s] [path:%(pathname)s:%(lineno)d] [method:%(funcName)s()]: %(message)s",
-                "datefmt": "%Y-%m-%d %H:%M:%S",
+                "format": MESSAGE_FMT_DETAILED,
+                "datefmt": DATE_FMT_STANDARD,
             },
         },
         "handlers": {
@@ -58,6 +64,21 @@ def setup_logging(
             },
         },
     }
+
+    if merge_extra_formatters:
+        for _formatter in merge_extra_formatters:
+            try:
+                logging_config = merge_config_dicts(
+                    configdict1=logging_config, configdict2=_formatter
+                )
+            except Exception as exc:
+                msg = Exception(
+                    f"Unhandled exception merging extra formatter. Details: {exc}"
+                )
+                log.error(msg)
+                log.warning("Logger may misbehave.")
+
+                continue
 
     if merge_logging_configs is not None:
         try:
