@@ -536,7 +536,7 @@ class HishelCacheClientController(AbstractContextManager):
             )
             log.error(msg)
 
-            raise msg
+            raise exc
 
     def send_request(
         self,
@@ -586,7 +586,7 @@ class HishelCacheClientController(AbstractContextManager):
             msg = Exception(f"Unhandled exception sending request. Details: {exc}")
             log.error(msg)
 
-            raise msg
+            raise exc
 
     def decode_res_content(self, res: httpx.Response = None) -> dict:
         """Use multiple methods to attempt to decode an `httpx.Response.content` bytestring.
