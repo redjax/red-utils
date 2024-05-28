@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 RED_UTILS_FMT: str = (
     "[%(asctime)s] [%(levelname)s] [(red_utils).%(module)s:%(lineno)d > %(funcName)s()]: %(message)s"
 )

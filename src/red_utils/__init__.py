@@ -19,9 +19,9 @@ show up in the Reference section of this site. I'll get to it 🤷‍♂️
 
 from __future__ import annotations
 
+import logging
 import logging.handlers
 import sys
-import logging
 
 from red_utils.std import logging_utils
 

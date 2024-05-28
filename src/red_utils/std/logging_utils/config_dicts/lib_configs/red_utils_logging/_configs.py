@@ -1,19 +1,20 @@
+from __future__ import annotations
+
 import logging
 
 log = logging.getLogger("red_utils.std.logging_utils.lib_loggers.red_utils_logger")
 
 from red_utils.std.logging_utils._methods import merge_config_dicts
 from red_utils.std.logging_utils.fmts import (
+    DATE_FMT_DATE_ONLY,
+    DATE_FMT_STANDARD,
+    DATE_FMT_TIME_ONLY,
+    MESSAGE_FMT_BASIC,
     MESSAGE_FMT_DETAILED,
     MESSAGE_FMT_STANDARD,
-    DATE_FMT_STANDARD,
     RED_UTILS_DETAIL_FMT,
     RED_UTILS_FMT,
-    MESSAGE_FMT_BASIC,
-    DATE_FMT_DATE_ONLY,
-    DATE_FMT_TIME_ONLY,
 )
-
 
 RED_UTILS_STANDARD_FORMATTER = {
     "red_utils_fmt": {"format": RED_UTILS_FMT, "datefmt": DATE_FMT_STANDARD}

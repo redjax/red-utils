@@ -1,13 +1,15 @@
+from __future__ import annotations
+
+import logging
+
 from red_utils.std.logging_utils.fmts._formats import (
-    MESSAGE_FMT_BASIC,
-    MESSAGE_FMT_DETAILED,
-    MESSAGE_FMT_STANDARD,
     DATE_FMT_DATE_ONLY,
     DATE_FMT_STANDARD,
     DATE_FMT_TIME_ONLY,
+    MESSAGE_FMT_BASIC,
+    MESSAGE_FMT_DETAILED,
+    MESSAGE_FMT_STANDARD,
 )
-
-import logging
 
 log = logging.getLogger("red_utils.std.logging_utils.config_dicts")
 

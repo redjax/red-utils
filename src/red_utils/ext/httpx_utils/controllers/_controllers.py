@@ -14,7 +14,6 @@ import chardet
 import hishel
 import httpx
 
-
 def autodetect_charset(content: bytes = None):
     """Attempt to automatically detect encoding from input bytestring."""
     try:

@@ -9,7 +9,6 @@ import typing as t
 
 from .validators import validate_list
 
-
 def select_random_from_list(lst: list[t.Any] = None) -> t.Any:
     """Return a randomly selected item from the list.
 

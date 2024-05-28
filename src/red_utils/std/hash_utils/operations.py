@@ -6,7 +6,6 @@ log = logging.getLogger("red_utils.std.hash_utils")
 
 import hashlib
 
-
 def get_hash_from_str(input_str: str = None, encoding: str = "utf-8") -> str:
     """Return a hashed version of an input string.
 

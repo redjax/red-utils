@@ -10,7 +10,6 @@ import typing as t
 
 import pendulum
 
-
 class DateTimeEncoder(json.JSONEncoder):
     """Handle encoding a `datetime.datetime` or `pendulum.DateTime` as an ISO-formatted string."""
 

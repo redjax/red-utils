@@ -7,7 +7,6 @@ log = logging.getLogger("red_utils.ext.fastapi_utils.dependencies")
 from fastapi import Request
 from loguru import logger as log
 
-
 async def logging_dependency(request: Request) -> None:
     """https://stackoverflow.com/a/63413392."""
     # log.debug(f"{request.method} {request.url}")

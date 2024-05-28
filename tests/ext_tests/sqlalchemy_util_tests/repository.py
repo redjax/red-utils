@@ -1,13 +1,14 @@
-from red_utils.ext import sqlalchemy_utils
+from __future__ import annotations
 
 import logging
+
+from red_utils.ext import sqlalchemy_utils
 
 log = logging.getLogger("tests.ext_tests.sqlalchemy_util_tests.repository")
 from .models import TestUserModel
 
-import sqlalchemy.orm as so
 from sqlalchemy.exc import IntegrityError, NoResultFound
-
+import sqlalchemy.orm as so
 
 class TestUserRepository(sqlalchemy_utils.RepositoryBase):
     def __init__(self, session: so.Session):

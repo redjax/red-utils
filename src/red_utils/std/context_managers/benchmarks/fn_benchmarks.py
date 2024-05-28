@@ -7,7 +7,6 @@ log = logging.getLogger("red_utils.std.context_managers.benchmarks")
 from contextlib import asynccontextmanager, contextmanager
 import time
 
-
 @contextmanager
 def benchmark(description: str = "Unnamed function timer") -> None:
     """Time an operation.

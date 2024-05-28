@@ -3,6 +3,8 @@
 Includes functions like `get_db()`, which is a context manager that yields a database session.
 """
 
+from __future__ import annotations
+
 import logging
 
 log = logging.getLogger("red_utils.ext.sqlalchemy_utils.depends")
@@ -14,7 +16,6 @@ from .db_config import DBSettings
 
 import sqlalchemy as sa
 import sqlalchemy.orm as so
-
 
 @contextmanager
 def get_db(db_settings: DBSettings = None) -> t.Generator[so.Session, t.Any, None]:
