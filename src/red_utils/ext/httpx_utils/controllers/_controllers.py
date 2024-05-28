@@ -14,6 +14,17 @@ import chardet
 import hishel
 import httpx
 
+HISHEL_STORAGE_UNION = t.Union[
+    hishel.FileStorage,
+    hishel.RedisStorage,
+    hishel.SQLiteStorage,
+    hishel.S3Storage,
+    hishel.InMemoryStorage,
+]
+
+hishel_storage_type = t.Annotated[HISHEL_STORAGE_UNION, "A Hishel cache storage"]
+
+
 def autodetect_charset(content: bytes = None):
     """Attempt to automatically detect encoding from input bytestring."""
     try:
@@ -166,6 +177,301 @@ class HTTPXController(AbstractContextManager):
         _json: t.Any | None = None,
         params: dict | None = None,
         headers: dict | None = {},
+        cookies: dict | None = None,
+        timeout: int | float | None = None,
+    ) -> httpx.Request:
+        """Assemble a new httpx.Request object from parts.
+
+        Params:
+            method (str): [Default: "GET"] HTTP method for request.
+            url (str|httpx.URL): URL to send request.
+            files (list|None): List of files to send with request. Only works with certain HTTP methods,
+                list `POST`.
+            _json (t.Any | None): JSON to append to request.
+            params (dict | None): Params to append to request.
+            headers (dict|None): Request headers.
+            cookies (dict): <Not yet documented>
+            timeout (int|float): Timeout (in seconds) before cancelling request.
+
+        Returns:
+            (httpx.Request): An initialized `httpx.Request` object.
+
+        """
+        assert method, ValueError("Missing a request method")
+        assert isinstance(method, str), TypeError(
+            f"method should be a string. Got type: ({type(method)})"
+        )
+
+        ## Ensure method is uppercase, i.e. 'get' -> 'GET'
+        method: str = method.upper()
+
+        assert url, ValueError("Missing a URL")
+        assert isinstance(url, str) or isinstance(url, httpx.URL), TypeError(
+            f"URL must be a string or httpx.URL. Got type: ({type(url)})"
+        )
+        if isinstance(url, str):
+            ## Convert URL from string into httpx.URL object
+            url: httpx.URL = httpx.URL(url=url)
+
+        if timeout:
+            assert (
+                isinstance(timeout, int) or isinstance(timeout, float)
+            ) and timeout > 0, TypeError(
+                f"timeout must be a non-zero positive int or float. Got type: ({type(timeout)})"
+            )
+
+        ## Build httpx.Request object
+        try:
+            _req: httpx.Request = self.client.build_request(
+                method=method,
+                url=url,
+                files=files,
+                json=_json,
+                params=params,
+                headers=headers,
+                cookies=cookies,
+                timeout=timeout,
+            )
+
+            return _req
+
+        except Exception as exc:
+            msg = Exception(
+                f"Unhandled exception creaeting httpx.Request object. Details: {exc}"
+            )
+            log.error(msg)
+
+            raise exc
+
+    def send_request(
+        self,
+        request: httpx.Request = None,
+        stream: bool = False,
+        auth: httpx.Auth = None,
+    ) -> httpx.Response:
+        """Send httpx.Request using self.Client (and optional cache transport).
+
+        Params:
+            request (httpx.Request): An initialized `httpx.Request` object.
+            stream (bool): When `True`, response bytes will be streamed. This can be useful for large file downloads.
+            auth (httpx.Auth): <Not yet documented>
+
+        Returns:
+            (httpx.Response): An `httpx.Response` from the request.
+
+        """
+        assert request, ValueError("Missing an httpx.Request object")
+        assert isinstance(request, httpx.Request), TypeError(
+            f"Expected request to be an httpx.Request object. Got type: ({type(request)})"
+        )
+
+        ## Send request using class's httpx.Client
+        try:
+            res: httpx.Response = self.client.send(
+                request=request,
+                stream=stream,
+                auth=auth,
+                follow_redirects=self.follow_redirects,
+            )
+            log.debug(
+                f"URL: {request.url}, Response: [{res.status_code}: {res.reason_phrase}]"
+            )
+
+            return res
+
+        except httpx.ConnectError as conn_err:
+            ## Error connecting to remote
+            msg = Exception(
+                f"ConnectError while requesting URL {request.url}. Details: {conn_err}"
+            )
+            log.error(msg)
+
+            return
+        except Exception as exc:
+            msg = Exception(f"Unhandled exception sending request. Details: {exc}")
+            log.error(msg)
+
+            raise exc
+
+    def decode_res_content(self, res: httpx.Response = None) -> dict:
+        """Use multiple methods to attempt to decode an `httpx.Response.content` bytestring.
+
+        Params:
+            res (httpx.Response): An `httpx.Response` object, with `.content` to be decoded.
+
+        Returns:
+            (dict): A `dict` from the `httpx.Response`'s `.content` param.
+
+        """
+        assert res, ValueError("Missing httpx Response object")
+        assert isinstance(res, httpx.Response), TypeError(
+            f"res must be of type httpx.Response. Got type: ({type(res)})"
+        )
+
+        _content: bytes = res.content
+        assert _content, ValueError("Response content is empty")
+        assert isinstance(_content, bytes), TypeError(
+            f"Expected response.content to be a bytestring. Got type: ({type(_content)})"
+        )
+
+        ## Get content's encoding, or default to 'utf-8'
+        try:
+            decode_charset: str = autodetect_charset(content=_content)
+        except Exception as exc:
+            msg = Exception(
+                f"Unhandled exception detecting response content's encoding. Details: {exc}"
+            )
+            log.error(msg)
+            log.warning("Defaulting to 'utf-8'")
+
+            decode_charset: str = "utf-8"
+
+        ## Decode content
+        try:
+            _decode: str = res.content.decode(decode_charset)
+
+        except Exception as exc:
+            ## Decoding failed, retry with different encodings
+            msg = Exception(
+                f"[Attempt 1/2] Unhandled exception decoding response content. Details: {exc}"
+            )
+            log.warning(msg)
+
+            if not res.encoding == "utf-8":
+                ## Try decoding again, using response's .encoding param
+                log.warning(
+                    f"Retrying response content decode with encoding '{res.encoding}'"
+                )
+                try:
+                    _decode = res.content.decode(res.encoding)
+                except Exception as exc:
+                    inner_msg = Exception(
+                        f"[Attempt 2/2] Unhandled exception decoding response content. Details: {exc}"
+                    )
+                    log.error(inner_msg)
+
+                    raise inner_msg
+
+            else:
+                ## Decoding with utf-8 failed, attempt with ISO-8859-1
+                #  https://en.wikipedia.org/wiki/ISO/IEC_8859-1
+                log.warning(
+                    "Detected UTF-8 encoding, but decoding as UTF-8 failed. Retrying with encoding ISO-8859-1."
+                )
+                try:
+                    _decode = res.content.decode("ISO-8859-1")
+                except Exception as exc:
+                    msg = Exception(
+                        f"Failure attempting to decode content as UTF-8 and ISO-8859-1. Details: {exc}"
+                    )
+                    log.error(msg)
+
+                    raise exc
+
+        ## Load decoded content into dict
+        try:
+            _json: dict = json.loads(_decode)
+
+            return _json
+
+        except Exception as exc:
+            msg = Exception(
+                f"Unhandled exception loading decoded response content to dict. Details: {exc}"
+            )
+            log.error(msg)
+
+            raise exc
+
+
+class HishelCacheClientController(AbstractContextManager):
+    """Handler for a hishel.CacheClient client.
+
+    Params:
+        cacheable_methods (list[str]): ...
+        cacheable_status_codes (list[int]): ...
+        allow_heuristics (bool): ...
+        allow_stale (bool): ...
+        always_revalidate (bool): ...
+        force_cache (bool): ...
+        storage (hishel.FileStorage | hishel.RedisStorage | hishel.SQLiteStorage | hishel.S3Storage | hishel.InMemoryStorage): ...
+        follow_redirects (bool): ...
+    """
+
+    def __init__(
+        self,
+        cacheable_methods: list[str] | None = ["GET", "POST"],
+        cacheable_status_codes: list[int] | None = [200, 301, 308],
+        allow_heuristics: bool = False,
+        allow_stale: bool = False,
+        always_revalidate: bool = False,
+        force_cache: bool = False,
+        storage: hishel_storage_type = None,
+        follow_redirects: bool = False,
+    ):
+        self.cacheable_methods = cacheable_methods
+        self.cacheable_status_codes = cacheable_status_codes
+        self.allow_heuristics = allow_heuristics
+        self.allow_stale = allow_stale
+        self.always_revalidate = always_revalidate
+        self.force_cache = force_cache
+        self.storage = storage
+        self.follow_redirects = follow_redirects
+
+        ## Placeholder for initialized hishel.Controller
+        self.controller: hishel.Controller = None
+        ## Placeholder for initialized hishel.CacheClient
+        self.client: hishel.CacheClient = None
+
+    def __enter__(self) -> t.Self:
+        try:
+            _controller: hishel.Controller = hishel.Controller(
+                cacheable_methods=self.cacheable_methods,
+                cacheable_status_codes=self.cacheable_status_codes,
+                allow_heuristics=self.allow_heuristics,
+                allow_stale=self.allow_stale,
+                always_revalidate=self.always_revalidate,
+                force_cache=self.force_cache,
+            )
+            self.controller = _controller
+        except Exception as exc:
+            msg = Exception(
+                f"Unhandled exception initializing hishel.Controller. Details: {exc}"
+            )
+            log.error(msg)
+
+            raise exc
+
+        try:
+            _client: hishel.CacheClient = hishel.CacheClient(
+                controller=self.controller, storage=self.storage
+            )
+            self.client = _client
+        except Exception as exc:
+            msg = Exception(
+                f"Unhandled exception initializing hishel.CacheClient. Details: {exc}"
+            )
+            log.error(msg)
+
+            raise exc
+
+        return self
+
+    def __exit__(self, exc_type, exc_value, traceback):
+        if exc_type:
+            log.error(f"({exc_type}): {exc_value}")
+        if traceback:
+            log.error(traceback)
+        if self.client:
+            self.client.close()
+
+    def new_request(
+        self,
+        method: str = "GET",
+        url: str = None,
+        files: list | None = None,
+        _json: t.Any | None = None,
+        params: dict | None = None,
+        headers: dict | None = None,
         cookies: dict | None = None,
         timeout: int | float | None = None,
     ) -> httpx.Request:
