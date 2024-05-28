@@ -3,6 +3,10 @@
 Includes functions like `get_db()`, which is a context manager that yields a database session.
 """
 
+import logging
+
+log = logging.getLogger("red_utils.ext.sqlalchemy_utils.depends")
+
 from contextlib import contextmanager
 import typing as t
 
@@ -40,7 +44,8 @@ def get_db(db_settings: DBSettings = None) -> t.Generator[so.Session, t.Any, Non
         msg = Exception(
             f"Unhandled exception yielding database session. Details: {exc}"
         )
+        log.error(msg)
 
-        raise msg
+        raise exc
     finally:
         db.close()

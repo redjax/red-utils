@@ -1,3 +1,7 @@
+import logging
+
+log = logging.getLogger("tests.ext_tests.sqlalchemy_util_tests.expect_pass_tests")
+
 from _collections_abc import dict_keys
 import random
 from typing import Type
@@ -12,7 +16,6 @@ from .models import EX_TESTUSERMODEL_FULL, EX_TESTUSERMODEL_LIST, TestUserModel
 from .schemas import TestUser, TestUserOut, TestUserUpdate
 from .repository import TestUserRepository
 
-from loguru import logger as log
 from pytest import mark, xfail
 from red_utils.ext import sqlalchemy_utils
 from red_utils.ext.loguru_utils import LoguruSinkStdOut, init_logger
@@ -33,7 +36,7 @@ def test_user_schema():
         f"user should have been a TestUser object. Got type: ({type(user)})"
     )
 
-    log.success(f"TestUser schema: {user}")
+    log.info(f"TestUser schema: {user}")
 
 
 @mark.sqla_utils
@@ -44,7 +47,7 @@ def test_convert_user_schema_to_model() -> None:
         user_model: TestUserModel = TestUserModel(
             username=user.username, email=user.email, description=user.description
         )
-        log.success(
+        log.info(
             f"TestUser schema converted to TestUserModel.\n\tSchema: {user}\n\tModel: {user_model.__repr__()}"
         )
 
@@ -54,7 +57,7 @@ def test_convert_user_schema_to_model() -> None:
         )
         log.error(msg)
 
-        raise msg
+        raise exc
 
 
 @mark.sqla_utils
@@ -72,7 +75,7 @@ def test_sqla_create_base_metadata(
         )
         log.error(msg)
 
-        raise msg
+        raise exc
 
 
 @mark.sqla_utils
@@ -94,7 +97,7 @@ def test_sqla_list_tables(
         )
         log.error(msg)
 
-        raise msg
+        raise exc
 
 
 @mark.sqla_utils
@@ -146,7 +149,7 @@ def test_sqla_insert_user(
             )
             log.error(msg)
 
-            raise msg
+            raise exc
 
 
 @mark.sqla_utils
@@ -214,14 +217,14 @@ def test_delete_user(
 
         try:
             repo.remove(usermodel)
-            log.success(f"Deleted TestUserModel with ID [{usermodel.user_id}]")
+            log.info(f"Deleted TestUserModel with ID [{usermodel.user_id}]")
         except Exception as exc:
             msg = Exception(
                 f"Unhandled exception deleting TestUserModel with ID [{usermodel.user_id}]. Test User: {userschema}. Details: {exc}"
             )
             log.error(msg)
 
-            raise msg
+            raise exc
 
 
 def test_update_user(

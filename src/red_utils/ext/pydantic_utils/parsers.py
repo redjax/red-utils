@@ -2,8 +2,9 @@
 
 from __future__ import annotations
 
+
 def is_pydantic(obj: object) -> bool:
-    """Checks whether an object is pydantic.
+    """Check whether an object is pydantic.
 
     Params:
         obj (object): An arbitrary Python object to evaluate
@@ -18,8 +19,8 @@ def is_pydantic(obj: object) -> bool:
 
 
 def parse_pydantic_schema(schema):
-    """Iterates through pydantic schema and parses nested schemas
-    to a dictionary containing SQLAlchemy models.
+    """Iterate through pydantic schema and parses nested schemas to a dictionary containing SQLAlchemy models.
+
     Only works if nested schemas have specified the Meta.orm_model.
 
     Make sure to add this line to Pydantic schemas that have an ORM class:

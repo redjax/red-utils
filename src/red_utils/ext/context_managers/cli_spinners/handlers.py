@@ -3,15 +3,20 @@
 
 from __future__ import annotations
 
+import logging
+
+log = logging.getLogger("red_utils.ext.context_managers.cli_spinners.handlers")
+
 from contextlib import contextmanager
 import time
 
 import rich
 from rich.console import Console
 
+
 @contextmanager
 def SimpleSpinner(message: str = "Loading..."):
-    """A simple CLI spinner context manager.
+    """Get a simple CLI spinner context manager.
 
     Params:
         message (str): The message to display while the spinner is running
@@ -29,7 +34,10 @@ def SimpleSpinner(message: str = "Loading..."):
         with rich_console.status(message) as status:
             yield status
     except Exception as exc:
-        raise Exception(f"Unhandled exception yielding spinner. Details: {exc}")
+        msg = Exception(f"Unhandled exception yielding spinner. Details: {exc}")
+        log.error(msg)
+
+        raise exc
     finally:
         # rich_console.clear()
         rich_console.clear_live()

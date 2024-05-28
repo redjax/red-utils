@@ -1,11 +1,12 @@
 from red_utils.ext import sqlalchemy_utils
 
+import logging
+
+log = logging.getLogger("tests.ext_tests.sqlalchemy_util_tests.repository")
 from .models import TestUserModel
 
 import sqlalchemy.orm as so
 from sqlalchemy.exc import IntegrityError, NoResultFound
-
-from loguru import logger as log
 
 
 class TestUserRepository(sqlalchemy_utils.RepositoryBase):
@@ -36,8 +37,9 @@ class TestUserRepository(sqlalchemy_utils.RepositoryBase):
             msg = Exception(
                 f"Unhandled exception committing entity to database. Details: {exc}"
             )
+            log.error(msg)
 
-            raise msg
+            raise exc
 
     def remove(self, entity: TestUserModel) -> None:
         """Remove existing entity from the database."""
@@ -50,7 +52,7 @@ class TestUserRepository(sqlalchemy_utils.RepositoryBase):
             )
             log.error(msg)
 
-            raise msg
+            raise exc
 
     def update(self, entity: TestUserModel) -> None:
         ## Search for existing entity
@@ -113,7 +115,7 @@ class TestUserRepository(sqlalchemy_utils.RepositoryBase):
             )
             log.error(msg)
 
-            raise msg
+            raise exc
 
     def get_by_id(self, user_id: int) -> TestUserModel:
         try:
@@ -124,7 +126,7 @@ class TestUserRepository(sqlalchemy_utils.RepositoryBase):
             )
             log.error(msg)
 
-            raise msg
+            raise exc
 
     def count(self) -> int:
         try:
@@ -133,4 +135,4 @@ class TestUserRepository(sqlalchemy_utils.RepositoryBase):
             msg = Exception(f"Unhandled exception counting entities. Details: {exc}")
             log.error(msg)
 
-            raise msg
+            raise exc
