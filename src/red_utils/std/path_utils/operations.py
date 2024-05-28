@@ -1,5 +1,9 @@
 from __future__ import annotations
 
+import logging
+
+log = logging.getLogger("red_utils.std.path_utils")
+
 from datetime import datetime
 import json
 import os
@@ -64,20 +68,26 @@ def export_json(
 
     output_path: str = f"{output_dir}/{output_filename}"
 
-    print(f"Output path: {output_path}")
+    log.debug(f"Output path: {output_path}")
 
     if not Path(output_path).exists():
         try:
             with open(output_path, "w+") as f:
                 f.write(input)
         except FileExistsError as file_exists_exc:
-            raise FileExistsError(file_exists_exc)
+            log.error(file_exists_exc)
+
+            raise file_exists_exc
         except FileNotFoundError as file_not_found_exc:
-            raise FileNotFoundError(file_not_found_exc)
+            log.error(file_not_found_exc)
+            raise file_not_found_exc
         except Exception as exc:
-            raise Exception(
+            msg = Exception(
                 f"Unhandled exception writing JSON to file: {output_path}. Details: {exc}"
             )
+            log.error(msg)
+
+            raise exc
 
 
 def extract_file_ext(path: Path = None) -> str:
@@ -97,7 +107,7 @@ def extract_file_ext(path: Path = None) -> str:
         f"path must be a pathlib.Path object. Got type: ({type(path)})"
     )
     if not path.is_file():
-        print(
+        log.error(
             ValueError(f"[WARNING] path should be a file, but {path} is a directory.")
         )
 
@@ -145,37 +155,35 @@ def scan_dir(
     """
     ## Validate return_type
     if not return_type:
-        print(
-            f"[WARNING] @path_utils.scan_dir return_type cannot be None. Defaulting to 'all'."
-        )
+        log.warning("return_type cannot be None. Defaulting to 'all'.")
         return_type = "all"
     else:
         return_type: str = return_type.lower()
         assert isinstance(return_type, str), TypeError(
-            f"@path_utils.scan_dir() return_type must be of type str. Got type: {type(return_type)}"
+            f"return_type must be of type str. Got type: {type(return_type)}"
         )
         assert return_type in VALID_RETURN_TYPES, ValueError(
-            f"@path_utils.scan_dir() Invalid return type: '{return_type}'. Must be one of {VALID_RETURN_TYPES}"
+            f"Invalid return type: '{return_type}'. Must be one of {VALID_RETURN_TYPES}"
         )
 
     ## Validate as_str/as_pathlib
     if as_str and as_pathlib:
-        print(
-            f"[WARNING] @path_utils.scan_dir() as_str and as_pathlib cannot both be true. Defaulting to as_str=True, as_pathlib=False"
+        log.warning(
+            "as_str and as_pathlib cannot both be true. Defaulting to as_str=True, as_pathlib=False"
         )
         as_pathlib = False
 
     ## Validate target
-    assert target is not None, ValueError(
-        "@path_utils.scan_dir() target cannot be None"
-    )
+    assert target is not None, ValueError("target cannot be None")
     assert isinstance(target, str) or isinstance(target, Path), TypeError(
-        f"@path_utils.scan_dir() target must be of type str or pathlib.Path. Got type: {type(target)}"
+        f"target must be of type str or pathlib.Path. Got type: {type(target)}"
     )
-    if isinstance(target, str):
-        target: Path = Path(target)
+    target: Path = Path(f"{target}")
+    if "~" in f"{target}":
+        target: Path = target.expanduser()
+
     assert target.exists(), FileNotFoundError(
-        f"@path_utils.scan_dir() Could not find target path: '{target}'."
+        f"Could not find target path: '{target}'."
     )
 
     ## Initialize empty list to store found paths
@@ -259,12 +267,14 @@ def crawl_dir(
         """
         if target is None:
             raise ValueError("Missing a target directory to scan")
-        if isinstance(target, str):
-            target: Path = Path(target)
+        target: Path = Path(f"{target}")
+        if "~" in f"{target}":
+            target: Path = target.expanduser()
         if not target.exists():
-            msg = FileNotFoundError(f"Could not find directory: {target}")
+            exc = FileNotFoundError(f"Could not find directory: {target}")
+            log.error(exc)
 
-            raise msg
+            raise exc
 
         return target
 
@@ -293,11 +303,12 @@ def crawl_dir(
                 f"Invalid type for return_type: ({type(return_type)}). Must be one of {VALID_RETURN_TYPES}"
             )
         if return_type not in VALID_RETURN_TYPES:
-            msg = ValueError(
+            exc = ValueError(
                 f"Invalid return type: {return_type}. Must be one of: {VALID_RETURN_TYPES}"
             )
+            log.error(exc)
 
-            raise msg
+            raise exc
 
         return return_type
 
@@ -309,6 +320,8 @@ def crawl_dir(
         Inherits `target`, `search_str`, and `return_type` from parent method that calls this function.
         """
         return_obj: dict[str, list[Path]] = {"files": [], "dirs": []}
+
+        log.info(f"Crawling target: {target} ...")
 
         for i in target.glob(search_str):
             if i.is_file():
@@ -385,13 +398,22 @@ def list_files(
         return return_files
 
     except FileNotFoundError as fnf:
-        raise FileNotFoundError(f"Could not find input path: {in_dir}. Details: {fnf}")
+        msg = Exception(f"Could not find input path: {in_dir}. Details: {fnf}")
+        log.error(msg)
+
+        raise fnf
     except PermissionError as perm:
-        raise PermissionError(f"Could not open path: {in_dir}. Details: {perm}")
+        msg = Exception(f"Could not open path: {in_dir}. Details: {perm}")
+        log.error(msg)
+
+        raise perm
     except Exception as exc:
-        raise Exception(
+        msg = Exception(
             f"Unhandled exception looping input path: {in_dir}. Details: {exc}"
         )
+        log.error(msg)
+
+        raise exc
 
 
 def ensure_dirs_exist(ensure_dirs: list[Union[str, Path]] = None) -> None:
@@ -413,7 +435,7 @@ def ensure_dirs_exist(ensure_dirs: list[Union[str, Path]] = None) -> None:
         elif isinstance(i, Path):
             validated_list.append(i)
         else:
-            print(
+            log.error(
                 ValueError(
                     f"Invalid type for list item: ({type(i)}). Must be of type str or Path."
                 )
@@ -427,11 +449,10 @@ def ensure_dirs_exist(ensure_dirs: list[Union[str, Path]] = None) -> None:
             try:
                 d.mkdir(exist_ok=True, parents=True)
             except Exception as exc:
-                print(
-                    Exception(
-                        f"Unhandled exception creating directory: {d}. Details: {exc}"
-                    )
+                msg = Exception(
+                    f"Unhandled exception creating directory: {d}. Details: {exc}"
                 )
+                log.error(msg)
                 pass
 
 
@@ -465,22 +486,21 @@ def delete_path(rm_path: Union[str, Path] = None) -> bool:
         return True
 
     except FileNotFoundError as fnf:
-        print(FileNotFoundError(f"Could not find file {str(rm_path)}. Details: {fnf}"))
+        msg = Exception(f"Could not find file {str(rm_path)}. Details: {fnf}")
+        log.error(msg)
 
         return False
     except PermissionError as perm:
-        print(
-            PermissionError(
-                f"Insufficient permissions to delete file {str(rm_path)}. Details: {perm}"
-            )
+        msg = Exception(
+            f"Insufficient permissions to delete file {str(rm_path)}. Details: {perm}"
         )
+        log.error(msg)
 
         return False
     except Exception as exc:
-        print(
-            Exception(
-                f"Unhandled exception deleting file {str(rm_path)}. Details: {exc}"
-            )
+        msg = Exception(
+            f"Unhandled exception deleting file {str(rm_path)}. Details: {exc}"
         )
+        log.error(msg)
 
         return False

@@ -4,6 +4,10 @@ from __future__ import annotations
 
 import inspect
 import json
+import logging
+
+log = logging.getLogger("red_utils.std.context_managers.object_managers.protect")
+
 
 class ListProtect:
     """Protect a list during modification by modifying a copy instead of the original.
@@ -29,7 +33,7 @@ class ListProtect:
     ```
     """
 
-    def __init__(self, original: list):
+    def __init__(self, original: list):  # noqa: D107
         ## Call immediately after with ListProtect() as copy.
         if not isinstance(original, list):
             raise TypeError(
@@ -39,19 +43,21 @@ class ListProtect:
         ## Set class value to original list
         self.original = original
 
-    def __enter__(self):
+    def __enter__(self):  # noqa: D105
         ## Call after initializing ListProtect instance.
         ## Create a copy of the list to work on
         self.clone: list = self.original.copy()
 
         return self.clone
 
-    def __exit__(self, exc_type, exc_value, exc_traceback):
+    def __exit__(self, exc_type, exc_value, exc_traceback) -> bool:  # noqa: D105
         ## Call if ListProtect context manager encounters an error.
         ## No exception encountered, update original
         #  list and return
         if exc_type is None:
             self.original[:] = self.clone
+        if exc_traceback:
+            log.error(exc_traceback)
 
         ## Error encountered, print details
         else:
@@ -74,8 +80,8 @@ class ListProtect:
             }
 
             ## Return error, exit returning original list
-            print(
-                f"[ERROR] Error encountered running list operation on protected list. Details: \n{err}"
+            log.error(
+                f"Error encountered running list operation on protected list. Details: \n{err}"
             )
 
         return True
@@ -105,7 +111,7 @@ class DictProtect:
     ```
     """
 
-    def __init__(self, original: dict):
+    def __init__(self, original: dict) -> None:  # noqa: D107
         ## Call immediately after with DictProtect() as copy.
         if not isinstance(original, dict):
             raise TypeError(
@@ -115,19 +121,21 @@ class DictProtect:
         ## Set class value to original dict
         self.original = original
 
-    def __enter__(self):
+    def __enter__(self) -> dict:  # noqa: D105
         ## Call after initializing DictProtect instance.
         ## Create a copy of the dict to work on
         self.clone: dict = self.original.copy()
 
         return self.clone
 
-    def __exit__(self, exc_type, exc_value, exc_traceback):
+    def __exit__(self, exc_type, exc_value, exc_traceback) -> bool:  # noqa: D105
         ## Call if DictProtect context manager encounters an error.
         ## No exception encountered, update original
         #  list and return
         if exc_type is None:
             self.original.update(self.clone)
+        if exc_traceback:
+            log.error(exc_traceback)
 
         ## Error encountered, print details
         else:
@@ -150,8 +158,8 @@ class DictProtect:
             }
 
             ## Return error, exit returning original list
-            print(
-                f"[ERROR] Error encountered running dict operation on protected dict. Details: \n{err}"
+            log.error(
+                f"Error encountered running dict operation on protected dict. Details: \n{err}"
             )
 
         return True

@@ -1,15 +1,12 @@
-"""Utilities for `pendulum` and `arrow` libraries.
-
-!!! warning
-
-    The `arrow_utils` module will eventually be phased out, as I have nearly abandoned `arrow` in favor of `pendulum`.
-"""
+"""Utilities for the `pendulum` library."""
 
 from __future__ import annotations
 
-import pkgutil
+from importlib.util import find_spec
 
-if pkgutil.find_loader("pendulum"):
+from red_utils.exc import MissingDependencyException
+
+if find_spec("pendulum"):
     from . import pendulum_utils
     from .pendulum_utils import get_ts
     from .pendulum_utils.constants import (

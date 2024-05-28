@@ -1,5 +1,9 @@
 from __future__ import annotations
 
+import logging
+
+log = logging.getLogger("red_utils.ext.fastapi_utils.dependencies")
+
 from fastapi import Request
 from loguru import logger as log
 

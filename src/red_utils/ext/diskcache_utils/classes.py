@@ -1,5 +1,9 @@
 from __future__ import annotations
 
+import logging
+
+log = logging.getLogger("red_utils.ext.diskcache_utils.classes")
+
 from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Any, Union
@@ -61,7 +65,7 @@ class CacheInstanceBase(DictMixin):
     cache: Cache | None = field(default=None)
     cache_timeout: int | None = field(default_factory=default_timeout)
 
-    def __post_init__(self):
+    def __post_init__(self):  # noqa: D105
         if isinstance(self.cache_dir, str):
             if self.cache_dir == ".":
                 self.cache_dir = Path().absolute()
@@ -103,7 +107,10 @@ class CacheInstanceBase(DictMixin):
             return cache
 
         except Exception as exc:
-            raise Exception(f"Unhandled exception creating cache. Details: {exc}")
+            msg = Exception(f"Unhandled exception creating cache. Details: {exc}")
+            log.error(msg)
+
+            raise exc
 
     def manage_cache_tag_index(self, operation: str = "create") -> None:
         """Create or delete a cache index.
@@ -139,9 +146,12 @@ class CacheInstanceBase(DictMixin):
                     )
 
         except Exception as exc:
-            raise Exception(
+            msg = Exception(
                 f"Unhandled exception configuring tag_index. Details: {exc}"
             )
+            log.error(msg)
+
+            raise exc
 
     def clear(self) -> bool:
         """Clear the entire cache.
@@ -160,9 +170,12 @@ class CacheInstanceBase(DictMixin):
                 return True
 
         except Exception as exc:
-            raise Exception(
+            msg = Exception(
                 f"Unhandled exception clearing cache at {self.cache.directory}. Details: {exc}"
             )
+            log.error(msg)
+
+            raise exc
 
 
 @dataclass
@@ -199,8 +212,8 @@ class CacheInstance(CacheInstanceBase):
 
     def set_val(
         self,
-        key: valid_key_types = None,
-        val: valid_val_types = None,
+        key: valid_key_types,
+        val: valid_val_types,
         expire: int = None,
         read: bool = False,
         tag: str = None,
@@ -231,9 +244,12 @@ class CacheInstance(CacheInstanceBase):
                 )
 
         except Exception as exc:
-            raise Exception(
+            msg = Exception(
                 f"Unhandled exception setting key/value pair for key: [{key}]. Details: {exc}"
             )
+            log.error(msg)
+
+            raise exc
 
     def get_val(self, key: valid_key_types = None, tags: list[str] = None):
         """Search for a key in a given cache.
@@ -259,9 +275,12 @@ class CacheInstance(CacheInstanceBase):
                         return _val
 
                 except Exception as exc:
-                    raise Exception(
+                    msg = Exception(
                         f"Unhandled exception retrieving value of key [{key}]. Details: {exc}"
                     )
+                    log.error(msg)
+
+                    raise exc
 
             else:
                 return {
@@ -298,9 +317,12 @@ class CacheInstance(CacheInstanceBase):
                 ref.touch(key, expire=expire)
 
         except Exception as exc:
-            raise Exception(
+            msg = Exception(
                 f"Unhandled exception setting expiration of {expire} on key [{key}] in cache at {self.cache.directory}/. Details: {exc}"
             )
+            log.error(msg)
+
+            raise exc
 
     def delete_val(self, key: valid_key_types = None, tag: str = None) -> tuple:
         """Delete a cached value.
@@ -321,9 +343,12 @@ class CacheInstance(CacheInstanceBase):
                 return _delete
 
         except Exception as exc:
-            raise Exception(
+            msg = Exception(
                 f"Unhandled exception deleting key {key} from cache at {self.cache.directory}/. Details: {exc}"
             )
+            log.error(msg)
+
+            raise exc
 
     def get_cache_size(self) -> dict[str, int]:
         """Get a dict describing the size of the cache, in bytes.
@@ -341,7 +366,10 @@ class CacheInstance(CacheInstanceBase):
             return {"unit": "bytes", "size": cache_size}
 
         except Exception as exc:
-            raise Exception(f"Unhandled exception getting cache size. Details: {exc}")
+            msg = Exception(f"Unhandled exception getting cache size. Details: {exc}")
+            log.error(msg)
+
+            raise exc
 
     def check_cache(self) -> list[warnings.WarningMessage]:
         """Run checks on Cache instance.
@@ -358,6 +386,9 @@ class CacheInstance(CacheInstanceBase):
             return warnings
 
         except Exception as exc:
-            raise Exception(
+            msg = Exception(
                 f"Unhandled exception checking cache for warnings. Details: {exc}"
             )
+            log.error(msg)
+
+            raise exc

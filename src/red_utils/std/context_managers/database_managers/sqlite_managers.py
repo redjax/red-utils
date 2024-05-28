@@ -7,6 +7,10 @@ trying operations before committing.
 
 from __future__ import annotations
 
+import logging
+
+log = logging.getLogger("red_utils.std.context_managers.database_managers")
+
 from pathlib import Path
 import sqlite3
 from typing import Union
@@ -32,17 +36,19 @@ class SQLiteConnManager:
     ```
     """
 
-    def __init__(self, path: Path):
+    def __init__(self, path: Path):  # noqa: D107
         ## Initialize SQLite connection manager.
         if isinstance(path, str):
             path: Path = Path(path)
 
         self.path = path
 
-    def __enter__(self):
+    def __enter__(self):  # noqa: D105
         ## Executed automatically when class is used as a context handler, like `with SQLiteConnManager() as conn: ...`
         if not self.path.exists():
-            print(FileNotFoundError(f"Database does not exist at path: {self.path}."))
+            log.error(
+                FileNotFoundError(f"Database does not exist at path: {self.path}.")
+            )
             with sqlite3.connect(self.path):
                 pass
 
@@ -54,21 +60,38 @@ class SQLiteConnManager:
             ## Return self, a configured SQLite client
             return self
         except FileNotFoundError as fnf:
-            raise FileNotFoundError(
+            msg = FileNotFoundError(
                 f"Database not found at path: {self.path}. Details: {fnf}"
             )
+            log.error(msg)
+
+            raise fnf
         except PermissionError as perm:
-            raise PermissionError(
+            msg = PermissionError(
                 f"Unable to open database at path: {self.path}. Details: {perm}"
             )
+            log.error(msg)
+
+            raise perm
         except sqlite3.Error as sqlite_exc:
-            raise sqlite3.Error(f"SQLite3 error encountered. Details: {sqlite_exc}")
+            msg = sqlite3.Error(f"SQLite3 error encountered. Details: {sqlite_exc}")
+            log.error(msg)
+
+            raise sqlite_exc
         except Exception as exc:
-            raise Exception(
+            msg = Exception(
                 f"Unhandled exception connecting to database. Details: ({exc.__class__}) {exc}"
             )
+            log.error(msg)
 
-    def __exit__(self, exc_type, exc_val, exc_traceback):
+            raise exc
+
+    def __exit__(self, exc_type, exc_val, exc_traceback):  # noqa: D105
+        if exc_val:
+            log.error(f"({exc_type}): {exc_val}")
+        if exc_traceback:
+            log.error(exc_traceback)
+
         ## Executed automatically when `with SQLiteConnManager()` exits. Executes on success or failure.
         self.connection.close()
 
@@ -97,7 +120,10 @@ class SQLiteConnManager:
                 return cols
 
         except Exception as exc:
-            raise Exception(f"Unhandled exception executing SQL. Details: {exc}")
+            msg = Exception(f"Unhandled exception executing SQL. Details: {exc}")
+            log.error(msg)
+
+            raise exc
 
     def get_tables(self) -> list[str]:
         """Get all table names from a SQLite databse.
@@ -121,7 +147,10 @@ class SQLiteConnManager:
                 return tables
 
         except Exception as exc:
-            raise Exception(f"Unhandled exception getting tables. Details: {exc}")
+            msg = Exception(f"Unhandled exception getting tables. Details: {exc}")
+            log.error(msg)
+
+            raise exc
 
     def run_sqlite_stmt(self, stmt: str = None) -> list[sqlite3.Row]:
         """Execute a SQL statement.
@@ -144,6 +173,9 @@ class SQLiteConnManager:
 
             return res
         except Exception as exc:
-            raise Exception(
+            msg = Exception(
                 f"Unhandled exception running SQL statement. Details: {exc}"
             )
+            log.error(msg)
+
+            raise exc

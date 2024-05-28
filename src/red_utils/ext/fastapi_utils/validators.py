@@ -1,5 +1,9 @@
 from __future__ import annotations
 
+import logging
+
+log = logging.getLogger("red_utils.ext.fastapi_utils.validators")
+
 from typing import Optional, Type, Union
 
 from fastapi import APIRouter
@@ -12,9 +16,12 @@ def is_str(input: str = None) -> str:
         try:
             input: str = str(input)
         except Exception as exc:
-            raise Exception(
-                f"Unhandled exception convering input from type({type(input)}) to type(str)"
+            msg = Exception(
+                f"Unhandled exception convering input from type({type(input)}) to type(str). Details: {exc}"
             )
+            log.error(msg)
+
+            raise exc
 
     return input
 
@@ -43,9 +50,12 @@ def validate_root_path(root_path: str = None) -> str:
         try:
             root_path: str = str(root_path)
         except Exception as exc:
-            raise Exception(
+            msg = Exception(
                 f"Unhandled exception convering root_path from type({type(root_path)}) to type(str)"
             )
+            log.error(msg)
+
+            raise exc
 
     return root_path
 

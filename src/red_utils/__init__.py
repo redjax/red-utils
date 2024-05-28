@@ -19,8 +19,15 @@ show up in the Reference section of this site. I'll get to it 🤷‍♂️
 
 from __future__ import annotations
 
-import pkgutil
+import logging
+import logging.handlers
 import sys
+
+from red_utils.std import logging_utils
+
+## Set a nullhandler on the library's logger.
+#  This is so the logger can be configured by the application that imports red_utils
+logging.getLogger("red_utils").addHandler(logging.NullHandler())
 
 sys.path.append(".")
 

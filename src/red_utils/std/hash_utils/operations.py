@@ -1,5 +1,9 @@
 from __future__ import annotations
 
+import logging
+
+log = logging.getLogger("red_utils.std.hash_utils")
+
 import hashlib
 
 def get_hash_from_str(input_str: str = None, encoding: str = "utf-8") -> str:
@@ -28,23 +32,29 @@ def get_hash_from_str(input_str: str = None, encoding: str = "utf-8") -> str:
             input_str: str = str(input_str)
 
         except Exception as exc:
-            raise Exception(
+            msg = Exception(
                 f"Unhandled exception converting input string ({type(input_str)}) to str()"
             )
+            log.error(msg)
+
+            raise exc
 
     try:
         hash = hashlib.md5(input_str.encode(encoding)).hexdigest()
 
     except Exception as exc:
-        raise Exception(
+        msg = Exception(
             f"Unhandled exception converting string to hash. Details: {exc}"
         )
+        log.error(msg)
+
+        raise exc
 
     return hash
 
 
 if __name__ == "__main__":
-    print(f"Hashlib demo start")
+    log.info(f"Hashlib demo start")
 
     _str: str = (
         "This is a test string to be hashed. It has alphanumeric characters like 'a' and 3, and special characters!"

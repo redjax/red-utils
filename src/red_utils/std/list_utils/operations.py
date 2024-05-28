@@ -1,5 +1,9 @@
 from __future__ import annotations
 
+import logging
+
+log = logging.getLogger("red_utils.std.list_utils")
+
 import random
 import typing as t
 

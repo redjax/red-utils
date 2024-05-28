@@ -130,6 +130,18 @@ def export_requirements(session: nox.Session, pdm_ver: str):
         "--without-hashes",
     )
 
+    print("Exporting test requirements")
+    session.run(
+        "pdm",
+        "export",
+        "-G",
+        "tests",
+        "--no-default",
+        "-o",
+        f"{REQUIREMENTS_OUTPUT_DIR}/requirements.tests.txt",
+        "--without-hashes",
+    )
+
     # print("Exporting CI requirements")
     # session.run(
     #     "pdm",
@@ -145,8 +157,7 @@ def export_requirements(session: nox.Session, pdm_ver: str):
 @nox.session(python=PY_VERSIONS, name="tests")
 @nox.parametrize("pdm_ver", [PDM_VER])
 def run_tests(session: nox.Session, pdm_ver: str):
-    session.install(f"pdm>={pdm_ver}")
-    session.run("pdm", "install")
+    session.install("-r", f"{REQUIREMENTS_OUTPUT_DIR}/requirements.tests.txt")
 
     print("Running Pytest tests")
     session.run(
@@ -155,9 +166,9 @@ def run_tests(session: nox.Session, pdm_ver: str):
         "pytest",
         "-n",
         "auto",
-        "--tb=auto",
+        "--tb=native",
         "-v",
-        "-rsXxfP",
+        "-rasXxfP",
     )
 
 
@@ -210,3 +221,137 @@ def build_docs(session: nox.Session, pdm_ver: str):
 #                         f"Unhandled exception copying file from '{src}' to '{dest}'. Details: {exc}"
 #                     )
 #                     print(f"[ERROR] {msg}")
+
+
+@nox.session(python=[DEFAULT_PYTHON], name="vulture-check")
+def run_vulture_check(session: nox.Session):
+    session.install(f"vulture")
+
+    print("Checking for dead code with vulture")
+    try:
+        session.run("vulture", "src/red_utils", "--min-confidence", "100")
+    except Exception as exc:
+        print(
+            f"\nNote: For some reason, this always 'fails' with exit code 3. Vulture still works when running in a Nox session, it seems this error can be ignored."
+        )
+
+
+@nox.session(python=[DEFAULT_PYTHON], name="bandit-check")
+def run_bandit_check(session: nox.Session):
+    session.install(f"bandit")
+
+    print("Checking code security with bandit")
+    try:
+        session.run("bandit", "-r", "src/red_utils")
+    except Exception as exc:
+        print(
+            f"\nNote: For some reason, this always 'fails' with exit code 1. Bandit still works when running in a Nox session, it seems this error can be ignored."
+        )
+
+
+@nox.session(python=[DEFAULT_PYTHON], name="bandit-baseline")
+def run_bandit_baseline(session: nox.Session):
+    session.install(f"bandit")
+
+    print("Getting bandit baseline")
+    try:
+        session.run(
+            "bandit", "-r", "src/red_utils", "-f", "json", "-o", "bandit_baseline.json"
+        )
+    except Exception as exc:
+        print(
+            f"\nNote: For some reason, this always 'fails' with exit code 1. Bandit still works when running in a Nox session, it seems this error can be ignored."
+        )
+
+
+@nox.session(python=[DEFAULT_PYTHON], name="detect-secrets")
+def scan_for_secrets(session: nox.Session):
+    session.install("detect-secrets")
+
+    # print("Scanning project for secrets")
+    session.run("detect-secrets", "scan")
+
+
+@nox.session(python=[DEFAULT_PYTHON], name="radon-code-complexity")
+def radon_code_complexity(session: nox.Session):
+    session.install("radon")
+
+    print("Getting code complexity score")
+    session.run(
+        "radon",
+        "cc",
+        "src/red_utils",
+        "-s",
+        "-a",
+        "--total-average",
+        "-nc",
+        # "-j",
+        # "-O",
+        # "radon_complexity_results.json",
+    )
+
+
+@nox.session(python=[DEFAULT_PYTHON], name="radon-raw")
+def radon_raw(session: nox.Session):
+    session.install("radon")
+
+    print("Running radon raw scan")
+    session.run(
+        "radon",
+        "raw",
+        "src/red_utils",
+        "-s",
+        # "-j",
+        # "-O",
+        # "radon_raw_results.json"
+    )
+
+
+@nox.session(python=[DEFAULT_PYTHON], name="radon-maintainability")
+def radon_maintainability(session: nox.Session):
+    session.install("radon")
+
+    print("Running radon maintainability scan")
+    session.run(
+        "radon",
+        "mi",
+        "src/red_utils",
+        "-n",
+        "C",
+        "-x",
+        "F",
+        "-s",
+        # "-j",
+        # "-O",
+        # "radon_maitinability_results.json",
+    )
+
+
+@nox.session(python=[DEFAULT_PYTHON], name="radon-halstead")
+def radon_halstead(session: nox.Session):
+    session.install("radon")
+
+    print("Running radon Halstead metrics scan")
+    session.run(
+        "radon",
+        "hal",
+        "src",
+        "red_utils",
+        "-f",
+        # "-j",
+        # "-O",
+        # "radon_halstead_results.json",
+    )
+
+
+@nox.session(python=[DEFAULT_PYTHON], name="xenon")
+def xenon_scan(session: nox.Session):
+    session.install("xenon")
+
+    print("Scanning complexity with xenon")
+    try:
+        session.run("xenon", "-b", "B", "-m", "C", "-a", "C", "src/red_utils")
+    except Exception as exc:
+        print(
+            f"\nNote: For some reason, this always 'fails' with exit code 1. Xenon still works when running in a Nox session, it seems this error can be ignored."
+        )

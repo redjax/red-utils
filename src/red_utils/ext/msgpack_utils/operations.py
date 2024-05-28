@@ -1,5 +1,9 @@
 from __future__ import annotations
 
+import logging
+
+log = logging.getLogger("red_utils.ext.msgpack_utils")
+
 from pathlib import Path
 from typing import Union
 from uuid import uuid4
@@ -37,17 +41,24 @@ def ensure_path(dir: Union[str, Path] = None) -> bool:
         try:
             dir.mkdir(parents=True, exist_ok=True)
         except FileExistsError as f_exc:
+            log.warning(f_exc)
+
             return True
         except PermissionError as perm_exc:
+            log.error(perm_exc)
+
             return False
         except Exception as exc:
-            raise Exception(
+            msg = Exception(
                 {
                     "success": False,
                     "error": f"Unhandled exception creating dir: [{dir}].",
                     "details": exc,
                 }
             )
+            log.error(msg)
+
+            return False
 
     else:
         return True
@@ -81,6 +92,7 @@ def msgpack_serialize(
         )
 
     except Exception as exc:
+        log.error(exc)
         # return_obj = {"success": False, "detail": {"message": f"{exc}"}}
         return_obj: SerialFunctionResponse = SerialFunctionResponse(
             success=False, detail=exc, operation="serialize"
@@ -141,7 +153,7 @@ def msgpack_serialize_file(
 
         except Exception as exc:
             # return_obj = {"success": False, "detail": {"message": f"{exc}"}}
-
+            log.error(exc)
             return_obj = SerialFunctionResponse(success=False, detail=exc)
 
     return return_obj
@@ -190,6 +202,7 @@ def msgpack_deserialize_file(
         # log.error({"exception": "Unhandled exception reading msgpack."}, exc_info=True)
 
         # return_obj = {"success": False, "detail": {"message": f"{exc}"}}
+        log.error(exc)
         return_obj = SerialFunctionResponse(success=False, detail=exc)
 
     return return_obj
@@ -233,7 +246,7 @@ def msgpack_deserialize(
 
     except Exception as exc:
         # log.error({"exception": "Unhandled exception reading msgpack."}, exc_info=True)
-
+        log.error(exc)
         return_obj = {"success": False, "detail": {"message": f"{exc}"}}
 
     return return_obj

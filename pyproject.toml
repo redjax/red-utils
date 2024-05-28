@@ -48,6 +48,7 @@ all = [
     "chardet>=5.2.0",
     "hishel>=0.0.26",
     "chardet>=5.2.0",
+    "rich>=13.7.1",
 ]
 fastapi = [
     "fastapi>=0.109.0",
@@ -82,6 +83,15 @@ docs = [
     "mkdocs-section-index>=0.3.8",
     "mkdocs-literate-nav>=0.6.1",
 ]
+tests = [
+    "loguru>=0.7.2",
+    "httpx>=0.27.0",
+    "hishel>=0.0.26",
+    "chardet>=5.2.0",
+    "sqlalchemy>=2.0.30",
+    "pendulum>=3.0.0",
+    "pytest-xdist>=3.6.1",
+]
 
 [tool.pdm.dev-dependencies]
 dev = [
@@ -92,6 +102,12 @@ dev = [
     "pdm-bump>=0.7.3",
     "nox>=2023.4.22",
     "pytest-xdist>=3.5.0",
+    "vulture>=2.11",
+    "bandit[toml]>=1.7.8",
+    "detect-secrets>=1.5.0",
+    "radon>=6.0.1",
+    "xenon>=0.9.1",
+    "memray>=1.12.0",
 ]
 
 [tool.pdm.scripts.tests]
@@ -114,6 +130,34 @@ cmd = "black ."
 
 [tool.pdm.scripts.format]
 cmd = "ruff check . --fix"
+
+[tool.pdm.scripts.vulture-check]
+cmd = "vulture src/red_utils --min-confidence 100"
+
+[tool.pdm.scripts.bandit-check]
+cmd = "bandit -r src/red_utils"
+
+[tool.bandit]
+exclude_dirs = ["tests"]
+skips = ["B324"]
+
+[tool.pdm.scripts.scan-secrets]
+cmd = "detect-secrets scan > .secrets.baseline"
+
+[tool.pdm.scripts.radon-complexity]
+cmd = "radon cc src/red_utils -s -a --total-average -nc -j -O radon_complexity_results.json"
+
+[tool.pdm.scripts.radon-raw]
+cmd = "radon raw src/red_utils -sjO radon_raw_results.json"
+
+[tool.pdm.scripts.radon-maintainability]
+cmd = "radon mi src/red_utils -n C -x F -s -j -O radon_maintainability_results.json"
+
+[tool.pdm.scripts.radon-halstead]
+cmd = "radon hal src red_utils -f -j -O radon_halstead_results.json"
+
+[tool.pdm.scripts.xenon-scan]
+cmd = "xenon -b B -m C -a C src/red_utils"
 
 [tool.pdm.scripts.export]
 shell = "pdm export --prod --no-default -o requirements.txt --without-hashes"

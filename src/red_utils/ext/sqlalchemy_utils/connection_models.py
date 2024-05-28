@@ -1,5 +1,8 @@
 from __future__ import annotations
 
+import logging
+
+log = logging.getLogger("red_utils.ext.sqlalchemy_utils.connection_models")
 from dataclasses import dataclass, field
 from pathlib import Path
 
@@ -132,20 +135,26 @@ class saSQLiteConnection(saConnectionBase):
             try:
                 _path.mkdir(parents=True, exist_ok=True)
             except PermissionError as perm_exc:
-                raise PermissionError(
+                msg = Exception(
                     f"Permission error trying to open {str(_path)}. Details: {perm_exc}"
                 )
+                log.error(msg)
+
+                raise exc
             except Exception as exc:
-                raise Exception(
+                msg = Exception(
                     f"Unhandled exception creating directories in path: {str(_path)}. Details: {exc}"
                 )
+                log.error(msg)
+
+                raise exc
 
 
 @dataclass
 class saMySQLConnection(saConnectionBase):
     drivername: str = field(default="mysql+pymysql")
 
-    def __init__(self):
+    def __init__(self) -> None:  # noqa: D107
         raise NotImplementedError(
             f"Support for MySQL database connections is not yet implemented."
         )

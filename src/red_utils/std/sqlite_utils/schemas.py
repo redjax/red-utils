@@ -1,5 +1,9 @@
 from __future__ import annotations
 
+import logging
+
+log = logging.getLogger("red_utils.std.sqlite_utils.schemas")
+
 from dataclasses import dataclass, field
 from pathlib import Path
 import sqlite3
@@ -59,23 +63,22 @@ class SQLiteDB:
         if not self.exists:
             try:
                 connection = sqlite3.Connection = sqlite3.connect(self.db_path)
-                print(f"Initializing empty database file at: {self.db_path}")
+                log.debug(f"Initializing empty database file at: {self.db_path}")
 
                 connection.close()
 
                 return True
             except Exception as exc:
-                print(
-                    Exception(
-                        f"Unhandled exception initializing an empty SQLite database at {self.db_path}. Details: {exc}"
-                    )
+                msg = Exception(
+                    f"Unhandled exception initializing an empty SQLite database at {self.db_path}. Details: {exc}"
                 )
+                log.error(msg)
 
                 return False
         else:
             return True
 
-    def __post_init__(self):
+    def __post_init__(self) -> None:  # noqa: D105
         if not self.ext.startswith("."):
             self.ext = f".{self.ext}"
 

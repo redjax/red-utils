@@ -1,5 +1,9 @@
 from __future__ import annotations
 
+import logging
+
+log = logging.getLogger("red_utils.ext.dataframe_utils.pandas_utils")
+
 from pathlib import Path
 from typing import Union
 
@@ -37,18 +41,24 @@ def get_oldest_newest(
         oldest = df.loc[df[date_col] == min_date]
 
     except Exception as exc:
-        raise Exception(
+        msg = Exception(
             f"Unhandled exception getting min date value from column [{date_col}]. Details: {exc}"
         )
+        log.error(msg)
+
+        raise exc
 
     try:
         max_date = df[date_col].max()
         newest = df.loc[df[date_col] == max_date]
 
     except Exception as exc:
-        raise Exception(
+        msg = Exception(
             f"Unhandled exception getting max date value from column [{date_col}]. Details: {exc}"
         )
+        log.error(msg)
+
+        raise exc
 
     if filter_cols is not None:
         try:
@@ -56,6 +66,9 @@ def get_oldest_newest(
             newest = newest[filter_cols]
         except Exception as exc:
             msg = Exception(f"Unhandled exception filtering columns. Details: {exc}")
+            log.error(msg)
+
+            raise exc
 
     return oldest, newest
 
@@ -76,14 +89,15 @@ def rename_df_cols(
     """
     if col_rename_map is None:
         msg = ValueError("No col_rename_map passed")
+        log.warning(msg)
 
         return df
 
     if df is None or df.empty:
         msg = ValueError("Missing DataFrame, or DataFrame is empty")
-        raise msg
+        log.error(msg)
 
-        return None
+        raise ValueError(msg)
 
     try:
         df = df.rename(columns=col_rename_map)
@@ -93,9 +107,9 @@ def rename_df_cols(
         msg = Exception(
             f"Unhandled exception renaming DataFrame columns. Details: {exc}"
         )
-        raise msg
+        log.error(msg)
 
-        return df
+        raise exc
 
 
 def count_df_rows(df: pd.DataFrame = None) -> int:
@@ -200,9 +214,12 @@ def convert_csv_to_pq(
     try:
         df = load_csv(csv_file=csv_file)
     except Exception as exc:
-        raise Exception(
+        msg = Exception(
             f"Unhandled exception reading CSV file '{csv_file}' to DataFrame. Details: {exc}"
         )
+        log.error(msg)
+
+        raise exc
 
     try:
         success = save_pq(df=df, pq_file=pq_file, dedupe=dedupe)
@@ -210,9 +227,12 @@ def convert_csv_to_pq(
         return success
 
     except Exception as exc:
-        raise Exception(
+        msg = Exception(
             f"Unhandled exception writing DataFrame to file: {pq_file}. Details: {exc}"
         )
+        log.error(msg)
+
+        raise exc
 
 
 def convert_pq_to_csv(
@@ -251,9 +271,12 @@ def convert_pq_to_csv(
     try:
         df = load_pq(pq_file=pq_file)
     except Exception as exc:
-        raise Exception(
+        msg = Exception(
             f"Unhandled exception reading Parquet file '{pq_file}' to DataFrame. Details: {exc}"
         )
+        log.error(msg)
+
+        raise exc
 
     try:
         success = save_csv(df=df, csv_file=csv_file, columns=df.columns, dedupe=dedupe)
@@ -261,9 +284,12 @@ def convert_pq_to_csv(
         return success
 
     except Exception as exc:
-        raise Exception(
+        msg = Exception(
             f"Unhandled exception writing DataFrame to file: {csv_file}. Details: {exc}"
         )
+        log.error(msg)
+
+        raise exc
 
 
 def load_pq(pq_file: Union[str, Path] = None) -> pd.DataFrame:
@@ -287,9 +313,9 @@ def load_pq(pq_file: Union[str, Path] = None) -> pd.DataFrame:
     if not pq_file.exists():
         msg = FileNotFoundError(f"Could not find Parquet file at '{pq_file}'")
         # log.error(msg)
-        raise msg
+        log.error(msg)
 
-        return None
+        raise exc
 
     try:
         df = pd.read_parquet(pq_file, engine="fastparquet")
@@ -300,9 +326,9 @@ def load_pq(pq_file: Union[str, Path] = None) -> pd.DataFrame:
         msg = Exception(
             f"Unhandled exception loading Parquet file '{pq_file}' to DataFrame. Details: {exc}"
         )
-        raise msg
+        log.error(msg)
 
-        return None
+        raise exc
 
 
 def save_pq(
@@ -325,6 +351,7 @@ def save_pq(
     """
     if df is None or df.empty:
         msg = ValueError("DataFrame is None or empty")
+        log.warning(msg)
 
         return False
 
@@ -344,6 +371,7 @@ def save_pq(
             msg = Exception(
                 f"Unhandled exception creating directory: {pq_file.parent}. Details: {exc}"
             )
+            log.error(msg)
 
             return False
 
@@ -359,9 +387,8 @@ def save_pq(
         msg = Exception(
             f"Unhandled exception saving DataFrame to Parquet file: {pq_file}. Details: {exc}"
         )
-        raise msg
-
-        return False
+        log.error(msg)
+        raise exc
 
 
 def load_csv(csv_file: Union[str, Path] = None, delimiter: str = ",") -> pd.DataFrame:
@@ -387,9 +414,8 @@ def load_csv(csv_file: Union[str, Path] = None, delimiter: str = ",") -> pd.Data
 
     if not csv_file.exists():
         msg = FileNotFoundError(f"Could not find CSV file: '{csv_file}'.")
-        raise msg
-
-        return None
+        log.error(msg)
+        raise exc
 
     try:
         df = pd.read_csv(csv_file, delimiter=delimiter)
@@ -400,9 +426,9 @@ def load_csv(csv_file: Union[str, Path] = None, delimiter: str = ",") -> pd.Data
         msg = Exception(
             f"Unhandled exception loading DataFrame from CSV file: {csv_file}. Details: {exc}"
         )
-        raise msg
+        log.error(msg)
 
-        return False
+        raise exc
 
 
 def save_csv(
@@ -448,6 +474,7 @@ def save_csv(
             msg = Exception(
                 f"Unhandled exception creating directory: {csv_file.parent}. Details: {exc}"
             )
+            log.error(msg)
 
             return False
 
@@ -469,6 +496,5 @@ def save_csv(
         msg = Exception(
             f"Unhandled exception saving DataFrame to Parquet file: {csv_file}. Details: {exc}"
         )
-        raise msg
-
-        return False
+        log.error(msg)
+        raise exc

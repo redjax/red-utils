@@ -1,3 +1,10 @@
+"""SQLAlchemy models support multi-inheritance.
+
+"Mixins" ([SQLAlchemy declarative mixins docs](https://docs.sqlalchemy.org/en/20/orm/declarative_mixins.html)) are partial classes
+that predefine some attributes and methods. These can enhance SQLAlchemy table classes you create (model classes that inherit from your `Base`),
+like adding a "modified" timestamp, or automatically naaming tables based on the model class's name.
+"""
+
 from __future__ import annotations
 
 from datetime import datetime
@@ -30,11 +37,11 @@ class TimestampMixin:
 
 
 class TableNameMixin:
-    """Mixing to automatically name tables based on class name.
+    """Mixin to automatically name tables based on class name.
 
     Generates a `__tablename__` for classes inheriting from this mixin.
     """
 
     @so.declared_attr.directive
-    def __tablename__(cls) -> str:
+    def __tablename__(cls) -> str:  # noqa: D105
         return cls.__name__.lower() + "s"

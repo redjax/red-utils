@@ -2,6 +2,10 @@
 
 from __future__ import annotations
 
+import logging
+
+log = logging.getLogger("red_utils.std.list_utils")
+
 import typing as t
 
 def validate_list(_list: list[t.Any] = None) -> list[t.Any]:

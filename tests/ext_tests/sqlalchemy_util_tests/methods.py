@@ -1,78 +1,72 @@
 from __future__ import annotations
 
+import random
+from typing import Type
+
 from .base import TEST_BASE
 from .models import EX_TESTUSERMODEL_FULL, EX_TESTUSERMODEL_LIST, TestUserModel
+from .repository import TestUserRepository
 from .schemas import TestUser, TestUserOut
 
 from loguru import logger as log
-import sqlalchemy as sa
+from red_utils.ext import sqlalchemy_utils
 import sqlalchemy.orm as so
 
-def create_base_metadata(
-    sqla_base: so.DeclarativeBase = None, sqla_engine: sa.Engine = None
-):
-    """Test method for creating SQLAlchemy Base metadata."""
-    assert sqla_base is not None, ValueError("sqla_base cannot be None")
-    assert sqla_engine is not None, ValueError("sqla_engine cannot be None")
-
-    try:
-        sqla_base.metadata.create_all(bind=sqla_engine)
-        print(f"SQLAlchemy Base metadata created")
-    except Exception as exc:
-        raise Exception(
-            f"Unhandled exception creating SQLAlchemy Base metadata. Details: {exc}"
-        )
-
-
-def initialize_test_db(
-    engine: sa.Engine,
+def init_test_db(
     base: so.DeclarativeBase = TEST_BASE,
+    db_settings: sqlalchemy_utils.DBSettings = None,
     insert_models: list[TestUserModel] = EX_TESTUSERMODEL_LIST,
-):
-    log.info(
-        f"Initializing database & seeding with [{len(insert_models)}] TestUserModel(s)"
-    )
+) -> None:
+    log.info("Initializing test database")
     try:
-        base.metadata.create_all(bind=engine)
-        log.success("Table metadata created")
+        base.metadata.create_all(bind=db_settings.get_engine())
     except Exception as exc:
         msg = Exception(f"Unhandled exception initializing database. Details: {exc}")
         log.error(msg)
 
-        raise msg
+        raise exc
 
-    SessionLocal: so.sessionmaker[so.Session] = so.sessionmaker(bind=engine)
+    # session: so.sessionmaker[so.Session] = db_settings.get_session_pool()
+    session_pool: so.sessionmaker[so.Session] = sqlalchemy_utils.get_session_pool(
+        engine=db_settings.get_engine(), autoflush=True
+    )
 
-    log.info(f"Inserting [{len(insert_models)}] TestUserModel(s) into the database")
-    for model in insert_models:
-        try:
-            insert_testusermodel(session_pool=SessionLocal, sqla_usermodel=model)
-        except Exception as exc:
-            msg = Exception(
-                f"Unhandled exception inserting TestUserModel into database. TestUserModel object: {model}. Details: {exc}"
-            )
-            log.error(msg)
+    with session_pool() as session:
+        repo: TestUserRepository = TestUserRepository(session=session)
+
+        log.info(f"Inserting [{len(insert_models)}] TestUserModel(s) into the database")
+        for model in insert_models:
+            try:
+                repo.add(entity=model)
+            except Exception as exc:
+                msg = Exception(
+                    f"Unhandled exception inserting TestUserModel into database. TestUserModel object: {model}. Details: {exc}"
+                )
+                log.error(msg)
 
 
-def insert_testusermodel(
-    session_pool: so.sessionmaker[so.Session] = None,
+def insert_one_testuser(
+    db_settings: sqlalchemy_utils.DBSettings = None,
     sqla_usermodel: TestUserModel = None,
 ):
-    assert session_pool is not None, ValueError("session_pool cannot be None")
+    # assert session_pool is not None, ValueError("session_pool cannot be None")
+    assert db_settings, ValueError("Missing DBSettings object.")
     assert sqla_usermodel is not None, ValueError("sqla_usermodel cannot be None")
 
-    print(f"Inserting TestUserModel: ({sqla_usermodel.__repr__()})")
-    with session_pool() as session:
-        session.expire_on_commit = False
-        session.add(sqla_usermodel)
-        try:
-            session.commit()
-            print(f"TestUserModel committed successfully")
+    log.info(f"Inserting TestUserModel: ({sqla_usermodel.__repr__()})")
+    session_pool: so.sessionmaker[so.Session] = sqlalchemy_utils.get_session_pool(
+        engine=db_settings.get_engine(), autoflush=True
+    )
 
+    with session_pool() as session:
+        repo = TestUserRepository(session=session())
+        try:
+            repo.add(sqla_usermodel)
         except Exception as exc:
-            raise Exception(
-                f"Unhandled exception committing TestUserModel to database. Details: {exc}\nTestUserModel: {sqla_usermodel.__repr__()}"
+            msg = Exception(
+                f"Unhandled exception inserting TestUserModel into database. Model: {sqla_usermodel.__dict__}. Details: {exc}"
             )
+            log.error(msg)
 
 
 def get_user_schema() -> TestUser:

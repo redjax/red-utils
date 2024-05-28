@@ -6,6 +6,10 @@ length of individual scripts.
 
 from __future__ import annotations
 
+import logging
+
+log = logging.getLogger("red_utils.ext.diskcache_utils")
+
 from pathlib import Path
 from typing import Optional, Type, Union
 
@@ -46,22 +50,23 @@ def convert_to_seconds(amount: int = None, unit: str = None) -> int:
     ## Allowed strings for conversion
     valid_time_units: list[int] = ["seconds", "hours", "minutes", "days", "weeks"]
 
-    if not unit:
-        raise ValueError(f"Missing unit. Must be one of {valid_time_units}")
+    assert unit is not None, ValueError(
+        f"Missing unit. Must be one of {valid_time_units}"
+    )
 
-    if not isinstance(unit, str):
-        raise TypeError(f"Invalid type for unit: {type(unit)}. Must be str")
+    assert isinstance(unit, str), TypeError(
+        f"Invalid type for unit: {type(unit)}. Must be str"
+    )
 
-    if unit not in valid_time_units:
-        raise TypeError(f"Invalid unit: {unit}. Must be one of {valid_time_units}")
+    assert unit in valid_time_units, TypeError(
+        f"Invalid unit: {unit}. Must be one of {valid_time_units}"
+    )
 
-    if not amount:
-        raise ValueError("Missing amount of unit, i.e. 3 days")
+    amount is not None, ValueError("Missing amount of unit, i.e. 3 days")
 
-    if not isinstance(amount, int):
-        raise TypeError(
-            f"Invalid type for amount: ({type(amount)}). Must be of type int"
-        )
+    assert isinstance(amount, int), TypeError(
+        f"Invalid type for amount: ({type(amount)}). Must be of type int"
+    )
 
     match unit:
         case "weeks":
@@ -96,19 +101,17 @@ def new_cache(
         (diskcache.core.Cache): An initialized `diskcache.Cache` object
 
     """
-    if not cache_dir:
-        raise ValueError("Missing cache directory")
+    assert cache_dir is not None, ValueError("Missing cache directory")
 
-    if not isinstance(cache_dir, Union[str, Path]):
-        raise TypeError(f"cache_dir must be of type str or Path, not {type(cache_dir)}")
+    assert isinstance(cache_dir, Union[str, Path]), TypeError(
+        f"cache_dir must be of type str or Path, not {type(cache_dir)}"
+    )
 
-    if not cache_conf:
-        raise ValueError(f"Missing cache")
+    assert cache_conf is not None, ValueError(f"Missing cache")
 
-    if not isinstance(cache_conf, dict):
-        raise TypeError(
-            f"Invalid type for [cache_conf]: ({type(cache_conf)}). Must be of type dict."
-        )
+    assert isinstance(cache_conf, dict), TypeError(
+        f"Invalid type for [cache_conf]: ({type(cache_conf)}). Must be of type dict."
+    )
 
     try:
         # _cache: diskcache.core.Cache = Cache(directory=cache_dir)
@@ -120,7 +123,10 @@ def new_cache(
         return _cache
 
     except Exception as exc:
-        raise Exception(f"Unhandled exception creating cache. Details: {exc}")
+        msg = Exception(f"Unhandled exception creating cache. Details: {exc}")
+        log.error(msg)
+
+        raise exc
 
 
 def clear_cache(cache: Cache = None) -> bool:
@@ -143,9 +149,12 @@ def clear_cache(cache: Cache = None) -> bool:
             return True
 
     except Exception as exc:
-        raise Exception(
+        msg = Exception(
             f"Unhandled exception clearing cache at {cache.directory}. Details: {exc}"
         )
+        log.error(msg)
+
+        raise exc
 
 
 def check_cache_key_exists(cache: diskcache.core.Cache = None, key: str = None) -> bool:
@@ -205,7 +214,10 @@ def manage_cache_tag_index(cache: Cache = None, operation: str = "create") -> No
                 )
 
     except Exception as exc:
-        raise Exception(f"Unhandled exception configuring tag_index. Details: {exc}")
+        msg = Exception(f"Unhandled exception configuring tag_index. Details: {exc}")
+        log.error(msg)
+
+        raise exc
 
 
 def set_val(
@@ -241,9 +253,12 @@ def set_val(
             ref.set(key=key, value=val, expire=expire, read=read, tag=tag, retry=retry)
 
     except Exception as exc:
-        raise Exception(
+        msg = Exception(
             f"Unhandled exception setting key/value pair for key: [{key}]. Details: {exc}"
         )
+        log.error(msg)
+
+        raise exc
 
 
 def set_expire(
@@ -270,9 +285,12 @@ def set_expire(
             ref.touch(key, expire=expire)
 
     except Exception as exc:
-        raise Exception(
+        msg = Exception(
             f"Unhandled exception setting expiration of {expire} on key [{key}] in cache at {cache.directory}/. Details: {exc}"
         )
+        log.error(msg)
+
+        raise exc
 
 
 def get_val(cache: Cache = None, key: str = None, tags: list[str] = None):
@@ -301,9 +319,12 @@ def get_val(cache: Cache = None, key: str = None, tags: list[str] = None):
                     return _val
 
             except Exception as exc:
-                raise Exception(
+                msg = Exception(
                     f"Unhandled exception retrieving value of key [{key}]. Details: {exc}"
                 )
+                log.error(msg)
+
+                raise exc
 
         else:
             return {
@@ -339,9 +360,12 @@ def delete_val(
             return _delete
 
     except Exception as exc:
-        raise Exception(
+        msg = Exception(
             f"Unhandled exception deleting key {key} from cache at {cache.directory}/. Details: {exc}"
         )
+        log.error(msg)
+
+        raise exc
 
 
 def get_cache_size(cache: Cache = None) -> dict[str, int]:
@@ -361,7 +385,10 @@ def get_cache_size(cache: Cache = None) -> dict[str, int]:
         cache_size: int = cache.volume()
 
     except Exception as exc:
-        raise Exception(f"Unhandled exception getting cache size. Details: {exc}")
+        msg = Exception(f"Unhandled exception getting cache size. Details: {exc}")
+        log.error(msg)
+
+        raise exc
 
     return {"unit": "bytes", "size": cache_size}
 
@@ -380,6 +407,9 @@ def check_cache(cache: Cache = None):
         return warnings
 
     except Exception as exc:
-        raise Exception(
+        msg = Exception(
             f"Unhandled exception checking cache for warnings. Details: {exc}"
         )
+        log.error(msg)
+
+        raise exc

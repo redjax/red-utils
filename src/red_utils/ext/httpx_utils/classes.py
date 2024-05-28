@@ -1,5 +1,9 @@
 from __future__ import annotations
 
+import logging
+
+log = logging.getLogger("red_utils.ext.httpx_utils.classes")
+
 from dataclasses import dataclass, field
 from typing import Union
 
@@ -33,7 +37,10 @@ class SimpleHTTPXClientBase:
 
             return _client
         except Exception as exc:
-            raise Exception(f"Unhandled exception getting HTTPX Client. Details: {exc}")
+            msg = Exception(f"Unhandled exception getting HTTPX Client. Details: {exc}")
+            log.error(msg)
+
+            raise exc
 
 
 @dataclass

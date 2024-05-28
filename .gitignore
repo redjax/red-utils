@@ -179,3 +179,16 @@ cython_debug/
 #  option (not recommended) you can uncomment the following to ignore the entire idea folder.
 #.idea/
 .pdm-python
+
+bandit_baseline.json
+
+.secrets.baseline
+
+## Radon
+radon_raw_results.json
+radon_complexity_results.json
+radon_maintainability_results.json
+radon_halstead_results.json
+
+## Memray
+memray-*

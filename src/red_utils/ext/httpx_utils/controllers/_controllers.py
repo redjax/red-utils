@@ -1,5 +1,9 @@
 from __future__ import annotations
 
+import logging
+
+log = logging.getLogger("red_utils.ext.httpx_utils.controllers")
+
 from contextlib import AbstractContextManager, contextmanager
 import json
 from pathlib import Path
@@ -26,8 +30,8 @@ def autodetect_charset(content: bytes = None):
         msg = Exception(
             f"Unhandled exception auto-detecting character set for input bytestring. Details: {exc}"
         )
-        print(f"[ERROR] {msg}")
-        print("[WARNING] Defaulting to utf-8")
+        log.error(msg)
+        log.warning("Defaulting to utf-8")
 
         return "utf-8"
 
@@ -133,7 +137,7 @@ class HTTPXController(AbstractContextManager):
             msg = Exception(
                 f"Unhandled exception initializing httpx Client. Details: {exc}"
             )
-            print(f"[ERROR] {msg}")
+            log.error(msg)
 
             raise exc
 
@@ -145,10 +149,10 @@ class HTTPXController(AbstractContextManager):
 
         """
         if exc_type:
-            print(f"([ERROR] {exc_type}): {exc_value}")
+            log.error(f"({exc_type}): {exc_value}")
 
         if traceback:
-            print(f"[TRACE] {traceback}")
+            log.error(f"TRACE: {traceback}")
 
         ## Close httpx client
         if self.client:
@@ -224,9 +228,9 @@ class HTTPXController(AbstractContextManager):
             msg = Exception(
                 f"Unhandled exception creaeting httpx.Request object. Details: {exc}"
             )
-            print(f"[ERROR] {msg}")
+            log.error(msg)
 
-            raise msg
+            raise exc
 
     def send_request(
         self,
@@ -258,8 +262,8 @@ class HTTPXController(AbstractContextManager):
                 auth=auth,
                 follow_redirects=self.follow_redirects,
             )
-            print(
-                f"[DEBUG] URL: {request.url}, Response: [{res.status_code}: {res.reason_phrase}]"
+            log.debug(
+                f"URL: {request.url}, Response: [{res.status_code}: {res.reason_phrase}]"
             )
 
             return res
@@ -269,14 +273,14 @@ class HTTPXController(AbstractContextManager):
             msg = Exception(
                 f"ConnectError while requesting URL {request.url}. Details: {conn_err}"
             )
-            print(f"[ERROR] {msg}")
+            log.error(msg)
 
             return
         except Exception as exc:
             msg = Exception(f"Unhandled exception sending request. Details: {exc}")
-            print(f"[ERROR] {msg}")
+            log.error(msg)
 
-            raise msg
+            raise exc
 
     def decode_res_content(self, res: httpx.Response = None) -> dict:
         """Use multiple methods to attempt to decode an `httpx.Response.content` bytestring.
@@ -306,9 +310,8 @@ class HTTPXController(AbstractContextManager):
             msg = Exception(
                 f"Unhandled exception detecting response content's encoding. Details: {exc}"
             )
-            print(f"[ERROR] {msg}")
-            print(f"[TRACE] {exc}")
-            print("[WARNING] Defaulting to 'utf-8'")
+            log.error(msg)
+            log.warning("Defaulting to 'utf-8'")
 
             decode_charset: str = "utf-8"
 
@@ -321,12 +324,12 @@ class HTTPXController(AbstractContextManager):
             msg = Exception(
                 f"[Attempt 1/2] Unhandled exception decoding response content. Details: {exc}"
             )
-            print(f"[WARNING] {msg}")
+            log.warning(msg)
 
             if not res.encoding == "utf-8":
                 ## Try decoding again, using response's .encoding param
-                print(
-                    f"[WARNING] Retrying response content decode with encoding '{res.encoding}'"
+                log.warning(
+                    f"Retrying response content decode with encoding '{res.encoding}'"
                 )
                 try:
                     _decode = res.content.decode(res.encoding)
@@ -334,15 +337,15 @@ class HTTPXController(AbstractContextManager):
                     inner_msg = Exception(
                         f"[Attempt 2/2] Unhandled exception decoding response content. Details: {exc}"
                     )
-                    print(f"[ERROR] {inner_msg}")
+                    log.error(inner_msg)
 
                     raise inner_msg
 
             else:
                 ## Decoding with utf-8 failed, attempt with ISO-8859-1
                 #  https://en.wikipedia.org/wiki/ISO/IEC_8859-1
-                print(
-                    "[WARNING] Detected UTF-8 encoding, but decoding as UTF-8 failed. Retrying with encoding ISO-8859-1."
+                log.warning(
+                    "Detected UTF-8 encoding, but decoding as UTF-8 failed. Retrying with encoding ISO-8859-1."
                 )
                 try:
                     _decode = res.content.decode("ISO-8859-1")
@@ -350,8 +353,9 @@ class HTTPXController(AbstractContextManager):
                     msg = Exception(
                         f"Failure attempting to decode content as UTF-8 and ISO-8859-1. Details: {exc}"
                     )
+                    log.error(msg)
 
-                    raise msg
+                    raise exc
 
         ## Load decoded content into dict
         try:
@@ -363,5 +367,6 @@ class HTTPXController(AbstractContextManager):
             msg = Exception(
                 f"Unhandled exception loading decoded response content to dict. Details: {exc}"
             )
+            log.error(msg)
 
-            raise msg
+            raise exc

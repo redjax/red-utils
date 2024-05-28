@@ -1,5 +1,9 @@
 from __future__ import annotations
 
+import logging
+
+log = logging.getLogger("red_utils.ext.httpx_utils")
+
 from .constants import (
     default_headers,
 )
@@ -24,7 +28,10 @@ def merge_headers(
         _headers: dict = {**update_vals, **original_headers}
 
     except Exception as exc:
-        raise Exception(f"Unhandled exception merging header dicts. Details: {exc}")
+        msg = Exception(f"Unhandled exception merging header dicts. Details: {exc}")
+        log.error(msg)
+
+        raise exc
 
     return _headers
 
@@ -45,7 +52,10 @@ def update_headers(
         return new_headers
 
     except Exception as exc:
-        raise Exception(f"Unhandled exception updating headers. Details: {exc}")
+        msg = Exception(f"Unhandled exception updating headers. Details: {exc}")
+        log.error(msg)
+
+        raise exc
 
 
 def get_req_client(
@@ -71,8 +81,8 @@ def make_request(
     validate_method(method)
 
     if not client:
-        print(
-            f"[HTTPX] [WARNING] No request client passed to make_request() function. Getting default client."
+        log.warning(
+            "No request client passed to make_request() function. Getting default client."
         )
 
         client = get_req_client(headers=headers, timeout=timeout)
@@ -108,4 +118,7 @@ def make_request(
         return res
 
     except Exception as exc:
-        raise Exception(f"Unhandled exception creating request client. Details: {exc}")
+        msg = Exception(f"Unhandled exception creating request client. Details: {exc}")
+        log.error(msg)
+
+        raise exc
