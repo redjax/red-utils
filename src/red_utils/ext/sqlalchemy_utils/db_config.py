@@ -1,3 +1,7 @@
+import logging
+
+log = logging.getLogger("red_utils.ext.sqlalchemy_utils.db_config")
+
 from contextlib import contextmanager
 from dataclasses import dataclass, field
 from pathlib import Path
@@ -103,7 +107,8 @@ class DBSettings:
             msg = Exception(
                 f"Unhandled exception getting SQLAlchemy database URL. Details: {exc}"
             )
-            raise msg
+            log.error(msg)
+            raise exc
 
     def get_engine(self, echo_override: bool | None = None) -> sa.Engine:
         """Build & return a SQLAlchemy `Engine`.
@@ -133,8 +138,9 @@ class DBSettings:
             msg = Exception(
                 f"Unhandled exception getting database engine. Details: {exc}"
             )
+            log.error(msg)
 
-            raise msg
+            raise exc
 
     def get_session_pool(self) -> so.sessionmaker[so.Session]:
         """Configure a session pool using class's SQLAlchemy `Engine`.
@@ -176,7 +182,8 @@ class DBSettings:
             msg = Exception(
                 f"Unhandled exception yielding database session. Details: {exc}"
             )
+            log.error(msg)
 
-            raise msg
+            raise exc
         finally:
             db.close()

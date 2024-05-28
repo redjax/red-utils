@@ -1,5 +1,9 @@
 from __future__ import annotations
 
+import logging
+
+log = logging.getLogger("red_utils.ext.time_utils.pendulum_utils")
+
 from typing import Union
 
 from red_utils.exc import MissingDependencyException

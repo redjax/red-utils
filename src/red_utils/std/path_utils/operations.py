@@ -272,9 +272,10 @@ def crawl_dir(
         if "~" in f"{target}":
             target: Path = target.expanduser()
         if not target.exists():
-            msg = FileNotFoundError(f"Could not find directory: {target}")
+            exc = FileNotFoundError(f"Could not find directory: {target}")
+            log.error(exc)
 
-            raise msg
+            raise exc
 
         return target
 
@@ -303,11 +304,12 @@ def crawl_dir(
                 f"Invalid type for return_type: ({type(return_type)}). Must be one of {VALID_RETURN_TYPES}"
             )
         if return_type not in VALID_RETURN_TYPES:
-            msg = ValueError(
+            exc = ValueError(
                 f"Invalid return type: {return_type}. Must be one of: {VALID_RETURN_TYPES}"
             )
+            log.error(exc)
 
-            raise msg
+            raise exc
 
         return return_type
 

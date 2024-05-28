@@ -1,5 +1,9 @@
 from __future__ import annotations
 
+import logging
+
+log = logging.getLogger("red_utils.ext.sqlalchemy_utils.utils")
+
 from typing import Any, Optional, Union
 
 from .connection_models import (
