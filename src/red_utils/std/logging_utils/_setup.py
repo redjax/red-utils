@@ -1,17 +1,18 @@
-import typing as t
+from __future__ import annotations
+
+from copy import deepcopy
 import logging
 import logging.config
-from copy import deepcopy
+import typing as t
 
 log = logging.getLogger("red_utils.std.logging_utils.setup")
 
 from red_utils.std.logging_utils._methods import merge_config_dicts
 from red_utils.std.logging_utils.fmts._formats import (
     DATE_FMT_STANDARD,
-    MESSAGE_FMT_STANDARD,
     MESSAGE_FMT_DETAILED,
+    MESSAGE_FMT_STANDARD,
 )
-
 
 # def setup_logging(
 #     app_name: str = "app",

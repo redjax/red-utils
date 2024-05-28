@@ -1,10 +1,10 @@
 """Context manager classes to protect instances of objects."""
 
 from __future__ import annotations
-import logging
 
 import inspect
 import json
+import logging
 
 log = logging.getLogger("red_utils.std.context_managers.object_managers.protect")
 

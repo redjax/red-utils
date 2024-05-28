@@ -19,7 +19,6 @@ from .validators import (
 
 import httpx
 
-
 @dataclass
 class SimpleHTTPXClientBase:
     method: str | None = field(default="GET")

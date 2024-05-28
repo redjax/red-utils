@@ -1,7 +1,7 @@
 from __future__ import annotations
 
-import typing as t
 from dataclasses import dataclass, field
+import typing as t
 from typing import Optional, Type, Union
 
 from red_utils.core.dataclass_utils.mixins import DictMixin

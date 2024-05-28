@@ -2,9 +2,9 @@
 
 from __future__ import annotations
 
-from red_utils.exc import MissingDependencyException
 from importlib.util import find_spec
 
+from red_utils.exc import MissingDependencyException
 
 if find_spec("pendulum"):
     from . import pendulum_utils

@@ -1,5 +1,7 @@
-import typing as t
+from __future__ import annotations
+
 import abc
+import typing as t
 
 ## Define generic TypeVar to indicate a class instance type
 T = t.TypeVar("T")

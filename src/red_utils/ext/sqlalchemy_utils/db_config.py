@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 import logging
 
 log = logging.getLogger("red_utils.ext.sqlalchemy_utils.db_config")
@@ -9,7 +11,6 @@ import typing as t
 
 import sqlalchemy as sa
 import sqlalchemy.orm as so
-
 
 @dataclass
 class DBSettings:

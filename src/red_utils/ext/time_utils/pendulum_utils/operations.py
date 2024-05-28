@@ -7,6 +7,7 @@ log = logging.getLogger("red_utils.ext.time_utils.pendulum_utils")
 from typing import Union
 
 from red_utils.exc import MissingDependencyException
+
 from .constants import (
     DEFAULT_TZ,
     TIME_FMT_12H,

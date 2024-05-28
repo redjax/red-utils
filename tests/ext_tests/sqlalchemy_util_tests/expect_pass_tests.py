@@ -1,21 +1,23 @@
+from __future__ import annotations
+
 import logging
 
 log = logging.getLogger("tests.ext_tests.sqlalchemy_util_tests.expect_pass_tests")
 
-from _collections_abc import dict_keys
 import random
 from typing import Type
 
 from .base import TEST_BASE
 from .methods import (
-    init_test_db,
     get_list_user_schemas,
     get_user_schema,
+    init_test_db,
 )
 from .models import EX_TESTUSERMODEL_FULL, EX_TESTUSERMODEL_LIST, TestUserModel
-from .schemas import TestUser, TestUserOut, TestUserUpdate
 from .repository import TestUserRepository
+from .schemas import TestUser, TestUserOut, TestUserUpdate
 
+from _collections_abc import dict_keys
 from pytest import mark, xfail
 from red_utils.ext import sqlalchemy_utils
 from red_utils.ext.loguru_utils import LoguruSinkStdOut, init_logger

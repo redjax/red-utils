@@ -1,5 +1,6 @@
-import logging
+from __future__ import annotations
 
+import logging
 
 def test_red_utils_logging():
     log = logging.getLogger("red_utils")

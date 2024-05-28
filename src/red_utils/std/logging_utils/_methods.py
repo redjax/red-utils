@@ -1,6 +1,8 @@
-import typing as t
-import logging
+from __future__ import annotations
+
 from copy import deepcopy
+import logging
+import typing as t
 
 log = logging.getLogger("red_log.std.logging_utils")
 

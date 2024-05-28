@@ -15,4 +15,4 @@ class MyException(CustomException):
 from __future__ import annotations
 
 from ._generic import CustomException
-from .import_exc import MissingDependencyException, CustomModuleNotFoundError
+from .import_exc import CustomModuleNotFoundError, MissingDependencyException
