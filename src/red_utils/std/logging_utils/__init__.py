@@ -1,5 +1,5 @@
-from . import formats
+from . import fmts
 from ._setup import setup_logging
-from . import lib_loggers
-from ._methods import merge_config_dicts
-from .lib_loggers import red_utils_logger
+from ._methods import merge_config_dicts, return_logging_config_dict
+from . import config_dicts
+from .config_dicts import lib_configs

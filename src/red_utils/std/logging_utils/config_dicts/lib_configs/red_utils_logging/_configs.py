@@ -3,24 +3,44 @@ import logging
 log = logging.getLogger("red_utils.std.logging_utils.lib_loggers.red_utils_logger")
 
 from red_utils.std.logging_utils._methods import merge_config_dicts
-from red_utils.std.logging_utils.formats import (
+from red_utils.std.logging_utils.fmts import (
     MESSAGE_FMT_DETAILED,
     MESSAGE_FMT_STANDARD,
     DATE_FMT_STANDARD,
     RED_UTILS_DETAIL_FMT,
     RED_UTILS_FMT,
+    MESSAGE_FMT_BASIC,
+    DATE_FMT_DATE_ONLY,
+    DATE_FMT_TIME_ONLY,
 )
 
+
 RED_UTILS_STANDARD_FORMATTER = {
-    "red_utils_standard_fmt": {
-        "format": RED_UTILS_FMT,
-        "datefmt": DATE_FMT_STANDARD,
-    }
+    "red_utils_fmt": {"format": MESSAGE_FMT_STANDARD, "datefmt": DATE_FMT_STANDARD}
 }
 RED_UTILS_DETAILED_FORMATTER: dict = {
     "red_utils_detail_fmt": {
-        "format": RED_UTILS_DETAIL_FMT,
+        "format": MESSAGE_FMT_DETAILED,
         "datefmt": DATE_FMT_STANDARD,
+    }
+}
+
+
+RED_UTILS_CONSOLE_HANDLER: dict = {
+    "red_utils_console": {
+        "class": "logging.StreamHandler",
+        "level": "DEBUG",
+        "formatter": "red_utils_fmt",
+        "stream": "ext://sys.stdout",
+    }
+}
+
+
+RED_UTILS_LOGGER: dict = {
+    "red_utils": {
+        "handlers": ["red_utils_console"],
+        "level": "DEBUG",
+        "propagate": False,
     }
 }
 
@@ -56,7 +76,6 @@ RED_UTILS_DETAILED_LOGGER: dict = {
         "propagate": False,
     }
 }
-
 
 RED_UTILS_STANDARD_LOGGING_CONFIGDICT = {
     "formatters": {
