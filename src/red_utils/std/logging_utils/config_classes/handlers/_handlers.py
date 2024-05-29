@@ -4,15 +4,16 @@ Each class has a `.get_configdict()` method, which returns a dict representation
 that can be added to a logging config dict.
 """
 
-import typing as t
+from __future__ import annotations
+
 from dataclasses import dataclass, field
 from queue import Queue
+import typing as t
 
 from red_utils.std.logging_utils.config_classes.base import (
     BaseHandlerConfig,
     BaseLoggingConfig,
 )
-
 
 @dataclass
 class StreamHandlerConfig(BaseHandlerConfig):

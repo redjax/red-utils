@@ -4,6 +4,8 @@ If you want to see messages from `red_utils` modules in your app, you will need 
 a logging config by using the methods in this script.
 """
 
+from __future__ import annotations
+
 import logging
 
 log = logging.getLogger(
@@ -18,32 +20,30 @@ from red_utils.std.logging_utils.__methods import (
     get_rotatingfilehandler_config,
     get_streamhandler_config,
 )
-from red_utils.std.logging_utils.fmts._formats import (
-    RED_UTILS_FMT,
-    RED_UTILS_DETAIL_FMT,
+from red_utils.std.logging_utils.config_classes.formatters import FormatterConfig
+from red_utils.std.logging_utils.config_classes.handlers import (
+    FileHandlerConfig,
+    QueueHandlerConfig,
+    QueueListenerConfig,
+    RotatingFileHandlerConfig,
+    SMTPHandlerConfig,
+    SocketHandlerConfig,
+    StreamHandlerConfig,
+    TimedRotatingFileHandlerConfig,
+)
+from red_utils.std.logging_utils.config_classes.loggers import (
+    LoggerConfig,
+    LoggerFactory,
 )
 from red_utils.std.logging_utils.fmts import (
     DATE_FMT_DATE_ONLY,
     DATE_FMT_STANDARD,
     DATE_FMT_TIME_ONLY,
 )
-
-from red_utils.std.logging_utils.config_classes.formatters import FormatterConfig
-from red_utils.std.logging_utils.config_classes.handlers import (
-    FileHandlerConfig,
-    RotatingFileHandlerConfig,
-    TimedRotatingFileHandlerConfig,
-    SMTPHandlerConfig,
-    SocketHandlerConfig,
-    StreamHandlerConfig,
-    QueueHandlerConfig,
-    QueueListenerConfig,
+from red_utils.std.logging_utils.fmts._formats import (
+    RED_UTILS_DETAIL_FMT,
+    RED_UTILS_FMT,
 )
-from red_utils.std.logging_utils.config_classes.loggers import (
-    LoggerConfig,
-    LoggerFactory,
-)
-
 
 def get_red_utils_formatter(
     name: str = "red_utils", fmt: str = RED_UTILS_FMT, datefmt: str = DATE_FMT_STANDARD

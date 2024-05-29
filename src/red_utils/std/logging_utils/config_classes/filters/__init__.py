@@ -4,12 +4,13 @@ When using a dictConfig, you only need to reference these filters by name, i.e. 
 do need to import the filter function into whatever script runs the `logging.config.dictConfig()` function.
 """
 
-from . import loglevel_filters
+from __future__ import annotations
 
+from . import loglevel_filters
 from .loglevel_filters import (
-    info_filter,
-    debug_filter,
-    warning_filter,
-    error_filter,
     critical_filter,
+    debug_filter,
+    error_filter,
+    info_filter,
+    warning_filter,
 )

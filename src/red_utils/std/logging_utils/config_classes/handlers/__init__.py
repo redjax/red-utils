@@ -3,13 +3,15 @@
 Handlers define what to do with log messages as they are created.
 """
 
+from __future__ import annotations
+
 from ._handlers import (
     FileHandlerConfig,
-    SMTPHandlerConfig,
     QueueHandlerConfig,
     QueueListenerConfig,
+    RotatingFileHandlerConfig,
+    SMTPHandlerConfig,
     SocketHandlerConfig,
     StreamHandlerConfig,
-    RotatingFileHandlerConfig,
     TimedRotatingFileHandlerConfig,
 )

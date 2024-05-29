@@ -5,8 +5,9 @@ For example, to only show DEBUG level messages, you could add `filters=["debug_f
 When adding these methods to a config, you must import the function into the same script where `logging.config.dictConfig()` is executed.
 """
 
-import logging
+from __future__ import annotations
 
+import logging
 
 def debug_filter(record: logging.LogRecord) -> bool:
     """Filter to only show DEBUG and above."""

@@ -1,10 +1,11 @@
 """Define loggers for a logging dictConfig."""
 
-import typing as t
+from __future__ import annotations
+
 from dataclasses import dataclass
+import typing as t
 
 from red_utils.std.logging_utils.config_classes.base import BaseLoggingConfig
-
 
 @dataclass
 class LoggerConfig(BaseLoggingConfig):

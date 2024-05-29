@@ -1,9 +1,10 @@
 """Abstract base classes for logging object classes."""
 
-import typing as t
+from __future__ import annotations
+
 from abc import ABC, abstractmethod
 from dataclasses import dataclass, field
-
+import typing as t
 
 @dataclass
 class BaseLoggingConfig(ABC):

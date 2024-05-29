@@ -1,10 +1,11 @@
 """Define filter classes for logging configs."""
 
+from __future__ import annotations
+
 from dataclasses import dataclass
 import logging
 
 from red_utils.std.logging_utils.config_classes.base import BaseLoggingConfig
-
 
 @dataclass
 class FilterConfig(BaseLoggingConfig):

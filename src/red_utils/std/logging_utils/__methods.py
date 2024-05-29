@@ -1,44 +1,46 @@
 """Functions to add in creating/working with the logging config classes in this module."""
 
+from __future__ import annotations
+
 import logging
 
 log = logging.getLogger("red_utils.std.logging_utils")
 
 from copy import deepcopy
-import typing as t
 from pathlib import Path
+import typing as t
 
 from red_utils.std.logging_utils.__base import BASE_LOGGING_CONFIG_DICT
-from red_utils.std.logging_utils.fmts import (
-    MESSAGE_FMT_BASIC,
-    MESSAGE_FMT_DETAILED,
-    MESSAGE_FMT_STANDARD,
-    DATE_FMT_DATE_ONLY,
-    DATE_FMT_STANDARD,
-    DATE_FMT_TIME_ONLY,
-)
-from red_utils.std.logging_utils.fmts import RED_UTILS_DETAIL_FMT, RED_UTILS_FMT
+from red_utils.std.logging_utils.config_classes.formatters import FormatterConfig
 from red_utils.std.logging_utils.config_classes.handlers import (
-    RotatingFileHandlerConfig,
-    StreamHandlerConfig,
     FileHandlerConfig,
     QueueHandlerConfig,
     QueueListenerConfig,
+    RotatingFileHandlerConfig,
     SocketHandlerConfig,
+    StreamHandlerConfig,
     TimedRotatingFileHandlerConfig,
 )
-from red_utils.std.logging_utils.config_classes.formatters import FormatterConfig
 from red_utils.std.logging_utils.config_classes.loggers import (
     LoggerConfig,
     LoggerFactory,
 )
 from red_utils.std.logging_utils.config_classes.types import (
     HANDLER_CLASSES_TYPE,
-    LOGGING_CONFIG_DICT_TYPE,
     HANDLER_CLASSES_TYPE_ANNOTATION,
+    LOGGING_CONFIG_DICT_TYPE,
     LOGGING_CONFIG_DICT_TYPE_ANNOTATION,
 )
-
+from red_utils.std.logging_utils.fmts import (
+    DATE_FMT_DATE_ONLY,
+    DATE_FMT_STANDARD,
+    DATE_FMT_TIME_ONLY,
+    MESSAGE_FMT_BASIC,
+    MESSAGE_FMT_DETAILED,
+    MESSAGE_FMT_STANDARD,
+    RED_UTILS_DETAIL_FMT,
+    RED_UTILS_FMT,
+)
 
 def _ensure_logdir(p: t.Union[str, Path] = None) -> None:
     """Ensure a directory exists.

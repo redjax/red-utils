@@ -1,14 +1,17 @@
 """Types and annotations for my customer logging config objects."""
 
+from __future__ import annotations
+
 import typing as t
+
 from .handlers import (
     FileHandlerConfig,
-    RotatingFileHandlerConfig,
-    TimedRotatingFileHandlerConfig,
-    StreamHandlerConfig,
-    SocketHandlerConfig,
     QueueHandlerConfig,
     QueueListenerConfig,
+    RotatingFileHandlerConfig,
+    SocketHandlerConfig,
+    StreamHandlerConfig,
+    TimedRotatingFileHandlerConfig,
 )
 
 HANDLER_CLASSES_TYPE = t.Union[

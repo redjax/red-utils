@@ -3,6 +3,8 @@
 This can be imported and updated to create a valid logging dictConfig.
 """
 
+from __future__ import annotations
+
 import typing as t
 
 BASE_LOGGING_CONFIG_DICT: dict[str, t.Any] = {

@@ -4,20 +4,21 @@ Each class has a `.get_configdict()` method, which returns a dict representation
 that can be added to a logging config dict.
 """
 
+from __future__ import annotations
+
 from dataclasses import dataclass
 
 from red_utils.std.logging_utils.config_classes.base import BaseLoggingConfig
 from red_utils.std.logging_utils.fmts._formats import (
+    DATE_FMT_DATE_ONLY,
+    DATE_FMT_STANDARD,
+    DATE_FMT_TIME_ONLY,
     MESSAGE_FMT_BASIC,
     MESSAGE_FMT_DETAILED,
     MESSAGE_FMT_STANDARD,
     RED_UTILS_DETAIL_FMT,
     RED_UTILS_FMT,
-    DATE_FMT_DATE_ONLY,
-    DATE_FMT_STANDARD,
-    DATE_FMT_TIME_ONLY,
 )
-
 
 @dataclass
 class FormatterConfig(BaseLoggingConfig):
