@@ -16,3 +16,10 @@ from .types import (
     LOGGING_CONFIG_DICT_TYPE,
     LOGGING_CONFIG_DICT_TYPE_ANNOTATION,
 )
+from . import prefab
+from .prefab import third_party
+from .prefab.third_party.red_utils_logging import (
+    get_red_utils_console_handler,
+    get_red_utils_formatter,
+    get_red_utils_logger,
+)
