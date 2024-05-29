@@ -4,7 +4,6 @@ import logging
 
 log = logging.getLogger("red_utils.std.logging_utils.lib_loggers.red_utils_logger")
 
-from red_utils.std.logging_utils._methods import merge_config_dicts
 from red_utils.std.logging_utils.fmts import (
     DATE_FMT_DATE_ONLY,
     DATE_FMT_STANDARD,
@@ -104,22 +103,3 @@ RED_UTILS_DETAILED_LOGGING_CONFIGDICT = {
         **RED_UTILS_DETAILED_LOGGER,
     },
 }
-
-
-def merge_red_utils_logging_configdict(
-    logging_config: dict = None,
-    red_utils_dictconfig: dict = RED_UTILS_STANDARD_LOGGING_CONFIGDICT,
-) -> dict:
-    try:
-        merged_configdict = merge_config_dicts(
-            configdict1=logging_config, configdict2=red_utils_dictconfig
-        )
-
-        return merged_configdict
-    except Exception as exc:
-        msg = Exception(
-            f"Unhandled exception merging configuration dicts. Details: {exc}"
-        )
-        log.error(msg)
-
-        raise exc

@@ -11,6 +11,7 @@ from red_utils.std.logging_utils.fmts._formats import (
     MESSAGE_FMT_STANDARD,
 )
 
+
 log = logging.getLogger("red_utils.std.logging_utils.config_dicts")
 
 STANDARD_FORMATTER = {

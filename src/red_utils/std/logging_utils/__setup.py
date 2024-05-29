@@ -7,7 +7,7 @@ import typing as t
 
 log = logging.getLogger("red_utils.std.logging_utils.setup")
 
-from red_utils.std.logging_utils._methods import merge_config_dicts
+from red_utils.std.logging_utils.__methods import merge_config_dicts
 from red_utils.std.logging_utils.fmts._formats import (
     DATE_FMT_STANDARD,
     MESSAGE_FMT_DETAILED,

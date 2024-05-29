@@ -11,8 +11,6 @@ from ._configs import (
     RED_UTILS_STANDARD_LOGGING_CONFIGDICT,
 )
 from ._configs import (
-    merge_red_utils_logging_configdict,
     get_red_utils_detailed_logger,
     get_red_utils_standard_logger,
 )
-from ._test_log import test_red_utils_logging
