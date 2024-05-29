@@ -1,3 +1,5 @@
+"""Define filter classes for logging configs."""
+
 from dataclasses import dataclass
 import logging
 
@@ -6,7 +8,12 @@ from red_utils.std.logging_utils.config_classes.base import BaseLoggingConfig
 
 @dataclass
 class FilterConfig(BaseLoggingConfig):
-    """Define a logging filter."""
+    """Define a logging filter.
+
+    Params:
+        name (str): A name for the filter, which can be added to a dictConfig's `filters` param.
+        func (callable): The filter function to use when this class is called by a handler.
+    """
 
     name: str
     func: callable

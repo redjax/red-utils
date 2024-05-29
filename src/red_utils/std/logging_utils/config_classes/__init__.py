@@ -18,7 +18,6 @@ from .filters import (
     warning_filter,
     critical_filter,
 )
-from .configs import LoggingConfig
 from .formatters import FormatterConfig
 from .loggers import LoggerConfig, LoggerFactory
 from .handlers import FileHandlerConfig, RotatingFileHandlerConfig, StreamHandlerConfig

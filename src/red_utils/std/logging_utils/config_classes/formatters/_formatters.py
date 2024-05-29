@@ -1,3 +1,9 @@
+"""Use these classes to instantiate logging formatters for a logging dictConfig.
+
+Each class has a `.get_configdict()` method, which returns a dict representation of the class
+that can be added to a logging config dict.
+"""
+
 from dataclasses import dataclass
 
 from red_utils.std.logging_utils.config_classes.base import BaseLoggingConfig
@@ -15,7 +21,18 @@ from red_utils.std.logging_utils.fmts._formats import (
 
 @dataclass
 class FormatterConfig(BaseLoggingConfig):
-    """Define a logging formatter."""
+    """Define a logging formatter.
+
+    Params:
+        name (str): The name of the formatter.
+        fmt (str): The string formatting to use for log messages.
+        datefmt (str): The string formatting to use for log message timestamps.
+        style (str): The string substitution style to use for log formats. Default is `%`, which
+            means formats need to be written like `%(asctime)s %(levelname)s %(message)s`. If
+            you change this style, make sure the `fmt` you pass uses the correct formatting style.
+        validate (bool): When `True`, the configuration dict this formatter returns will be validated by the logging module.
+
+    """
 
     name: str = None
     fmt: str = MESSAGE_FMT_STANDARD
@@ -24,6 +41,7 @@ class FormatterConfig(BaseLoggingConfig):
     validate: bool = True
 
     def get_configdict(self) -> dict[str, dict[str, str]]:
+        """Return a dict representation of the formatter described by this class."""
         formatter_dict: dict[str, dict[str, str]] = {self.name: {"format": self.fmt}}
         if self.datefmt:
             formatter_dict[self.name]["datefmt"] = self.datefmt

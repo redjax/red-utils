@@ -1,3 +1,10 @@
+"""Filter functions that can be referenced by function name in a logging dictConfig to apply filtering to a handler.
+
+For example, to only show DEBUG level messages, you could add `filters=["debug_filter"]` to a logging dictConfig.
+
+When adding these methods to a config, you must import the function into the same script where `logging.config.dictConfig()` is executed.
+"""
+
 import logging
 
 

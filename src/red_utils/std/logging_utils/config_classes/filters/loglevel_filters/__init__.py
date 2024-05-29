@@ -1,3 +1,5 @@
+"""Filter functions for logging handlers."""
+
 from ._loglevel_filters import (
     info_filter,
     debug_filter,
