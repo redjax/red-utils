@@ -1,3 +1,9 @@
+"""Use these classes to instantiate logging handlers for a logging dictConfig.
+
+Each class has a `.get_configdict()` method, which returns a dict representation of the class
+that can be added to a logging config dict.
+"""
+
 import typing as t
 from dataclasses import dataclass, field
 from queue import Queue
@@ -10,11 +16,16 @@ from red_utils.std.logging_utils.config_classes.base import (
 
 @dataclass
 class StreamHandlerConfig(BaseHandlerConfig):
-    """Define a logging StreamHandler."""
+    """Define a logging StreamHandler.
+
+    Params:
+        stream (Any): The stream this handler controls, i.e. `ext://sys.stdout`, `ext://sys.stderr`, etc.
+    """
 
     stream: t.Any | None = "ext://sys.stdout"
 
     def get_configdict(self) -> dict[str, dict[str, str]]:
+        """Return a dict representation of the handler described by this class."""
         handler_dict: dict[str, dict[str, str]] = {
             self.name: {
                 "class": self.get_handler_class(),
@@ -28,16 +39,27 @@ class StreamHandlerConfig(BaseHandlerConfig):
         return handler_dict
 
     def get_handler_class(self) -> str:
+        """Return the logging handler class this class represents.
+
+        Returns:
+            (str): `logging.StreamHandler`.
+
+        """
         return "logging.StreamHandler"
 
 
 @dataclass
 class FileHandlerConfig(BaseHandlerConfig):
-    """Define a logging FileHandler."""
+    """Define a logging FileHandler.
+
+    Params:
+        filename (str): The name of the file to log messages to.
+    """
 
     filename: str | None = field(default="app.log")
 
     def get_configdict(self) -> dict[str, dict[str, str]]:
+        """Return a dict representation of the handler described by this class."""
         handler_dict: dict[str, dict[str, str]] = {
             self.name: {
                 "class": self.get_handler_class(),
@@ -49,18 +71,32 @@ class FileHandlerConfig(BaseHandlerConfig):
         return handler_dict
 
     def get_handler_class(self) -> str:
+        """Return the logging handler class this class represents.
+
+        Returns:
+            (str): `logging.FileHandler`.
+
+        """
         return "logging.FileHandler"
 
 
 @dataclass
 class RotatingFileHandlerConfig(BaseHandlerConfig):
-    """Define a logging RotatingFileHandler."""
+    """Define a logging RotatingFileHandler.
+
+    Params:
+        filename (str | None): The name/path of the file to log messages to.
+        maxBytes (int): The maximum size of the file (in bytes) before a new file is rotated.
+        backupCount (int): Number of rotated log files to keep.
+
+    """
 
     filename: str | None = field(default="app.log")
     maxBytes: int = 0
     backupCount: int = 0
 
     def get_configdict(self) -> dict[str, dict[str, t.Any]]:
+        """Return a dict representation of the handler described by this class."""
         handler_dict: dict[str, dict[str, t.Any]] = {
             self.name: {
                 "class": self.get_handler_class(),
@@ -74,12 +110,26 @@ class RotatingFileHandlerConfig(BaseHandlerConfig):
         return handler_dict
 
     def get_handler_class(self) -> str:
+        """Return the logging handler class this class represents.
+
+        Returns:
+            (str): `logging.RotatingFileHandler`.
+
+        """
         return "logging.handlers.RotatingFileHandler"
 
 
 @dataclass
 class TimedRotatingFileHandlerConfig(BaseHandlerConfig):
-    """Define a logging TimedRotatingFileHandler."""
+    """Define a logging TimedRotatingFileHandler.
+
+    Params:
+        filename (str): The name/path of the file to log messages to.
+        when (str): Time of day to rotate log files, i.e. `midnight`.
+        interval (int): When to rotate the file as the interval defined in `when` occurs.
+            `1=every occurrence`, `2=every other occurrence`, etc.
+        backupCount (int): The number of rotated log files to save.
+    """
 
     filename: str | None = field(default="app.log")
     when: str | None = field(default="midnight")
@@ -87,6 +137,7 @@ class TimedRotatingFileHandlerConfig(BaseHandlerConfig):
     backupCount: int = 0
 
     def get_configdict(self) -> dict[str, dict[str, t.Any]]:
+        """Return a dict representation of the handler described by this class."""
         handler_dict: dict[str, dict[str, t.Any]] = {
             self.name: {
                 "class": self.get_handler_class(),
@@ -101,17 +152,29 @@ class TimedRotatingFileHandlerConfig(BaseHandlerConfig):
         return handler_dict
 
     def get_handler_class(self) -> str:
+        """Return the logging handler class this class represents.
+
+        Returns:
+            (str): `logging.handlers.TimedRotatingFileHandler`.
+
+        """
         return "logging.handlers.TimedRotatingFileHandler"
 
 
 @dataclass
 class SocketHandlerConfig(BaseHandlerConfig):
-    """Define a logging SocketHandler."""
+    """Define a logging SocketHandler.
+
+    Params:
+        host (str): Host IP/FQDN.
+        port (int): Host port where log messages should be sent.
+    """
 
     host: str = "localhost"
     port: int = 0
 
     def get_configdict(self) -> dict[str, dict[str, t.Any]]:
+        """Return a dict representation of the handler described by this class."""
         handler_dict: dict[str, dict[str, t.Any]] = {
             self.name: {
                 "class": self.get_handler_class(),
@@ -124,12 +187,27 @@ class SocketHandlerConfig(BaseHandlerConfig):
         return handler_dict
 
     def get_handler_class(self) -> str:
+        """Return the logging handler class this class represents.
+
+        Returns:
+            (str): `logging.handlers.SocketHandler`.
+
+        """
         return "logging.handlers.SocketHandler"
 
 
 @dataclass
 class SMTPHandlerConfig(BaseHandlerConfig):
-    """Define a logging SMTPHandler."""
+    """Define a logging SMTPHandler.
+
+    Params:
+        mailhost (Any): ...
+        fromaddr (str): ...
+        toaddrs (list): ...
+        subject (str): ...
+        credentials (tuple): ...
+        secure (tuple): ...
+    """
 
     mailhost: t.Any = None
     fromaddr: str = "from@example.com"
@@ -139,6 +217,7 @@ class SMTPHandlerConfig(BaseHandlerConfig):
     secure: tuple | None = None
 
     def get_configdict(self):
+        """Return a dict representation of the handler described by this class."""
         handler_dict = {
             self.name: {
                 "class": self.get_handler_class(),
@@ -157,16 +236,27 @@ class SMTPHandlerConfig(BaseHandlerConfig):
         return handler_dict
 
     def get_handler_class(self) -> str:
+        """Return the logging handler class this class represents.
+
+        Returns:
+            (str): `logging.handlers.SMTPHandler`.
+
+        """
         return "logging.handlers.SMTPHandler"
 
 
 @dataclass
 class QueueHandlerConfig(BaseHandlerConfig):
-    """Define a logging QueueHandler."""
+    """Define a logging QueueHandler.
+
+    Params:
+        queue (queue.Queue): The queue to send log messages to.
+    """
 
     queue: Queue = field(default=None)
 
     def get_configdict(self) -> dict[str, dict[str, t.Any]]:
+        """Return a dict representation of the handler described by this class."""
         handler_dict: dict[str, dict[str, t.Any]] = {
             self.name: {
                 "class": self.get_handler_class(),
@@ -178,18 +268,32 @@ class QueueHandlerConfig(BaseHandlerConfig):
         return handler_dict
 
     def get_handler_class(self) -> str:
+        """Return the logging handler class this class represents.
+
+        Returns:
+            (str): `logging.handlers.QueueHandler`.
+
+        """
         return "logging.handlers.QueueHandler"
 
 
 @dataclass
 class QueueListenerConfig(BaseLoggingConfig):
-    """Define a logging QueueListener."""
+    """Define a logging QueueListener.
+
+    Params:
+        name (str): The name of the handler.
+        queue (queue.Queue): The queue to listen for log messages in.
+        handlers (list[str]): List of handler names to apply to this listener.
+
+    """
 
     name: str
     queue: Queue
     handlers: list
 
     def get_configdict(self) -> dict[str, dict[str, t.Any]]:
+        """Return a dict representation of the handler described by this class."""
         listener_dict: dict[str, dict[str, t.Any]] = {
             self.name: {
                 "class": self.get_handler_class(),
@@ -200,4 +304,10 @@ class QueueListenerConfig(BaseLoggingConfig):
         return listener_dict
 
     def get_handler_class(self) -> str:
+        """Return the logging handler class this class represents.
+
+        Returns:
+            (str): `logging.handlers.QueueListener`.
+
+        """
         return "logging.handleres.QueueListener"

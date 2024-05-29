@@ -1,8 +1,12 @@
+"""Class to simplify generating loggers."""
+
 import logging
 import logging.config
 
 
 class LoggerFactory:
+    """Generate loggers based on LoggerFactory's config."""
+
     _LOG: logging.Logger | None = None
 
     @staticmethod
@@ -13,7 +17,15 @@ class LoggerFactory:
         formatters: dict[str, dict],
         loggers: dict[str, dict],
     ) -> logging.Logger:
-        """Internal class method to handle creating a logger."""
+        """Create a logger cnofig from inputs.
+
+        Params:
+            name (str): The name of the logger.
+            log_level (str): The log levels to show (NOTSET, DEBUG, INFO, WARNING, ERROR, CRITICAL).
+            handlers (dict[str, dict[str, Any]]): A dict describing the handlers for this logger config.
+            formatters (dict[str, dict[str, Any]]): A dict describing the formatters for this logger config.
+            loggers (dict[str, dict[str, Any]]): A dict describing the loggers for this logger config.
+        """
         log_level = log_level.upper()
 
         # Configure logging using dictConfig
@@ -49,7 +61,15 @@ class LoggerFactory:
         formatters: dict[str, dict],
         loggers: dict[str, dict],
     ) -> logging.Logger:
-        """Initialize a logger."""
+        """Initialize a logger.
+
+        Params:
+            name (str): The name of the logger.
+            log_level (str): The log levels to show (NOTSET, DEBUG, INFO, WARNING, ERROR, CRITICAL).
+            handlers (dict[str, dict[str, Any]]): A dict describing the handlers for this logger config.
+            formatters (dict[str, dict[str, Any]]): A dict describing the formatters for this logger config.
+            loggers (dict[str, dict[str, Any]]): A dict describing the loggers for this logger config.
+        """
         logger = LoggerFactory.__create_logger(
             name=name,
             log_level=log_level,

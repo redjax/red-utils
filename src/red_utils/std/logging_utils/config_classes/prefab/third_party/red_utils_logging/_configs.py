@@ -1,3 +1,9 @@
+"""The classes and functions in this file define logging for the `red_utils` library.
+
+If you want to see messages from `red_utils` modules in your app, you will need to add
+a logging config by using the methods in this script.
+"""
+
 import logging
 
 log = logging.getLogger(

@@ -1,3 +1,5 @@
+"""Functions to retrieve pre-defined formatters, handlers, and loggers for the `red_utils` library."""
+
 from ._configs import (
     get_red_utils_console_handler,
     get_red_utils_formatter,
