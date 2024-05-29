@@ -1,3 +1,15 @@
+"""The 'secret sauce' of the logging module.
+
+These classes serve as configuration containers for various logging objects, like formatters,
+handlers, and loggers. Each class inherits from a "base" configuration, which has a `.get_configdict()`
+method. So for each formatter, handler, or logger, you can use `.get_configdict()` to return a dict representation
+of the class's configuration, which is compatible with the logging dictConfig.
+
+These dicts must be added to the configuration using the `.assemble_configdict()` method in `logging_utils()`. The classes
+exist to aid in creating formatters, handlers, and loggers for a logging configuration by presenting all available options.
+
+"""
+
 from .base import BASE_LOGGING_CONFIG_DICT
 from .filters import (
     info_filter,

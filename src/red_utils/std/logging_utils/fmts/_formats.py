@@ -1,3 +1,5 @@
+"""Pre-built formats that can be imported and set as a logger/handler's `format` and `datefmt` params."""
+
 from __future__ import annotations
 
 RED_UTILS_FMT: str = str(

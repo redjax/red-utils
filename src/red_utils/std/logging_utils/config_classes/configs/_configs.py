@@ -1,3 +1,5 @@
+"""Classes that store logging configurations and compile into a dict for `logging.config.dictConfig()`."""
+
 import typing as t
 from dataclasses import dataclass, field
 
@@ -21,7 +23,15 @@ from red_utils.std.logging_utils.config_classes.handlers import (
 
 @dataclass
 class LoggingConfig:
-    """Assemble a logging configdict from input handlers, formatters, and loggers."""
+    """Assemble a logging configdict from input handlers, formatters, and loggers.
+
+    Params:
+        version (int): The logging module version. This should be `1` until the stdlib `logging` module's version changes.
+        disable_existing_loggers (bool): When `True`, disable all loggers before applying logging configuration.
+        formatters (dict): A dict describing formatters for the logging config.
+        handlers (dict): A dict describing handlers for the logging config.
+        loggers (dict): A dict describing loggers for the logging config.
+    """
 
     version: int = 1
     disable_existing_loggers: bool = False
@@ -32,6 +42,7 @@ class LoggingConfig:
     loggers: dict = field(default_factory=dict)
 
     def add_formatters(self, formatter_configs: list[FormatterConfig]):
+        """Append a logg"""
         for formatter in formatter_configs:
             self.formatters.update(formatter.get_configdict())
 

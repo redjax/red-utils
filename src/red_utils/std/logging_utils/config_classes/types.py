@@ -1,3 +1,5 @@
+"""Types and annotations for my customer logging config objects."""
+
 import typing as t
 from .handlers import (
     FileHandlerConfig,

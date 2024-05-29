@@ -1,3 +1,5 @@
+"""Formats for the logging config."""
+
 from __future__ import annotations
 
 from ._formats import (

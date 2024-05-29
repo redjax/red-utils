@@ -1,3 +1,5 @@
+"""Abstract base classes for logging object classes."""
+
 import typing as t
 from abc import ABC, abstractmethod
 from dataclasses import dataclass, field
@@ -14,15 +16,24 @@ class BaseLoggingConfig(ABC):
 
 @dataclass
 class BaseHandlerConfig(BaseLoggingConfig):
-    """Abstract base class for a logging handler dict."""
+    """Abstract base class for a logging handler dict.
+
+    Params:
+        name (str): The handler's name.
+        level (str): The handler's logging level (NOTSET, DEBUG, INFO, WARNING, ERROR, CRITICAL).
+        formatter (str): The name of a formatter that exists in the logging config.
+        filters (list[str] | None): The names of logging filter methods/classes. These methods/classes
+            must be imported into the script where `logging.config.dictConfig()` is run.
+    """
 
     name: str = None
     level: str = "NOTSET"
     formatter: str = None
-    filters: list | None = field(default=None)
+    filters: list[str] | None = field(default=None)
 
     @abstractmethod
     def get_configdict(self) -> None:
+        """Return a dict representation of the handler config."""
         handler_dict: dict[str, dict[str, t.Any]] = {
             self.name: {
                 "class": self.get_handler_class(),
@@ -35,4 +46,5 @@ class BaseHandlerConfig(BaseLoggingConfig):
         return handler_dict
 
     def get_handler_class(self) -> str:
+        """Return the logging handler's class name."""
         raise NotImplementedError("Subclasses must implement get_handler_class method")
