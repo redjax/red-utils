@@ -11,6 +11,7 @@ from typing import Union
 
 from .schemas import SQLiteDB
 
+
 def init_sqlite_db(db_definition: SQLiteDB = None) -> bool:
     """Initialize an empty SQLite database.
 
@@ -79,8 +80,8 @@ def get_sqlite_db(name: str = None, location: Union[str, Path] = None) -> SQLite
 
     Params:
         name (str): The name of the SQLite database. This will be used for the filename.
-        location (str|Path): The directory location to save the database. Note that Path values will be converted to string, then
-        back to Path, so it is best to just pass the location as a string.
+            location (str|Path): The directory location to save the database. Note that Path values will be converted to string, then
+            back to Path, so it is best to just pass the location as a string.
 
     Returns:
         (SQLiteDB): An initialized `SQLiteDB` object

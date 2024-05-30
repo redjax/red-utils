@@ -15,6 +15,7 @@ from pathlib import Path
 import sqlite3
 from typing import Union
 
+
 class SQLiteConnManager:
     """Handle interactions with a SQLite database.
 
@@ -22,7 +23,7 @@ class SQLiteConnManager:
     and gracefully open/close the DB using context managers.
 
     Params:
-        path(str|Path): A path to a SQLite database file to work on.
+        path (str | Path): A path to a SQLite database file to work on.
 
     Usage:
     Provide a path string to the SQLite database:
@@ -101,8 +102,7 @@ class SQLiteConnManager:
         Params:
             table (str): Name of the table in the SQLite database
 
-        Returns
-        -------
+        Returns:
             (list[str]): List of column names found in table
 
         """
@@ -128,8 +128,7 @@ class SQLiteConnManager:
     def get_tables(self) -> list[str]:
         """Get all table names from a SQLite databse.
 
-        Returns
-        -------
+        Returns:
             (list[str]): List of table names found in SQLite database.
 
         """
@@ -158,8 +157,7 @@ class SQLiteConnManager:
         Params:
             stmt (str): The SQL statement to execute against a SQLite database
 
-        Returns
-        -------
+        Returns:
             (list[sqlite3.Row]): The results from executing the query
 
         """

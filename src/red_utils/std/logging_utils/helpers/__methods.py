@@ -43,6 +43,7 @@ from red_utils.std.logging_utils.fmts import (
     RED_UTILS_FMT,
 )
 
+
 def ensure_logdir(p: t.Union[str, Path] = None) -> None:
     """Ensure a directory exists.
 
@@ -55,8 +56,8 @@ def ensure_logdir(p: t.Union[str, Path] = None) -> None:
             call this function like `ensure_logdir(p=log_filename.parent)`.
 
     Raises:
-        (PermissionError): When permission to create the path in `p` is denied.
-        (Exception): When any unhandled exception occurs.
+        PermissionError: When permission to create the path in `p` is denied.
+        Exception: When any unhandled exception occurs.
 
     """
     p: Path = Path(f"{p}")
@@ -316,7 +317,7 @@ def assemble_configdict(
         propagate (bool): When `True`, log messages will propagate up/down to the root logger.
         root_handlers (list[str]): List of handlers for the root logger. These handler configs must exist in the logging dictConfig.
         root_level (str): The log level for the root logger.
-        formatters(list[FormatterConfig] | list[dict[str, dict[str, t.Any]]] | None): List of logging formatter config objects.
+        formatters (list[FormatterConfig] | list[dict[str, dict[str, t.Any]]] | None): List of logging formatter config objects.
         handlers (list[BaseHandlerConfig | dict[str, dict[str, t.Any]]] | None): List of logging handler config objects.
         loggers (list[LoggerConfig | LoggerFactory | dict[str, dict[str, t.Any]]]] | None): List of logging logger config objects.
 

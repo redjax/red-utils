@@ -2,14 +2,14 @@
 
 from __future__ import annotations
 
+
 def is_pydantic(obj: object) -> bool:
     """Check whether an object is pydantic.
 
     Params:
         obj (object): An arbitrary Python object to evaluate
 
-    Returns
-    -------
+    Returns:
         (bool): `True` if `obj` is of Pydantic type `ModelMetaClass`
         (bool): `False` if `obj` is not of Pydatic type `ModelMetaClass`
 

@@ -28,6 +28,7 @@ from .validators import validate_compression_str, validate_level, validate_logge
 
 from loguru import logger
 
+
 def add_sink(
     _logger: logger = None,
     sink: Union[str, Path, io.TextIOWrapper, Handler, Callable, Coroutine] = None,
@@ -58,7 +59,7 @@ def add_sink(
             or the [Loguru file sink config](https://loguru.readthedocs.io/en/stable/api/logger.html#file) docs.
         level (str): The all-caps log level for the sink, i.e. `"INFO"`, `"DEBUG"`, etc
         format (str|Callable): The formatting for a log message
-        color_formata (str|Callable): The formatting for a colored log message
+        color_format (str|Callable): The formatting for a colored log message
         filter (str|Callable, dict): A filter to control messages logged by Loguru
         colorize (bool): If `True`, log messages will be colored using the `color_format`
         serialize (bool): If `True`, log messages will be formatted as json strings

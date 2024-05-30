@@ -10,6 +10,7 @@ import sqlite3
 
 from red_utils.core import DB_DIR
 
+
 @dataclass
 class SQLiteDB:
     """Define a simple SQLite database path.
@@ -22,8 +23,7 @@ class SQLiteDB:
         ext (str): The file extension to use (`.db`, `.sqlite`, etc)
         location (str): Path where database file will be created. Database file will be created at `self.location`/`self.name` + `self.ext`
 
-    Returns
-    -------
+    Returns:
         (SQLiteDB): An initialized `SQLiteDB` object
 
     """

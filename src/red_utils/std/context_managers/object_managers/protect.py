@@ -18,7 +18,7 @@ class ListProtect:
 
     Params:
         original (list): The original Python `list`. A copy will be made during any operations, and will only overwrite
-        the original if the operation succeeds.
+            the original if the operation succeeds.
 
     Usage:
 
@@ -96,7 +96,7 @@ class DictProtect:
 
     Params:
         original (dict): The original Python `dict`. A copy will be made during any operations, and will only overwrite
-        the original if the operation succeeds.
+            the original if the operation succeeds.
 
     Usage:
 

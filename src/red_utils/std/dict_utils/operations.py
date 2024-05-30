@@ -8,6 +8,7 @@ from typing import Any
 
 from .validators import validate_dict
 
+
 def debug_dict(in_dict: dict = None) -> None:
     """Debug print a dict by looping overkeys and printing.
 
@@ -51,12 +52,11 @@ def merge_dicts(
         original_dict (dict): The first `dict`
         update_vals (dict): The new `dict` to be merged into the first `dict`.
 
-    Returns
-    -------
+    Returns:
         (dict): A merged `dict` from the 2 input `dict`s
 
 
-    ------
+    Raises:
         Exception: When merging the `dict`s fails
 
     """
@@ -85,8 +85,7 @@ def update_dict(
         original_dict: The original dictionary to be updated.
         update_vals: The dict with values with which to update the original dict.
 
-    Returns
-    -------
+    Returns:
         (dict): A `dict` with updated values
 
     """

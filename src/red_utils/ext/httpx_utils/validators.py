@@ -11,7 +11,6 @@ def validate_method(method: str = None) -> str:
     """Validate an HTTPX request method.
 
     Params:
-    -------
     - method (str): The method to validate.
     """
     if method is None:

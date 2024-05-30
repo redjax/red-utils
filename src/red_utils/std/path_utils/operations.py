@@ -15,14 +15,14 @@ from red_utils.core.constants import JSON_DIR
 
 from .constants import VALID_RETURN_TYPES
 
+
 def file_ts(fmt: str = "%Y-%m-%d_%H:%M:%S") -> str:
     """Return a formatted timestamp, useful for prepending to dir/file names.
 
     Params:
         fmt (str): String that defines the format of a timestamp
 
-    Returns
-    -------
+    Returns:
         (str): A formatted datetime string
 
     """
@@ -141,7 +141,7 @@ def scan_dir(
     Params:
         as_str (bool): If `True`, returns a list of paths formatted as Python strings.
         as_pathlib (bool): If `True`, returns a list of paths formatted as Python `pathlib.Path` objects.
-        retirm_type (str): Control return type.
+        return_type (str): Control return type.
             Options:
                 - `all`: Return both files & dirs
                 - `files`: Return only files
@@ -421,7 +421,7 @@ def ensure_dirs_exist(ensure_dirs: list[Union[str, Path]] = None) -> None:
 
     Params:
         ensure_dirs (list[str]|list[Path]): A list of directory paths formatted as strings or Path objects.
-        If any list item is of type str, it will be converted to a Path.
+            If any list item is of type str, it will be converted to a Path.
     """
     if not ensure_dirs:
         raise ValueError("Missing list of directories to ensure existence")

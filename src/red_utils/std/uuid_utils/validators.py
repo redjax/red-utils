@@ -17,8 +17,7 @@ def validate_trim(trim_in: int = 0, as_hex: bool = False) -> int:
         trim_in (int): Value of `trim` passed from another function.
         as_hex (bool): Value of `as_hex` passed from another function.
 
-    Returns
-    -------
+    Returns:
         (int): A validated `int`
 
     Raises:

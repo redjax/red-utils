@@ -14,6 +14,7 @@ from typing import Union
 
 from .constants import TIME_FMT_12H, TIME_FMT_24H
 
+
 def datetime_as_str(ts: dt = None, format: str = TIME_FMT_24H) -> str:
     """Convert a `datetime.datetime` object to a string.
 
@@ -21,8 +22,7 @@ def datetime_as_str(ts: dt = None, format: str = TIME_FMT_24H) -> str:
         ts (datetime.datetime): A Python `datetime.datetime` object to convert to a `str`
         format (str): The `str` time string format to use
 
-    Returns
-    -------
+    Returns:
         (str): A formatted `datetime.datetime` `str`
 
     """
@@ -38,8 +38,7 @@ def datetime_as_dt(ts: str = None, format: str = TIME_FMT_24H) -> dt:
         ts (str): A datetime str to convert to a Python `datetime.datetime` object
         format (str): The `str` time string format to use
 
-    Returns
-    -------
+    Returns:
         (str): A formatted `datetime.datetime` object
 
     """
@@ -55,8 +54,7 @@ def get_ts(as_str: bool = False, format: str = TIME_FMT_24H) -> Union[dt, str]:
         as_str (bool): If `True`, converts `datetime` to a `str`
         format (str): The `str` time string format to use
 
-    Returns
-    -------
+    Returns:
         (datetime.datetime): a Python `datetime.datetime` object.
         (str): If `as_str` is `True`, converts datetime to a string & returns.
 

@@ -19,6 +19,7 @@ from sqlalchemy.exc import DBAPIError, OperationalError
 import sqlalchemy.orm as so
 from sqlalchemy.schema import CreateTable
 
+
 def debug_metadata_obj(metadata_obj: sa.MetaData = None) -> None:
     """Debug-print a SQLAlchemy MetaData object.
 
@@ -50,7 +51,7 @@ def validate_db_type(in_str: str = None) -> bool:
         (bool): `True` if `in_str` is valid
 
     Raises:
-        (ValueError): If the `in_str` is not valid
+        ValueError: If the `in_str` is not valid
 
     """
     if not in_str:
@@ -75,12 +76,12 @@ def generate_metadata(
         engine (sqlalchemy.Engine): The SQLAlchemy `Engine` to use for the database connection
 
     Raises:
-        (ValueError): When input values are invalid
-        (OperationalError): When SQLAlchemy runs into an error with the database, usually starting
+        ValueError: When input values are invalid
+        OperationalError: When SQLAlchemy runs into an error with the database, usually starting
             on the database (not in SQLAlchemy)
-        (DBAPIERROR): When SQLAlchemy runs into an issue, generally in the way you've coded a SQLAlchemy
+        DBAPIERROR: When SQLAlchemy runs into an issue, generally in the way you've coded a SQLAlchemy
             statement or operation
-        (Exception): When an uncaught/unhandled exception occurs
+        Exception: When an uncaught/unhandled exception occurs
 
     """
     if not metadata_obj:
@@ -134,12 +135,12 @@ def create_base_metadata(
         (bool): `True` if creating `Base` metadata is successful
 
     Raises:
-        (ValueError): When input values are invalid
-        (OperationalError): When SQLAlchemy runs into an error with the database, usually starting
+        ValueError: When input values are invalid
+        OperationalError: When SQLAlchemy runs into an error with the database, usually starting
             on the database (not in SQLAlchemy)
-        (DBAPIERROR): When SQLAlchemy runs into an issue, generally in the way you've coded a SQLAlchemy
+        DBAPIERROR: When SQLAlchemy runs into an issue, generally in the way you've coded a SQLAlchemy
             statement or operation
-        (Exception): When an uncaught/unhandled exception occurs
+        Exception: When an uncaught/unhandled exception occurs
 
     """
     try:
@@ -180,8 +181,7 @@ def get_engine(
         echo (bool): If `True`, the SQL the `Engine` runs will be echoed to the CLI
         pool_pre_ping (bool): Test connection pool before starting operations
 
-    Returns
-    -------
+    Returns:
         (sqlalchemy.Engine): An initialized SQLAlchemy `Engine` object
 
     """
@@ -250,8 +250,7 @@ def get_session_pool(
         class_: You can specify a class which should be returned instead of `sqlalchemy.orm.Session`.
             [SQLAlchemy: sessionmaker class_ docs](https://docs.sqlalchemy.org/en/20/orm/session_api.html#sqlalchemy.orm.Session.params.class_)
 
-    Returns
-    -------
+    Returns:
         (sessionmaker[Session]): An initialized `Session` instance
 
     """

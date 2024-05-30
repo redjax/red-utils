@@ -9,6 +9,7 @@ import typing as t
 import hishel
 import httpx
 
+
 def get_cache_transport(
     cache_dir: str = ".cache/hishel",
     ttl: int | None = None,
@@ -24,7 +25,7 @@ def get_cache_transport(
         cache_dir (str): [default: .cache/hishel] Directory where cache files will be stored.
         ttl (int|None): [default: None] Limit ttl on requests sent with this transport.
         verify (bool): [default: True] Verify SSL certificates on requests sent with this transport.
-        retriest (int): [default: 0] Number of times to retry requests sent with this transport.
+        retries (int): [default: 0] Number of times to retry requests sent with this transport.
         cert (valid HTTPX Cert): An optional SSL certificate to send with requests.
 
     """
