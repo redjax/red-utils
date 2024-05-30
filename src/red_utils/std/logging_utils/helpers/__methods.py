@@ -7,9 +7,9 @@ import logging
 log = logging.getLogger("red_utils.std.logging_utils")
 
 from copy import deepcopy
+import json
 from pathlib import Path
 import typing as t
-import json
 
 from red_utils.std.logging_utils.__base import BASE_LOGGING_CONFIG_DICT
 from red_utils.std.logging_utils.config_classes.formatters import FormatterConfig
@@ -42,7 +42,6 @@ from red_utils.std.logging_utils.fmts import (
     RED_UTILS_DETAIL_FMT,
     RED_UTILS_FMT,
 )
-
 
 def ensure_logdir(p: t.Union[str, Path] = None) -> None:
     """Ensure a directory exists.
