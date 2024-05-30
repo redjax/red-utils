@@ -14,7 +14,6 @@ from .classes import SerialFunctionResponse
 
 import msgpack
 
-
 def ensure_path(dir: Union[str, Path] = None) -> bool:
     """Ensure a directory path exists.
 

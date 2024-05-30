@@ -9,7 +9,6 @@ import typing as t
 import hishel
 import httpx
 
-
 def get_cache_transport(
     cache_dir: str = ".cache/hishel",
     ttl: int | None = None,
