@@ -9,6 +9,7 @@ log = logging.getLogger("red_utils.std.logging_utils")
 from copy import deepcopy
 from pathlib import Path
 import typing as t
+import json
 
 from red_utils.std.logging_utils.__base import BASE_LOGGING_CONFIG_DICT
 from red_utils.std.logging_utils.config_classes.formatters import FormatterConfig
@@ -42,7 +43,8 @@ from red_utils.std.logging_utils.fmts import (
     RED_UTILS_FMT,
 )
 
-def _ensure_logdir(p: t.Union[str, Path] = None) -> None:
+
+def ensure_logdir(p: t.Union[str, Path] = None) -> None:
     """Ensure a directory exists.
 
     Used by logging FileHandlers (RotatingFileHandler, TimedRotatingFileHandler, etc) if
@@ -51,7 +53,7 @@ def _ensure_logdir(p: t.Union[str, Path] = None) -> None:
     Params:
         p (str | Path): A path to a logging directory, i.e. `logs/`, `logs/app/`, `logs/app/dev/`.
             This should *not* be the full path to a logging config, like `logs/app/test.log`; instead,
-            call this function like `_ensure_logdir(p=log_filename.parent)`.
+            call this function like `ensure_logdir(p=log_filename.parent)`.
 
     Raises:
         (PermissionError): When permission to create the path in `p` is denied.
@@ -115,7 +117,7 @@ def get_rotatingfilehandler_config(
         filename = filename.expanduser()
 
     ## Create parent dirs for logging file, if they don't exist
-    _ensure_logdir(p=filename.parent)
+    ensure_logdir(p=filename.parent)
 
     try:
         ## Initialize handler object
@@ -418,3 +420,60 @@ def assemble_configdict(
 
     ## Return initialized logging config
     return return_dict
+
+
+def save_configdict(
+    logging_config: dict = None,
+    output_file: t.Union[str, Path] = Path("logging_config.json"),
+    overwrite: bool = False,
+) -> None:
+    """Save a logging dictConfig to a JSON file."""
+    output_file: Path = Path(f"{output_file}")
+    if "~" in f"{output_file}":
+        output_file = output_file.expanduser()
+
+    ensure_logdir(p=output_file.parent)
+
+    if output_file.exists() and not overwrite:
+        log.warning(
+            f"Logging dictConfig already saved to file '{output_file}' and overwrite=False. Skipping."
+        )
+
+        return
+
+    try:
+        config_json = json.dumps(logging_config, indent=2)
+    except Exception as exc:
+        msg = Exception(
+            f"Unhandled exception converting logging dict to JSON. Details: {exc}"
+        )
+        log.error(msg)
+
+        raise exc
+
+    try:
+        with open(output_file, "w") as f:
+            f.write(config_json)
+    except PermissionError as perm_err:
+        msg = Exception(
+            f"Permission denied saving logging dictConfig to file '{output_file}'. Details: {perm_err}"
+        )
+        log.error(msg)
+
+        raise perm_err
+    except Exception as exc:
+        msg = Exception(
+            f"Unhandled exception saving logging dictConfig to JSON file '{output_file}'. Details: {exc}"
+        )
+        log.error(msg)
+
+        raise exc
+
+
+def print_configdict(logging_config: dict = None) -> None:
+    """Print a logging config dict as a JSON string."""
+    assert logging_config, ValueError("Missing a logging dictConfig to print.")
+
+    print_msg: str = json.dumps(logging_config)
+
+    print(f"Logging config dict:\n{print_msg}")

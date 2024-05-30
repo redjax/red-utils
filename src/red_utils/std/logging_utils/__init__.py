@@ -10,8 +10,8 @@ from __future__ import annotations
 
 from . import config_classes, fmts
 from .__base import BASE_LOGGING_CONFIG_DICT
-from .__methods import (
-    assemble_configdict,
+from .helpers import assemble_configdict, save_configdict, print_configdict
+from .helpers import (
     get_formatter_config,
     get_logger_config,
     get_rotatingfilehandler_config,

@@ -14,7 +14,7 @@ log = logging.getLogger(
 
 import typing as t
 
-from red_utils.std.logging_utils.__methods import (
+from red_utils.std.logging_utils.helpers import (
     get_formatter_config,
     get_logger_config,
     get_rotatingfilehandler_config,
@@ -44,6 +44,7 @@ from red_utils.std.logging_utils.fmts._formats import (
     RED_UTILS_DETAIL_FMT,
     RED_UTILS_FMT,
 )
+
 
 def get_red_utils_formatter(
     name: str = "red_utils", fmt: str = RED_UTILS_FMT, datefmt: str = DATE_FMT_STANDARD
