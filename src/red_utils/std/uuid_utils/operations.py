@@ -35,8 +35,7 @@ def gen_uuid(as_hex: bool = False) -> Union[str, uuid.UUID]:
     Params:
         as_hex (bool): If True, returns a UUID hex (a UUID without the '-' characters, which is 32 characters instead of 36).
 
-    Returns
-    -------
+    Returns:
         (str): A 36 character UUID string
         (str): A 32 character UUID hex string (a UUID minus the `-` characters)
 
@@ -61,8 +60,7 @@ def trim_uuid(trim: int = 0, in_uuid: str = uuid.uuid4(), as_hex: bool = False) 
         in_uuid (str): An existing UUID `str` to be trimmed/converted to hex.
         as_hex (bool): If `True`, returns a UUID hex (UUID `str` without the `-` characters).
 
-    Returns
-    -------
+    Returns:
         (str): A 36 character UUID string
         (str): A 32 character UUID hex string (a UUID minus the `-` characters)
 
@@ -97,8 +95,7 @@ def first_n_chars(first_n: int = 36, in_uuid: str = uuid.uuid4(), as_hex: bool =
         in_uuid (str): in_uuid (str): An existing UUID `str` to be trimmed/converted to hex.
         as_hex (bool): as_hex (bool): If `True`, returns a UUID hex (UUID `str` without the `-` characters).
 
-    Returns
-    -------
+    Returns:
         (str): A 36 character UUID string
         (str): A 32 character UUID hex string (a UUID minus the `-` characters)
 
@@ -132,12 +129,11 @@ def get_rand_uuid(
 
     Params:
         trim (int): Remove `n` characters from end of string.
-        characters(int): Return first `n` characters from beginning of string.
+        characters (int): Return first `n` characters from beginning of string.
         as_str (bool):
         as_hex (bool): Return UUID as a hexadecimal (32 chars, UUID without `-` characters).
 
-    Returns
-    -------
+    Returns:
         (str): A 36 character UUID string
         (str): A 32 character UUID hex string (a UUID minus the `-` characters)
 

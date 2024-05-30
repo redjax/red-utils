@@ -41,7 +41,7 @@ class DictMixin:
                 There are no extra params.
 
         Returns:
-            A Python `dict` representation of a Python `dataclass` class.
+            (dict): A Python `dict` representation of a Python `dataclass` class.
 
         """
         try:

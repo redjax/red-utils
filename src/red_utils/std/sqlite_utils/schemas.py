@@ -22,8 +22,7 @@ class SQLiteDB:
         ext (str): The file extension to use (`.db`, `.sqlite`, etc)
         location (str): Path where database file will be created. Database file will be created at `self.location`/`self.name` + `self.ext`
 
-    Returns
-    -------
+    Returns:
         (SQLiteDB): An initialized `SQLiteDB` object
 
     """

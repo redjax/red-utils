@@ -28,8 +28,7 @@ def validate_logger(_logger: logger = None, none_ok: bool = False) -> logger:
         _logger (loguru.logger): A Loguru `logger`
         none_ok (bool): If `True`, allows null values
 
-    Returns
-    -------
+    Returns:
         (loguru.logger): A validated `loguru.logger`
 
     """
@@ -53,8 +52,7 @@ def validate_compression_str(string: str = None, none_ok: bool = True) -> str:
         string (str): The compression string to validate
         none_ok (bool): If `True`, allows null values
 
-    Returns
-    -------
+    Returns:
         (str): A validated compression string
 
     """
@@ -81,8 +79,7 @@ def validate_level(level: str = None, none_ok: bool = False) -> str:
         level (str): A log level string
         none_ok (bool): If `True`, allows null values
 
-    Returns
-    -------
+    Returns:
         (str): A validated log level string
 
     """

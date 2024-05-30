@@ -186,7 +186,7 @@ class CacheInstance(CacheInstanceBase):
         cache_dir (str|Path): Directory path where cache.db will be stored.
         index (bool): Controls creation of a tag index in the cache instance.
         cache (diskcache.Cache): A diskcache.Cache object. When the class is instantiated, a Cache will be created.
-        cache_timeout(int): Default key expiration (in seconds).
+        cache_timeout (int): Default key expiration (in seconds).
     """
 
     def check_key_exists(self, key: valid_key_types = None) -> bool:

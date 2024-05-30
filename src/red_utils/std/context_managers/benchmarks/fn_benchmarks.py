@@ -15,9 +15,8 @@ def benchmark(description: str = "Unnamed function timer") -> None:
 
     Params:
         description (str): A string that prints while the benchmark is running. This can be a message to the user, like
-        "benchmarking move_files()", or a message like "this will take a while...".
-
-        Once the benchmark finishes, details about the benchmarked function's execution will be printed to the terminal.
+            "benchmarking move_files()", or a message like "this will take a while...".
+            Once the benchmark finishes, details about the benchmarked function's execution will be printed to the terminal.
 
     Usage:
     ``` py linenums="1"
@@ -40,9 +39,8 @@ async def async_benchmark(description: str = "Unnamed async function timer") -> 
 
     Params:
         description (str): A string that prints while the benchmark is running. This can be a message to the user, like
-        "benchmarking move_files()", or a message like "this will take a while...".
-
-        Once the benchmark finishes, details about the benchmarked function's execution will be printed to the terminal.
+            "benchmarking move_files()", or a message like "this will take a while...".
+            Once the benchmark finishes, details about the benchmarked function's execution will be printed to the terminal.
 
     Usage:
     ``` py linenums="1"

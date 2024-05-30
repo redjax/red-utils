@@ -14,12 +14,6 @@ log = logging.getLogger(
 
 import typing as t
 
-from red_utils.std.logging_utils.__methods import (
-    get_formatter_config,
-    get_logger_config,
-    get_rotatingfilehandler_config,
-    get_streamhandler_config,
-)
 from red_utils.std.logging_utils.config_classes.formatters import FormatterConfig
 from red_utils.std.logging_utils.config_classes.handlers import (
     FileHandlerConfig,
@@ -43,6 +37,12 @@ from red_utils.std.logging_utils.fmts import (
 from red_utils.std.logging_utils.fmts._formats import (
     RED_UTILS_DETAIL_FMT,
     RED_UTILS_FMT,
+)
+from red_utils.std.logging_utils.helpers import (
+    get_formatter_config,
+    get_logger_config,
+    get_rotatingfilehandler_config,
+    get_streamhandler_config,
 )
 
 def get_red_utils_formatter(

@@ -246,8 +246,7 @@ class DefaultSinks(LoguruSinkBase):
     ) -> list[dict]:
         """List of initialized Loguru loggers.
 
-        Returns
-        -------
+        Returns:
             (list[dict]): List of Loguru sink dicts with `colorize=True`.
 
         """
@@ -266,8 +265,7 @@ class DefaultSinks(LoguruSinkBase):
     ) -> list[dict]:
         """List of initialized Loguru loggers.
 
-        Returns
-        -------
+        Returns:
             (list[dict]): List of Loguru sink dicts with `colorize=False`.
 
         """

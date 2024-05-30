@@ -80,8 +80,8 @@ def rename_df_cols(
 
     Params:
         df (pandas.DataFrame): A Pandas `DataFrame` with columns to rename
-        col_rename_map (dict[str, str]): A Python `dict` defining existing column names and the value
-        they should be renamed to.
+            col_rename_map (dict[str, str]): A Python `dict` defining existing column names and the value
+            they should be renamed to.
 
     Returns:
         (pandas.DataFrame): A renamed Pandas `DataFrame`.
@@ -194,8 +194,8 @@ def convert_csv_to_pq(
         (bool): `True` if `csv_file` is converted to `pq_file` successfully
 
     Raises:
-        (Exception): If file cannot be saved, an `Exception` is raised instead of returning
-        a bool value
+        Exception: If file cannot be saved, an `Exception` is raised instead of returning
+            a bool value
 
     """
     if csv_file is None:
@@ -251,8 +251,8 @@ def convert_pq_to_csv(
         (bool): `True` if `pq_file` is converted to `csv_file` successfully
 
     Raises:
-        (Exception): If file cannot be saved, an `Exception` is raised instead of returning
-        a bool value
+        Exception: If file cannot be saved, an `Exception` is raised instead of returning
+            a bool value
 
     """
     if csv_file is None:
@@ -346,7 +346,7 @@ def save_pq(
         (bool): `False` if `DataFrame` is not saved to `pq_file` successfully
 
     Raises:
-        (Exception): If file cannot be saved, an `Exception` is raised
+        Exception: If file cannot be saved, an `Exception` is raised
 
     """
     if df is None or df.empty:
@@ -450,7 +450,7 @@ def save_csv(
         (bool): `False` if `DataFrame` is not saved to `csv_file` successfully
 
     Raises:
-        (Exception): If file cannot be saved, an `Exception` is raised
+        Exception: If file cannot be saved, an `Exception` is raised
 
     """
     if df is None or df.empty:
