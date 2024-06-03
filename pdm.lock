@@ -2218,7 +2218,7 @@ files = [
 
 [[package]]
 name = "textual"
-version = "0.63.6"
+version = "0.64.0"
 requires_python = "<4.0,>=3.8"
 summary = "Modern Text User Interface framework"
 dependencies = [
@@ -2227,8 +2227,8 @@ dependencies = [
     "typing-extensions<5.0.0,>=4.4.0",
 ]
 files = [
-    {file = "textual-0.63.6-py3-none-any.whl", hash = "sha256:7cf6c320b7445bcab42360d3957ed5b14163f8687fad282d772e2af6407ea3a1"},
-    {file = "textual-0.63.6.tar.gz", hash = "sha256:cac575e60fe8b376bed3d6ac1723c137cea69f3e48cecdc78b289da10de7f9e5"},
+    {file = "textual-0.64.0-py3-none-any.whl", hash = "sha256:36274bc3e88fa12d99d07c80b35feb3c18b971c66de71900001571e9cf13a140"},
+    {file = "textual-0.64.0.tar.gz", hash = "sha256:fee0edd38cdd9a30c7558e9b39b01e82185f8b5218a2456f4f6c0450cb118cba"},
 ]
 
 [[package]]

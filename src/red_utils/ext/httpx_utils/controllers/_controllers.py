@@ -249,6 +249,7 @@ class HTTPXController(AbstractContextManager):
         request: httpx.Request = None,
         stream: bool = False,
         auth: httpx.Auth = None,
+        debug_response: bool = False,
     ) -> httpx.Response:
         """Send httpx.Request using self.Client (and optional cache transport).
 
@@ -274,9 +275,11 @@ class HTTPXController(AbstractContextManager):
                 auth=auth,
                 follow_redirects=self.follow_redirects,
             )
-            log.debug(
-                f"URL: {request.url}, Response: [{res.status_code}: {res.reason_phrase}]"
-            )
+
+            if debug_response:
+                log.debug(
+                    f"URL: {request.url}, Response: [{res.status_code}: {res.reason_phrase}]"
+                )
 
             return res
 

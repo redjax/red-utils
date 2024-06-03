@@ -53,7 +53,7 @@ Custom/common exceptions are stored in `red_utils.exc`.
 
 The `red-utils` package makes use of the Python stdlib `pkgutil` module to control imports. Packages in the `ext` module are only imported and available in `red_utils` if the corresponding dependency exists.
 
-For instance, `red_utils.ext.msgpack_utils` will only be available if this check in [src/red_utils/ext/__init__.py](https://github.com/redjax/red-utils/blob/main/src/red_utils/ext/__init__.py) passes:
+For instance, `red_utils.ext.msgpack_utils` will only be available if this check in [src/red_utils/ext](https://github.com/redjax/red-utils/blob/main/src/red_utils/ext) passes:
 ```
 import pkgutil
 
@@ -76,7 +76,7 @@ This project uses dependencies groups, meaning it can be installed with `pip ins
 
 ## Dependency groups:
 
-*Note*: I will do my best to update this, but to get an accurate view of available dependency groups and the packages that will be installed, check the [`pyproject.toml`](./pyproject.toml) file. Look for the dependency lists, i.e. `dependencies = [` (the base set of dependencies), `all = [`, `http = [`, etc.
+*Note*: I will do my best to update this, but to get an accurate view of available dependency groups and the packages that will be installed, check the [`pyproject.toml`](https://github.com/redjax/red-utils/blob/main/pyproject.toml) file. Look for the dependency lists, i.e. `dependencies = [` (the base set of dependencies), `all = [`, `http = [`, etc.
 
 `[all]`: Install all packages that have a corresponding util. This may be a large install, and is generally not recommended.
 
