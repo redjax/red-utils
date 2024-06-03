@@ -4,9 +4,10 @@ name: Run Pytest tests
 on:
   pull_request:
     branches:
-      - main
-      - dev
+      # - main
+      # - dev
       - ci
+      - release-stage
     # Do not trigger tests for documentation or markdown docs.
     paths-ignore:
       - "docs/**"

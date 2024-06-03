@@ -7,6 +7,7 @@ on:
       - main
       - dev
       - ci
+      - release-stage
     # Do not trigger tests for documentation or markdown docs.
     paths-ignore:
       - "docs/**"
