@@ -544,6 +544,7 @@ class HishelCacheClientController(AbstractContextManager):
         request: httpx.Request = None,
         stream: bool = False,
         auth: httpx.Auth = None,
+        debug_response: bool = False,
     ) -> httpx.Response:
         """Send httpx.Request using self.Client (and optional cache transport).
 
@@ -569,9 +570,10 @@ class HishelCacheClientController(AbstractContextManager):
                 auth=auth,
                 follow_redirects=self.follow_redirects,
             )
-            log.debug(
-                f"Response: [{res.status_code}: {res.reason_phrase}] {request.url}"
-            )
+            if debug_response:
+                log.debug(
+                    f"Response: [{res.status_code}: {res.reason_phrase}] {request.url}"
+                )
 
             return res
 
