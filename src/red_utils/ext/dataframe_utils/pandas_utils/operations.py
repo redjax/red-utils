@@ -16,6 +16,7 @@ from .constants import PANDAS_DATE_FORMAT, PANDAS_DATETIME_FORMAT, PANDAS_TIME_F
 
 import pandas as pd
 
+
 def get_oldest_newest(
     df: pd.DataFrame = None, date_col: str = None, filter_cols: list[str] | None = None
 ) -> Union[pd.Series, pd.DataFrame]:
@@ -292,7 +293,9 @@ def convert_pq_to_csv(
         raise exc
 
 
-def load_pq(pq_file: Union[str, Path] = None) -> pd.DataFrame:
+def load_pq(
+    pq_file: Union[str, Path] = None, pq_engine: str = "pyarrow"
+) -> pd.DataFrame:
     """Return a DataFrame from a previously saved .parquet file.
 
     Params:
@@ -318,7 +321,7 @@ def load_pq(pq_file: Union[str, Path] = None) -> pd.DataFrame:
         raise exc
 
     try:
-        df = pd.read_parquet(pq_file, engine="fastparquet")
+        df = pd.read_parquet(pq_file, engine=pq_engine)
 
         return df
 
@@ -332,7 +335,10 @@ def load_pq(pq_file: Union[str, Path] = None) -> pd.DataFrame:
 
 
 def save_pq(
-    df: pd.DataFrame = None, pq_file: Union[str, Path] = None, dedupe: bool = False
+    df: pd.DataFrame = None,
+    pq_file: Union[str, Path] = None,
+    dedupe: bool = False,
+    pq_engine: str = "pyarrow",
 ) -> bool:
     """Save DataFrame to a .parquet file.
 
@@ -379,7 +385,7 @@ def save_pq(
         if dedupe:
             df = df.drop_duplicates()
 
-        output = df.to_parquet(path=pq_file, engine="fastparquet")
+        output = df.to_parquet(path=pq_file, engine=pq_engine)
 
         return True
 
