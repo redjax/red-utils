@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import typing as t
 import logging
 
 log = logging.getLogger("red_utils.ext.httpx_utils")
@@ -15,6 +16,7 @@ from .validators import (
 
 import httpx
 from httpx import Client
+
 
 def merge_headers(
     original_headers: dict[str, str] = default_headers,
@@ -67,6 +69,54 @@ def get_req_client(
     validate_client(_client)
 
     return _client
+
+
+def build_request(
+    method: str = "GET",
+    url: str = None,
+    files: list | None = None,
+    data: t.Any | None = None,
+    content: bytes | None = None,
+    params: dict | None = None,
+    headers: dict | None = None,
+    cookies: dict | None = None,
+    timeout: int | float | None = None,
+) -> httpx.Request:
+    """Build an `httpx.Request()` object from inputs.
+
+    Params:
+        method (str): (default="GET") The HTTP method for the request.
+        url (str): The URL to send request to.
+        files (list): List of files to send with request.
+        data (Any): <UNDOCUMENTED>
+        contents (bytes): Byte-encoded request content.
+        params (dict): URL params for request. Pass each param as a key/value pair, like:
+            `{"api_key": api_key, "days": 15, "page": 2}`
+        headers (dict): Headers for request.
+        cookies (dict): Cookies for request.
+        timeout (int | float): Optional duration in seconds before request times out.
+    """
+    try:
+        _request: httpx.Request = httpx.Request(
+            method=method,
+            url=url,
+            params=params,
+            headers=headers,
+            cookies=cookies,
+            content=content,
+            data=data,
+            files=files,
+            timeout=timeout,
+        )
+    except Exception as exc:
+        msg = Exception(
+            f"Unhandled exception building httpx.Request object. Details: {exc}"
+        )
+        log.error(msg)
+
+        raise exc
+
+    return _request
 
 
 def make_request(
