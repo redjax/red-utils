@@ -80,7 +80,8 @@ def build_request(
     params: dict | None = None,
     headers: dict | None = None,
     cookies: dict | None = None,
-    timeout: int | float | None = None,
+    stream: t.Union[httpx.SyncByteStream, httpx.AsyncByteStream] | None = None,
+    extensions: dict | None = None,
 ) -> httpx.Request:
     """Build an `httpx.Request()` object from inputs.
 
@@ -94,7 +95,8 @@ def build_request(
             `{"api_key": api_key, "days": 15, "page": 2}`
         headers (dict): Headers for request.
         cookies (dict): Cookies for request.
-        timeout (int | float): Optional duration in seconds before request times out.
+        extensions (dict): Extensions for request. Example: `{"timeout": {"connect": 5.0}}`.
+        stream (httpx.SyncByteStream | httpx.AsyncByteSTream): <UNDOCUMENTED>
     """
     try:
         _request: httpx.Request = httpx.Request(
@@ -106,8 +108,11 @@ def build_request(
             content=content,
             data=data,
             files=files,
-            timeout=timeout,
+            extensions=extensions,
+            stream=stream,
         )
+        return _request
+
     except Exception as exc:
         msg = Exception(
             f"Unhandled exception building httpx.Request object. Details: {exc}"
@@ -115,8 +120,6 @@ def build_request(
         log.error(msg)
 
         raise exc
-
-    return _request
 
 
 def make_request(
