@@ -12,7 +12,13 @@ from .cache_storages import (
 )
 from .constants import default_headers
 from .controllers import HishelCacheClientController, HTTPXController
-from .operations import get_req_client, make_request, merge_headers, update_headers
+from .operations import (
+    get_req_client,
+    make_request,
+    merge_headers,
+    update_headers,
+    build_request,
+)
 from .transports import get_cache_transport
 from .validators import (
     valid_methods,

@@ -3,8 +3,19 @@ from __future__ import annotations
 from typing import Union
 
 from httpx import AsyncClient, Client
+from httpx._types import HeaderTypes
 
-valid_methods: list[str] = ["GET", "POST", "PUT", "UPDATE", "DELETE"]
+valid_methods: list[str] = [
+    "CONNECT",
+    "DELETE",
+    "GET",
+    "HEAD",
+    "OPTIONS",
+    "PATCH",
+    "POST",
+    "PUT",
+    "TRACE",
+]
 
 
 def validate_method(method: str = None) -> str:
@@ -46,7 +57,9 @@ def validate_client(
     return client
 
 
-def validate_headers(headers: dict[str, str] = None) -> dict[str, str]:
+def validate_headers(
+    headers: Union[HeaderTypes, dict[str, str]] = None
+) -> dict[str, str]:
     if not headers:
         # raise ValueError("Missing headers to evaluate")
         return
