@@ -1,7 +1,7 @@
 from __future__ import annotations
 
-import typing as t
 import logging
+import typing as t
 
 log = logging.getLogger("red_utils.ext.httpx_utils")
 
@@ -15,28 +15,27 @@ from .validators import (
 )
 
 import httpx
-from httpx import Client, URL, BaseTransport
-from httpx._config import Limits
+from httpx import URL, BaseTransport, Client
 from httpx._client import EventHook
+from httpx._config import Limits
 from httpx._types import (
+    AsyncByteStream,
     AuthTypes,
-    QueryParamTypes,
-    HeaderTypes,
+    CertTypes,
     CookieTypes,
+    HeaderTypes,
+    ProxiesTypes,
+    ProxyTypes,
+    QueryParamTypes,
     RequestContent,
     RequestData,
     RequestExtensions,
     RequestFiles,
-    VerifyTypes,
-    ProxiesTypes,
-    ProxyTypes,
-    CertTypes,
+    SyncByteStream,
     TimeoutTypes,
     URLTypes,
-    SyncByteStream,
-    AsyncByteStream,
+    VerifyTypes,
 )
-
 
 def merge_headers(
     original_headers: dict[str, str] = default_headers,

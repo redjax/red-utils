@@ -1,1 +1,3 @@
-from .__response_decoders import decode_res_content, autodetect_charset
+from __future__ import annotations
+
+from .__response_decoders import autodetect_charset, decode_res_content
