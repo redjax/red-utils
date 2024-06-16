@@ -1,6 +1,6 @@
 [project]
 name = "red_utils"
-version = "0.2.23"
+version = "0.2.24"
 description = "Collection of utility scripts/functions that I use frequently."
 authors = [
     { name = "redjax", email = "none@none.com" },
@@ -16,6 +16,7 @@ text = "MIT"
 [project.urls]
 Repository = "https://github.com/redjax/red-utils"
 Documentation = "https://red-utils.readthedocs.io/en/latest/"
+Download = "https://pypi.org/project/red_utils/"
 
 [project.optional-dependencies]
 standard = [
@@ -177,11 +178,9 @@ shell = "pdm bump minor && pdm bump tag && pdm lock && pdm build && git push --t
 shell = "pdm bump micro && pdm bump tag && pdm lock && pdm build && git push --tags"
 
 [tool.pdm.scripts.upload-pypi]
-# shell = "pdm lock && pdm publish --repository pypi --verbose"
 shell = "pdm publish --repository pypi --verbose"
 
 [tool.pdm.scripts.upload-pypi-test]
-# shell = "pdm lock && pdm publish --repository testpypi --verbose"
 shell = "pdm publish --repository testpypi --verbose"
 
 [tool.pdm.scripts.mkdocs-build]
