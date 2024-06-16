@@ -8,6 +8,7 @@ from .constants import valid_key_types, valid_tag_types, valid_val_types
 import diskcache
 from diskcache import Cache
 
+
 def validate_key(key: valid_key_types = None, none_ok: bool = False) -> Union[str, int]:
     """Validate input diskcache key.
 
@@ -24,7 +25,7 @@ def validate_key(key: valid_key_types = None, none_ok: bool = False) -> Union[st
 
     """
     ## Evaluate key existence
-    if not key:
+    if key is False or None:
         if none_ok:
             return key
 

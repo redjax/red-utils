@@ -6,6 +6,7 @@ from typing import Any
 
 from red_utils.core.constants import CACHE_DIR
 
+from .controllers import DiskCacheController, FanoutDiskCacheController
 from .classes import CacheInstance
 from .constants import (
     default_timeout_dict,
@@ -26,16 +27,17 @@ from .operations import (
     set_expire,
     set_val,
 )
-from .validators import (
-    validate_cache,
-    validate_expire,
-    validate_key,
-    validate_read,
-    validate_retry,
-    validate_tag,
-    validate_tags,
-    validate_val,
-)
+
+# from .validators import (
+#     validate_cache,
+#     validate_expire,
+#     validate_key,
+#     validate_read,
+#     validate_retry,
+#     validate_tag,
+#     validate_tags,
+#     validate_val,
+# )
 
 ## Define a default cache object
 default_cache_conf: dict[str, Any] = {
@@ -45,4 +47,4 @@ default_cache_conf: dict[str, Any] = {
     ),
 }
 
-from . import constants, operations, validators
+from . import constants, operations, validators, controllers
