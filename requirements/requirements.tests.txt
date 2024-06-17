@@ -81,7 +81,7 @@ typing-extensions==4.12.2
 tzdata==2024.1
 uc-micro-py==1.0.3
 unearth==0.15.4
-urllib3==2.2.1
+urllib3==2.2.2
 virtualenv==20.26.2
 vulture==2.11
 win32-setctime==1.1.0; sys_platform == "win32"
