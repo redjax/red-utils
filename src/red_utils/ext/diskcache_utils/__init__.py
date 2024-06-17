@@ -1,19 +1,19 @@
 """Utilities & methods for interacting with the `DiskCache` library."""
 
-from __future__ import annotations
-
-from typing import Any
-
-from red_utils.core.constants import CACHE_DIR
+from . import validators, controllers
+from .controllers import DiskCacheController, FanoutDiskCacheController
 
 from .classes import CacheInstance
-from .constants import (
+from .constants import TimeoutConf
+from .__defaults import (
+    default_cache_conf,
     default_timeout_dict,
-    valid_key_types,
-    valid_tag_types,
-    valid_val_types,
+    DEFAULT_CACHE_TIMEOUT,
+    CACHE_DIR,
 )
-from .operations import (
+from .__defaults import TimeoutConf
+
+from .__methods import (
     check_cache,
     check_cache_key_exists,
     clear_cache,
@@ -26,23 +26,3 @@ from .operations import (
     set_expire,
     set_val,
 )
-from .validators import (
-    validate_cache,
-    validate_expire,
-    validate_key,
-    validate_read,
-    validate_retry,
-    validate_tag,
-    validate_tags,
-    validate_val,
-)
-
-## Define a default cache object
-default_cache_conf: dict[str, Any] = {
-    "directory": CACHE_DIR,
-    "timeout": convert_to_seconds(
-        unit=default_timeout_dict["unit"], amount=default_timeout_dict["amount"]
-    ),
-}
-
-from . import constants, operations, validators

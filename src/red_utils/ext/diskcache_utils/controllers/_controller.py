@@ -1,117 +1,73 @@
-from __future__ import annotations
-
+import typing as t
 import logging
-
-log = logging.getLogger("red_utils.ext.diskcache_utils.classes")
-
-from dataclasses import dataclass, field
 from pathlib import Path
-from typing import Any, Union
+import json
+import warnings
 
-from red_utils.core.constants import CACHE_DIR
-from red_utils.core.dataclass_utils.mixins import DictMixin
+log = logging.getLogger("red_utils.ext.diskcache_utils.controllers")
 
-from .__methods import (
-    check_cache,
-    check_cache_key_exists,
-    clear_cache,
-    convert_to_seconds,
-    delete_val,
-    get_cache_size,
-    manage_cache_tag_index,
-    set_expire,
-    set_val,
-)
-from .validators import (
-    valid_key_types,
-    valid_val_types,
-    validate_cache,
-    validate_expire,
-    validate_key,
-    validate_read,
-    validate_retry,
-    validate_tag,
-    validate_tags,
-    validate_val,
-)
+from contextlib import AbstractContextManager
 
-from diskcache import Cache
-from diskcache.core import warnings
+from red_utils.ext.diskcache_utils import validators
+
+import diskcache
 
 
-def default_timeout() -> int:
-    """Return the default timeout period.
+class DiskCacheController(AbstractContextManager):
+    def __init__(
+        self,
+        cache_directory: t.Union[str, Path] | None = None,
+        cache_timeout: int = 60,
+        cache_disk: t.Type[diskcache.Disk] = diskcache.Disk,
+        index: bool = True,
+    ):
+        self.cache_directory = Path(f"{cache_directory}")
+        self.cache_timeout = cache_timeout
+        self.cache_disk = cache_disk
+        self.create_index = index
 
-    Returns:
-        (int): The number of seconds in 24 hours
+        self.cache = None
 
-    """
-    timeout = convert_to_seconds(amount=24, unit="hours")
-    return timeout
-
-
-@dataclass
-class CacheInstanceBase(DictMixin):
-    """Compose a Diskcache Cache from class parameters.
-
-    Params:
-        cache_dir (str|Path): The directory where the cache database should be created
-        index (bool): If `True`, a database index will be created
-        cache (diskcache.Cache): A `diskcache.Cache` instance
-        cache_timeout (int): Default expiration time (in seconds)
-    """
-
-    cache_dir: Union[str, Path] | None = field(default=CACHE_DIR)
-    index: bool = field(default=True)
-    cache: Cache | None = field(default=None)
-    cache_timeout: int | None = field(default_factory=default_timeout)
-
-    def __post_init__(self):  # noqa: D105
-        if isinstance(self.cache_dir, str):
-            if self.cache_dir == ".":
-                self.cache_dir = Path().absolute()
-            else:
-                self.cache_dir = Path(self.cache_dir)
-
-    def exists(self) -> bool:
-        return Path(f"{self.cache_dir}/cache.db").exists()
-
-    @property
-    def cache_path(self) -> Path:
-        return Path(f"{self.cache_dir}/cache.db")
-
-    @property
-    def cache_conf_dict(self) -> dict[str, Any]:
-        _config = {
-            "directory": self.cache_dir,
-            "timeout": self.cache_timeout,
-        }
-
-        return _config
-
-    def init(self) -> Cache:
-        """Initialize a Diskcache Cache from class parameters.
-
-        Sets the self.cache parameter to the initialized Cache,
-        and also returns Cache directly.
-
-        Returns:
-            (diskcache.Cache): An initialized `DiskCache.Cache` object
-
-        """
+    def __enter__(self) -> t.Self:
         try:
-            cache = Cache(self.cache_dir, timeout=self.cache_timeout)
-            self.cache = cache
-
-            self.manage_cache_tag_index("create")
-
-            return cache
-
+            _cache: diskcache.Cache = diskcache.Cache(
+                directory=self.cache_directory,
+                timeout=self.cache_timeout,
+                disk=self.cache_disk,
+            )
         except Exception as exc:
-            msg = Exception(f"Unhandled exception creating cache. Details: {exc}")
+            msg = Exception(
+                f"Unhandled exception getting DiskCache Cache. Details: {exc}"
+            )
             log.error(msg)
 
             raise exc
+
+        self.cache = _cache
+
+        if self.create_index:
+            log.info("Creating cache index")
+            try:
+                self.manage_cache_tag_index("create")
+            except Exception as exc:
+                msg = Exception(
+                    f"Unhandled exception creating cache index. Details: {exc}"
+                )
+                log.error(msg)
+
+                raise exc
+
+        return self
+
+    def __exit__(self, exc_type, exc_val, traceback):
+        if self.cache:
+            self.cache.close()
+
+        if exc_val:
+            log.error(f"({exc_type}): {exc_val}")
+
+        if traceback:
+            raise traceback
 
     def manage_cache_tag_index(self, operation: str = "create") -> None:
         """Create or delete a cache index.
@@ -122,7 +78,7 @@ class CacheInstanceBase(DictMixin):
         """
         valid_operations: list[str] = ["create", "delete"]
 
-        validate_cache(cache=self.cache)
+        validators.validate_cache(cache=self.cache)
 
         if not operation:
             raise Exception(f"Operation cannot be None.")
@@ -162,7 +118,7 @@ class CacheInstanceBase(DictMixin):
             (bool): `False` if clearing the cache not successful
 
         """
-        validate_cache(self.cache)
+        validators.validate_cache(self.cache)
 
         try:
             with self.cache as ref:
@@ -178,19 +134,7 @@ class CacheInstanceBase(DictMixin):
 
             raise exc
 
-
-@dataclass
-class CacheInstance(CacheInstanceBase):
-    """Class to control a Diskcache Cache instance.
-
-    Params:
-        cache_dir (str|Path): Directory path where cache.db will be stored.
-        index (bool): Controls creation of a tag index in the cache instance.
-        cache (diskcache.Cache): A diskcache.Cache object. When the class is instantiated, a Cache will be created.
-        cache_timeout (int): Default key expiration (in seconds).
-    """
-
-    def check_key_exists(self, key: Union[str, int, tuple, frozenset] = None) -> bool:
+    def check_key_exists(self, key: t.Union[str, int, tuple, frozenset] = None) -> bool:
         """Check if a key exists in a cache.
 
         Params:
@@ -202,8 +146,8 @@ class CacheInstance(CacheInstanceBase):
 
         """
         ## Key validation
-        validate_key(key=key)
-        validate_cache(cache=self.cache)
+        validators.validate_key(key=key)
+        validators.validate_cache(cache=self.cache)
 
         ## Check if key exists in cache
         if key in self.cache:
@@ -211,13 +155,13 @@ class CacheInstance(CacheInstanceBase):
         else:
             return False
 
-    def set_val(
+    def set(
         self,
-        key: Union[str, int, tuple, frozenset],
-        val: Union[str, bytes, float, int, list, dict],
+        key: t.Union[str, int, tuple, frozenset] = None,
+        val: t.Union[str, bytes, float, int, list, dict] = None,
         expire: int = None,
         read: bool = False,
-        tag: str = None,
+        tag: t.Union[str, int, float, bytes] = None,
         retry: bool = False,
     ) -> None:
         """Set a key value pair in the cache.
@@ -230,13 +174,13 @@ class CacheInstance(CacheInstanceBase):
             tag (str): Applies a tag to the cached value
             retry (bool): If `True`, retry setting cache key if first attempt fails
         """
-        validate_key(key)
-        validate_val(val)
-        validate_expire(expire, none_ok=True)
-        validate_read(read, none_ok=True)
-        validate_tag(tag=tag, none_ok=True)
-        validate_retry(retry=retry, none_ok=True)
-        validate_cache(cache=self.cache)
+        validators.validate_key(key)
+        validators.validate_val(val)
+        validators.validate_expire(expire, none_ok=True)
+        validators.validate_read(read, none_ok=True)
+        validators.validate_tag(tag=tag, none_ok=True)
+        validators.validate_retry(retry=retry, none_ok=True)
+        validators.validate_cache(cache=self.cache)
 
         try:
             with self.cache as ref:
@@ -252,8 +196,8 @@ class CacheInstance(CacheInstanceBase):
 
             raise exc
 
-    def get_val(
-        self, key: Union[str, int, tuple, frozenset] = None, tags: list[str] = None
+    def get(
+        self, key: t.Union[str, int, tuple, frozenset] = None, tags: list[str] = None
     ):
         """Search for a key in a given cache.
 
@@ -265,12 +209,12 @@ class CacheInstance(CacheInstanceBase):
             key (str): The key to search the cache for
             tags (list[str]): List of tags to search the cache for
         """
-        validate_key(key)
-        validate_cache(self.cache)
-        validate_tags(tags)
+        validators.validate_key(key)
+        validators.validate_cache(self.cache)
+        validators.validate_tags(tags)
 
         try:
-            if check_cache_key_exists(key=key, cache=self.cache):
+            if self.check_key_exists(key=key):
                 try:
                     with self.cache as ref:
                         _val = ref.get(key=key)
@@ -286,34 +230,40 @@ class CacheInstance(CacheInstanceBase):
                     raise exc
 
             else:
-                return {
-                    "error": "Key not found in cache",
-                    "details": {"key": key, "cache_dir": self.cache.directory},
-                }
+                # return {
+                #     "error": "Key not found in cache",
+                #     "details": {"key": key, "cache_dir": self.cache.directory},
+                # }
+
+                return
 
         except Exception as exc:
-            return {
-                "error": "Error searching for key in cache",
-                "details": {"exception": exc},
-            }
+            msg = Exception(
+                f"Unhandled exception checking cache for key '{key}'. Details: {exc}"
+            )
+            log.error(msg)
+
+            return None
 
     def set_expire(
-        self, key: Union[str, int, tuple, frozenset] = None, expire: int = None
-    ) -> Union[dict[str, str], None]:
+        self, key: t.Union[str, int, tuple, frozenset] = None, expire: int = None
+    ) -> dict[str, str] | None:
         """Set an expiration timeout (in seconds).
 
         Params:
             key (str): Name of the key to set expiration on. Must already exist in the cache.
             expire (int): Time (in seconds) to wait before expiring cached value.
         """
-        validate_key(key)
-        validate_cache(self.cache)
-        validate_expire(expire)
+        validators.validate_key(key)
+        validators.validate_cache(self.cache)
+        validators.validate_expire(expire)
 
-        if not check_cache_key_exists(key=key, cache=self.cache):
-            return {
-                "warning": f"Cache item with key [{key}] does not exist in cache at {self.cache.directory}/"
-            }
+        if not self.check_key_exists(key=key):
+            log.warning(
+                f"Cache item with key [{key}] does not exist in cache at {self.cache.directory}/"
+            )
+
+            return None
 
         try:
             with self.cache as ref:
@@ -327,8 +277,8 @@ class CacheInstance(CacheInstanceBase):
 
             raise exc
 
-    def delete_val(
-        self, key: Union[str, int, tuple, frozenset] = None, tag: str = None
+    def delete(
+        self, key: t.Union[str, int, tuple, frozenset] = None, tag: str = None
     ) -> tuple:
         """Delete a cached value.
 
@@ -337,9 +287,9 @@ class CacheInstance(CacheInstanceBase):
         Params:
             key (str|int): Name of key in cache.
         """
-        validate_key(key)
-        validate_cache(self.cache)
-        validate_tag(tag)
+        validators.validate_key(key)
+        validators.validate_cache(self.cache)
+        validators.validate_tag(tag)
 
         try:
             with self.cache as ref:
@@ -355,20 +305,41 @@ class CacheInstance(CacheInstanceBase):
 
             raise exc
 
-    def get_cache_size(self) -> dict[str, int]:
+    def cull(self, retry: bool = False) -> bool:
+        """Cull items from cache to free space.
+
+        Params:
+            retry (bool): When `True`, cull will be retried if a database timeout occurs.
+
+        Returns:
+            (bool): `True` if culling successful, otherwise `False`.
+
+        """
+        try:
+            self.cache.cull(retry=retry)
+
+            return True
+        except Exception as exc:
+            msg = Exception(f"Unhandled exception culling cache. Details: {exc}")
+            log.error(msg)
+
+            return False
+
+    def get_cache_size(self) -> int:
         """Get a dict describing the size of the cache, in bytes.
 
         Returns:
-            (dict): A Python `dict` with keys: 'unit', 'size'. Example return object:
-                `{'unit': 'bytes', 'size': 36864}`
+            (int): An integer representing the cache's size in bytes.`
 
         """
-        validate_cache(cache=self.cache)
+        validators.validate_cache(cache=self.cache)
 
         try:
             cache_size: int = self.cache.volume()
 
-            return {"unit": "bytes", "size": cache_size}
+            # return {"unit": "bytes", "size": cache_size}
+
+            return cache_size
 
         except Exception as exc:
             msg = Exception(f"Unhandled exception getting cache size. Details: {exc}")
@@ -376,14 +347,14 @@ class CacheInstance(CacheInstanceBase):
 
             raise exc
 
-    def check_cache(self) -> list[warnings.WarningMessage]:
+    def healthcheck(self) -> list[warnings.WarningMessage]:
         """Run checks on Cache instance.
 
         Returns:
             (list[warning.WarningMessage]): A list of Diskcache `WarningMessage` objects.
 
         """
-        validate_cache(cache=self.cache)
+        validators.validate_cache(cache=self.cache)
 
         try:
             warnings = self.cache.check()
@@ -397,3 +368,14 @@ class CacheInstance(CacheInstanceBase):
             log.error(msg)
 
             raise exc
+
+
+class FanoutDiskCacheController(AbstractContextManager):
+    def __init__(self):
+        pass
+
+    def __enter__(self):
+        raise NotImplementedError("Fanout DiskCache controller not fully implemented")
+
+    def __exit__(self, exc_type, exc_val, traceback):
+        pass

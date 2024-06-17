@@ -15,6 +15,9 @@ on:
 
 jobs:
   run-pytest-tests:
+    needs:
+      - export-requirements
+      - lint-format
     runs-on: ubuntu-latest
     env:
       CI: true
