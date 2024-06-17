@@ -47,5 +47,5 @@ class TimeoutConf(DictMixin):
 ## Set default timeout to 24 hours
 # default_timeout_dict: dict[str, Union[str, int]] = {"unit": "minutes", "amount": 15}
 
-DEFAULT_CACHE_TIMEOUT: TimeoutConf = TimeoutConf()
-default_timeout_dict: dict[str, Union[str, int]] = TimeoutConf().as_dict()
+# DEFAULT_CACHE_TIMEOUT: TimeoutConf = TimeoutConf()
+# default_timeout_dict: dict[str, Union[str, int]] = TimeoutConf().as_dict()

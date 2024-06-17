@@ -15,12 +15,6 @@ from typing import Optional, Type, Union
 
 from red_utils.core.constants import CACHE_DIR
 
-from .constants import (
-    default_timeout_dict,
-    valid_key_types,
-    valid_tag_types,
-    valid_val_types,
-)
 from .validators import (
     validate_cache,
     validate_expire,
@@ -34,6 +28,7 @@ from .validators import (
 
 import diskcache
 from diskcache import Cache
+
 
 def convert_to_seconds(amount: int = None, unit: str = None) -> int:
     """Convert an amount of time to seconds.
@@ -222,8 +217,8 @@ def manage_cache_tag_index(cache: Cache = None, operation: str = "create") -> No
 
 def set_val(
     cache: Cache = None,
-    key: valid_key_types = None,
-    val: valid_val_types = None,
+    key: Union[str, int, tuple, frozenset] = None,
+    val: Union[str, bytes, float, int, list, dict] = None,
     expire: int = None,
     read: bool = False,
     tag: str = None,
@@ -340,7 +335,7 @@ def get_val(cache: Cache = None, key: str = None, tags: list[str] = None):
 
 
 def delete_val(
-    cache: Cache = None, key: valid_key_types = None, tag: str = None
+    cache: Cache = None, key: Union[str, int, tuple, frozenset] = None, tag: str = None
 ) -> tuple:
     """Delete a value from the cache.
 

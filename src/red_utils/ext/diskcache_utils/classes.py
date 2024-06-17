@@ -11,7 +11,7 @@ from typing import Any, Union
 from red_utils.core.constants import CACHE_DIR
 from red_utils.core.dataclass_utils.mixins import DictMixin
 
-from .operations import (
+from .__methods import (
     check_cache,
     check_cache_key_exists,
     clear_cache,
@@ -37,6 +37,7 @@ from .validators import (
 
 from diskcache import Cache
 from diskcache.core import warnings
+
 
 def default_timeout() -> int:
     """Return the default timeout period.
@@ -189,7 +190,7 @@ class CacheInstance(CacheInstanceBase):
         cache_timeout (int): Default key expiration (in seconds).
     """
 
-    def check_key_exists(self, key: valid_key_types = None) -> bool:
+    def check_key_exists(self, key: Union[str, int, tuple, frozenset] = None) -> bool:
         """Check if a key exists in a cache.
 
         Params:
@@ -212,8 +213,8 @@ class CacheInstance(CacheInstanceBase):
 
     def set_val(
         self,
-        key: valid_key_types,
-        val: valid_val_types,
+        key: Union[str, int, tuple, frozenset],
+        val: Union[str, bytes, float, int, list, dict],
         expire: int = None,
         read: bool = False,
         tag: str = None,
@@ -251,7 +252,9 @@ class CacheInstance(CacheInstanceBase):
 
             raise exc
 
-    def get_val(self, key: valid_key_types = None, tags: list[str] = None):
+    def get_val(
+        self, key: Union[str, int, tuple, frozenset] = None, tags: list[str] = None
+    ):
         """Search for a key in a given cache.
 
         Pass a diskcache.Cache object for cache, and a key (and optionally a list of tags).
@@ -295,7 +298,7 @@ class CacheInstance(CacheInstanceBase):
             }
 
     def set_expire(
-        self, key: valid_key_types = None, expire: int = None
+        self, key: Union[str, int, tuple, frozenset] = None, expire: int = None
     ) -> Union[dict[str, str], None]:
         """Set an expiration timeout (in seconds).
 
@@ -324,7 +327,9 @@ class CacheInstance(CacheInstanceBase):
 
             raise exc
 
-    def delete_val(self, key: valid_key_types = None, tag: str = None) -> tuple:
+    def delete_val(
+        self, key: Union[str, int, tuple, frozenset] = None, tag: str = None
+    ) -> tuple:
         """Delete a cached value.
 
         If a tag is provided, only keys that also have that tag will be deleted.
