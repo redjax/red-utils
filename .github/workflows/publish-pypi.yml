@@ -1,0 +1,106 @@
+# ---
+# name: Build & Publish to PyPi & PyPy Testing
+
+# on:
+#   pull_request:
+#     types:
+#       - labeled
+#     branches:
+#       - main
+#     paths-ignore:
+#       - "docs/**"
+#       - "*.md"
+
+# ## Rework jobs. Steps:
+# #  - Install pypi & dependencies
+# #  - Build project
+# #  - Publish pypi testing
+# #  - Publish pypi
+# jobs:
+#   publish-pypi-testing:
+#     name: Publish PyPi Testing
+#     if: contains(github.event.pull_request.labels.*.name, 'release' }}
+#     needs:
+#       - tests
+#     runs-on: ubuntu-latest
+#     environment:
+#       name: pypi-test
+#       url: https://test.pypi.org/legacy/
+#     permissions:
+#       id-token: write
+#     strategy:
+#       matrix:
+#         python-versions: ["3.11"]
+
+#     steps:
+#       - uses: actions/checkout@v4
+#         with:
+#           ref: ${{ github.event.pull_request.head.ref }}
+#           token: ${{ github.token }}
+
+#       - name: Set up Python  3.11
+#         uses: actions/setup-python@v5
+#         with:
+#           python-version: 3.11
+
+#       - name: Install pdm
+#         uses: pdm-project/setup-pdm@v4
+#         with:
+#           python-version: 3.11
+#           cache: true
+#           cache-dependency-path: |
+#             ./pdm.lock
+#             ./pdm.new.lock
+
+#       - name: Install dependencies
+#         run: pdm install
+
+#       - name: Build project
+#         run: pdm build
+
+#       - name: Publish package distributions to PyPi Test
+#         https://test.pypi.org/legacy/
+
+#   publish-pypi:
+#     if: contains(github.event.pull_request.labels.*.name, 'release' }}
+#     needs:
+#       - tests
+#       - publish-pypi-testing
+#     runs-on: ubuntu-latest
+#     environment:
+#       name: pypi
+#       url: https://pypi.org/p/red-utils
+#     permissions:
+#       id-token: write
+#     strategy:
+#       matrix:
+#         python-versions: ["3.11"]
+
+#     steps:
+#       - uses: actions/checkout@v4
+#         with:
+#           ref: ${{ github.event.pull_request.head.ref }}
+#           token: ${{ github.token }}
+
+#       - name: Set up Python  3.11
+#         uses: actions/setup-python@v5
+#         with:
+#           python-version: 3.11
+
+#       - name: Install pdm
+#         uses: pdm-project/setup-pdm@v4
+#         with:
+#           python-version: 3.11
+#           cache: true
+#           cache-dependency-path: |
+#             ./pdm.lock
+#             ./pdm.new.lock
+
+#       - name: Install dependencies
+#         run: pdm install
+
+#       - name: Build project
+#         run: pdm build
+
+#       - name: Publish PyPi
+#         run: pdm run upload-pypi
