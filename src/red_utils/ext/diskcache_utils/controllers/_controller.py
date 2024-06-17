@@ -247,7 +247,7 @@ class DiskCacheController(AbstractContextManager):
 
     def set_expire(
         self, key: t.Union[str, int, tuple, frozenset] = None, expire: int = None
-    ) -> t.Union[dict[str, str], None]:
+    ) -> dict[str, str] | None:
         """Set an expiration timeout (in seconds).
 
         Params:
@@ -304,6 +304,26 @@ class DiskCacheController(AbstractContextManager):
             log.error(msg)
 
             raise exc
+
+    def cull(self, retry: bool = False) -> bool:
+        """Cull items from cache to free space.
+
+        Params:
+            retry (bool): When `True`, cull will be retried if a database timeout occurs.
+
+        Returns:
+            (bool): `True` if culling successful, otherwise `False`.
+
+        """
+        try:
+            self.cache.cull(retry=retry)
+
+            return True
+        except Exception as exc:
+            msg = Exception(f"Unhandled exception culling cache. Details: {exc}")
+            log.error(msg)
+
+            return False
 
     def get_cache_size(self) -> int:
         """Get a dict describing the size of the cache, in bytes.
