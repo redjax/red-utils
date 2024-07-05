@@ -1,7 +1,9 @@
 from __future__ import annotations
 
-from pytest import fixture
 from red_utils.std import hash_utils
+
+from pytest import fixture
+
 
 @fixture
 def str_to_hash() -> str:

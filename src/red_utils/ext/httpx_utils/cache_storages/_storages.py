@@ -9,6 +9,7 @@ log = logging.getLogger("weatherbot.request_client.cache_storages")
 
 import hishel
 
+
 def get_hishel_file_storage(
     cache_dir: t.Union[str, Path] = None,
     ttl: t.Union[int, float] | None = None,

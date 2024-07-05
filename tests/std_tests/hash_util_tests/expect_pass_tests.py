@@ -1,7 +1,9 @@
 from __future__ import annotations
 
-from pytest import mark, xfail
 from red_utils.std import hash_utils
+
+from pytest import mark, xfail
+
 
 @mark.hash_utils
 def test_validate_hash_str(str_to_hash: str):

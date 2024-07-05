@@ -37,6 +37,7 @@ from httpx._types import (
     VerifyTypes,
 )
 
+
 def merge_headers(
     original_headers: dict[str, str] = default_headers,
     update_vals: dict[str, str] = None,

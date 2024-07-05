@@ -2,8 +2,10 @@ from __future__ import annotations
 
 from uuid import UUID
 
-from pytest import fixture
 from red_utils.std import uuid_utils
+
+from pytest import fixture
+
 
 @fixture
 def _uuid() -> UUID:

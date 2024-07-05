@@ -45,6 +45,7 @@ from red_utils.std.logging_utils.helpers import (
     get_streamhandler_config,
 )
 
+
 def get_red_utils_formatter(
     name: str = "red_utils", fmt: str = RED_UTILS_FMT, datefmt: str = DATE_FMT_STANDARD
 ) -> FormatterConfig:

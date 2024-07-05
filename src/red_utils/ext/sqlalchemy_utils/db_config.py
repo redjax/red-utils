@@ -12,6 +12,7 @@ import typing as t
 import sqlalchemy as sa
 import sqlalchemy.orm as so
 
+
 @dataclass
 class DBSettings:
     """Store configuration for a database.

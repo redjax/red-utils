@@ -8,6 +8,9 @@ from _collections_abc import dict_keys
 import random
 from typing import Type
 
+from red_utils.ext import sqlalchemy_utils
+from red_utils.ext.loguru_utils import LoguruSinkStdOut, init_logger
+
 from .base import TEST_BASE
 from .methods import (
     get_list_user_schemas,
@@ -19,8 +22,6 @@ from .repository import TestUserRepository
 from .schemas import TestUser, TestUserOut, TestUserUpdate
 
 from pytest import mark, xfail
-from red_utils.ext import sqlalchemy_utils
-from red_utils.ext.loguru_utils import LoguruSinkStdOut, init_logger
 from regex import E
 import sqlalchemy as sa
 import sqlalchemy.orm as so

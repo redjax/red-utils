@@ -2,8 +2,10 @@ from __future__ import annotations
 
 from uuid import UUID
 
-from pytest import mark, xfail
 from red_utils.std import uuid_utils
+
+from pytest import mark, xfail
+
 
 @mark.uuid_utils
 def test_gen_uuid():

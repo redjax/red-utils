@@ -1,11 +1,11 @@
 from __future__ import annotations
 
-from pathlib import Path
-import platform
 import logging
 import logging.config
 import logging.handlers
 import os
+from pathlib import Path
+import platform
 import shutil
 
 import nox
@@ -15,7 +15,8 @@ if "CONTAINER_ENV" in os.environ:
     CONTAINER_ENV: bool = os.environ["CONTAINER_ENV"]
 else:
     CONTAINER_ENV: bool = False
-    
+
+
 def setup_nox_logging(
     level_name: str = "DEBUG", disable_loggers: list[str] | None = []
 ) -> None:
@@ -63,7 +64,8 @@ def setup_nox_logging(
     ## Disable loggers by name. Sets logLevel to logging.WARNING to suppress all but warnings & errors
     for _logger in disable_loggers:
         logging.getLogger(_logger).setLevel(logging.WARNING)
-        
+
+
 setup_nox_logging(disable_loggers=[])
 
 ## Create logger for this module
@@ -159,7 +161,9 @@ def run_linter(session: nox.Session):
             # )
 
 
-@nox.session(python=[DEFAULT_PYTHON], name="lint-prune-script", tags=["cleanup", "quality"])
+@nox.session(
+    python=[DEFAULT_PYTHON], name="lint-prune-script", tags=["cleanup", "quality"]
+)
 def run_linter(session: nox.Session):
     session.install("ruff", "black")
 

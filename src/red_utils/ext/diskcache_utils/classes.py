@@ -38,6 +38,7 @@ from .validators import (
 from diskcache import Cache
 from diskcache.core import warnings
 
+
 def default_timeout() -> int:
     """Return the default timeout period.
 

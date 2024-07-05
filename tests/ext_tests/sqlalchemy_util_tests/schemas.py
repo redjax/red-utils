@@ -4,6 +4,7 @@ import uuid
 
 from pydantic import BaseModel, ConfigDict, Field, ValidationError, field_validator
 
+
 class TestUserBase(BaseModel):
     username: str = Field(default=None)
     email: str | None = Field(default=None)

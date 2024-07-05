@@ -10,6 +10,7 @@ from .models import TestUserModel
 from sqlalchemy.exc import IntegrityError, NoResultFound
 import sqlalchemy.orm as so
 
+
 class TestUserRepository(sqlalchemy_utils.RepositoryBase):
     def __init__(self, session: so.Session):
         assert session is not None, ValueError("session cannot be None")

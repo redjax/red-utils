@@ -9,8 +9,10 @@ import datetime
 import os
 from pathlib import Path
 
-from pytest import mark, xfail
 from red_utils.std import path_utils
+
+from pytest import mark, xfail
+
 
 @mark.file_utils
 def test_cwd_exists(cwd: Path):

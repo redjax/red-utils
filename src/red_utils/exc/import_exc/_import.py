@@ -5,6 +5,7 @@ from typing import Any
 
 from red_utils.exc import CustomException
 
+
 class CustomModuleNotFoundError(ModuleNotFoundError):
     def __init__(
         self, msg: str = None, missing_dependencies: list[str] | None = None

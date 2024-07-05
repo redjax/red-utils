@@ -15,6 +15,7 @@ from pathlib import Path
 import sqlite3
 from typing import Union
 
+
 class SQLiteConnManager:
     """Handle interactions with a SQLite database.
 

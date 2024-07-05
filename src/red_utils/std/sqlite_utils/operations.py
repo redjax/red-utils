@@ -11,6 +11,7 @@ from typing import Union
 
 from .schemas import SQLiteDB
 
+
 def init_sqlite_db(db_definition: SQLiteDB = None) -> bool:
     """Initialize an empty SQLite database.
 

@@ -17,6 +17,7 @@ from .db_config import DBSettings
 import sqlalchemy as sa
 import sqlalchemy.orm as so
 
+
 @contextmanager
 def get_db(db_settings: DBSettings = None) -> t.Generator[so.Session, t.Any, None]:
     """Dependency to yield a SQLAlchemy Session pool.

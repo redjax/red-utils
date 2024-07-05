@@ -1,8 +1,10 @@
 from __future__ import annotations
 
+from red_utils.ext import time_utils
+
 import pendulum
 from pytest import mark, xfail
-from red_utils.ext import time_utils
+
 
 @mark.xfail
 def test_fail_pendulum_ts(bad_ts_str: str):
