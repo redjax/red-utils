@@ -9,9 +9,8 @@ import datetime
 import os
 from pathlib import Path
 
-from red_utils.std import path_utils
-
 from pytest import mark, xfail
+from red_utils.std import path_utils
 
 
 @mark.file_utils

@@ -2,11 +2,10 @@ from __future__ import annotations
 
 import uuid
 
-from red_utils.ext import sqlalchemy_utils
-from red_utils.std import uuid_utils
-
 from .base import TEST_BASE
 
+from red_utils.ext import sqlalchemy_utils
+from red_utils.std import uuid_utils
 import sqlalchemy as sa
 import sqlalchemy.orm as so
 

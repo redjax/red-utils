@@ -3,14 +3,13 @@ from __future__ import annotations
 import random
 from typing import Type
 
-from red_utils.ext import sqlalchemy_utils
-
 from .base import TEST_BASE
 from .models import EX_TESTUSERMODEL_FULL, EX_TESTUSERMODEL_LIST, TestUserModel
 from .repository import TestUserRepository
 from .schemas import TestUser, TestUserOut
 
 from loguru import logger as log
+from red_utils.ext import sqlalchemy_utils
 import sqlalchemy.orm as so
 
 

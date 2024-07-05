@@ -1,8 +1,7 @@
 from __future__ import annotations
 
-from red_utils.ext import sqlalchemy_utils
-
 from pytest import fixture
+from red_utils.ext import sqlalchemy_utils
 import sqlalchemy as sa
 import sqlalchemy.orm as so
 from sqlalchemy.orm.decl_api import DeclarativeAttributeIntercept

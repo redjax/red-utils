@@ -1,8 +1,7 @@
 from __future__ import annotations
 
-from red_utils.std import hash_utils
-
 from pytest import fixture
+from red_utils.std import hash_utils
 
 
 @fixture
