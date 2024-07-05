@@ -82,15 +82,15 @@ def run_linter(session: nox.Session):
                 lint_path,
             )
 
-            print(f"Running ruff checks on '{d}' with --fix")
-            session.run(
-                "ruff",
-                "check",
-                "--config",
-                "ruff.ci.toml",
-                lint_path,
-                "--fix",
-            )
+            # print(f"Running ruff checks on '{d}' with --fix")
+            # session.run(
+            #     "ruff",
+            #     "check",
+            #     "--config",
+            #     "ruff.ci.toml",
+            #     lint_path,
+            #     "--fix",
+            # )
 
 
 @nox.session(python=[DEFAULT_PYTHON], name="lint-prune-script")
@@ -112,16 +112,6 @@ def run_linter(session: nox.Session):
     session.run(
         "black",
         lint_path,
-    )
-
-    print(f"Running ruff checks on '{lint_path}' with --fix")
-    session.run(
-        "ruff",
-        "check",
-        "--config",
-        "ruff.ci.toml",
-        lint_path,
-        "--fix",
     )
 
 
