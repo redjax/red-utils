@@ -19,6 +19,7 @@ from sqlalchemy.exc import DBAPIError, OperationalError
 import sqlalchemy.orm as so
 from sqlalchemy.schema import CreateTable
 
+
 def debug_metadata_obj(metadata_obj: sa.MetaData = None) -> None:
     """Debug-print a SQLAlchemy MetaData object.
 

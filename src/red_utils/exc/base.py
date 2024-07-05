@@ -3,6 +3,7 @@ from __future__ import annotations
 from dataclasses import dataclass, field
 from typing import Any, Union
 
+
 @dataclass
 class CustomExceptionBase(BaseException):
     """Base class for custom exceptions to inherit from.

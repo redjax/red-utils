@@ -8,6 +8,7 @@ log = logging.getLogger("red_utils.std.list_utils")
 
 import typing as t
 
+
 def validate_list(_list: list[t.Any] = None) -> list[t.Any]:
     """Validate an input_list.
 

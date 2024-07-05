@@ -6,6 +6,7 @@ import sqlalchemy as sa
 import sqlalchemy.orm as so
 from sqlalchemy.orm.decl_api import DeclarativeAttributeIntercept
 
+
 @fixture
 def sqla_sqlite_inmemory() -> sqlalchemy_utils.saSQLiteConnection:
     conn: sqlalchemy_utils.saSQLiteConnection = sqlalchemy_utils.saSQLiteConnection(

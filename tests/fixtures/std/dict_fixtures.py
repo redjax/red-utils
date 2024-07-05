@@ -3,6 +3,7 @@ from __future__ import annotations
 from pytest import fixture
 from red_utils.std import dict_utils
 
+
 @fixture
 def bad_dict() -> dict:
     _dict = ("test", "bad", "dict")

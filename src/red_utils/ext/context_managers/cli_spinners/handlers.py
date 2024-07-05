@@ -13,6 +13,7 @@ import time
 import rich
 from rich.console import Console
 
+
 @contextmanager
 def SimpleSpinner(message: str = "Loading..."):
     """Get a simple CLI spinner context manager.

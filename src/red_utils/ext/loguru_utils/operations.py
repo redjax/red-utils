@@ -28,6 +28,7 @@ from .validators import validate_compression_str, validate_level, validate_logge
 
 from loguru import logger
 
+
 def add_sink(
     _logger: logger = None,
     sink: Union[str, Path, io.TextIOWrapper, Handler, Callable, Coroutine] = None,

@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+
 def is_pydantic(obj: object) -> bool:
     """Check whether an object is pydantic.
 

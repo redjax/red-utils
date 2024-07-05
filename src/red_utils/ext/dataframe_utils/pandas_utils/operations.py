@@ -16,6 +16,7 @@ from .constants import PANDAS_DATE_FORMAT, PANDAS_DATETIME_FORMAT, PANDAS_TIME_F
 
 import pandas as pd
 
+
 def get_oldest_newest(
     df: pd.DataFrame = None, date_col: str = None, filter_cols: list[str] | None = None
 ) -> Union[pd.Series, pd.DataFrame]:

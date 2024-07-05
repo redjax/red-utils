@@ -12,6 +12,7 @@ from loguru import logger as log
 from red_utils.ext import sqlalchemy_utils
 import sqlalchemy.orm as so
 
+
 def init_test_db(
     base: so.DeclarativeBase = TEST_BASE,
     db_settings: sqlalchemy_utils.DBSettings = None,

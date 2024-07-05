@@ -5,6 +5,7 @@ from uuid import UUID
 from pytest import fixture
 from red_utils.std import uuid_utils
 
+
 @fixture
 def _uuid() -> UUID:
     _id = uuid_utils.gen_uuid()

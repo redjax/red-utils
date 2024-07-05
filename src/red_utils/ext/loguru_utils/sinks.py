@@ -9,6 +9,7 @@ from red_utils.core.dataclass_utils import DictMixin
 
 from .constants import default_color_fmt, default_fmt
 
+
 @dataclass
 class LoguruSinkBase(DictMixin):
     """Base Loguru sink class.

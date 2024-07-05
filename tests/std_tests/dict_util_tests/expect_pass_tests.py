@@ -3,6 +3,7 @@ from __future__ import annotations
 from pytest import mark, xfail
 from red_utils.std import dict_utils
 
+
 @mark.dict_utils
 def test_valid_dict(good_dict: dict):
     assert good_dict is not None, "Example good_dict cannot be None"

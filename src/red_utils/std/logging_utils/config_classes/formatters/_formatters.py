@@ -20,6 +20,7 @@ from red_utils.std.logging_utils.fmts._formats import (
     RED_UTILS_FMT,
 )
 
+
 @dataclass
 class FormatterConfig(BaseLoggingConfig):
     """Define a logging formatter.

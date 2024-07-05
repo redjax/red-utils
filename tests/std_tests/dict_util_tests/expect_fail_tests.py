@@ -5,6 +5,7 @@ from __future__ import annotations
 from pytest import mark, xfail
 from red_utils.std import dict_utils
 
+
 @mark.xfail
 def test_fail_debug_dict_none(_dict: dict = None):
     assert _dict is not None, "_dict cannot be None"

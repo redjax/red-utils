@@ -12,6 +12,7 @@ from pathlib import Path
 from pytest import mark, xfail
 from red_utils.std import path_utils
 
+
 @mark.file_utils
 def test_cwd_exists(cwd: Path):
     """Test the CWD fixture."""

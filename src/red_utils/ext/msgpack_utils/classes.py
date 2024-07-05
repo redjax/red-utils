@@ -5,6 +5,7 @@ from typing import Any, ByteString, Union
 
 from .validators import valid_operations
 
+
 @dataclass
 class SerialFunctionResponseBase:
     success: bool = field(default=False)
