@@ -69,6 +69,7 @@ def run_linter(session: nox.Session):
             print(f"Running ruff imports sort on '{d}'")
             session.run(
                 "ruff",
+                "check",
                 "--select",
                 "I",
                 "--fix",
@@ -84,11 +85,45 @@ def run_linter(session: nox.Session):
             print(f"Running ruff checks on '{d}' with --fix")
             session.run(
                 "ruff",
+                "check",
                 "--config",
                 "ruff.ci.toml",
                 lint_path,
                 "--fix",
             )
+            
+
+@nox.session(python=[DEFAULT_PYTHON], name="lint-prune-script")
+def run_linter(session: nox.Session):
+    session.install("ruff", "black")
+
+
+    lint_path: Path = Path("git_prune.py")
+    print(f"Running ruff imports sort on '{lint_path}'")
+    session.run(
+        "ruff",
+        "check",
+        "--select",
+        "I",
+        "--fix",
+        lint_path,
+    )
+
+    print(f"Formatting '{lint_path}' with Black")
+    session.run(
+        "black",
+        lint_path,
+    )
+
+    print(f"Running ruff checks on '{lint_path}' with --fix")
+    session.run(
+        "ruff",
+        "check",
+        "--config",
+        "ruff.ci.toml",
+        lint_path,
+        "--fix",
+    )
 
 
 @nox.session(python=[DEFAULT_PYTHON], name="export")
