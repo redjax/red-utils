@@ -362,7 +362,7 @@ def clean_branches(
 
     ## Terminate early if dry_run=True
     if dry_run:
-        log.warning(f"dry_run=True, terminating early to avoid accidental deletion.")
+        log.warning("dry_run=True, terminating early to avoid accidental deletion.")
         log.warning(f"Would have deleted [{len(branches_to_delete)}] branch(es).")
         for b in branches_to_delete:
             log.warning(f"[DRY RUN] Would delete branch: {b}")
@@ -507,7 +507,7 @@ def parse_cli_args(
             )
             log.error(msg)
 
-            raise exc
+            raise parse_err
         except Exception as exc:
             msg = Exception(
                 f"Unhandled exception adding argument to parser. Details: {exc}"
