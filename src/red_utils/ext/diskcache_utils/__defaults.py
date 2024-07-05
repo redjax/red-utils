@@ -1,8 +1,10 @@
+from __future__ import annotations
+
 from typing import Any, Union
 
-from .__methods import convert_to_seconds
-
 from red_utils.core.constants import CACHE_DIR
+
+from .__methods import convert_to_seconds
 from .constants import TimeoutConf
 
 # from .constants import default_timeout_dict

@@ -1,18 +1,15 @@
 """Utilities & methods for interacting with the `DiskCache` library."""
 
-from . import validators, controllers
-from .controllers import DiskCacheController, FanoutDiskCacheController
+from __future__ import annotations
 
-from .classes import CacheInstance
-from .constants import TimeoutConf
+from . import controllers, validators
 from .__defaults import (
+    CACHE_DIR,
+    DEFAULT_CACHE_TIMEOUT,
+    TimeoutConf,
     default_cache_conf,
     default_timeout_dict,
-    DEFAULT_CACHE_TIMEOUT,
-    CACHE_DIR,
 )
-from .__defaults import TimeoutConf
-
 from .__methods import (
     check_cache,
     check_cache_key_exists,
@@ -26,3 +23,6 @@ from .__methods import (
     set_expire,
     set_val,
 )
+from .classes import CacheInstance
+from .constants import TimeoutConf
+from .controllers import DiskCacheController, FanoutDiskCacheController

@@ -1,7 +1,9 @@
-import typing as t
+from __future__ import annotations
+
+import json
 import logging
 from pathlib import Path
-import json
+import typing as t
 import warnings
 
 log = logging.getLogger("red_utils.ext.diskcache_utils.controllers")
@@ -11,7 +13,6 @@ from contextlib import AbstractContextManager
 from red_utils.ext.diskcache_utils import validators
 
 import diskcache
-
 
 class DiskCacheController(AbstractContextManager):
     def __init__(

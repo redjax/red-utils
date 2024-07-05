@@ -91,12 +91,11 @@ def run_linter(session: nox.Session):
                 lint_path,
                 "--fix",
             )
-            
+
 
 @nox.session(python=[DEFAULT_PYTHON], name="lint-prune-script")
 def run_linter(session: nox.Session):
     session.install("ruff", "black")
-
 
     lint_path: Path = Path("git_prune.py")
     print(f"Running ruff imports sort on '{lint_path}'")
