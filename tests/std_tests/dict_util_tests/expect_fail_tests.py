@@ -2,8 +2,9 @@
 
 from __future__ import annotations
 
-from pytest import mark, xfail
 from red_utils.std import dict_utils
+
+from pytest import mark, xfail
 
 
 @mark.xfail

@@ -2,8 +2,9 @@ from __future__ import annotations
 
 from pathlib import Path
 
-from pytest import fixture
 from red_utils.std import path_utils
+
+from pytest import fixture
 
 
 @fixture
