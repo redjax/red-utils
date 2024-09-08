@@ -1,5 +1,7 @@
 # red-utils
 
+![GitHub last commit](https://img.shields.io/github/last-commit/redjax/red-utils)
+
 ⚠️**Important**⚠️: This is my first Python package. I'm experimenting with CI/CD and Pypi. This library is most likely not useful to anyone else, may be broken at times, may undergo refactors with little to no notice/documentation, and all that other awful stuff that comes with being an amateur developer doing this in their free time 🙃
 
 # Table of Contents
