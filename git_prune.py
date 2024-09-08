@@ -117,6 +117,40 @@ PYTHON_VERSION: str = get_default_python()
 GIT_INSTALLED: bool = is_git_installed()
 
 
+def init_repo(repo_path: str = None) -> git.Repo:
+    """Initialize a `GitPython` `git.Repo` object from a path.
+
+    Params:
+        repo_path (str): (Default: ".") Path to the local git repository.
+
+    Returns:
+        (git.Repo): An initialized `git.Repo` object for the given `repo_path`.
+    """
+    ## Initialize repository
+    try:
+        repo = git.Repo(path=repo_path)
+    except Exception as exc:
+        msg = Exception(
+            f"Unhandled exception initializing git.Repo object for repository path '{repo_path}'. Details: {exc}"
+        )
+        log.error(msg)
+
+        raise exc
+
+    ## Fetch latest changes & prune deleted branches
+    try:
+        repo.git.fetch("--prune")
+    except Exception as exc:
+        msg = Exception(
+            f"Unhandled exception fetching branches from remote. Details: {exc}"
+        )
+        log.error(msg)
+
+        raise exc
+
+    return repo
+
+
 def get_local_branches(repo: git.Repo = None) -> list[str]:
     """Get list of branch names detected in local repository.
 
@@ -279,13 +313,13 @@ def delete_branches(
 
 
 def clean_branches(
-    repo_path: str = DEFAULT_REPO_PATH,
+    repo: git.Repo = None,
     dry_run: bool = False,
     force: bool = False,
     protected_branches: list[str] = PROTECTED_BRANCHES,
 ) -> list[str] | None:
     """Params:
-        repo_path (str): (Default: ".") Path to the local git repository.
+        repo (git.Repo): An initialized `git.Repo` instance.
         dry_run (bool): If `True`, skip all operations that would alter git branches.
         force (bool): If `True`, when `git branch -d` fails, function will retry with `-D`.
             If this fails, a final attempt will be made using the host's `git` via `subprocess`.
@@ -296,35 +330,7 @@ def clean_branches(
 
     """
 
-    def init_repo(repo_path: str = repo_path) -> git.Repo:
-        ## Initialize repository
-        try:
-            repo = git.Repo(path=repo_path)
-        except Exception as exc:
-            msg = Exception(
-                f"Unhandled exception initializing git.Repo object for repository path '{repo_path}'. Details: {exc}"
-            )
-            log.error(msg)
-
-            raise exc
-
-        ## Fetch latest changes & prune deleted branches
-        try:
-            repo.git.fetch("--prune")
-        except Exception as exc:
-            msg = Exception(
-                f"Unhandled exception fetching branches from remote. Details: {exc}"
-            )
-            log.error(msg)
-
-            raise exc
-
-        return repo
-
     log.info("Cleaning local branches that have been deleted from the remote.")
-
-    ## Initialize repository & do a git fetch --prune
-    repo: git.Repo = init_repo()
 
     ## Get list of branch names in local repository
     local_branches: list[str] = get_local_branches(repo=repo)
@@ -356,7 +362,7 @@ def clean_branches(
 
     ## Terminate early if dry_run=True
     if dry_run:
-        log.warning(f"dry_run=True, terminating early to avoid accidental deletion.")
+        log.warning("dry_run=True, terminating early to avoid accidental deletion.")
         log.warning(f"Would have deleted [{len(branches_to_delete)}] branch(es).")
         for b in branches_to_delete:
             log.warning(f"[DRY RUN] Would delete branch: {b}")
@@ -501,7 +507,7 @@ def parse_cli_args(
             )
             log.error(msg)
 
-            raise exc
+            raise parse_err
         except Exception as exc:
             msg = Exception(
                 f"Unhandled exception adding argument to parser. Details: {exc}"
@@ -583,8 +589,10 @@ def main(
     log.debug(f"Python version: {PYTHON_VERSION}")
     log.debug(f"Protected branches: {protected_branches}")
 
+    repo: git.Repo = init_repo(repo_path)
+
     deleted_branches: list[str] = clean_branches(
-        repo_path=repo_path,
+        repo=repo,
         dry_run=dry_run,
         force=force,
         protected_branches=protected_branches,
@@ -592,7 +600,7 @@ def main(
 
     if deleted_branches:
         ## Re-check local branches
-        _local_branches: list[str] = get_local_branches()
+        _local_branches: list[str] = get_local_branches(repo=repo)
 
         log.debug(f"Refreshed local branches: {_local_branches}")
 

@@ -1,7 +1,8 @@
 from __future__ import annotations
 
-from pytest import fixture
 from red_utils.std import dict_utils
+
+from pytest import fixture
 
 
 @fixture
