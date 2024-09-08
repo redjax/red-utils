@@ -1,6 +1,15 @@
 # red-utils
 
+![GitHub Created At](https://img.shields.io/github/created-at/redjax/red-utils)
 ![GitHub last commit](https://img.shields.io/github/last-commit/redjax/red-utils)
+![GitHub commits this year](https://img.shields.io/github/commit-activity/y/redjax/red-utils)
+![GitHub Latest Release](https://img.shields.io/github/release-date/redjax/red-utils)
+![PyPI - Version](https://img.shields.io/pypi/v/red-utils)
+![GitHub commits since latest release](https://img.shields.io/github/commits-since/redjax/red-utils/latest)
+![PyPI - Downloads](https://img.shields.io/pypi/dm/red-utils)
+![GitHub Actions Workflow Status](https://img.shields.io/github/actions/workflow/status/redjax/red-utils/tests.yml)
+![GitHub repo size](https://img.shields.io/github/repo-size/redjax/red-utils)
+![GitHub code size in bytes](https://img.shields.io/github/languages/code-size/redjax/red-utils)
 
 ⚠️**Important**⚠️: This is my first Python package. I'm experimenting with CI/CD and Pypi. This library is most likely not useful to anyone else, may be broken at times, may undergo refactors with little to no notice/documentation, and all that other awful stuff that comes with being an amateur developer doing this in their free time 🙃
 
