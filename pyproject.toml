@@ -1,14 +1,15 @@
 [project]
-name = "red_utils"
+name = "red-utils"
 version = "0.2.25"
 description = "Collection of utility scripts/functions that I use frequently."
 authors = [
     { name = "redjax", email = "none@none.com" },
     { name = "redjax", email = "jackenyon@gmail.com" },
 ]
-dependencies = []
-requires-python = ">=3.11"
 readme = "README.md"
+requires-python = ">=3.11"
+
+dependencies = []
 
 [project.license]
 text = "MIT"
@@ -18,195 +19,108 @@ Repository = "https://github.com/redjax/red-utils"
 Documentation = "https://red-utils.readthedocs.io/en/latest/"
 Download = "https://pypi.org/project/red_utils/"
 
-[project.optional-dependencies]
-standard = [
-    "diskcache>=5.6.3",
-    "loguru>=0.7.2",
-    "httpx>=0.26.0",
-    "pendulum>=3.0.0",
-    "rich>=13.7.0",
-    "msgpack>=1.0.7",
-    "sqlalchemy>=2.0.25",
-    "chardet>=5.2.0",
-    "hishel>=0.0.26",
-    "chardet>=5.2.0",
-    "hishel>=0.0.26",
+[tool.uv]
+dev-dependencies = ["core", "std-time-utils"]
+
+[tool.uv.workspace]
+members = ["shared/*", "packages/*"]
+exclude = ["sandbox/*"]
+
+[tool.uv.sources]
+std-time-utils = { workspace = true }
+core = { workspace = true }
+
+## Fix 'error: Multiple top-level packages discovered in flat-layout'
+#  https://github.com/pypa/setuptools/issues/3197#issuecomment-1078770109
+[tool.setuptools]
+py-modules = []
+
+###############
+# Ruff Config #
+###############
+
+[tool.ruff]
+target-version = "py311"
+line-length = 88
+
+[tool.ruff.lint]
+select = [
+    "D",    # pydocstyle
+    "E",    # pycodestyle
+    "F401", # remove unused imports
+    "I",    # isort
+    "I001", # Unused imports
 ]
-all = [
-    "diskcache>=5.6.3",
-    "fastapi>=0.109.2",
-    "uvicorn>=0.27.1",
-    "loguru>=0.7.2",
-    "httpx>=0.26.0",
-    "msgpack>=1.0.7",
-    "pendulum>=3.0.0",
-    "sqlalchemy>=2.0.25",
-    "pandas>=2.1.4",
-    "fastparquet>=2024.2.0",
-    "pyarrow>=15.0.0",
-    "ipykernel>=6.29.2",
-    "hishel>=0.0.26",
-    "chardet>=5.2.0",
-    "hishel>=0.0.26",
-    "chardet>=5.2.0",
-    "rich>=13.7.1",
+ignore = [
+    "D100", # missing-docstring-in-public-module
+    "D101", # missing-docstring-in-public-class
+    "D102", # missing-docstring-in-public-method
+    "D103", # Missing docstring in public function
+    "D105", # Missing docstring in magic method
+    "D106", # missing-docstring-in-public-nested-class
+    "D107", # Missing docstring in __init__
+    "D200", # One-line docstring should fit on one line
+    "D203", # one-blank-line-before-class
+    "D205", # 1 blank line required between summary line and description
+    "D213", # multi-line-summary-second-line
+    "D401", # First line of docstring should be in imperative mood
+    "E402", # Module level import not at top of file
+    "D406", # Section name should end with a newline
+    "D407", # Missing dashed underline after section
+    "D414", # Section has no content
+    "D417", # Missing argument descriptions in the docstring for [variables]
+    "E501", # Line too long
+    "E722", # Do not use bare `except`
+    "F401", # imported but unused
 ]
-fastapi = [
-    "fastapi>=0.109.0",
-    "sqlalchemy>=2.0.25",
-    "loguru>=0.7.2",
-    "httpx>=0.26.0",
-    "msgpack>=1.0.7",
-    "uvicorn>=0.25.0",
-    "pendulum>=3.0.0",
-]
-http = [
-    "httpx>=0.26.0",
-    "diskcache>=5.6.3",
-    "loguru>=0.7.2",
-    "pendulum>=3.0.0",
-    "msgpack>=1.0.7",
-    "pendulum>=2.1.2",
-    "hishel>=0.0.26",
-    "chardet>=5.2.0",
-]
-data = [
-    "ipykernel>=6.28.0",
-    "pandas>=2.1.4",
-    "fastparquet>=2023.10.1",
-]
-dataframes = [
-    "pandas>=2.1.4",
-    "fastparquet>=2023.10.1",
-    "pyarrow>=15.0.0",
-]
-ci = [
-    "ruff>=0.1.13",
-    "black>=23.12.1",
-    "pytest>=7.4.4",
-    "nox>=2023.4.22",
-]
-docs = [
-    "pygments>=2.17.2",
-    "mkdocs>=1.5.3",
-    "mkdocs-material>=9.5.4",
-    "mkdocstrings[python]>=0.24.0",
-    "markdown-include>=0.8.1",
-    "mkdocs-gen-files>=0.5.0",
-    "mkdocs-autorefs>=0.5.0",
-    "mkdocs-section-index>=0.3.8",
-    "mkdocs-literate-nav>=0.6.1",
-]
-tests = [
-    "loguru>=0.7.2",
-    "httpx>=0.27.0",
-    "hishel>=0.0.26",
-    "chardet>=5.2.0",
-    "sqlalchemy>=2.0.30",
-    "pendulum>=3.0.0",
-    "pytest-xdist>=3.6.1",
+fixable = [
+    "C",
+    "D",    # pydocstyle
+    "E",    # pycodestyle-error
+    "E402", # Module level import not at top of file
+    "F401", # unused imports
+    "I",    # isort
+    "N",    # pep8-naming
+    "T",
+    "W",    # pycodestyle-warning
+    "ERA",  # eradicate
+    "PL",   # pylint
+    "RUF",  # ruf-specific rules
+    "TID",  # flake8-tidy-imports
+    "TRY",  # tryceratops
+    "UP",   # pyupgrade
 ]
 
-[tool.pdm.dev-dependencies]
-dev = [
-    "ruff>=0.1.13",
-    "pytest>=7.4.4",
-    "black>=23.12.1",
-    "pre-commit>=3.6.0",
-    "pdm-bump>=0.7.3",
-    "nox>=2023.4.22",
-    "pytest-xdist>=3.5.0",
-    "vulture>=2.11",
-    "bandit[toml]>=1.7.8",
-    "detect-secrets>=1.5.0",
-    "radon>=6.0.1",
-    "xenon>=0.9.1",
-    "memray>=1.12.0",
-    "GitPython>=3.1.43",
+exclude = [
+    ".bzr",
+    ".direnv",
+    ".eggs",
+    ".git",
+    ".ruff_cache",
+    ".venv",
+    "__pypackages__",
+    "__pycache__",
+    "*.pyc",
 ]
 
-[tool.pdm.scripts.tests]
-cmd = "nox -s tests"
+[tool.ruff.lint.per-file-ignores]
+"__init__.py" = ["D104"]
 
-[tool.pdm.scripts.git-prune-tags]
-cmd = "git fetch --prune origin '+refs/tags/*:refs/tags/*'"
+[tool.ruff.lint.mccabe]
+max-complexity = 10
 
-[tool.pdm.scripts.sort-imports]
-shell = "pdm run ruff check --select I --fix ."
-
-[tool.pdm.scripts.lint]
-cmd = "nox -s lint"
-
-[tool.pdm.scripts.lint-ci]
-shell = "pdm run black . && RUFF_CONFIG=ruff.ci.toml pdm run ruff check . --fix"
-
-[tool.pdm.scripts.check]
-cmd = "black ."
-
-[tool.pdm.scripts.format]
-cmd = "ruff check . --fix"
-
-[tool.pdm.scripts.vulture-check]
-cmd = "vulture src/red_utils --min-confidence 100"
-
-[tool.pdm.scripts.bandit-check]
-cmd = "bandit -r src/red_utils"
-
-[tool.pdm.scripts.scan-secrets]
-cmd = "detect-secrets scan > .secrets.baseline"
-
-[tool.pdm.scripts.radon-complexity]
-cmd = "radon cc src/red_utils -s -a --total-average -nc -j -O radon_complexity_results.json"
-
-[tool.pdm.scripts.radon-raw]
-cmd = "radon raw src/red_utils -sjO radon_raw_results.json"
-
-[tool.pdm.scripts.radon-maintainability]
-cmd = "radon mi src/red_utils -n C -x F -s -j -O radon_maintainability_results.json"
-
-[tool.pdm.scripts.radon-halstead]
-cmd = "radon hal src red_utils -f -j -O radon_halstead_results.json"
-
-[tool.pdm.scripts.xenon-scan]
-cmd = "xenon -b B -m C -a C src/red_utils"
-
-[tool.pdm.scripts.export]
-shell = "pdm export --prod --no-default -o requirements.txt --without-hashes"
-
-[tool.pdm.scripts.export-dev]
-shell = "pdm export -d --no-default -o requirements.dev.txt --without-hashes"
-
-[tool.pdm.scripts.export-ci]
-shell = "pdm export -G ci --no-default -o requirements.ci.txt --without-hashes"
-
-[tool.pdm.scripts.export-docs]
-shell = "pdm export -G docs --no-default -o docs/requirements.txt --without-hashes"
-
-[tool.pdm.scripts.create-major-release]
-shell = "pdm bump major && pdm bump tag && pdm lock && pdm build && git push --tags"
-
-[tool.pdm.scripts.create-minor-release]
-shell = "pdm bump minor && pdm bump tag && pdm lock && pdm build && git push --tags"
-
-[tool.pdm.scripts.create-micro-release]
-shell = "pdm bump micro && pdm bump tag && pdm lock && pdm build && git push --tags"
-
-[tool.pdm.scripts.upload-pypi]
-shell = "pdm publish --repository pypi --verbose"
-
-[tool.pdm.scripts.upload-pypi-test]
-shell = "pdm publish --repository testpypi --verbose"
-
-[tool.pdm.scripts.mkdocs-build]
-cmd = "mkdocs build"
-
-[tool.pdm.scripts.mkdocs-serve]
-cmd = "mkdocs serve --dev-addr 0.0.0.0:8000"
-
-[tool.bandit]
-exclude_dirs = [
-    "tests",
-]
-skips = [
-    "B324",
+[tool.ruff.lint.isort]
+combine-as-imports = true
+force-sort-within-sections = true
+force-wrap-aliases = true
+lines-after-imports = 1
+order-by-type = true
+relative-imports-order = "closest-to-furthest"
+required-imports = ["from __future__ import annotations"]
+section-order = [
+    "future",
+    "standard-library",
+    "first-party",
+    "local-folder",
+    "third-party",
 ]

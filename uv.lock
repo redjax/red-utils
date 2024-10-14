@@ -1,0 +1,38 @@
+version = 1
+requires-python = ">=3.11"
+
+[manifest]
+members = [
+    "core",
+    "red-utils",
+    "std-time-utils",
+]
+
+[[package]]
+name = "core"
+version = "0.1.0"
+source = { editable = "shared/core" }
+
+[[package]]
+name = "red-utils"
+version = "0.2.25"
+source = { virtual = "." }
+
+[package.dev-dependencies]
+dev = [
+    { name = "core" },
+    { name = "std-time-utils" },
+]
+
+[package.metadata]
+
+[package.metadata.requires-dev]
+dev = [
+    { name = "core", editable = "shared/core" },
+    { name = "std-time-utils", editable = "packages/std-time-utils" },
+]
+
+[[package]]
+name = "std-time-utils"
+version = "0.1.0"
+source = { editable = "packages/std-time-utils" }

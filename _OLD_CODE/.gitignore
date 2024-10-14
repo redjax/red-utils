@@ -1,3 +1,11 @@
+## Misc
+test.py
+**/*.db
+**/*.sqlite
+**/*.sqlite3
+**/*.parquet
+**/*.csv
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
@@ -59,15 +67,8 @@ cover/
 *.log
 *.log.*
 local_settings.py
-
-## Database
 db.sqlite3
 db.sqlite3-journal
-*.sqlite
-*.sqlite3
-*.db
-*.duck
-*.duckdb
 
 # Flask stuff:
 instance/
@@ -138,13 +139,14 @@ ENV/
 env.bak/
 venv.bak/
 
-## Allow Environment patterns
 !*example*
 !*example*.*
 !*.*example*
 !*.*example*.*
 !*.*.*example*
 !*.*.*example*.*
+
+.serialize
 
 # Spyder project settings
 .spyderproject
@@ -176,26 +178,17 @@ cython_debug/
 #  and can be added to the global gitignore or merged into this file.  For a more nuclear
 #  option (not recommended) you can uncomment the following to ignore the entire idea folder.
 #.idea/
-
-## PDM
 .pdm-python
 
-## Pyenv
-.python-version
+bandit_baseline.json
 
-## Dynaconf
-**/.secrets.toml
-**/*.local.toml
+.secrets.baseline
 
-!**/*.example.toml
-!**/.*.example.toml
+## Radon
+radon_raw_results.json
+radon_complexity_results.json
+radon_maintainability_results.json
+radon_halstead_results.json
 
-## Jupyter
-#  Uncomment to ignore Jupyter notebooks, i.e. if
-#  pre-hook is not configured and you don't want to
-#  commit notebook with output.
-
-# *.ipynb
-
-## Ignore mkdocs builds
-site/
+## Memray
+memray-*
