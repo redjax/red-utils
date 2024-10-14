@@ -105,6 +105,5 @@
         "editor.tabSize": 4,
         "editor.formatOnSave": true,
         "editor.wordBasedSuggestions": "off"
-    },
-    "workbench.editor.tabActionLocation": "left",
+    }
 }

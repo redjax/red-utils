@@ -5,6 +5,7 @@ requires-python = ">=3.11"
 members = [
     "core",
     "red-utils",
+    "std-context-managers",
     "std-time-utils",
 ]
 
@@ -21,6 +22,7 @@ source = { virtual = "." }
 [package.dev-dependencies]
 dev = [
     { name = "core" },
+    { name = "std-context-managers" },
     { name = "std-time-utils" },
 ]
 
@@ -29,8 +31,20 @@ dev = [
 [package.metadata.requires-dev]
 dev = [
     { name = "core", editable = "shared/core" },
+    { name = "std-context-managers", editable = "packages/std-context-managers" },
     { name = "std-time-utils", editable = "packages/std-time-utils" },
 ]
+
+[[package]]
+name = "std-context-managers"
+version = "0.1.0"
+source = { editable = "packages/std-context-managers" }
+dependencies = [
+    { name = "core" },
+]
+
+[package.metadata]
+requires-dist = [{ name = "core", editable = "shared/core" }]
 
 [[package]]
 name = "std-time-utils"
