@@ -36,3 +36,9 @@ dev = [
 name = "std-time-utils"
 version = "0.1.0"
 source = { editable = "packages/std-time-utils" }
+dependencies = [
+    { name = "core" },
+]
+
+[package.metadata]
+requires-dist = [{ name = "core", editable = "shared/core" }]

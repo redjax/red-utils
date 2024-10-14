@@ -1,0 +1,32 @@
+{
+  "folders": [
+    {
+      "path": "../",
+      "name": "Git Root"
+    },
+    {
+      "path": "../_OLD_CODE",
+      "name": "(tmp) OLD CODE"
+    },
+    {
+      "path": "../_OLD_CODE/src/red_utils",
+      "name": "(tmp) OLD red_utils src"
+    },
+    {
+      "path": "../scripts",
+      "name": "scripts"
+    },
+    {
+      "path": "../packages",
+      "name": "packages"
+    },
+    {
+      "path": "../shared",
+      "name": "shared"
+    },
+    {
+      "path": "../sandbox",
+      "name": "sandbox"
+    }
+  ]
+}

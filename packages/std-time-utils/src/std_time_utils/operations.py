@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import logging
 
-log = logging.getLogger()
+log = logging.getLogger("red_utils.std.time_utils")
 
 import datetime
 from datetime import (
