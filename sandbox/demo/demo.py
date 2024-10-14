@@ -5,6 +5,7 @@ log = logging.getLogger(__name__)
 from core import setup
 import std_time_utils as time_utils
 from std_context_managers import ListProtect, DictProtect
+import ext_httpx_utils as httpx_utils
 
 
 def demo_timestamp():
@@ -73,12 +74,29 @@ def demo_dict_protect():
     log.info(f"Original dict (unmodified because of exception): {original_dict}")
 
 
+def demo_http_client():
+    http_controller = httpx_utils.get_http_controller()
+
+    req = httpx_utils.build_request(url="https://xkcd.com/info.0.json")
+
+    with http_controller as http:
+        res = http.client.send(request=req)
+
+    log.info(f"Response: [{res.status_code}: {res.reason_phrase}]: {res.text}")
+
+
 def main():
+    # log.info("DEMO timestamps")
     # demo_timestamp()
 
+    # log.info("DEMO ListProtect class")
     # demo_list_protect()
 
-    demo_dict_protect()
+    # log.info("DEMO DictProtect class")
+    # demo_dict_protect()
+
+    log.info("DEMO httpx request controller")
+    demo_http_client()
 
 
 if __name__ == "__main__":
