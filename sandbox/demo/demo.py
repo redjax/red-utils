@@ -2,10 +2,10 @@ import logging
 
 log = logging.getLogger(__name__)
 
-from core import setup
-import std_time_utils as time_utils
-from std_context_managers import ListProtect, DictProtect
-import ext_httpx_utils as httpx_utils
+from red_utils.core import setup
+import red_utils.std as time_utils
+from red_utils.std.context_managers import ListProtect, DictProtect
+from red_utils.ext import httpx_utils
 
 
 def demo_timestamp():
