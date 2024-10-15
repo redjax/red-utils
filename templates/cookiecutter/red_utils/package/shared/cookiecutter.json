@@ -1,0 +1,7 @@
+{
+    "project_name": "std-package-utils",
+    "package_name": "package_utils",
+    "project_description": "Add your description here",
+    "project_version": "0.1.0",
+    "python_version_str": ">=3.11"
+}
