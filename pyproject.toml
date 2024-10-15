@@ -24,8 +24,14 @@ Download = "https://pypi.org/project/red_utils/"
 [tool.uv]
 dev-dependencies = [
     "core",
+    "ext-context-managers",
     "ext-httpx-utils",
+    "ext-pandas-utils",
     "std-context-managers",
+    "std-dict-utils",
+    "std-hash-utils",
+    "std-list-utils",
+    "std-logging-utils",
     "std-time-utils",
 ]
 
@@ -34,10 +40,23 @@ members = ["shared/*", "packages/*"]
 exclude = ["sandbox/*"]
 
 [tool.uv.sources]
-std-time-utils = { workspace = true }
+
+## Shared/
 core = { workspace = true }
+
+## Packages/
+### Packages/std
 std-context-managers = { workspace = true }
+std-dict-utils = { workspace = true }
+std-hash-utils = { workspace = true }
+std-list-utils = { workspace = true }
+std-logging-utils = { workspace = true }
+std-time-utils = { workspace = true }
+
+### Packages/ext
+ext-context-managers = { workspace = true }
 ext-httpx-utils = { workspace = true }
+ext-pandas-utils = { workspace = true }
 
 ## Fix 'error: Multiple top-level packages discovered in flat-layout'
 #  https://github.com/pypa/setuptools/issues/3197#issuecomment-1078770109

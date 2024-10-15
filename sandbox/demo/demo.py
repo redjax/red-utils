@@ -7,6 +7,8 @@ import red_utils.std as time_utils
 from red_utils.std.context_managers import ListProtect, DictProtect
 from red_utils.ext import httpx_utils
 
+import pandas as pd
+
 
 def demo_timestamp():
     ts = time_utils.get_ts()
@@ -85,6 +87,20 @@ def demo_http_client():
     log.info(f"Response: [{res.status_code}: {res.reason_phrase}]: {res.text}")
 
 
+def demo_pandas():
+    df_data_dict = [
+        {"name": "Lucy", "age": 35, "occupation": "nurse"},
+        {"name": "Fred", "age": 16, "occupation": "mechanic"},
+        {"name": "Geronimo", "age": 64, "occupation": "retired"},
+        {"name": "Giselda", "age": 72, "occupation": "retired"},
+    ]
+    df = pd.DataFrame(df_data_dict)
+
+    log.info("Printing person dataframe")
+
+    print(df.head(5))
+
+
 def main():
     # log.info("DEMO timestamps")
     # demo_timestamp()
@@ -95,8 +111,11 @@ def main():
     # log.info("DEMO DictProtect class")
     # demo_dict_protect()
 
-    log.info("DEMO httpx request controller")
-    demo_http_client()
+    # log.info("DEMO httpx request controller")
+    # demo_http_client()
+
+    log.info("DEMO pandas dataframe utils")
+    demo_pandas()
 
 
 if __name__ == "__main__":

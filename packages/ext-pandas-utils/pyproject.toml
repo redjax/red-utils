@@ -1,21 +1,15 @@
 [project]
-name = "std-time-utils"
+name = "ext-pandas-utils"
 version = "0.1.0"
 description = "Add your description here"
 readme = "README.md"
 requires-python = ">=3.11"
-dependencies = ["core"]
-
-[project.scripts]
-hello = "std_time_utils:hello"
+dependencies = ["pandas>=2.2.3", "pyarrow>=17.0.0"]
 
 [build-system]
 requires = ["hatchling"]
 build-backend = "hatchling.build"
 
-[tool.uv.sources]
-core = { workspace = true }
-
 ## Fix ValueError about hatch being unable to determine which files to ship inside the wheel.
 [tool.hatch.build.targets.wheel]
-packages = ["red_utils.std.time_utils"]
+packages = ["red_utils.ext.pandas_utils"]
