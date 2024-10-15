@@ -23,6 +23,7 @@ Download = "https://pypi.org/project/red_utils/"
 
 [tool.uv]
 dev-dependencies = [
+    "cookiecutter>=2.6.0",
     "core",
     "ext-context-managers",
     "ext-httpx-utils",
@@ -37,7 +38,7 @@ dev-dependencies = [
 
 [tool.uv.workspace]
 members = ["shared/*", "packages/*"]
-exclude = ["sandbox/*"]
+exclude = ["sandbox/*", "templates/*"]
 
 [tool.uv.sources]
 

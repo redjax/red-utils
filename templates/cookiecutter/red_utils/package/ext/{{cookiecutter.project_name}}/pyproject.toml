@@ -1,0 +1,22 @@
+[project]
+
+name = "{{ cookiecutter.project_name }}"
+version = "{{ cookiecutter.project_version }}"
+description = "{{ cookiecutter.project_description }}"
+readme = "README.md"
+requires-python = "{{ cookiecutter.python_version_str }}"
+
+dependencies = {% if not cookiecutter.dependencies %}[]{% else %}[
+    {% for dependency in cookiecutter.dependencies.split(',') if dependency.strip() %}"{{ dependency.strip() }}",{% endfor %}
+]{% endif %}
+
+# [project.scripts]
+# hello = "{{ cookiecutter.package_name }}:hello"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+## Fix ValueError about hatch being unable to determine which files to ship inside the wheel.
+[tool.hatch.build.targets.wheel]
+packages = ["red_utils.ext.{{ cookiecutter.package_name }}"]

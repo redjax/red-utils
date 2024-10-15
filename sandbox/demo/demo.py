@@ -11,6 +11,8 @@ import pandas as pd
 
 
 def demo_timestamp():
+    log.info("DEMO timestamps")
+
     ts = time_utils.get_ts()
     log.info(f"Timestamp ({type(ts)}): {ts}")
 
@@ -19,6 +21,8 @@ def demo_timestamp():
 
 
 def demo_list_protect():
+    log.info("DEMO ListProtect class")
+
     original_list = [1, 2, 3, 4]
 
     with ListProtect(original_list) as copy:
@@ -46,6 +50,8 @@ def demo_list_protect():
 
 
 def demo_dict_protect():
+    log.info("DEMO DictProtect class")
+
     original_dict = {"name": "lucy", "age": 25}
 
     with DictProtect(original_dict) as copy:
@@ -77,6 +83,8 @@ def demo_dict_protect():
 
 
 def demo_http_client():
+    log.info("DEMO httpx request controller")
+
     http_controller = httpx_utils.get_http_controller()
 
     req = httpx_utils.build_request(url="https://xkcd.com/info.0.json")
@@ -88,6 +96,8 @@ def demo_http_client():
 
 
 def demo_pandas():
+    log.info("DEMO pandas dataframe utils")
+
     df_data_dict = [
         {"name": "Lucy", "age": 35, "occupation": "nurse"},
         {"name": "Fred", "age": 16, "occupation": "mechanic"},
@@ -101,21 +111,22 @@ def demo_pandas():
     print(df.head(5))
 
 
-def main():
-    # log.info("DEMO timestamps")
-    # demo_timestamp()
+def full_demo():
+    demo_timestamp()
 
-    # log.info("DEMO ListProtect class")
-    # demo_list_protect()
+    demo_list_protect()
 
-    # log.info("DEMO DictProtect class")
-    # demo_dict_protect()
+    demo_dict_protect()
 
-    # log.info("DEMO httpx request controller")
-    # demo_http_client()
+    demo_http_client()
 
-    log.info("DEMO pandas dataframe utils")
     demo_pandas()
+
+
+def main():
+    # full_demo()
+
+    pass
 
 
 if __name__ == "__main__":

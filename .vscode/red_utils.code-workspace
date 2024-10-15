@@ -5,8 +5,8 @@
       "name": "Git Root"
     },
     {
-      "path": "../_OLD_CODE",
-      "name": "(tmp) OLD CODE"
+      "path": "../templates",
+      "name": "templates"
     },
     {
       "path": "../_OLD_CODE/src/red_utils",
