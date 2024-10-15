@@ -7,11 +7,11 @@ resolution-markers = [
 
 [manifest]
 members = [
-    "core",
     "ext-context-managers",
     "ext-httpx-utils",
     "ext-pandas-utils",
     "red-utils",
+    "red-utils-core",
     "std-context-managers",
     "std-dict-utils",
     "std-hash-utils",
@@ -171,11 +171,6 @@ wheels = [
 ]
 
 [[package]]
-name = "core"
-version = "0.1.0"
-source = { editable = "shared/core" }
-
-[[package]]
 name = "dynaconf"
 version = "3.2.6"
 source = { registry = "https://pypi.org/simple" }
@@ -200,18 +195,18 @@ name = "ext-httpx-utils"
 version = "0.1.0"
 source = { editable = "packages/ext-httpx-utils" }
 dependencies = [
-    { name = "core" },
     { name = "dynaconf" },
     { name = "hishel" },
     { name = "httpx" },
+    { name = "red-utils-core" },
 ]
 
 [package.metadata]
 requires-dist = [
-    { name = "core", editable = "shared/core" },
     { name = "dynaconf", specifier = ">=3.2.6" },
     { name = "hishel", specifier = ">=0.0.33" },
     { name = "httpx", specifier = ">=0.27.2" },
+    { name = "red-utils-core", editable = "shared/red-utils-core" },
 ]
 
 [[package]]
@@ -563,17 +558,14 @@ wheels = [
 name = "red-utils"
 version = "0.2.25"
 source = { virtual = "." }
-dependencies = [
-    { name = "ext-httpx-utils" },
-]
 
 [package.dev-dependencies]
 dev = [
     { name = "cookiecutter" },
-    { name = "core" },
     { name = "ext-context-managers" },
     { name = "ext-httpx-utils" },
     { name = "ext-pandas-utils" },
+    { name = "red-utils-core" },
     { name = "std-context-managers" },
     { name = "std-dict-utils" },
     { name = "std-hash-utils" },
@@ -583,15 +575,14 @@ dev = [
 ]
 
 [package.metadata]
-requires-dist = [{ name = "ext-httpx-utils", editable = "packages/ext-httpx-utils" }]
 
 [package.metadata.requires-dev]
 dev = [
     { name = "cookiecutter", specifier = ">=2.6.0" },
-    { name = "core", editable = "shared/core" },
     { name = "ext-context-managers", editable = "packages/ext-context-managers" },
     { name = "ext-httpx-utils", editable = "packages/ext-httpx-utils" },
     { name = "ext-pandas-utils", editable = "packages/ext-pandas-utils" },
+    { name = "red-utils-core", editable = "shared/red-utils-core" },
     { name = "std-context-managers", editable = "packages/std-context-managers" },
     { name = "std-dict-utils", editable = "packages/std-dict-utils" },
     { name = "std-hash-utils", editable = "packages/std-hash-utils" },
@@ -599,6 +590,11 @@ dev = [
     { name = "std-logging-utils", editable = "packages/std-logging-utils" },
     { name = "std-time-utils", editable = "packages/std-time-utils" },
 ]
+
+[[package]]
+name = "red-utils-core"
+version = "0.1.0"
+source = { editable = "shared/red-utils-core" }
 
 [[package]]
 name = "requests"
@@ -651,11 +647,11 @@ name = "std-context-managers"
 version = "0.1.0"
 source = { editable = "packages/std-context-managers" }
 dependencies = [
-    { name = "core" },
+    { name = "red-utils-core" },
 ]
 
 [package.metadata]
-requires-dist = [{ name = "core", editable = "shared/core" }]
+requires-dist = [{ name = "red-utils-core", editable = "shared/red-utils-core" }]
 
 [[package]]
 name = "std-dict-utils"
@@ -682,11 +678,11 @@ name = "std-time-utils"
 version = "0.1.0"
 source = { editable = "packages/std-time-utils" }
 dependencies = [
-    { name = "core" },
+    { name = "red-utils-core" },
 ]
 
 [package.metadata]
-requires-dist = [{ name = "core", editable = "shared/core" }]
+requires-dist = [{ name = "red-utils-core", editable = "shared/red-utils-core" }]
 
 [[package]]
 name = "text-unidecode"

@@ -5,15 +5,19 @@ description = "Add your description here"
 readme = "README.md"
 requires-python = ">=3.11"
 dependencies = [
-    "core",
+    "red-utils-core",
 ]
 
-[project.scripts]
-hello = "std_context_managers:hello"
+# [project.scripts]
+# hello = "std_context_managers:hello"
 
 [build-system]
 requires = ["hatchling"]
 build-backend = "hatchling.build"
 
+## Fix ValueError about hatch being unable to determine which files to ship inside the wheel.
+[tool.hatch.build.targets.wheel]
+packages = ["red_utils.std.context_managers"]
+
 [tool.uv.sources]
-core = { workspace = true }
+red-utils-core = { workspace = true }

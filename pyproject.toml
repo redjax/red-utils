@@ -9,9 +9,7 @@ authors = [
 readme = "README.md"
 requires-python = ">=3.11"
 
-dependencies = [
-    "ext-httpx-utils",
-]
+dependencies = []
 
 [project.license]
 text = "MIT"
@@ -24,10 +22,10 @@ Download = "https://pypi.org/project/red_utils/"
 [tool.uv]
 dev-dependencies = [
     "cookiecutter>=2.6.0",
-    "core",
     "ext-context-managers",
     "ext-httpx-utils",
     "ext-pandas-utils",
+    "red-utils-core",
     "std-context-managers",
     "std-dict-utils",
     "std-hash-utils",
@@ -42,8 +40,7 @@ exclude = ["sandbox/*", "templates/*"]
 
 [tool.uv.sources]
 
-## Shared/
-core = { workspace = true }
+red-utils-core = { workspace = true }
 
 ## Packages/
 ### Packages/std
@@ -63,6 +60,18 @@ ext-pandas-utils = { workspace = true }
 #  https://github.com/pypa/setuptools/issues/3197#issuecomment-1078770109
 [tool.setuptools]
 py-modules = []
+
+[tool.hatch.build.targets.sdist]
+include = [
+    "shared/**",   # Include all shared/ packages
+    "packages/**"  # Include all packages/ packages
+]
+
+[tool.hatch.build.targets.wheel]
+include = [
+    "shared/**",
+    "packages/**"
+]
 
 ###############
 # Ruff Config #

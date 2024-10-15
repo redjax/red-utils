@@ -6,8 +6,8 @@ readme = "README.md"
 requires-python = ">=3.11"
 dependencies = []
 
-[project.scripts]
-hello = "std_logging_utils:hello"
+# [project.scripts]
+# hello = "std_logging_utils:hello"
 
 [build-system]
 requires = ["hatchling"]
