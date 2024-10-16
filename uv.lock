@@ -557,7 +557,7 @@ wheels = [
 [[package]]
 name = "red-utils"
 version = "0.2.25"
-source = { virtual = "." }
+source = { editable = "." }
 
 [package.dev-dependencies]
 dev = [

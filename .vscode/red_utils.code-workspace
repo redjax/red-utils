@@ -9,10 +9,6 @@
       "name": "templates"
     },
     {
-      "path": "../_OLD_CODE/src/red_utils",
-      "name": "(tmp) OLD red_utils src"
-    },
-    {
       "path": "../scripts",
       "name": "scripts"
     },

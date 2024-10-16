@@ -94,10 +94,8 @@
     // =====================
     // Add extra paths for intellisense analysis
     "python.analysis.extraPaths": [
-        // If .nox_ext directory exists, add to path
-        // "./.nox_ext"
         "./shared",
-        "./packages"
+        "./packages",
     ],
     "python.terminal.activateEnvironment": true,
     "[python]": {
@@ -105,5 +103,6 @@
         "editor.tabSize": 4,
         "editor.formatOnSave": true,
         "editor.wordBasedSuggestions": "off"
-    }
+    },
+    "workbench.editor.tabActionLocation": "left"
 }
