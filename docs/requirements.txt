@@ -98,7 +98,7 @@ typing-extensions==4.12.2
 uc-micro-py==1.0.3
 unearth==0.15.4
 urllib3==2.2.1
-virtualenv==20.26.2
+virtualenv==20.26.6
 vulture==2.11
 watchdog==4.0.1
 xenon==0.9.1
