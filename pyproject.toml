@@ -22,59 +22,20 @@ Download = "https://pypi.org/project/red_utils/"
 [tool.uv]
 dev-dependencies = [
     "cookiecutter>=2.6.0",
-    "ext-context-managers",
-    "ext-httpx-utils",
-    "ext-pandas-utils",
-    "red-utils-core",
-    "std-context-managers",
-    "std-dict-utils",
-    "std-hash-utils",
-    "std-list-utils",
-    "std-logging-utils",
-    "std-time-utils",
+    "nox>=2025.2.9",
+    "pytest-xdist>=3.6.1",
+    "ruff>=0.9.6",
 ]
 
 [tool.uv.workspace]
-members = ["shared/*", "packages/*"]
+members = ["shared/*", "packages/ext/*", "packages/std/*"]
 exclude = ["sandbox/*", "templates/*"]
-
-[tool.uv.sources]
-
-red-utils-core = { workspace = true }
-
-## Packages/
-### Packages/std
-std-context-managers = { workspace = true }
-std-dict-utils = { workspace = true }
-std-hash-utils = { workspace = true }
-std-list-utils = { workspace = true }
-std-logging-utils = { workspace = true }
-std-time-utils = { workspace = true }
-
-### Packages/ext
-ext-context-managers = { workspace = true }
-ext-httpx-utils = { workspace = true }
-ext-pandas-utils = { workspace = true }
 
 ## Fix 'error: Multiple top-level packages discovered in flat-layout'
 #  https://github.com/pypa/setuptools/issues/3197#issuecomment-1078770109
 [tool.setuptools]
 py-modules = []
 packages = ["red_utils"]
-
-[tool.hatch.build.targets.sdist]
-include = [
-    "shared/*",   # Include all shared/ packages
-    "packages/*",  # Include all packages/ packages
-    "red_utils"
-]
-
-[tool.hatch.build.targets.wheel]
-include = [
-    "shared/*",
-    "packages/*",
-    "red_utils"
-]
 
 [build-system]
 requires = ["hatchling"]

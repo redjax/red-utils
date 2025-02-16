@@ -1,13 +1,10 @@
 [project]
-name = "red-utils-core"
+name = "ext-pandas-utils"
 version = "0.1.0"
 description = "Add your description here"
 readme = "README.md"
 requires-python = ">=3.11"
-dependencies = []
-
-# [project.scripts]
-# hello = "red_utils_core:hello"
+dependencies = ["pandas>=2.2.3", "pyarrow>=17.0.0"]
 
 [build-system]
 requires = ["hatchling"]
@@ -15,4 +12,4 @@ build-backend = "hatchling.build"
 
 ## Fix ValueError about hatch being unable to determine which files to ship inside the wheel.
 [tool.hatch.build.targets.wheel]
-packages = ["src/core"]
+packages = ["src/pandas_utils"]

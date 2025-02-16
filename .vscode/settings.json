@@ -94,8 +94,16 @@
     // =====================
     // Add extra paths for intellisense analysis
     "python.analysis.extraPaths": [
-        "./shared",
-        "./packages",
+        "./packages/ext/context-managers/src",
+        "./packages/ext/httpx-utils/src",
+        "./packages/ext/pandas-utils/src",
+        "./packages/std/context-managers/src",
+        "./packages/std/dict-utils/src",
+        "./packages/std/hash-utils/src",
+        "./packages/std/list-utils/src",
+        "./packages/std/logging-utils/src",
+        "./packages/std/time-utils/src",
+        "./shared/red-utils-core/src",
     ],
     "python.terminal.activateEnvironment": true,
     "[python]": {
