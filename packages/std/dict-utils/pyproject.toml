@@ -15,4 +15,4 @@ build-backend = "hatchling.build"
 
 ## Fix ValueError about hatch being unable to determine which files to ship inside the wheel.
 [tool.hatch.build.targets.wheel]
-packages = ["src/dict_utils"]
+packages = ["src/red_utils"]
