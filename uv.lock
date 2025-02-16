@@ -706,6 +706,17 @@ wheels = [
 name = "red-utils"
 version = "0.2.25"
 source = { editable = "." }
+dependencies = [
+    { name = "context-managers" },
+    { name = "ext-httpx-utils" },
+    { name = "red-utils-core" },
+    { name = "std-context-managers" },
+    { name = "std-dict-utils" },
+    { name = "std-hash-utils" },
+    { name = "std-list-utils" },
+    { name = "std-logging-utils" },
+    { name = "std-time-utils" },
+]
 
 [package.dev-dependencies]
 dev = [
@@ -716,6 +727,17 @@ dev = [
 ]
 
 [package.metadata]
+requires-dist = [
+    { name = "context-managers", editable = "packages/ext/context-managers" },
+    { name = "ext-httpx-utils", editable = "packages/ext/httpx-utils" },
+    { name = "red-utils-core", editable = "shared/red-utils-core" },
+    { name = "std-context-managers", editable = "packages/std/context-managers" },
+    { name = "std-dict-utils", editable = "packages/std/dict-utils" },
+    { name = "std-hash-utils", editable = "packages/std/hash-utils" },
+    { name = "std-list-utils", editable = "packages/std/list-utils" },
+    { name = "std-logging-utils", editable = "packages/std/logging-utils" },
+    { name = "std-time-utils", editable = "packages/std/time-utils" },
+]
 
 [package.metadata.requires-dev]
 dev = [

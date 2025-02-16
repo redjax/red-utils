@@ -9,7 +9,17 @@ authors = [
 readme = "README.md"
 requires-python = ">=3.11"
 
-dependencies = []
+dependencies = [
+    "context-managers",
+    "ext-httpx-utils",
+    "red-utils-core",
+    "std-context-managers",
+    "std-dict-utils",
+    "std-hash-utils",
+    "std-list-utils",
+    "std-logging-utils",
+    "std-time-utils",
+]
 
 [project.license]
 text = "MIT"
@@ -30,6 +40,17 @@ dev-dependencies = [
 [tool.uv.workspace]
 members = ["shared/*", "packages/ext/*", "packages/std/*"]
 exclude = ["sandbox/*", "templates/*"]
+
+[tool.uv.sources]
+red-utils-core = { workspace = true }
+context-managers = { workspace = true }
+ext-httpx-utils = { workspace = true }
+std-context-managers = { workspace = true }
+std-dict-utils = { workspace = true }
+std-hash-utils = { workspace = true }
+std-list-utils = { workspace = true }
+std-logging-utils = { workspace = true }
+std-time-utils = { workspace = true }
 
 ## Fix 'error: Multiple top-level packages discovered in flat-layout'
 #  https://github.com/pypa/setuptools/issues/3197#issuecomment-1078770109
