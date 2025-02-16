@@ -43,7 +43,6 @@ from red_utils.std.logging_utils.fmts import (
     RED_UTILS_FMT,
 )
 
-
 def ensure_logdir(p: t.Union[str, Path] = None) -> None:
     """Ensure a directory exists.
 

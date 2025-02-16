@@ -15,7 +15,6 @@ log = logging.getLogger(__name__)
 
 import httpx
 
-
 def build_request(
     method: str = "GET",
     url: str = None,

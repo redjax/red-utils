@@ -7,7 +7,6 @@ import typing as t
 
 from red_utils.std.logging_utils.config_classes.base import BaseLoggingConfig
 
-
 @dataclass
 class LoggerConfig(BaseLoggingConfig):
     """Define a logging Logger.

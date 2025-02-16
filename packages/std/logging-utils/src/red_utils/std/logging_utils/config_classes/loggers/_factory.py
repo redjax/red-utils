@@ -5,7 +5,6 @@ from __future__ import annotations
 import logging
 import logging.config
 
-
 class LoggerFactory:
     """Generate loggers based on LoggerFactory's config."""
 

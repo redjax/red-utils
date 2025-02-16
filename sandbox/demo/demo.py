@@ -1,12 +1,13 @@
+from __future__ import annotations
+
 import logging
 
 log = logging.getLogger(__name__)
 
 from red_utils.core import setup
-import red_utils.std as time_utils
-from red_utils.std.context_managers import ListProtect, DictProtect
 from red_utils.ext import httpx_utils
-
+import red_utils.std as time_utils
+from red_utils.std.context_managers import DictProtect, ListProtect
 
 def demo_timestamp():
     log.info("DEMO timestamps")

@@ -6,7 +6,6 @@ from abc import ABC, abstractmethod
 from dataclasses import dataclass, field
 import typing as t
 
-
 @dataclass
 class BaseLoggingConfig(ABC):
     """Abstract base class for a full logging config dict."""

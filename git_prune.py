@@ -125,6 +125,7 @@ def init_repo(repo_path: str = None) -> git.Repo:
 
     Returns:
         (git.Repo): An initialized `git.Repo` object for the given `repo_path`.
+
     """
     ## Initialize repository
     try:
@@ -329,7 +330,6 @@ def clean_branches(
         (list[str]): List of branches deleted from local repository.
 
     """
-
     log.info("Cleaning local branches that have been deleted from the remote.")
 
     ## Get list of branch names in local repository

@@ -7,7 +7,6 @@ import logging
 
 from red_utils.std.logging_utils.config_classes.base import BaseLoggingConfig
 
-
 @dataclass
 class FilterConfig(BaseLoggingConfig):
     """Define a logging filter.

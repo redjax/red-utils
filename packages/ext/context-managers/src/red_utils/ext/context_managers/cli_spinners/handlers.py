@@ -4,7 +4,7 @@
 from __future__ import annotations
 
 import logging
-from typing import Generator, Any
+from typing import Any, Generator
 
 from rich.status import Status
 
@@ -15,7 +15,6 @@ import time
 
 import rich
 from rich.console import Console
-
 
 @contextmanager
 def SimpleSpinner(message: str = "Loading...") -> Generator[Status, Any, None]:

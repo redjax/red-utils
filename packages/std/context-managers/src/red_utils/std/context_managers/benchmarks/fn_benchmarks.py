@@ -1,13 +1,12 @@
 from __future__ import annotations
 
 import logging
-from typing import Generator, Any
+from typing import Any, Generator
 
 log = logging.getLogger()
 
 from contextlib import asynccontextmanager, contextmanager
 import time
-
 
 @contextmanager
 def benchmark(

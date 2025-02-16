@@ -9,7 +9,6 @@ from __future__ import annotations
 
 import logging
 
-
 def debug_filter(record: logging.LogRecord) -> bool:
     """Filter to only show DEBUG and above."""
     return record.levelno >= logging.DEBUG

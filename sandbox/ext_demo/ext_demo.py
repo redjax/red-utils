@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 from red_utils.ext import httpx_utils
 
 if __name__ == "__main__":
