@@ -42,7 +42,6 @@ members = ["shared/*", "packages/ext/*", "packages/std/*"]
 exclude = ["sandbox/*", "templates/*"]
 
 [tool.uv.sources]
-red-utils-core = { workspace = true }
 context-managers = { workspace = true }
 ext-httpx-utils = { workspace = true }
 std-context-managers = { workspace = true }
@@ -51,6 +50,7 @@ std-hash-utils = { workspace = true }
 std-list-utils = { workspace = true }
 std-logging-utils = { workspace = true }
 std-time-utils = { workspace = true }
+red-utils-core = { workspace = true }
 
 ## Fix 'error: Multiple top-level packages discovered in flat-layout'
 #  https://github.com/pypa/setuptools/issues/3197#issuecomment-1078770109

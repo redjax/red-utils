@@ -7,8 +7,6 @@ import red_utils.std as time_utils
 from red_utils.std.context_managers import ListProtect, DictProtect
 from red_utils.ext import httpx_utils
 
-import pandas as pd
-
 
 def demo_timestamp():
     log.info("DEMO timestamps")
@@ -95,20 +93,20 @@ def demo_http_client():
     log.info(f"Response: [{res.status_code}: {res.reason_phrase}]: {res.text}")
 
 
-def demo_pandas():
-    log.info("DEMO pandas dataframe utils")
+# def demo_pandas():
+#     log.info("DEMO pandas dataframe utils")
 
-    df_data_dict = [
-        {"name": "Lucy", "age": 35, "occupation": "nurse"},
-        {"name": "Fred", "age": 16, "occupation": "mechanic"},
-        {"name": "Geronimo", "age": 64, "occupation": "retired"},
-        {"name": "Giselda", "age": 72, "occupation": "retired"},
-    ]
-    df = pd.DataFrame(df_data_dict)
+#     df_data_dict = [
+#         {"name": "Lucy", "age": 35, "occupation": "nurse"},
+#         {"name": "Fred", "age": 16, "occupation": "mechanic"},
+#         {"name": "Geronimo", "age": 64, "occupation": "retired"},
+#         {"name": "Giselda", "age": 72, "occupation": "retired"},
+#     ]
+#     df = pd.DataFrame(df_data_dict)
 
-    log.info("Printing person dataframe")
+#     log.info("Printing person dataframe")
 
-    print(df.head(5))
+#     print(df.head(5))
 
 
 def full_demo():
@@ -120,7 +118,7 @@ def full_demo():
 
     demo_http_client()
 
-    demo_pandas()
+    # demo_pandas()
 
 
 def main():
