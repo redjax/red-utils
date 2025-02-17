@@ -17,6 +17,7 @@ dependencies = [
     "std-hash-utils",
     "std-list-utils",
     "std-logging-utils",
+    "std-path-utils",
     "std-time-utils",
     "std-uuid-utils",
 ]
@@ -49,6 +50,7 @@ all = [
     "msgpack-utils",
     "sqlalchemy-utils",
     "std-uuid-utils",
+    "std-path-utils"
 ]
 
 diskcache = ["diskcache-utils", "ext-context-managers"]
@@ -86,6 +88,7 @@ diskcache-utils = { workspace = true }
 ext-context-managers = { workspace = true }
 sqlalchemy-utils = { workspace = true }
 std-uuid-utils = { workspace = true }
+std-path-utils = { workspace = true }
 
 ## Fix 'error: Multiple top-level packages discovered in flat-layout'
 #  https://github.com/pypa/setuptools/issues/3197#issuecomment-1078770109

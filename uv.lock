@@ -21,6 +21,7 @@ members = [
     "std-hash-utils",
     "std-list-utils",
     "std-logging-utils",
+    "std-path-utils",
     "std-time-utils",
     "std-uuid-utils",
 ]
@@ -634,6 +635,7 @@ dependencies = [
     { name = "std-hash-utils" },
     { name = "std-list-utils" },
     { name = "std-logging-utils" },
+    { name = "std-path-utils" },
     { name = "std-time-utils" },
     { name = "std-uuid-utils" },
 ]
@@ -653,6 +655,7 @@ all = [
     { name = "std-hash-utils" },
     { name = "std-list-utils" },
     { name = "std-logging-utils" },
+    { name = "std-path-utils" },
     { name = "std-time-utils" },
     { name = "std-uuid-utils" },
 ]
@@ -722,6 +725,8 @@ requires-dist = [
     { name = "std-list-utils", marker = "extra == 'all'", editable = "packages/std/list-utils" },
     { name = "std-logging-utils", editable = "packages/std/logging-utils" },
     { name = "std-logging-utils", marker = "extra == 'all'", editable = "packages/std/logging-utils" },
+    { name = "std-path-utils", editable = "packages/std/path-utils" },
+    { name = "std-path-utils", marker = "extra == 'all'", editable = "packages/std/path-utils" },
     { name = "std-time-utils", editable = "packages/std/time-utils" },
     { name = "std-time-utils", marker = "extra == 'all'", editable = "packages/std/time-utils" },
     { name = "std-uuid-utils", editable = "packages/std/uuid-utils" },
@@ -875,6 +880,11 @@ source = { editable = "packages/std/list-utils" }
 name = "std-logging-utils"
 version = "0.1.0"
 source = { editable = "packages/std/logging-utils" }
+
+[[package]]
+name = "std-path-utils"
+version = "0.1.0"
+source = { editable = "packages/std/path-utils" }
 
 [[package]]
 name = "std-time-utils"
