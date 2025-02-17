@@ -22,6 +22,7 @@ members = [
     "std-list-utils",
     "std-logging-utils",
     "std-time-utils",
+    "std-uuid-utils",
 ]
 
 [[package]]
@@ -634,6 +635,7 @@ dependencies = [
     { name = "std-list-utils" },
     { name = "std-logging-utils" },
     { name = "std-time-utils" },
+    { name = "std-uuid-utils" },
 ]
 
 [package.optional-dependencies]
@@ -652,6 +654,7 @@ all = [
     { name = "std-list-utils" },
     { name = "std-logging-utils" },
     { name = "std-time-utils" },
+    { name = "std-uuid-utils" },
 ]
 diskcache = [
     { name = "diskcache-utils" },
@@ -721,6 +724,8 @@ requires-dist = [
     { name = "std-logging-utils", marker = "extra == 'all'", editable = "packages/std/logging-utils" },
     { name = "std-time-utils", editable = "packages/std/time-utils" },
     { name = "std-time-utils", marker = "extra == 'all'", editable = "packages/std/time-utils" },
+    { name = "std-uuid-utils", editable = "packages/std/uuid-utils" },
+    { name = "std-uuid-utils", marker = "extra == 'all'", editable = "packages/std/uuid-utils" },
 ]
 
 [package.metadata.requires-dev]
@@ -875,6 +880,11 @@ source = { editable = "packages/std/logging-utils" }
 name = "std-time-utils"
 version = "0.1.0"
 source = { editable = "packages/std/time-utils" }
+
+[[package]]
+name = "std-uuid-utils"
+version = "0.1.0"
+source = { editable = "packages/std/uuid-utils" }
 
 [[package]]
 name = "text-unidecode"

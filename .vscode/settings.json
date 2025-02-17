@@ -107,6 +107,7 @@
         "./packages/std/list-utils/src",
         "./packages/std/logging-utils/src",
         "./packages/std/time-utils/src",
+        "./packages/std/uuid-utils/src",
         "./shared/red-utils-core/src",
     ],
     "python.terminal.activateEnvironment": true,
