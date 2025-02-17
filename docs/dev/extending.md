@@ -1,5 +1,7 @@
 # Extending a red-utils module by adding additional utils
 
+**WARNING**: These docs need to be updated after refactoring this repository. It uses [`uv`](https://docs.astral.sh) and workspaces as a monorepo now.
+
 - Create a new directory in `red_utils`
 - Initialize with `pdm init`
 - Add dependencies

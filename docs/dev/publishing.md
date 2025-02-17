@@ -1,5 +1,7 @@
 # Publishing
 
+**WARNING**: These docs need to be updated after refactoring this repository. It uses [`uv`](https://docs.astral.sh) and workspaces as a monorepo now.
+
 - Create a file `~/.pypirc`
 ``` py linenums="1" title="~/.pypirc"
 [distutils]

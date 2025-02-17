@@ -2,6 +2,8 @@
 
 These notes are mostly for me, but I suppose if anyone ever takes an interest in submitting a pull request, the documentation here will help get the local dev environment set up.
 
+**WARNING**: These docs need to be updated after refactoring this repository. It uses [`uv`](https://docs.astral.sh) and workspaces as a monorepo now.
+
 # Requirements
 
 - [PDM](https://pdm-project.org/latest/)
