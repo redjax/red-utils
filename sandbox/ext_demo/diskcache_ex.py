@@ -8,6 +8,7 @@
 # [tool.uv.sources]
 # red-utils = { path = "../../" }
 # ///
+from __future__ import annotations
 
 from red_utils.ext import diskcache_utils
 

@@ -8,8 +8,10 @@
 # [tool.uv.sources]
 # red-utils = { path = "../../" }
 # ///
+from __future__ import annotations
 
 from red_utils.ext import loguru_utils
+
 from loguru import logger as log
 
 if __name__ == "__main__":

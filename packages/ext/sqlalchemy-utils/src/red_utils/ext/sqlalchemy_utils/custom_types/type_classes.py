@@ -33,7 +33,6 @@ from sqlalchemy.engine.interfaces import Dialect
 import sqlalchemy.orm as so
 from sqlalchemy.types import CHAR
 
-
 class CompatibleUUID(TypeDecorator):
     """Define a custom UUID, overriding SQLAlchemy's UUId type.
 

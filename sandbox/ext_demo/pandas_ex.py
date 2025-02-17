@@ -10,6 +10,7 @@
 # [tool.uv.sources]
 # red-utils = { path = "../../" }
 # ///
+from __future__ import annotations
 
 from red_utils.ext import pandas_utils as pd_utils
 

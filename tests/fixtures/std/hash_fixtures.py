@@ -4,7 +4,6 @@ from red_utils.std import hash_utils
 
 from pytest import fixture
 
-
 @fixture
 def str_to_hash() -> str:
     hash_str = "This is a string that will be used for hash_utils tests."

@@ -4,7 +4,6 @@ from red_utils.std import dict_utils
 
 from pytest import fixture
 
-
 @fixture
 def bad_dict() -> dict:
     _dict = ("test", "bad", "dict")

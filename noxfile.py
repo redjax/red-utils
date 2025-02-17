@@ -42,7 +42,7 @@ REQUIREMENTS_OUTPUT_DIR: Path = Path(".")
 # the `resolve()` makes it portable
 VENV_DIR = Path("./.venv").resolve()
 
-LINT_PATHS: list[str] = ["src", "packages", "shared", "sandbox"]
+LINT_PATHS: list[str] = ["src", "packages", "shared", "sandbox", "tests"]
 
 
 def install_uv_project(session: nox.Session, external: bool = False) -> None:

@@ -14,7 +14,6 @@ from red_utils.ext.diskcache_utils import validators
 
 import diskcache
 
-
 class DiskCacheController(AbstractContextManager):
     def __init__(
         self,

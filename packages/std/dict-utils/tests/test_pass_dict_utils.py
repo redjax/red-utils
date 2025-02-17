@@ -4,7 +4,6 @@ from red_utils.std import dict_utils
 
 from pytest import mark, xfail
 
-
 @mark.dict_utils
 def test_valid_dict(good_dict: dict):
     assert good_dict is not None, "Example good_dict cannot be None"

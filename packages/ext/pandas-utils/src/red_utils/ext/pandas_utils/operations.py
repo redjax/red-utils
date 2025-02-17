@@ -7,15 +7,13 @@ log = logging.getLogger("red_utils.ext.dataframe_utils.pandas_utils")
 from pathlib import Path
 from typing import Union
 
+from .constants import PANDAS_DATE_FORMAT, PANDAS_DATETIME_FORMAT, PANDAS_TIME_FORMAT
 from .validators import (
     VALID_COL_TYPES,
     validate_df_col_type,
 )
 
-from .constants import PANDAS_DATE_FORMAT, PANDAS_DATETIME_FORMAT, PANDAS_TIME_FORMAT
-
 import pandas as pd
-
 
 def get_oldest_newest(
     df: pd.DataFrame = None, date_col: str = None, filter_cols: list[str] | None = None

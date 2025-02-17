@@ -8,10 +8,9 @@
 # [tool.uv.sources]
 # red-utils = { path = "../../" }
 # ///
-
+from __future__ import annotations
 
 from red_utils.ext import msgpack_utils
-
 
 if __name__ == "__main__":
     serialized = msgpack_utils.msgpack_serialize({"hello": "world"})

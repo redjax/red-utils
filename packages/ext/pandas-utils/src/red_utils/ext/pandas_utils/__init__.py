@@ -1,4 +1,5 @@
-from .validators import VALID_COL_TYPES, validate_df_col_type
+from __future__ import annotations
+
 from .constants import PANDAS_DATE_FORMAT, PANDAS_DATETIME_FORMAT, PANDAS_TIME_FORMAT
 from .operations import (
     convert_csv_to_pq,
@@ -12,3 +13,4 @@ from .operations import (
     save_csv,
     save_pq,
 )
+from .validators import VALID_COL_TYPES, validate_df_col_type

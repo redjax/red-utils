@@ -6,7 +6,6 @@ from red_utils.std import path_utils
 
 from pytest import fixture
 
-
 @fixture
 def cwd() -> Path:
     """Create a fixture of the current working directory.

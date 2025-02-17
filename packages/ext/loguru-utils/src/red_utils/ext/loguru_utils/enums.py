@@ -32,7 +32,6 @@ from enum import Enum
 import sys
 from typing import TextIO
 
-
 class EnumLogLevels(Enum):
     TRACE: str = "TRACE"
     DEBUG: str = "DEBUG"

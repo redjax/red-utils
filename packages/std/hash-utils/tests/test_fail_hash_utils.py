@@ -4,7 +4,6 @@ from red_utils.std import hash_utils
 
 from pytest import mark, xfail
 
-
 @mark.xfail
 def test_fail_str_to_hash(str_to_hash: str = None):
     assert str_to_hash is not None, "str_to_hash cannot be None"

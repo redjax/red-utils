@@ -6,7 +6,6 @@ from red_utils.std import uuid_utils
 
 from pytest import mark, xfail
 
-
 @mark.xfail
 def test_fail_gen_uuid():
     assert isinstance(uuid_utils.gen_uuid(), str), (

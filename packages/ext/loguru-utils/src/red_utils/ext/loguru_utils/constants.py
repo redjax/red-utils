@@ -1,4 +1,4 @@
-"""Constant values for use throughout the app, or to be imported from `red_utils` into other applications
+"""Constant values for use throughout the app, or to be imported from `red_utils` into other applications.
 
 ---
 

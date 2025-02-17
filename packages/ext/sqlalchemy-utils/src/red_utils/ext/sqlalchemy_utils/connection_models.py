@@ -10,7 +10,6 @@ from red_utils.core.dataclass_utils import DictMixin
 
 import sqlalchemy as sa
 
-
 @dataclass
 class saConnectionBase(DictMixin):
     """Base class for SQLAlchemy connection models.

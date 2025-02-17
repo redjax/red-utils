@@ -6,7 +6,6 @@ from red_utils.std import uuid_utils
 
 from pytest import mark, xfail
 
-
 @mark.uuid_utils
 def test_gen_uuid():
     _uuid = uuid_utils.gen_uuid()
