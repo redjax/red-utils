@@ -1,0 +1,23 @@
+[project]
+name = "loguru-utils"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+authors = [
+    { name = "redjax", email = "no@none.com" }
+]
+requires-python = ">=3.11"
+dependencies = [
+    "loguru>=0.7.3",
+]
+
+[project.scripts]
+loguru-utils = "loguru_utils:main"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+## Fix ValueError about hatch being unable to determine which files to ship inside the wheel.
+[tool.hatch.build.targets.wheel]
+packages = ["src/red_utils"]
