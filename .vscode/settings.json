@@ -95,6 +95,7 @@
     // Add extra paths for intellisense analysis
     "python.analysis.extraPaths": [
         "./packages/ext/context-managers/src",
+        "./packages/ext/diskcache-utils/src",
         "./packages/ext/httpx-utils/src",
         "./packages/ext/pandas-utils/src",
         "./packages/ext/loguru-utils/src",
