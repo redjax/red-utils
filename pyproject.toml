@@ -9,13 +9,8 @@ authors = [
 readme = "README.md"
 requires-python = ">=3.11"
 
+## stdlib packages included by default as they have no dependencies
 dependencies = [
-    "context-managers",
-    "diskcache-utils",
-    "ext-httpx-utils",
-    "ext-pandas-utils",
-    "loguru-utils",
-    "msgpack-utils",
     "red-utils-core",
     "std-context-managers",
     "std-dict-utils",
@@ -33,6 +28,31 @@ Repository = "https://github.com/redjax/red-utils"
 Documentation = "https://red-utils.readthedocs.io/en/latest/"
 Download = "https://pypi.org/project/red_utils/"
 
+###
+# Dependency groups for install with red-utils[dependency_groupname]
+##
+[project.optional-dependencies]
+all = [
+    "red-utils-core",
+    "std-context-managers",
+    "std-dict-utils",
+    "std-hash-utils",
+    "std-list-utils",
+    "std-logging-utils",
+    "std-time-utils",
+    "diskcache-utils",
+    "ext-context-managers",
+    "ext-httpx-utils",
+    "ext-pandas-utils",
+    "loguru-utils",
+    "msgpack-utils",
+]
+diskcache = ["diskcache-utils", "ext-context-managers"]
+httpx = ["ext-httpx-utils", "ext-context-managers"]
+pandas = ["ext-pandas-utils", "ext-context-managers"]
+loguru = ["loguru-utils", "ext-context-managers"]
+msgpack = ["msgpack-utils", "ext-context-managers"]
+
 [tool.uv]
 dev-dependencies = [
     "cookiecutter>=2.6.0",
@@ -46,7 +66,6 @@ members = ["shared/*", "packages/ext/*", "packages/std/*"]
 exclude = ["sandbox/*", "templates/*"]
 
 [tool.uv.sources]
-context-managers = { workspace = true }
 ext-httpx-utils = { workspace = true }
 std-context-managers = { workspace = true }
 std-dict-utils = { workspace = true }
@@ -59,6 +78,7 @@ ext-pandas-utils = { workspace = true }
 loguru-utils = { workspace = true }
 msgpack-utils = { workspace = true }
 diskcache-utils = { workspace = true }
+ext-context-managers = { workspace = true }
 
 ## Fix 'error: Multiple top-level packages discovered in flat-layout'
 #  https://github.com/pypa/setuptools/issues/3197#issuecomment-1078770109

@@ -7,8 +7,8 @@ resolution-markers = [
 
 [manifest]
 members = [
-    "context-managers",
     "diskcache-utils",
+    "ext-context-managers",
     "ext-httpx-utils",
     "ext-pandas-utils",
     "loguru-utils",
@@ -172,11 +172,6 @@ wheels = [
 ]
 
 [[package]]
-name = "context-managers"
-version = "0.1.0"
-source = { editable = "packages/ext/context-managers" }
-
-[[package]]
 name = "cookiecutter"
 version = "2.6.0"
 source = { registry = "https://pypi.org/simple" }
@@ -244,6 +239,11 @@ sdist = { url = "https://files.pythonhosted.org/packages/bb/ff/b4c0dc78fbe20c3e5
 wheels = [
     { url = "https://files.pythonhosted.org/packages/43/09/2aea36ff60d16dd8879bdb2f5b3ee0ba8d08cbbdcdfe870e695ce3784385/execnet-2.1.1-py3-none-any.whl", hash = "sha256:26dee51f1b80cebd6d0ca8e74dd8745419761d3bef34163928cbebbdc4749fdc", size = 40612 },
 ]
+
+[[package]]
+name = "ext-context-managers"
+version = "0.1.0"
+source = { editable = "packages/ext/context-managers" }
 
 [[package]]
 name = "ext-httpx-utils"
@@ -584,8 +584,19 @@ name = "red-utils"
 version = "0.2.25"
 source = { editable = "." }
 dependencies = [
-    { name = "context-managers" },
+    { name = "red-utils-core" },
+    { name = "std-context-managers" },
+    { name = "std-dict-utils" },
+    { name = "std-hash-utils" },
+    { name = "std-list-utils" },
+    { name = "std-logging-utils" },
+    { name = "std-time-utils" },
+]
+
+[package.optional-dependencies]
+all = [
     { name = "diskcache-utils" },
+    { name = "ext-context-managers" },
     { name = "ext-httpx-utils" },
     { name = "ext-pandas-utils" },
     { name = "loguru-utils" },
@@ -598,6 +609,26 @@ dependencies = [
     { name = "std-logging-utils" },
     { name = "std-time-utils" },
 ]
+diskcache = [
+    { name = "diskcache-utils" },
+    { name = "ext-context-managers" },
+]
+httpx = [
+    { name = "ext-context-managers" },
+    { name = "ext-httpx-utils" },
+]
+loguru = [
+    { name = "ext-context-managers" },
+    { name = "loguru-utils" },
+]
+msgpack = [
+    { name = "ext-context-managers" },
+    { name = "msgpack-utils" },
+]
+pandas = [
+    { name = "ext-context-managers" },
+    { name = "ext-pandas-utils" },
+]
 
 [package.dev-dependencies]
 dev = [
@@ -609,19 +640,36 @@ dev = [
 
 [package.metadata]
 requires-dist = [
-    { name = "context-managers", editable = "packages/ext/context-managers" },
-    { name = "diskcache-utils", editable = "packages/ext/diskcache-utils" },
-    { name = "ext-httpx-utils", editable = "packages/ext/httpx-utils" },
-    { name = "ext-pandas-utils", editable = "packages/ext/pandas-utils" },
-    { name = "loguru-utils", editable = "packages/ext/loguru-utils" },
-    { name = "msgpack-utils", editable = "packages/ext/msgpack-utils" },
+    { name = "diskcache-utils", marker = "extra == 'all'", editable = "packages/ext/diskcache-utils" },
+    { name = "diskcache-utils", marker = "extra == 'diskcache'", editable = "packages/ext/diskcache-utils" },
+    { name = "ext-context-managers", marker = "extra == 'all'", editable = "packages/ext/context-managers" },
+    { name = "ext-context-managers", marker = "extra == 'diskcache'", editable = "packages/ext/context-managers" },
+    { name = "ext-context-managers", marker = "extra == 'httpx'", editable = "packages/ext/context-managers" },
+    { name = "ext-context-managers", marker = "extra == 'loguru'", editable = "packages/ext/context-managers" },
+    { name = "ext-context-managers", marker = "extra == 'msgpack'", editable = "packages/ext/context-managers" },
+    { name = "ext-context-managers", marker = "extra == 'pandas'", editable = "packages/ext/context-managers" },
+    { name = "ext-httpx-utils", marker = "extra == 'all'", editable = "packages/ext/httpx-utils" },
+    { name = "ext-httpx-utils", marker = "extra == 'httpx'", editable = "packages/ext/httpx-utils" },
+    { name = "ext-pandas-utils", marker = "extra == 'all'", editable = "packages/ext/pandas-utils" },
+    { name = "ext-pandas-utils", marker = "extra == 'pandas'", editable = "packages/ext/pandas-utils" },
+    { name = "loguru-utils", marker = "extra == 'all'", editable = "packages/ext/loguru-utils" },
+    { name = "loguru-utils", marker = "extra == 'loguru'", editable = "packages/ext/loguru-utils" },
+    { name = "msgpack-utils", marker = "extra == 'all'", editable = "packages/ext/msgpack-utils" },
+    { name = "msgpack-utils", marker = "extra == 'msgpack'", editable = "packages/ext/msgpack-utils" },
     { name = "red-utils-core", editable = "shared/red-utils-core" },
+    { name = "red-utils-core", marker = "extra == 'all'", editable = "shared/red-utils-core" },
     { name = "std-context-managers", editable = "packages/std/context-managers" },
+    { name = "std-context-managers", marker = "extra == 'all'", editable = "packages/std/context-managers" },
     { name = "std-dict-utils", editable = "packages/std/dict-utils" },
+    { name = "std-dict-utils", marker = "extra == 'all'", editable = "packages/std/dict-utils" },
     { name = "std-hash-utils", editable = "packages/std/hash-utils" },
+    { name = "std-hash-utils", marker = "extra == 'all'", editable = "packages/std/hash-utils" },
     { name = "std-list-utils", editable = "packages/std/list-utils" },
+    { name = "std-list-utils", marker = "extra == 'all'", editable = "packages/std/list-utils" },
     { name = "std-logging-utils", editable = "packages/std/logging-utils" },
+    { name = "std-logging-utils", marker = "extra == 'all'", editable = "packages/std/logging-utils" },
     { name = "std-time-utils", editable = "packages/std/time-utils" },
+    { name = "std-time-utils", marker = "extra == 'all'", editable = "packages/std/time-utils" },
 ]
 
 [package.metadata.requires-dev]

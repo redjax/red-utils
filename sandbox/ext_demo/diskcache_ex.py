@@ -2,7 +2,7 @@
 # requires-python = ">=3.13"
 # dependencies = [
 #     "diskcache",
-#     "red-utils",
+#     "red-utils[diskcache]",
 # ]
 #
 # [tool.uv.sources]

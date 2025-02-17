@@ -21,3 +21,6 @@ build-backend = "hatchling.build"
 ## Fix ValueError about hatch being unable to determine which files to ship inside the wheel.
 [tool.hatch.build.targets.wheel]
 packages = ["src/red_utils"]
+
+[tool.setuptools]
+packages = ["red_utils.ext.loguru_utils"]

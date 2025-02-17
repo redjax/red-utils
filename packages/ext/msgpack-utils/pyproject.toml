@@ -20,3 +20,6 @@ build-backend = "hatchling.build"
 
 [tool.hatch.build.targets.wheel]
 packages = ["src/red_utils"]
+
+[tool.setuptools]
+packages = ["red_utils.ext.msgpack_utils"]

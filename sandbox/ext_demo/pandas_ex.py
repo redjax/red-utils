@@ -4,7 +4,7 @@
 #     "fastparquet",
 #     "pandas",
 #     "pyarrow",
-#     "red-utils",
+#     "red-utils[pandas]",
 # ]
 #
 # [tool.uv.sources]

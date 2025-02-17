@@ -4,7 +4,7 @@
 #     "dynaconf",
 #     "hishel",
 #     "httpx",
-#     "red-utils",
+#     "red-utils[httpx]",
 # ]
 #
 # [tool.uv.sources]

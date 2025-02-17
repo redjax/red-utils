@@ -2,7 +2,7 @@
 # requires-python = ">=3.13"
 # dependencies = [
 #     "msgpack",
-#     "red-utils",
+#     "red-utils[msgpack]",
 # ]
 #
 # [tool.uv.sources]
