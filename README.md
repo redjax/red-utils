@@ -13,6 +13,12 @@
 
 ⚠️**Important**⚠️: This is my first Python package. I'm experimenting with CI/CD and Pypi. This library is most likely not useful to anyone else, may be broken at times, may undergo refactors with little to no notice/documentation, and all that other awful stuff that comes with being an amateur developer doing this in their free time 🙃
 
+# Refactor Notice <!-- omit in toc -->
+
+This project is undergoing a refactor, with code changes being tracked in the [`refactor/uv-monorepo` branch](https://github.com/redjax/red-utils/tree/refactor/uv-monorepo). Most/all of the functionality will be ported over, but the bigger change is switching to the [Astral `uv` project manager](https://docs.astral.sh/uv), and restructuring the entire repository as a [`uv` monorepo with workspaces](https://docs.astral.sh/uv/concepts/projects/workspaces/).
+
+The `main` and `dev` branches of this repository will most likely not see any more activity until the refactor is complete.
+
 # Table of Contents
 
 - [red-utils](#red-utils)
