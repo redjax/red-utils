@@ -12,6 +12,7 @@ requires-python = ">=3.11"
 dependencies = [
     "context-managers",
     "ext-httpx-utils",
+    "ext-pandas-utils",
     "red-utils-core",
     "std-context-managers",
     "std-dict-utils",
@@ -51,6 +52,7 @@ std-list-utils = { workspace = true }
 std-logging-utils = { workspace = true }
 std-time-utils = { workspace = true }
 red-utils-core = { workspace = true }
+ext-pandas-utils = { workspace = true }
 
 ## Fix 'error: Multiple top-level packages discovered in flat-layout'
 #  https://github.com/pypa/setuptools/issues/3197#issuecomment-1078770109

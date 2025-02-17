@@ -487,6 +487,7 @@ source = { editable = "." }
 dependencies = [
     { name = "context-managers" },
     { name = "ext-httpx-utils" },
+    { name = "ext-pandas-utils" },
     { name = "red-utils-core" },
     { name = "std-context-managers" },
     { name = "std-dict-utils" },
@@ -508,6 +509,7 @@ dev = [
 requires-dist = [
     { name = "context-managers", editable = "packages/ext/context-managers" },
     { name = "ext-httpx-utils", editable = "packages/ext/httpx-utils" },
+    { name = "ext-pandas-utils", editable = "packages/ext/pandas-utils" },
     { name = "red-utils-core", editable = "shared/red-utils-core" },
     { name = "std-context-managers", editable = "packages/std/context-managers" },
     { name = "std-dict-utils", editable = "packages/std/dict-utils" },
