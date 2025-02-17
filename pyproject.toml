@@ -46,12 +46,15 @@ all = [
     "ext-pandas-utils",
     "loguru-utils",
     "msgpack-utils",
+    "sqlalchemy-utils",
 ]
+
 diskcache = ["diskcache-utils", "ext-context-managers"]
 httpx = ["ext-httpx-utils", "ext-context-managers"]
 pandas = ["ext-pandas-utils", "ext-context-managers"]
 loguru = ["loguru-utils", "ext-context-managers"]
 msgpack = ["msgpack-utils", "ext-context-managers"]
+sqlalchemy = ["sqlalchemy-utils", "ext-context-managers"]
 
 [tool.uv]
 dev-dependencies = [
@@ -79,6 +82,7 @@ loguru-utils = { workspace = true }
 msgpack-utils = { workspace = true }
 diskcache-utils = { workspace = true }
 ext-context-managers = { workspace = true }
+sqlalchemy-utils = { workspace = true }
 
 ## Fix 'error: Multiple top-level packages discovered in flat-layout'
 #  https://github.com/pypa/setuptools/issues/3197#issuecomment-1078770109

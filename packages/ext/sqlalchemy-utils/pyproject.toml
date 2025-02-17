@@ -1,19 +1,25 @@
 [project]
-name = "ext-pandas-utils"
+name = "sqlalchemy-utils"
 version = "0.1.0"
 description = "Add your description here"
 readme = "README.md"
+authors = [
+    { name = "redjax", email = "no@none.com" }
+]
 requires-python = ">=3.11"
-dependencies = []
+dependencies = [
+    "sqlalchemy>=2.0.38",
+]
+
+[project.scripts]
+sqlalchemy-utils = "sqlalchemy_utils:main"
 
 [build-system]
 requires = ["hatchling"]
 build-backend = "hatchling.build"
 
-## Fix ValueError about hatch being unable to determine which files to ship inside the wheel.
 [tool.hatch.build.targets.wheel]
 packages = ["src/red_utils"]
 
 [tool.setuptools]
-packages = ["red_utils.ext.pandas_utils"]
-
+packages = ["red_utils.ext.sqlalchemy_utils"]
