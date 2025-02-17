@@ -13,6 +13,8 @@ dependencies = [
     "context-managers",
     "ext-httpx-utils",
     "ext-pandas-utils",
+    "loguru-utils",
+    "msgpack-utils",
     "red-utils-core",
     "std-context-managers",
     "std-dict-utils",
@@ -53,6 +55,8 @@ std-logging-utils = { workspace = true }
 std-time-utils = { workspace = true }
 red-utils-core = { workspace = true }
 ext-pandas-utils = { workspace = true }
+loguru-utils = { workspace = true }
+msgpack-utils = { workspace = true }
 
 ## Fix 'error: Multiple top-level packages discovered in flat-layout'
 #  https://github.com/pypa/setuptools/issues/3197#issuecomment-1078770109
