@@ -6,29 +6,20 @@ These notes are mostly for me, but I suppose if anyone ever takes an interest in
 
 # Requirements
 
-- [PDM](https://pdm-project.org/latest/)
-  - `pdm` is used to manage this package and its dependencies
-  - Take a look at the project's `pyproject.toml` for available dependency groups. As you develop modules, consider which dependency group they belong in, i.e. most dependencies should *not* be added to the default dependency group.
-    - If you are working on a FastAPI module, for example, add new dependencies to the `fastapi` and `all` groups.
-      - `pdm add -G fastapi <package>`
-      - `pdm add -G all <package>`
-  - There are also a number of project scripts configured in the `pyproject.toml` file, which aid in development
-    - Scripts are declared in sections that look like `[tool.pdm.scripts.<script-name>]`, and can be called with `pdm run <script-name>`
-      - For example, to run the PDM script that calls `black` and `ruff` to format code:
-        - `pdm run lint`
-      - To run the PDM script that exports a `requirements.txt` file:
-        - `pdm run export`
-- (Optional) [Pre-commit](https://pre-commit.com)
-  - There are some `pre-commit` scripts configured, too, for things like linting/formatting the code during commit.
-    - To see configured `pre-commit` steps, check `.pre-commit-config.yaml`
-  - To use these `pre-commit` scripts, they need to be installed locally with `pdm run pre-commit install`
-  - To disable the pre-commit hooks, run `pdm run pre-commit uninstall`
+-[Astral `uv`](https://docs.astral.sh/uv)
+  - This project is built with `uv`, and much of the monorepo functionality is tied to `uv`'s concept of [workspaces](https://docs.astral.sh/uv/concepts/projects/workspaces/).
+  - You do not necessarily need to install Python to work on this repository, [`uv` can manage your Python install for you](https://docs.astral.sh/uv/guides/install-python/)
+  - Each package is its own isolated `uv`-managed project, with its own dependencies and `pytest` tests.
 
 # Using the VSCode Workspace
 
-If you use Visual Studio Code as your text editor, you can open the workspace in the `.vscode` directory to have a more focused view of the code.
+If you use Visual Studio Code as your text editor, you can open [the workspace in the `.vscode` directory](../../.vscode/) to have a more focused view of the code.
 
 # Developing new modules
+
+...
+
+## Old notes on modules
 
 The `red-utils` package separates modules into `std` and `ext`, which are respectively modules that require only the modules in the Python stdlib, or extended modules that require external dependencies.
 
