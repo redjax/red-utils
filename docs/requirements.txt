@@ -69,7 +69,7 @@ platformdirs==4.2.2
 pluggy==1.5.0
 pre-commit==3.7.1
 pygments==2.18.0
-pymdown-extensions==10.8.1
+pymdown-extensions==10.16.1
 pyproject-hooks==1.1.0
 pyproject-metadata==0.8.0
 pytest==8.2.2
