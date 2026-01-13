@@ -18,7 +18,7 @@ dep-logic==0.2.0
 detect-secrets==1.5.0
 distlib==0.3.8
 execnet==2.1.1
-filelock==3.15.1
+filelock==3.20.3
 findpython==0.6.1
 gitdb==4.0.11
 GitPython==3.1.43
